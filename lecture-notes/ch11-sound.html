@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 11: Sound - PHYS203 Extended Lecture Notes</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]'], ['$$', '$$']] },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="assets/tex-svg.js"></script>
+
+<style>
+:root{
+  --ink:#f3ede0; --ink-dim:#a89f8c; --paper:#171a21; --bg:#0f1115;
+  --line:#2a2e38; --accent:#e8a13a; --easy:#6fae8f; --medium:#e8a13a;
+  --hard:#e2725b; --challenge:#9fb3e0; --tag-bg:#1d212b;
+}
+body { margin:0; background: #1d2230; color:var(--ink); font-family:Georgia,'Times New Roman',serif; }
+.shell { display:flex; min-height:100vh; }
+.sidebar {
+  width:280px; flex-shrink:0; background:#0b0d11; color:var(--ink); padding:22px 0 60px;
+  position:fixed; top:0; left:0; bottom:0; overflow-y:auto; font-family:'Courier New',monospace;
+}
+.sidebar .brand { padding:0 22px 18px; font-family:Georgia,serif; font-weight:800; font-size:1.05rem; color:var(--ink); border-bottom:1px solid var(--line); margin-bottom:14px; }
+.sidebar .brand small { display:block; font-family:'Courier New',monospace; font-weight:400; color:var(--ink-dim); font-size:0.72rem; margin-top:3px; }
+.sidebar a.chap-link { display:block; padding:8px 22px; color:var(--ink); text-decoration:none; font-size:0.88rem; border-left:3px solid transparent; }
+.sidebar a.chap-link:hover { background:#1d212b; }
+.sidebar a.chap-link.active { background:#1d212b; border-left-color:var(--accent); color:var(--accent); font-weight:600; }
+.sidebar a.home-link { display:block; padding:8px 22px; color:var(--ink-dim); text-decoration:none; font-size:0.82rem; margin-bottom:8px; }
+.main { margin-left:280px; flex:1; display:flex; justify-content:center; min-width:0; }
+.content { max-width:880px; width:100%; padding:36px 40px 100px; background:transparent; }
+.content h1 { font-family:Georgia,serif; color:var(--ink); border-bottom:3px solid var(--accent); padding-bottom:12px; }
+.content h1:first-of-type { margin-top: 0; }
+.content h2 { font-family:Georgia,serif; color:var(--accent); margin-top:44px; }
+.content h3 { color:var(--easy); }
+.day-anchor-wrap { border-top: 4px solid var(--line); padding-top: 6px; margin-top: 56px; }
+.day-anchor-wrap:first-of-type { border-top: none; margin-top: 0; padding-top: 0; }
+
+/* Problem-section styling */
+.probsets { margin-top: 28px; background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 20px 24px; }
+.probsets > h3.pset-heading {
+  font-family:'Courier New',monospace; font-size:1rem; text-transform:uppercase; letter-spacing:0.05em;
+  color:var(--ink); border-bottom:2px solid var(--accent); padding-bottom:6px; margin: 26px 0 12px;
+}
+.probsets > h3.pset-heading:first-child { margin-top: 0; }
+h3.tier { font-family:'Courier New',monospace; font-size:0.92rem; margin:18px 0 8px; display:flex; align-items:center; gap:8px; color:var(--ink); }
+.tier-dot { width:9px; height:9px; border-radius:50%; display:inline-block; }
+.tier.easy .tier-dot{background:var(--easy);} .tier.medium .tier-dot{background:var(--medium);}
+.tier.hard .tier-dot{background:var(--hard);} .tier.challenge .tier-dot{background:var(--challenge);}
+details.problem { background:#12141a; border:1px solid var(--line); border-radius:8px; margin-bottom:8px; }
+details.problem summary { cursor:pointer; padding:10px 14px; font-size:0.92rem; display:flex; gap:8px; align-items:baseline; font-family:'Courier New',monospace; color:var(--ink);}
+.qtag { font-family:'Courier New',monospace; font-size:0.68rem; font-weight:700; background:var(--tag-bg); color:var(--ink-dim); padding:2px 7px; border-radius:999px; white-space:nowrap; }
+.solution { padding:2px 16px 12px; border-top:1px dashed var(--line); font-family:Georgia,serif; font-size:0.88rem;}
+.answer { font-family:'Courier New',monospace; font-weight:700; background:#16241d; color:var(--easy); border-left:4px solid var(--easy); padding:6px 10px; border-radius:4px; margin-top:8px !important; }
+.rawlist { font-family:'Courier New',monospace; font-size:1.05rem; line-height:1.6; padding-left: 1.5em; color:var(--ink); }
+.rawlist li { margin-bottom: 10px; }
+.rawlist .qtag { font-size:0.76rem; }
+.pending-note { font-family:Georgia,serif; font-size:0.82rem; color:var(--accent); font-style:italic; background:#2a2416; border:1px solid var(--accent); border-radius:6px; padding:8px 12px; margin-bottom: 12px;}
+</style>
+
+<style>
+  :root{
+    --ink:#f3ede0; --ink-dim:#a89f8c; --paper:#171a21; --bg:transparent;
+    --line:#2a2e38; --accent:#e8a13a; --accent-dark:#8a5a1f; --accent-soft:#2a2416;
+    --ic:#6fae8f; --ic-soft:#16241d; --hw:#e2725b; --hw-soft:#2a1a14;
+  }
+  * { box-sizing: border-box; }
+  /* body background intentionally inherited from the outer wrapper style block above */
+  .wrap { max-width: 900px; margin: 0 auto; padding: 30px 22px 90px; }
+  h1.doctitle {
+    font-family:"Courier New",monospace; font-size: 1.9rem; font-weight:700;
+    color: var(--ink); border-bottom: 4px solid var(--accent); padding-bottom: 14px;
+    margin: 0 0 8px 0;
+  }
+  p.subtitle { font-family:Georgia,serif; color:var(--ink-dim); font-size:0.95rem; margin:0 0 30px 0; font-style:italic; }
+  #TOC {
+    background: var(--paper); border: 1px solid var(--line); border-radius: 8px;
+    padding: 18px 24px; margin: 0 0 34px 0;
+    font-family: "Courier New", monospace; font-size: 0.9rem; columns: 2; column-gap: 30px;
+  }
+  #TOC a { color: var(--accent); text-decoration: none; font-weight: 600; display:block; padding: 3px 0; break-inside: avoid; }
+  #TOC a:hover { text-decoration: underline; }
+  h2.chapter {
+    font-family:"Courier New",monospace; font-size: 1.35rem; font-weight:700;
+    color: #171a21; background: var(--accent);
+    padding: 12px 18px; border-radius: 6px; margin: 50px 0 20px 0;
+  }
+  h3.day {
+    font-family:"Courier New",monospace; font-size: 1.1rem; font-weight:700;
+    color: var(--accent); background: var(--accent-soft);
+    border-left: 5px solid var(--accent); padding: 8px 14px;
+    margin: 34px 0 6px 0; border-radius: 0 4px 4px 0;
+  }
+  p.dayconnects { font-family:Georgia,serif; font-size:0.85rem; color:var(--ink-dim); margin:0 0 16px 0; font-style:italic; }
+  h4.subhead {
+    font-family:"Courier New",monospace; font-size: 0.82rem; font-weight:700;
+    text-transform: uppercase; letter-spacing: 0.06em; margin: 18px 0 10px 0;
+    padding-bottom: 4px; border-bottom: 1px solid var(--line);
+  }
+  h4.subhead.ic { color: var(--ic); }
+  h4.subhead.hw { color: var(--hw); }
+  div.problem {
+    background: #12141a; border: 1px solid var(--line); border-radius: 7px;
+    padding: 12px 16px; margin-bottom: 10px; color:var(--ink);
+  }
+  div.problem { border-left: 4px solid var(--ic); }
+  .ptag {
+    font-family:"Courier New",monospace; font-size:0.68rem; font-weight:700;
+    padding: 2px 8px; border-radius: 999px; margin-right: 8px; white-space:nowrap;
+    text-transform: uppercase; letter-spacing: 0.03em;
+  }
+  .problem .ptag:not(.applied):not(.evaluate) { background: var(--ic-soft); color: var(--ic); }
+  .ptag.applied { background:#16241d; color:#6fae8f; }
+  .ptag.evaluate { background:#2a1a2e; color:#c68fd9; }
+  .connects { font-family:Georgia,serif; font-size:0.72rem; color:var(--ink-dim); margin-top:6px; }
+  p { margin: 8px 0; }
+  strong { color: var(--accent); }
+  footer { margin-top:50px; font-family:Georgia,serif; font-size:0.82rem; color:var(--ink-dim); text-align:center; }
+</style>
+
+</head>
+<body>
+<div class="shell">
+<nav class="sidebar"><div class="brand">PHYS203<small>Extended Lecture Notes</small></div>
+<a class="home-link" href="../index.html" style="border-bottom:1px solid #24354a; padding-bottom:14px; margin-bottom:6px; display:block;">&larr; Course Home</a>
+<a class="home-link" href="index.html">&larr; Back to Chapter Index</a>
+<a class="chap-link" href="ch1-units-dimensions.html">Ch 1: Units and Dimensions</a>
+<a class="chap-link" href="ch2-kinematics.html">Ch 2: One-Dimensional Kinematics</a>
+<a class="chap-link" href="ch3-vectors.html">Ch 3: Vectors</a>
+<a class="chap-link" href="ch4-2d-motion.html">Ch 4: Two-Dimensional Motion</a>
+<a class="chap-link" href="ch5-newtons-laws.html">Ch 5: Newton's Laws and Applications</a>
+<a class="chap-link" href="ch6-momentum.html">Ch 6: Momentum and Collisions</a>
+<a class="chap-link" href="ch7-work-energy.html">Ch 7: Work and Energy</a>
+<a class="chap-link" href="ch8-rotational-motion.html">Ch 8: Rotational Motion</a>
+<a class="chap-link" href="ch9-oscillations.html">Ch 9: Oscillations</a>
+<a class="chap-link" href="ch10-waves.html">Ch 10: Waves</a>
+<a class="chap-link active" href="ch11-sound.html">Ch 11: Sound</a></nav>
+<main class="main"><div class="content">
+<div class="chapter-intro"><h1 id="chapter-11-sound">Chapter 11: Sound</h1>
+</div>
+<div class="day-anchor-wrap"><h2 id="class-day-33-production-propagation-and-speed-of-sound">Class
+Day 33: Production, Propagation, and Speed of Sound</h2>
+<h3 id="why-this-matters-31">Why this matters</h3>
+<p>Sound is the most immediately familiar wave phenomenon in everyday
+life, and it serves as a natural capstone to the wave chapter: it’s a
+real, physical longitudinal wave, and its speed depends in a very
+tangible way on the medium it’s traveling through.</p>
+<h3 id="how-sound-is-produced-and-propagates">How sound is produced and
+propagates</h3>
+<p>A vibrating source (a guitar string, a speaker cone, vocal cords)
+pushes and pulls on the surrounding medium, creating a traveling pattern
+of <strong>compressions</strong> (regions of higher pressure/density)
+and <strong>rarefactions</strong> (regions of lower pressure/density)
+that propagates outward — exactly the longitudinal wave behavior
+introduced on Day 2 of the waves chapter. Because sound relies entirely
+on pushing and pulling actual matter, <strong>it cannot travel through a
+vacuum</strong> — unlike light, which requires no medium at all. This is
+why, despite what movies often depict, an explosion in the vacuum of
+space would be silent to a nearby (unprotected) observer.</p>
+<h3 id="speed-of-sound-depends-on-the-medium">Speed of sound depends on
+the medium</h3>
+<p>Sound generally travels fastest through solids (tightly bonded,
+closely packed molecules transmit the pressure disturbance efficiently),
+slower through liquids, and slowest through gases (loosely spaced
+molecules take longer to pass the disturbance along). In air
+specifically, speed of sound also depends on temperature, since warmer
+air molecules move faster and transmit the pressure wave more
+quickly:</p>
+<p><span class="math display">\[v \approx 331 + 0.6T \quad (T \text{ in
+} °C)\]</span></p>
+<p><strong>Worked example:</strong> Find the speed of sound in air at
+15°C.</p>
+<p><span class="math display">\[v = 331+0.6(15) = 331+9 = 340\text{
+m/s}\]</span></p>
+<p>This 340 m/s value (at a comfortable room-ish temperature) is worth
+memorizing roughly, since it recurs constantly throughout this chapter’s
+problems.</p>
+<h3 id="common-mistake-to-watch-for-30">Common mistake to watch for</h3>
+<p>Treating the speed of sound as a fixed universal constant (the way
+the speed of light in a vacuum is). It is very much <em>not</em>
+constant — it changes noticeably with temperature in air, and
+dramatically between different media (roughly four times faster in water
+than in air, despite water being denser, because water’s much greater
+stiffness — its resistance to compression — more than compensates for
+its higher density in determining wave speed).</p>
+<h3 id="key-formulas-and-facts-for-this-day-31">Key formulas and facts
+for this day</h3>
+<ul>
+<li>Sound is a longitudinal pressure wave requiring a medium; it cannot
+travel through a vacuum.</li>
+<li>Speed of sound: generally fastest in solids, slower in liquids,
+slowest in gases.</li>
+<li>In air: (v+0.6T) (T in °C) — roughly 340 m/s at typical room
+temperature.</li>
+</ul>
+<hr />
+<div class="probsets">
+<h3 class="pset-heading">Reading</h3>
+<ol class="rawlist"><li>Sound is best classified as which type of wave?</li><li>Sound requires what to propagate?</li><li>Sound generally travels fastest in which type of medium?</li><li>Sound generally travels slowest in which type of medium?</li><li>The speed of sound in air depends significantly on which environmental factor?</li><li>The formula v = 331 + 0.6T uses T in what units?</li><li>A vibrating tuning fork produces sound by creating what pattern in the surrounding air?</li><li>As air temperature increases, what happens to the speed of sound?</li><li>Sound cannot travel through which of the following: solids, liquids, gases, or vacuum?</li><li>The "compressions and rarefactions" description applies to which wave type?</li></ol>
+<h3 class="pset-heading">Assignments</h3>
+<h3 class="tier easy"><span class="tier-dot"></span>Easy</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Easy Q1</span>Find the speed of sound in air at 0 degrees C using v=331+0.6T. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q2</span>Find the speed of sound in air at 10 degrees C. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q3</span>Find the speed of sound in air at 20 degrees C. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q4</span>Find the speed of sound in air at 25 degrees C. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q5</span>Find the speed of sound in air at 30 degrees C. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q6</span>Find the speed of sound in air at 5 degrees C. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q7</span>Find the speed of sound in air at 15 degrees C. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q8</span>Find the speed of sound in air at -10 degrees C. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q9</span>Find the speed of sound in air at 40 degrees C. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q10</span>Find the speed of sound in air at 35 degrees C. (Give your answer in m/s.)</li></ol>
+<h3 class="tier medium"><span class="tier-dot"></span>Medium</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Medium Q1</span>A sound wave travels 686 m in 2 s. Find its speed. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q2</span>Same wave: estimate the temperature using v=331+0.6T. (Give your answer in degC.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q3</span>A sound wave travels 700 m in 2.05 s. Find its speed. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q4</span>Same wave: estimate the temperature. (Give your answer in degC.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q5</span>Find the speed of sound in air at 22 degrees C. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q6</span>Same speed: find the time for sound to travel 1 km. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q7</span>Find the speed of sound in air at -5 degrees C. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q8</span>Same speed: find the time for sound to travel 500 m. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q9</span>A thunderclap is heard 4 s after a lightning flash is seen. Estimate the distance to the lightning strike, using the speed of sound at 20 degrees C. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q10</span>A person hears an echo 3 s after shouting toward a cliff. Using the speed of sound at 15 degrees C, find the distance to the cliff (round trip). (Give your answer in m.)</li></ol>
+<h3 class="tier hard"><span class="tier-dot"></span>Hard</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Hard Q1</span>A ship uses sonar to determine the depth of water beneath it. Sound travels at 1500 m/s in seawater and the round-trip time is 0.8 s. Find the depth of the water. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q2</span>A geologist measures a 45 s time delay between P-waves (6 km/s) and S-waves (3.5 km/s). Find the distance from the epicenter to the station. (Give your answer in km.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q3</span>An outdoor concert's sound must reach listeners 200 m away. Find the time delay, using the speed of sound at 25 degrees C. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q4</span>A bat emits an ultrasonic pulse and receives its echo back from an insect 0.02 s later. Using the speed of sound at 20 degrees C, find the distance to the insect. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q5</span>A rifle is fired, and an observer 340 m away hears the shot 1.02 s after seeing the muzzle flash. Estimate the air temperature using v=331+0.6T. (Give your answer in degC.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q6</span>A canyon echo takes 2.4 s to return to a hiker who shouted toward a canyon wall. Using the speed of sound at 18 degrees C, find the distance to the canyon wall. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q7</span>A sound pulse travels 500 m through air at 10 degrees C. Find the travel time. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q8</span>A second pulse travels the same 500 m at 30 degrees C. Find its travel time. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q9</span>Find the difference between the two travel times. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q10</span>A submarine's sonar detects an object using a pulse that returns after 1.2 s, with sound traveling at 1480 m/s in that water. Find the distance to the object. (Give your answer in m.)</li></ol>
+<h3 class="tier challenge"><span class="tier-dot"></span>Challenge</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Challenge Q1</span>(Evaluate) A student claims that sound travels through a vacuum, just more slowly than through air, citing science fiction movies where explosions are heard in space. Evaluate this claim scientifically. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q2</span>(Create) Design a scenario (choose an air temperature and a distance) such that the time for sound to travel that distance is exactly 3 s. Verify your chosen values using v=331+0.6T. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q3</span>(Evaluate/Create) A stadium sound engineer must synchronize speaker delays so that fans in the upper deck do not hear a noticeable echo-like delay between the live sound and the amplified speaker sound. Evaluate the physics of the timing mismatch, then create a basic recommendation. Upload your written response.</li></ol>
+<h3 class="pset-heading">Homework</h3>
+<h3 class="tier easy"><span class="tier-dot"></span>Easy</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Easy Q1</span>Find the speed of sound in air at 2 degrees C using v=331+0.6T. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q2</span>Find the speed of sound in air at 12 degrees C. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q3</span>Find the speed of sound in air at 22 degrees C. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q4</span>Find the speed of sound in air at 27 degrees C. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q5</span>Find the speed of sound in air at 32 degrees C. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q6</span>Find the speed of sound in air at 7 degrees C. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q7</span>Find the speed of sound in air at 17 degrees C. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q8</span>Find the speed of sound in air at -8 degrees C. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q9</span>Find the speed of sound in air at 42 degrees C. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q10</span>Find the speed of sound in air at 37 degrees C. (Give your answer in m/s.)</li></ol>
+<h3 class="tier medium"><span class="tier-dot"></span>Medium</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Medium Q1</span>A sound wave travels 690 m in 2.02 s. Find its speed. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q2</span>Same wave: estimate the temperature. (Give your answer in degC.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q3</span>A sound wave travels 705 m in 2.07 s. Find its speed. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q4</span>Same wave: estimate the temperature. (Give your answer in degC.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q5</span>Find the speed of sound in air at 24 degrees C. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q6</span>Same speed: find the time for sound to travel 1.1 km. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q7</span>Find the speed of sound in air at -3 degrees C. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q8</span>Same speed: find the time for sound to travel 520 m. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q9</span>A thunderclap is heard 4.2 s after a lightning flash. Estimate the distance, using speed of sound at 20 degrees C. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q10</span>A person hears an echo 3.2 s after shouting toward a cliff at 15 degrees C. Find the distance to the cliff (round trip). (Give your answer in m.)</li></ol>
+<h3 class="tier hard"><span class="tier-dot"></span>Hard</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Hard Q1</span>A ship's sonar has a round-trip time of 0.85 s in seawater (1500 m/s). Find the depth of water. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q2</span>A geologist measures a 47 s delay between P-waves (6.1 km/s) and S-waves (3.55 km/s). Find the distance to the epicenter. (Give your answer in km.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q3</span>An outdoor concert's sound must reach listeners 210 m away at 25 degrees C. Find the time delay. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q4</span>A bat receives an echo from an insect 0.021 s after emitting a pulse, at 20 degrees C. Find the distance to the insect. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q5</span>A rifle is fired, and an observer 345 m away hears the shot 1.03 s later. Estimate the air temperature. (Give your answer in degC.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q6</span>A canyon echo takes 2.5 s to return at 18 degrees C. Find the distance to the canyon wall. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q7</span>A sound pulse travels 520 m through air at 12 degrees C. Find the travel time. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q8</span>A second pulse travels the same 520 m at 32 degrees C. Find its travel time. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q9</span>Find the difference between the two travel times. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q10</span>A submarine's sonar pulse returns after 1.25 s at 1485 m/s. Find the distance to the object. (Give your answer in m.)</li></ol>
+<h3 class="tier challenge"><span class="tier-dot"></span>Challenge</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Challenge Q1</span>(Evaluate) A student claims that sound travels through a vacuum, just more slowly than through air, citing science fiction movies where explosions are heard in space. Evaluate this claim scientifically. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q2</span>(Create) Design a scenario (choose an air temperature and a distance) such that the time for sound to travel that distance is exactly 3 s. Verify your chosen values using v=331+0.6T. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q3</span>(Evaluate/Create) A stadium sound engineer must synchronize speaker delays so that fans in the upper deck do not hear a noticeable echo-like delay between the live sound and the amplified speaker sound. Evaluate the physics of the timing mismatch, then create a basic recommendation. Upload your written response.</li></ol>
+<h3 class="pset-heading">Synthesis Problems</h3>
+<p class="dayconnects">Connects: waves (Ch.10), unit conversion (Ch.1), kinematics (Ch.2, for echo/timing problems).</p>
+
+
+<div class="problem"><span class="ptag">1</span><span class="ptag applied">Applied</span>
+<p>A ship's sonar sends a pulse that returns after 0.82 s, with sound traveling at 1500 m/s in seawater. Find the depth of the water beneath the ship, then (connecting to the wave equation from Day 30) find the wavelength of this sonar pulse if its frequency is 50 kHz.</p>
+<p class="connects">Connects: speed of sound, wave equation (Day 30), applied sonar/marine-navigation context</p></div>
+
+<div class="problem"><span class="ptag">2</span><span class="ptag evaluate">Evaluate</span>
+<p>A student claims that sound "travels through a vacuum, just more slowly than through air," citing science-fiction depictions of audible explosions in space. Evaluate this claim scientifically, connecting to the fundamental requirement (from Chapter 10) that mechanical waves require a physical medium, and contrast this with electromagnetic waves (light), which do not.</p>
+<p class="connects">Connects: speed of sound, wave-medium requirement (Ch.10), evaluating a popular-media misconception</p></div>
+
+<div class="problem"><span class="ptag">3</span><span class="ptag applied">Applied</span>
+<p>A rifle is fired, and an observer 345 m away hears the shot 1.03 s after seeing the muzzle flash. Using \(v \approx 331+0.6T\), estimate the air temperature, then convert this temperature to Fahrenheit (a real-world unit conversion, Ch.1) for a weather report.</p>
+<p class="connects">Connects: speed of sound (temperature dependence), unit conversion (Ch.1)</p></div>
+
+<div class="problem"><span class="ptag">4</span><span class="ptag evaluate">Evaluate</span>
+<p>A weather balloon measures the local speed of sound as 320 m/s at some altitude, and a student uses \(v\approx331+0.6T\) to estimate the temperature there, obtaining a negative Celsius value. Evaluate whether a negative-temperature result is a red flag indicating an error, or a physically reasonable outcome at high altitude, and justify your reasoning using typical atmospheric temperature profiles.</p>
+<p class="connects">Connects: speed of sound formula, evaluating whether a "surprising" numeric result signals an error</p></div>
+
+<div class="problem"><span class="ptag">5</span><span class="ptag applied">Applied</span>
+<p>A canyon echo takes 2.4 s to return to a hiker who shouted toward a canyon wall, at an estimated air temperature of 18&deg;C. Find the distance to the canyon wall, then (connecting to kinematics-style relative timing, Ch.2) find how much earlier the echo would have returned if the temperature had instead been 30&deg;C (same distance).</p>
+<p class="connects">Connects: speed of sound (temperature dependence), comparative/relative-timing reasoning</p></div>
+
+
+<div class="problem"><span class="ptag">6</span><span class="ptag applied">Applied</span>
+<p>A submarine's sonar pulse returns after 0.85 s at a speed of 1500 m/s in seawater. Find the distance to the detected object, and find the sonar pulse's wavelength if its frequency is 45 kHz.</p>
+<p class="connects">Connects: speed of sound, wave equation (Day 30), applied sonar context</p></div>
+
+<div class="problem"><span class="ptag">7</span><span class="ptag evaluate">Evaluate</span>
+<p>A student claims sound travels "instantly" over any distance relevant to everyday human experience, since it's "so fast." Evaluate this claim quantitatively by computing the time delay for sound to travel 500 m (a plausible distance across a large stadium) at typical room temperature, and discuss whether this delay would actually be noticeable to a person.</p>
+<p class="connects">Connects: speed of sound, evaluating an "effectively instant" assumption with real numbers</p></div>
+
+<div class="problem"><span class="ptag">8</span><span class="ptag applied">Applied</span>
+<p>A rifle is fired, and an observer 350 m away hears the shot 1.04 s after seeing the flash. Estimate the air temperature and convert it to Fahrenheit.</p>
+<p class="connects">Connects: speed of sound, unit conversion (Ch.1)</p></div>
+
+<div class="problem"><span class="ptag">9</span><span class="ptag evaluate">Evaluate</span>
+<p>A weather balloon measures a local speed of sound of 315 m/s at high altitude. Evaluate whether the resulting estimated temperature (using \(v\approx331+0.6T\)) is physically plausible for that context, and discuss what this implies about using a sea-level-calibrated formula at very different altitudes.</p>
+<p class="connects">Connects: speed of sound formula, evaluating the scope/limits of an empirical formula</p></div>
+
+<div class="problem"><span class="ptag">10</span><span class="ptag applied">Applied</span>
+<p>A canyon echo takes 2.6 s to return at an estimated 20&deg;C. Find the distance to the canyon wall, and find how much earlier the echo would return at 32&deg;C for the same distance.</p>
+<p class="connects">Connects: speed of sound (temperature dependence), comparative timing reasoning</p></div>
+
+
+</div></div>
+<div class="day-anchor-wrap"><h2 id="class-day-34-sound-intensity-and-decibels">Class Day 34: Sound
+Intensity and Decibels</h2>
+<h3 id="why-this-matters-32">Why this matters</h3>
+<p>Human hearing spans an enormous range of actual physical intensities
+— from the faintest audible whisper to a painfully loud concert, a ratio
+of roughly a trillion to one. The decibel scale exists specifically to
+make this vast range manageable with ordinary-sized numbers.</p>
+<h3 id="sound-intensity">Sound intensity</h3>
+<p>Intensity is defined as power spread over an area:</p>
+<p><span class="math display">\[I = \frac{P}{A}\]</span></p>
+<p>measured in W/m². For a source radiating outward in all directions,
+this same total power spreads over an ever-larger sphere as you move
+farther away, which is why intensity decreases (specifically, following
+an inverse-square relationship) with distance from a point source.</p>
+<h3 id="the-decibel-scale">The decibel scale</h3>
+<p>Because the range of intensities the ear can detect is so enormous,
+sound level is instead expressed on a <strong>logarithmic</strong>
+scale, in decibels:</p>
+<p><span class="math display">\[\beta =
+10\log_{10}\left(\frac{I}{I_0}\right)\]</span></p>
+<p>where \(I_0=1\times10^{-12}\) is a standard reference intensity
+(roughly the quietest sound a healthy human ear can detect). The
+logarithm compresses that trillion-to-one range of actual intensities
+down into a much more manageable 0–120ish decibel range for everyday
+sounds.</p>
+<p>The single most important practical consequence of the logarithmic
+scale, worth internalizing directly: <strong>a 10 dB increase
+corresponds to a 10-times increase in actual intensity</strong> — not a
+10% increase, not a doubling, a full order of magnitude.
+Correspondingly, doubling the actual intensity only raises the decibel
+level by about 3 dB (since (10_{10}(2))).</p>
+<p><strong>Worked example:</strong> A sound intensity increases from
+\(1\times10^{-5}\text{ W/m}^2\) to \(1\times10^{-3}\text{ W/m}^2\). Find the change in decibel
+level.</p>
+<p>The intensity ratio is \(10^{-3}/10^{-5}=100\), and \(\beta = 10\log_{10}(100)=10(2)=20\) dB — so this change in decibel level is +20 dB,
+corresponding to the intensity increasing by a factor of exactly
+100.</p>
+<h3 id="common-mistake-to-watch-for-31">Common mistake to watch for</h3>
+<p>Treating decibels as a linear scale — for instance, assuming that 100
+dB is “twice as loud” as 50 dB simply because 100 is double 50. Because
+the scale is logarithmic, a 50 dB <em>difference</em> actually
+corresponds to an intensity ratio of \(10^5\) (a hundred-thousand-fold
+difference in actual physical intensity), not a factor of 2. Perceived
+loudness itself is a separate, more complicated
+psychological/physiological question beyond just the raw decibel number,
+but the physical intensity ratio absolutely does not scale linearly with
+the decibel number.</p>
+<h3 id="key-formulas-and-facts-for-this-day-32">Key formulas and facts
+for this day</h3>
+<ul>
+<li>Sound intensity: (I=P/A) (W/m²), decreasing with distance from a
+source as power spreads over a larger area.</li>
+<li>Decibel level: (_{10}\(I/I_0\)), with \(I_0=1\times10^{-12}\).</li>
+<li>A 10 dB increase = 10× the actual intensity; doubling intensity
+raises the level by about 3 dB. The scale is logarithmic, not
+linear.</li>
+</ul>
+<hr />
+<div class="probsets">
+<h3 class="pset-heading">Reading</h3>
+<ol class="rawlist"><li>Sound intensity is defined by which formula?</li><li>Decibel level is defined by which formula?</li><li>I0 (the reference intensity) is typically what value?</li><li>A 10 dB increase corresponds to what factor increase in actual intensity?</li><li>Doubling sound intensity increases the decibel level by approximately how much?</li><li>Why is the decibel scale logarithmic rather than linear?</li><li>Sound intensity decreases with distance from a point source because power spreads over what?</li><li>The SI unit of sound intensity is what?</li><li>A sound with intensity equal to I0 has what decibel level?</li><li>If intensity increases by a factor of 100, the decibel level increases by how much?</li></ol>
+<h3 class="pset-heading">Assignments</h3>
+<h3 class="tier easy"><span class="tier-dot"></span>Easy</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Easy Q1</span>Find the sound intensity for 0.01 W spread over 1 m^2. (Give your answer in W/m^2.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q2</span>Find the sound intensity for 0.02 W spread over 2 m^2. (Give your answer in W/m^2.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q3</span>Find the decibel level for intensity 1e-6 W/m^2 (I0=1e-12 W/m^2). (Give your answer in dB.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q4</span>Find the decibel level for intensity 1e-2 W/m^2. (Give your answer in dB.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q5</span>Find the decibel level for intensity 1e-4 W/m^2. (Give your answer in dB.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q6</span>Find the decibel level for intensity 1e-8 W/m^2. (Give your answer in dB.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q7</span>Find the sound intensity for 0.005 W spread over 0.5 m^2. (Give your answer in W/m^2.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q8</span>Find the decibel level for intensity equal to I0. (Give your answer in dB.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q9</span>Find the decibel level for intensity 1 W/m^2. (Give your answer in dB.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q10</span>Find the sound intensity for 0.1 W spread over 10 m^2. (Give your answer in W/m^2.)</li></ol>
+<h3 class="tier medium"><span class="tier-dot"></span>Medium</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Medium Q1</span>Find the sound intensity for a power of 0.03 W spread over an area of 3 m^2. (Give your answer in W/m^2.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q2</span>Find the decibel level for a sound intensity of 5e-5 W/m^2. (Give your answer in dB.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q3</span>A sound intensity increases from 1e-5 W/m^2 to 1e-3 W/m^2. Find the change in decibel level. (Give your answer in dB.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q4</span>A concert produces 105 dB near the stage. Find the actual sound intensity. (Give your answer in W/m^2.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q5</span>Find the decibel level for a whisper with intensity 1e-10 W/m^2. (Give your answer in dB.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q6</span>A jet engine produces sound intensity of 100 W/m^2 at close range. Find the decibel level. (Give your answer in dB.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q7</span>Two identical sound sources each produce 60 dB alone. Find the approximate combined decibel level (using the +3 dB rule). (Give your answer in dB.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q8</span>Find the sound intensity for a power of 0.5 W spread over 25 m^2. (Give your answer in W/m^2.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q9</span>A sound's decibel level is 80 dB. Find its intensity. (Give your answer in W/m^2.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q10</span>A sound's intensity is measured at 2e-3 W/m^2. Find its decibel level. (Give your answer in dB.)</li></ol>
+<h3 class="tier hard"><span class="tier-dot"></span>Hard</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Hard Q1</span>A rock concert produces 115 dB at the front row, but only 95 dB at the back. Find the ratio of intensities between front and back.</li><li><span class="qtag" style="margin-right:6px;">Hard Q2</span>A construction site has four identical jackhammers each producing 90 dB alone. Estimate the combined decibel level using the logarithmic addition rule. (Give your answer in dB.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q3</span>A city noise ordinance limits sound intensity level to 70 dB, but a factory alone produces 85 dB there. Find the factor by which the actual intensity must be reduced.</li><li><span class="qtag" style="margin-right:6px;">Hard Q4</span>Sound intensity follows an inverse-square law with distance. If a source produces 80 dB at 10 m, find the decibel level at 20 m. (Give your answer in dB.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q5</span>Using the same source (80 dB at 10 m), find the decibel level at 40 m. (Give your answer in dB.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q6</span>A hearing safety guideline allows 8 hours at 85 dB, halving for every 3 dB increase. If a workshop measures 94 dB, estimate the maximum safe continuous exposure time. (Give your answer in hours.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q7</span>A recording engineer needs to reduce a track's peak intensity by exactly 6 dB. Find the factor by which the actual sound intensity must be reduced.</li><li><span class="qtag" style="margin-right:6px;">Hard Q8</span>A stadium's sound system produces 120 dB at 5 m from the speakers. Using the inverse-square law, estimate the decibel level 50 m away. (Give your answer in dB.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q9</span>Two sound sources of different individual decibel levels (70 dB and 76 dB) combine. Explain conceptually why the combined level is dominated mostly by the louder source, and estimate a reasonable combined value. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Hard Q10</span>Discuss why standing twice as far away from a single point source of sound does not simply cut the decibel level in half. Upload your written response.</li></ol>
+<h3 class="tier challenge"><span class="tier-dot"></span>Challenge</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Challenge Q1</span>(Evaluate) A student claims that a sound measured at 100 dB is exactly "twice as loud" as one measured at 50 dB, since 100 is double 50. Evaluate this claim, clarifying the actual relationship between decibel values and both physical intensity and perceived loudness. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q2</span>(Create) Design a sound intensity scenario (choose power and area) such that the resulting decibel level is exactly 90 dB (using I0=1e-12 W/m^2). Verify your chosen values. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q3</span>(Evaluate/Create) An occupational safety consultant needs to explain to factory workers why reducing machine noise from 100 dB to 94 dB meaningfully improves hearing safety. Evaluate the actual intensity reduction this represents, then create a clear, accurate explanation. Upload your written response.</li></ol>
+<h3 class="pset-heading">Homework</h3>
+<h3 class="tier easy"><span class="tier-dot"></span>Easy</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Easy Q1</span>Find the sound intensity for 0.012 W spread over 1.2 m^2. (Give your answer in W/m^2.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q2</span>Find the sound intensity for 0.022 W spread over 2.2 m^2. (Give your answer in W/m^2.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q3</span>Find the decibel level for intensity 2e-6 W/m^2. (Give your answer in dB.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q4</span>Find the decibel level for intensity 2e-2 W/m^2. (Give your answer in dB.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q5</span>Find the decibel level for intensity 2e-4 W/m^2. (Give your answer in dB.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q6</span>Find the decibel level for intensity 2e-8 W/m^2. (Give your answer in dB.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q7</span>Find the sound intensity for 0.0055 W spread over 0.55 m^2. (Give your answer in W/m^2.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q8</span>Find the decibel level for intensity equal to 10*I0. (Give your answer in dB.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q9</span>Find the decibel level for intensity 2 W/m^2. (Give your answer in dB.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q10</span>Find the sound intensity for 0.12 W spread over 11 m^2. (Give your answer in W/m^2.)</li></ol>
+<h3 class="tier medium"><span class="tier-dot"></span>Medium</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Medium Q1</span>Find the sound intensity for a power of 0.033 W spread over 3.2 m^2. (Give your answer in W/m^2.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q2</span>Find the decibel level for a sound intensity of 5.2e-5 W/m^2. (Give your answer in dB.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q3</span>A sound intensity increases from 1.2e-5 W/m^2 to 1.2e-3 W/m^2. Find the change in decibel level. (Give your answer in dB.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q4</span>A concert produces 108 dB near the stage. Find the actual sound intensity. (Give your answer in W/m^2.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q5</span>Find the decibel level for a whisper with intensity 1.2e-10 W/m^2. (Give your answer in dB.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q6</span>A jet engine produces sound intensity of 110 W/m^2 at close range. Find the decibel level. (Give your answer in dB.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q7</span>Two identical sound sources each produce 62 dB alone. Estimate the combined decibel level. (Give your answer in dB.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q8</span>Find the sound intensity for a power of 0.52 W spread over 26 m^2. (Give your answer in W/m^2.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q9</span>A sound's decibel level is 82 dB. Find its intensity. (Give your answer in W/m^2.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q10</span>A sound's intensity is 2.2e-3 W/m^2. Find its decibel level. (Give your answer in dB.)</li></ol>
+<h3 class="tier hard"><span class="tier-dot"></span>Hard</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Hard Q1</span>A rock concert produces 117 dB at the front row and 97 dB at the back. Find the intensity ratio.</li><li><span class="qtag" style="margin-right:6px;">Hard Q2</span>A construction site has four identical jackhammers each at 92 dB. Estimate the combined decibel level. (Give your answer in dB.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q3</span>A city noise ordinance limits sound to 72 dB, but a factory alone produces 87 dB there. Find the required intensity reduction factor.</li><li><span class="qtag" style="margin-right:6px;">Hard Q4</span>Same scenario: find the percentage intensity reduction required. (Give your answer in percent.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q5</span>A sound source produces 82 dB at 10 m. Using the inverse-square law, find the decibel level at 20 m. (Give your answer in dB.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q6</span>Using the same source (82 dB at 10 m), find the decibel level at 40 m. (Give your answer in dB.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q7</span>A hearing safety guideline allows 8 hours at 85 dB, halving for every 3 dB increase. If a workshop measures 97 dB, estimate the maximum safe exposure time. (Give your answer in hours.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q8</span>A recording engineer needs to reduce a track's peak intensity by exactly 8 dB. Find the required intensity reduction factor.</li><li><span class="qtag" style="margin-right:6px;">Hard Q9</span>A stadium's sound system produces 122 dB at 5 m. Estimate the decibel level 55 m away using the inverse-square law. (Give your answer in dB.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q10</span>Two sound sources (72 dB and 78 dB) combine. Explain why the combined level is dominated by the louder source and estimate a rough combined value. Upload your written response.</li></ol>
+<h3 class="tier challenge"><span class="tier-dot"></span>Challenge</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Challenge Q1</span>(Evaluate) A student claims that a sound measured at 100 dB is exactly "twice as loud" as one measured at 50 dB, since 100 is double 50. Evaluate this claim, clarifying the actual relationship between decibel values and both physical intensity and perceived loudness. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q2</span>(Create) Design a sound intensity scenario (choose power and area) such that the resulting decibel level is exactly 90 dB (using I0=1e-12 W/m^2). Verify your chosen values. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q3</span>(Evaluate/Create) An occupational safety consultant needs to explain to factory workers why reducing machine noise from 100 dB to 94 dB meaningfully improves hearing safety. Evaluate the actual intensity reduction this represents, then create a clear, accurate explanation. Upload your written response.</li></ol>
+<h3 class="pset-heading">Synthesis Problems</h3>
+<p class="dayconnects">Connects: energy/power concepts (Ch.7), speed of sound (Day 33), logarithmic-scale reasoning.</p>
+
+
+<div class="problem"><span class="ptag">1</span><span class="ptag applied">Applied</span>
+<p>A stadium's sound system produces 120 dB at 5 m from the speakers. Using the inverse-square law, estimate the decibel level a fan would experience 50 m away, then (connecting to Day 31's superposition ideas) discuss qualitatively how the presence of two identical speaker stacks, each independently producing this level, might combine at a given point &mdash; would it simply double the dB value?</p>
+<p class="connects">Connects: decibels/inverse-square law, superposition of sound sources (Ch.10), evaluating combination rules</p></div>
+
+<div class="problem"><span class="ptag">2</span><span class="ptag evaluate">Evaluate</span>
+<p>A student claims that a sound measured at 100 dB is "twice as loud" as one measured at 50 dB, reasoning "100 is double 50." Evaluate this claim by computing the actual intensity ratio between 100 dB and 50 dB using the logarithmic decibel definition, and discuss the difference between the physical intensity ratio and human-perceived loudness.</p>
+<p class="connects">Connects: decibels, logarithmic-scale reasoning, evaluating a common numeric misconception</p></div>
+
+<div class="problem"><span class="ptag">3</span><span class="ptag applied">Applied</span>
+<p>A hearing-safety guideline states that continuous exposure to 85 dB for 8 hours is a safety threshold, with the "safe" exposure time roughly halving for every 3 dB increase. If a workshop measures 97 dB, estimate the maximum safe continuous exposure time, and convert this to minutes for a practical workplace safety notice.</p>
+<p class="connects">Connects: decibels, exponential/halving-time reasoning, unit conversion (Ch.1), applied occupational-safety context</p></div>
+
+<div class="problem"><span class="ptag">4</span><span class="ptag evaluate">Evaluate</span>
+<p>An occupational safety consultant needs to explain to factory workers why reducing machine noise from 100 dB to 94 dB "meaningfully improves hearing safety," even though "6 dB doesn't sound like much of a change." Evaluate the actual intensity reduction this 6 dB decrease represents (as a percentage), and create a clear, non-technical explanation connecting this percentage to the earlier halving-exposure-time safety rule.</p>
+<p class="connects">Connects: decibels, evaluating and communicating a quantitative safety improvement</p></div>
+
+<div class="problem"><span class="ptag">5</span><span class="ptag applied">Applied</span>
+<p>A construction site has four identical jackhammers, each producing 92 dB alone. Using the logarithmic addition rule (each doubling of sources adds about 3 dB), estimate the combined decibel level when all four operate simultaneously, then determine how many additional identical jackhammers (beyond these four) it would take to reach approximately 100 dB total.</p>
+<p class="connects">Connects: decibels, logarithmic combination of multiple sources, applied workplace-noise context</p></div>
+
+
+<div class="problem"><span class="ptag">6</span><span class="ptag applied">Applied</span>
+<p>A stadium's sound system produces 122 dB at 5 m. Estimate the decibel level 55 m away using the inverse-square law, and discuss qualitatively how two identical, independent speaker stacks at this level might combine at a listener's position.</p>
+<p class="connects">Connects: decibels/inverse-square law, superposition (Ch.10), evaluating combination rules</p></div>
+
+<div class="problem"><span class="ptag">7</span><span class="ptag evaluate">Evaluate</span>
+<p>A student claims that since dB is "just a number," a 20 dB difference and a 60 dB difference represent proportionally similar "amounts" of change. Evaluate this claim by computing the actual intensity ratios corresponding to each dB difference, showing why equal-looking numeric gaps on the dB scale represent wildly different physical intensity ratios.</p>
+<p class="connects">Connects: decibels, logarithmic-scale reasoning, evaluating a scale-interpretation misconception</p></div>
+
+<div class="problem"><span class="ptag">8</span><span class="ptag applied">Applied</span>
+<p>A hearing-safety guideline allows 8 hours at 85 dB, halving for every 3 dB increase. If a workshop measures 100 dB, estimate the maximum safe exposure time in minutes.</p>
+<p class="connects">Connects: decibels, exponential/halving reasoning, unit conversion (Ch.1)</p></div>
+
+<div class="problem"><span class="ptag">9</span><span class="ptag evaluate">Evaluate</span>
+<p>A safety consultant must explain why reducing noise from 102 dB to 96 dB meaningfully improves safety. Evaluate the actual intensity reduction (as a percentage), then create a clear explanation for a non-technical factory-floor audience.</p>
+<p class="connects">Connects: decibels, evaluating/communicating a quantitative improvement</p></div>
+
+<div class="problem"><span class="ptag">10</span><span class="ptag applied">Applied</span>
+<p>A construction site has four identical jackhammers, each at 93 dB. Estimate the combined decibel level, and determine how many more identical jackhammers would be needed to reach approximately 102 dB total.</p>
+<p class="connects">Connects: decibels, logarithmic combination, applied workplace-noise context</p></div>
+
+
+</div></div>
+<div class="day-anchor-wrap"><h2 id="class-day-35-the-doppler-effect">Class Day 35: The Doppler
+Effect</h2>
+<h3 id="why-this-matters-33">Why this matters</h3>
+<p>This final topic of the semester explains a phenomenon nearly
+everyone has experienced directly: the pitch of a passing ambulance
+siren or car horn noticeably drops as the vehicle passes and moves away.
+The Doppler effect is the physical explanation, and it’s a satisfying,
+concrete note to end the course’s content on.</p>
+<h3 id="the-underlying-mechanism">The underlying mechanism</h3>
+<p>As a sound source moves <em>toward</em> a stationary observer, each
+successive wave crest is emitted from a slightly closer position than
+the last, effectively “bunching up” the wavefronts ahead of the source —
+this compresses the effective wavelength reaching the observer, and
+since (v=f) with (v) fixed by the medium, a smaller wavelength means a
+<em>higher</em> observed frequency (a higher-pitched sound). As the
+source moves <em>away</em>, the opposite happens: wavefronts spread out
+behind it, effectively increasing the wavelength reaching a trailing
+observer, and producing a <em>lower</em> observed frequency.</p>
+<p>The same logic works in reverse for a moving <em>observer</em>
+approaching or receding from a stationary source: an approaching
+observer effectively “runs into” wavefronts more frequently than a
+stationary observer would, raising the observed frequency; a receding
+observer encounters them less frequently, lowering it.</p>
+<h3 id="formulas-careful-with-signs">Formulas (careful with signs)</h3>
+<p>The general Doppler formula, with (v) the speed of sound, \(v_s\) the
+source’s speed, and \(v_o\) the observer’s speed:</p>
+<p><span class="math display">\[f_{observed} = f_{source}\left(\frac{v\pm v_o}{v \mp v_s}\right)\]</span></p>
+<p>with the sign chosen based on whether the motion brings source and
+observer closer together (use the combination that increases the
+observed frequency) or farther apart (use the combination that decreases
+it). Rather than memorizing sign rules abstractly, it’s more reliable to
+reason physically for each specific case: “is this motion making the
+frequency higher or lower?” and choose the sign accordingly.</p>
+<p><strong>Worked example:</strong> An ambulance siren emits 750 Hz
+while approaching a stationary observer at 25 m/s (speed of sound 343
+m/s).</p>
+<p>Approaching source raises the observed frequency, so we use the
+version of the formula that increases it (denominator decreases, since
+the source is “catching up” to its own wavefronts):</p>
+<p><span class="math display">\[f_{obs} =
+750\left(\frac{343}{343-25}\right) = 750\left(\frac{343}{318}\right) =
+809.4\text{ Hz}\]</span></p>
+<h3 id="common-mistake-to-watch-for-32">Common mistake to watch for</h3>
+<p>Believing the Doppler effect changes the <em>actual</em> frequency
+the source is emitting. It does not — the source itself continues
+emitting at its own true, unchanged frequency the entire time; only the
+frequency an outside <em>observer</em> perceives is shifted, due to the
+changing spatial relationship between successive wavefronts and that
+particular observer’s position.</p>
+<h3 id="key-formulas-and-facts-for-this-day-33">Key formulas and facts
+for this day</h3>
+<ul>
+<li>Approaching source or approaching observer: observed frequency
+increases. Receding source or receding observer: observed frequency
+decreases.</li>
+<li>General formula: (f_{obs}=f_{source}\(\left(\frac{v\pm v_o}{v\mp v_s}\right)\)) — choose signs by reasoning
+physically about whether the relative motion should raise or lower the
+observed frequency.</li>
+<li>The Doppler effect changes only the <em>perceived</em> frequency at
+the observer’s location — the source’s true emitted frequency never
+changes.</li>
+</ul>
+<hr />
+</div><div class="probsets">
+<h3 class="pset-heading">Reading</h3>
+<ol class="rawlist"><li>An approaching sound source causes the observed frequency to be what, compared to the source's true frequency?</li><li>A receding sound source causes the observed frequency to be what, compared to the source's true frequency?</li><li>The Doppler effect arises from what physical mechanism regarding wavefronts?</li><li>If an observer moves toward a stationary source, the observed frequency is what, compared to the source's frequency?</li><li>If an observer moves away from a stationary source, the observed frequency is what?</li><li>If both source and observer move toward each other, the Doppler shift is what, compared to either moving alone?</li><li>The classic real-world example of the Doppler effect is often described using which everyday scenario?</li><li>The Doppler effect applies to which categories of waves?</li><li>As a source passes an observer (approaching then receding), what happens to the observed pitch?</li><li>Doppler shift calculations require careful attention to what modeling choice?</li></ol>
+<h3 class="pset-heading">Assignments</h3>
+<h3 class="tier easy"><span class="tier-dot"></span>Easy</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Easy Q1</span>A source emits 300 Hz while approaching a stationary observer at 10 m/s (speed of sound 340 m/s). Find the observed frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q2</span>A source emits 300 Hz while receding from a stationary observer at 10 m/s. Find the observed frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q3</span>An observer moves toward a stationary 400 Hz source at 5 m/s (speed of sound 340 m/s). Find the observed frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q4</span>An observer moves away from a stationary 400 Hz source at 5 m/s. Find the observed frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q5</span>A source emits 400 Hz while approaching a stationary observer. State whether the observed frequency is higher or lower than 400 Hz.</li><li><span class="qtag" style="margin-right:6px;">Easy Q6</span>A source emits 400 Hz while receding from a stationary observer. State whether the observed frequency is higher or lower than 400 Hz.</li><li><span class="qtag" style="margin-right:6px;">Easy Q7</span>An observer moves toward a stationary 500 Hz source. State whether the observed frequency is higher or lower than 500 Hz.</li><li><span class="qtag" style="margin-right:6px;">Easy Q8</span>An observer moves away from a stationary 500 Hz source. State whether the observed frequency is higher or lower.</li><li><span class="qtag" style="margin-right:6px;">Easy Q9</span>State what happens to observed pitch as a car with its horn blaring passes a stationary pedestrian. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Easy Q10</span>State whether the Doppler effect requires the source, observer, or either to be in motion. Upload your written response.</li></ol>
+<h3 class="tier medium"><span class="tier-dot"></span>Medium</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Medium Q1</span>A source emits 450 Hz while approaching a stationary observer at 20 m/s (speed of sound 340 m/s). Find the observed frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q2</span>The same source moves away from the observer at 20 m/s after passing. Find the observed frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q3</span>An observer moves toward a stationary 600 Hz source at 15 m/s. Find the observed frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q4</span>An observer moves away from a stationary 600 Hz source at 15 m/s. Find the observed frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q5</span>A train horn emits 350 Hz while approaching a stationary observer at 25 m/s. Find the observed frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q6</span>An ambulance siren emits 700 Hz while approaching a stationary observer at 30 m/s. Find the observed frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q7</span>The same ambulance recedes at 30 m/s after passing. Find the observed frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q8</span>A source emits 500 Hz while approaching a stationary observer at 12 m/s. Find the observed frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q9</span>An observer moves toward a stationary 550 Hz source at 8 m/s. Find the observed frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q10</span>A police siren emits 650 Hz approaching a stationary observer at 22 m/s. Find the observed frequency. (Give your answer in Hz.)</li></ol>
+<h3 class="tier hard"><span class="tier-dot"></span>Hard</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Hard Q1</span>An ambulance emits a 750 Hz siren while approaching a stationary observer at 28 m/s. Find the observed frequency during approach. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q2</span>Same ambulance, after passing: find the observed frequency during recession at 28 m/s. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q3</span>Find the total frequency shift experienced by the observer (approach minus recession). (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q4</span>A source moves toward an observer at 15 m/s while the observer simultaneously moves toward the source at 10 m/s (source frequency 500 Hz, speed of sound 340 m/s). Find the observed frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q5</span>A source moves away from an observer at 12 m/s while the observer simultaneously moves away at 8 m/s (source frequency 600 Hz). Find the observed frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q6</span>A race car emits 400 Hz while traveling at 40 m/s directly toward a stationary microphone (speed of sound 343 m/s). Find the observed frequency during approach. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q7</span>Same car, just after passing: find the observed frequency while receding at the same speed. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q8</span>A train moving at 25 m/s sounds its horn (300 Hz) while approaching a stationary crossing guard, who then boards a car moving toward the train at 5 m/s. Find the observed frequency for the crossing guard in this combined-motion scenario. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q9</span>Two trains approach each other, each traveling at 20 m/s, with one sounding a horn at 400 Hz (speed of sound 340 m/s). Find the frequency observed by a passenger on the other train. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q10</span>A jet aircraft flies toward a ground observer at 100 m/s while emitting an engine sound of 1000 Hz (speed of sound 343 m/s). Find the observed frequency. (Give your answer in Hz.)</li></ol>
+<h3 class="tier challenge"><span class="tier-dot"></span>Challenge</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Challenge Q1</span>(Evaluate) A student claims that the Doppler effect changes the actual (true) frequency emitted by the source, not just the frequency perceived by the observer. Evaluate this claim, clarifying what physically changes and what does not. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q2</span>(Create) Design a Doppler effect scenario (choose source frequency, source or observer speed, and direction) such that the observed frequency is exactly 10% higher than the source's true frequency. Verify your chosen values (using speed of sound 340 m/s). Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q3</span>(Evaluate/Create) A traffic enforcement technology company wants to use the Doppler effect to measure vehicle speeds from a stationary point. Evaluate the physical principle involved, then create a brief, accurate explanation of how such a system could determine a vehicle's speed. Upload your written response.</li></ol>
+<h3 class="pset-heading">Homework</h3>
+<h3 class="tier easy"><span class="tier-dot"></span>Easy</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Easy Q1</span>A source emits 320 Hz while approaching a stationary observer at 12 m/s (speed of sound 340 m/s). Find the observed frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q2</span>A source emits 320 Hz while receding from a stationary observer at 12 m/s. Find the observed frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q3</span>An observer moves toward a stationary 420 Hz source at 6 m/s. Find the observed frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q4</span>An observer moves away from a stationary 420 Hz source at 6 m/s. Find the observed frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q5</span>A source emits 420 Hz while approaching a stationary observer. State whether the observed frequency is higher or lower.</li><li><span class="qtag" style="margin-right:6px;">Easy Q6</span>A source emits 420 Hz while receding from a stationary observer. State whether the observed frequency is higher or lower.</li><li><span class="qtag" style="margin-right:6px;">Easy Q7</span>An observer moves toward a stationary 520 Hz source. State whether the observed frequency is higher or lower.</li><li><span class="qtag" style="margin-right:6px;">Easy Q8</span>An observer moves away from a stationary 520 Hz source. State whether the observed frequency is higher or lower.</li><li><span class="qtag" style="margin-right:6px;">Easy Q9</span>State what happens to observed pitch as a car horn passes a stationary pedestrian. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Easy Q10</span>State whether the Doppler effect requires either the source or observer (or both) to be in motion. Upload your written response.</li></ol>
+<h3 class="tier medium"><span class="tier-dot"></span>Medium</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Medium Q1</span>A source emits 460 Hz while approaching a stationary observer at 22 m/s. Find the observed frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q2</span>The same source recedes at 22 m/s after passing. Find the observed frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q3</span>An observer moves toward a stationary 620 Hz source at 16 m/s. Find the observed frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q4</span>An observer moves away from a stationary 620 Hz source at 16 m/s. Find the observed frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q5</span>A train horn emits 360 Hz while approaching a stationary observer at 27 m/s. Find the observed frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q6</span>An ambulance siren emits 720 Hz while approaching a stationary observer at 32 m/s. Find the observed frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q7</span>The same ambulance recedes at 32 m/s after passing. Find the observed frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q8</span>A source emits 520 Hz while approaching a stationary observer at 14 m/s. Find the observed frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q9</span>An observer moves toward a stationary 560 Hz source at 9 m/s. Find the observed frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q10</span>A police siren emits 660 Hz approaching a stationary observer at 24 m/s. Find the observed frequency. (Give your answer in Hz.)</li></ol>
+<h3 class="tier hard"><span class="tier-dot"></span>Hard</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Hard Q1</span>An ambulance emits a 760 Hz siren approaching a stationary observer at 30 m/s. Find the observed frequency during approach. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q2</span>Same ambulance, receding at 30 m/s: find the observed frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q3</span>Find the total frequency shift. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q4</span>A source moves toward an observer at 17 m/s while the observer moves toward the source at 11 m/s (source frequency 510 Hz). Find the observed frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q5</span>A source moves away from an observer at 13 m/s while the observer moves away at 9 m/s (source frequency 610 Hz). Find the observed frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q6</span>A race car emits 410 Hz while traveling at 42 m/s toward a stationary microphone (speed of sound 343 m/s). Find the observed frequency approaching. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q7</span>Same car, receding: find the observed frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q8</span>A train moving at 27 m/s sounds a 310 Hz horn approaching a crossing guard who then moves toward the train at 6 m/s. Find the observed frequency in this combined scenario. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q9</span>Two trains approach each other at 22 m/s each, one sounding a 410 Hz horn. Find the frequency observed by a passenger on the other train. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q10</span>A jet flies toward a ground observer at 105 m/s emitting 1010 Hz (speed of sound 343 m/s). Find the observed frequency. (Give your answer in Hz.)</li></ol>
+<h3 class="tier challenge"><span class="tier-dot"></span>Challenge</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Challenge Q1</span>(Evaluate) A student claims that the Doppler effect changes the actual (true) frequency emitted by the source, not just the frequency perceived by the observer. Evaluate this claim, clarifying what physically changes and what does not. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q2</span>(Create) Design a Doppler effect scenario (choose source frequency, source or observer speed, and direction) such that the observed frequency is exactly 10% higher than the source's true frequency. Verify your chosen values (using speed of sound 340 m/s). Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q3</span>(Evaluate/Create) A traffic enforcement technology company wants to use the Doppler effect to measure vehicle speeds from a stationary point. Evaluate the physical principle involved, then create a brief, accurate explanation of how such a system could determine a vehicle's speed. Upload your written response.</li></ol>
+<h3 class="pset-heading">Synthesis Problems</h3>
+<p class="dayconnects">Connects: waves/wave speed (Ch.10), relative motion (Ch.2/4), speed of sound (Day 33), vectors (Ch.3).</p>
+
+
+<div class="problem"><span class="ptag">1</span><span class="ptag applied">Applied</span>
+<p>A police car (siren 650 Hz) approaches a stationary pedestrian at 22 m/s, in air at 20&deg;C. Find the speed of sound at this temperature (connecting to Day 33), then find the observed frequency during approach and (after the car passes) during recession.</p>
+<p class="connects">Connects: Doppler effect, speed of sound temperature dependence (Day 33)</p></div>
+
+<div class="problem"><span class="ptag">2</span><span class="ptag evaluate">Evaluate</span>
+<p>A student claims the Doppler effect changes the actual (true) frequency emitted by a moving source, "since the observer definitely hears a different pitch." Evaluate this claim carefully, clarifying the distinction between the source's unchanged emission frequency and the observer's shifted perceived frequency, using the wavefront-bunching mechanism to explain why only the perception (not the source) changes.</p>
+<p class="connects">Connects: Doppler effect, wave mechanism (Ch.10), evaluating a fundamental misconception</p></div>
+
+<div class="problem"><span class="ptag">3</span><span class="ptag applied">Applied</span>
+<p>A train moving at 25 m/s sounds its horn (300 Hz) while approaching a stationary crossing guard, who then boards a car moving toward the train at 5 m/s just before the horn sounds again. Find the observed frequency for the crossing guard in this combined-motion scenario, using vector/relative-motion reasoning (Ch.2-3) to correctly combine both the source's and observer's motion.</p>
+<p class="connects">Connects: Doppler effect (combined source and observer motion), relative-velocity reasoning (Ch.3)</p></div>
+
+<div class="problem"><span class="ptag">4</span><span class="ptag evaluate">Evaluate</span>
+<p>A wildlife researcher uses the Doppler shift of a bat's echolocation calls (emitted 40,000 Hz, observed 40,940 Hz, speed of sound 343 m/s) to estimate the bat's flight speed toward a stationary microphone. Evaluate the reasoning behind inverting the Doppler formula to solve for source speed given emitted and observed frequencies, and carry out the calculation to find the bat's speed.</p>
+<p class="connects">Connects: Doppler effect, algebraic inversion of a physical formula, evaluating an applied measurement technique</p></div>
+
+<div class="problem"><span class="ptag">5</span><span class="ptag applied">Applied</span>
+<p>A traffic radar (using the Doppler principle) detects a car's speed by measuring the frequency shift of a reflected signal. Evaluate the physical principle involved (the car acts as both a moving "observer" receiving the radar wave and a moving "source" re-emitting/reflecting it, effectively doubling the shift), then, given a measured fractional frequency shift of 0.000094 at a radar frequency of 10.5 GHz and using the speed of light approximation for the radar wave, estimate the car's speed (treating this as a simplified single-shift calculation for the purposes of this course).</p>
+<p class="connects">Connects: Doppler effect, applied traffic-enforcement technology, evaluating a real measurement system's principle</p></div>
+
+
+<div class="problem"><span class="ptag">6</span><span class="ptag applied">Applied</span>
+<p>A police siren (660 Hz) approaches a stationary observer at 24 m/s in air at 22&deg;C. Find the speed of sound at this temperature, then the observed frequency during approach and recession.</p>
+<p class="connects">Connects: Doppler effect, speed of sound (Day 33)</p></div>
+
+<div class="problem"><span class="ptag">7</span><span class="ptag evaluate">Evaluate</span>
+<p>A student assumes the Doppler shift is identical in size whether the source moves toward a stationary observer at speed \(v_s\), or the observer moves toward a stationary source at the same speed \(v_s\). Evaluate this claim by comparing the two Doppler formulas (moving-source vs. moving-observer) at a specific speed and source frequency, determining whether the two resulting shifts are exactly equal.</p>
+<p class="connects">Connects: Doppler effect, evaluating a source-motion-vs-observer-motion symmetry assumption</p></div>
+
+<div class="problem"><span class="ptag">8</span><span class="ptag applied">Applied</span>
+<p>A train moving at 27 m/s sounds a 310 Hz horn approaching a crossing guard, who then moves toward the train at 6 m/s. Find the observed frequency in this combined-motion scenario.</p>
+<p class="connects">Connects: Doppler effect (combined motion), relative-velocity reasoning (Ch.3)</p></div>
+
+<div class="problem"><span class="ptag">9</span><span class="ptag evaluate">Evaluate</span>
+<p>A researcher measures a bat's echolocation shift (emitted 40,000 Hz, observed 40,960 Hz, speed of sound 343 m/s). Evaluate the method for estimating bat speed from this data, and carry out the calculation.</p>
+<p class="connects">Connects: Doppler effect, evaluating and applying an inverted-formula measurement technique</p></div>
+
+<div class="problem"><span class="ptag">10</span><span class="ptag applied">Applied</span>
+<p>A traffic enforcement radar system measures a fractional frequency shift of 0.000102 at a radar frequency of 10.5 GHz, reflecting off a moving vehicle. Using the simplified single-shift approximation and the speed of light, estimate the vehicle's speed, then convert this speed to km/h for a citation report.</p>
+<p class="connects">Connects: Doppler effect, applied traffic technology, unit conversion (Ch.1)</p></div>
+
+
+<footer>
+  PHYS203 General Physics I &middot; Complex/Applied/Evaluative Problem Sets &middot; All 34 class days, 5 in-class + 5 assignment problems each (340 problems total)
+</footer>
+
+</div>
+</body>
+</html>
+
+</div></div>
+</div></main>
+</div>
+</body>
+</html>

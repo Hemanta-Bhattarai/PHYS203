@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Syllabus - PHYS203</title>
+<link rel="stylesheet" href="assets/style.css">
+<style>
+.syl-hub-card{ position:relative; display:block; background:var(--paper); border:1px solid var(--border); border-radius:10px; padding:22px 24px; margin-bottom:18px; transition:border-color 0.15s, transform 0.15s; }
+.syl-hub-card:hover{ border-color:var(--accent); transform:translateY(-2px); }
+.syl-hub-card h2{ color:var(--accent); font-size:1.3rem; margin:0 0 8px; font-family:Georgia,serif; }
+.syl-hub-card p{ color:var(--muted); margin:0; line-height:1.6; }
+.syl-hub-card .links{ position:relative; z-index:2; margin-top:10px; font-size:0.85rem; }
+.syl-hub-card .links a{ color:var(--accent2); font-weight:600; margin-right:14px; text-decoration:underline; }
+.syl-hub-card .card-cover{ position:absolute; inset:0; z-index:1; }
+</style>
+</head>
+<body>
+<button class="floating-menu-btn" onclick="document.querySelector('.gh-sidebar').classList.toggle('open')" aria-label="Toggle menu">
+  <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor"><path d="M1 2.75A.75.75 0 0 1 1.75 2h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 2.75Zm0 5A.75.75 0 0 1 1.75 7h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 7.75ZM1.75 12a.75.75 0 0 0 0 1.5h12.5a.75.75 0 0 0 0-1.5H1.75Z"></path></svg>
+</button>
+
+<div class="gh-layout">
+  <nav class="gh-sidebar"><a class="nav-link top-level" href="../index.html">&#127968; Home</a>
+<div class="nav-title">Course Materials</div>
+<a class="nav-link top-level" href="../lecture-notes/index.html">&#128214; Lecture Notes</a>
+<a class="nav-link top-level" href="slo.html">&#127919; Learning Outcomes</a>
+<a class="nav-link top-level active" href="syllabus-hub.html">&#128196; Syllabus</a></nav>
+  <main class="gh-main">
+    <div class="gh-content">
+      <h1 class="gh-page-title">Syllabus</h1>
+      <p class="gh-page-sub"><em>Two views of the same course information &mdash; pick whichever is more useful.</em></p>
+
+      <div class="syl-hub-card">
+        <h2>Full Syllabus</h2>
+        <p>The complete syllabus: course description, learning outcomes, required texts, grading, attendance and academic integrity policies, and the full course schedule.</p>
+        <a class="card-cover" href="syllabus.html" aria-label="Go to Full Syllabus"></a>
+      </div>
+
+      <div class="syl-hub-card">
+        <h2>One-Page Pamphlet Syllabus</h2>
+        <p>A single-page, at-a-glance version &mdash; grading weights as a color bar, key dates, assignment types, and the exam schedule.</p>
+        <div class="links">
+          <a href="syllabus_pamphlet.html">Web view</a>
+          <a href="syllabus_pamphlet.pdf">Download PDF</a>
+        </div>
+        <a class="card-cover" href="syllabus_pamphlet.html" aria-label="Go to One-Page Pamphlet Syllabus"></a>
+      </div>
+
+      <div class="syl-hub-card">
+        <h2>Daily Schedule</h2>
+        <p>Every real class meeting this term, with that day's coverage and any deadlines due.</p>
+        <div class="links">
+          <a href="daily_schedule.html">Web view</a>
+          <a href="daily_schedule.pdf">Download PDF</a>
+        </div>
+        <a class="card-cover" href="daily_schedule.html" aria-label="Go to Daily Schedule"></a>
+      </div>
+
+    </div>
+  </main>
+</div>
+</body>
+</html>

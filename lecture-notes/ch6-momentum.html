@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 6: Momentum and Collisions - PHYS203 Extended Lecture Notes</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]'], ['$$', '$$']] },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="assets/tex-svg.js"></script>
+
+<style>
+:root{
+  --ink:#f3ede0; --ink-dim:#a89f8c; --paper:#171a21; --bg:#0f1115;
+  --line:#2a2e38; --accent:#e8a13a; --easy:#6fae8f; --medium:#e8a13a;
+  --hard:#e2725b; --challenge:#9fb3e0; --tag-bg:#1d212b;
+}
+body { margin:0; background: #1d2230; color:var(--ink); font-family:Georgia,'Times New Roman',serif; }
+.shell { display:flex; min-height:100vh; }
+.sidebar {
+  width:280px; flex-shrink:0; background:#0b0d11; color:var(--ink); padding:22px 0 60px;
+  position:fixed; top:0; left:0; bottom:0; overflow-y:auto; font-family:'Courier New',monospace;
+}
+.sidebar .brand { padding:0 22px 18px; font-family:Georgia,serif; font-weight:800; font-size:1.05rem; color:var(--ink); border-bottom:1px solid var(--line); margin-bottom:14px; }
+.sidebar .brand small { display:block; font-family:'Courier New',monospace; font-weight:400; color:var(--ink-dim); font-size:0.72rem; margin-top:3px; }
+.sidebar a.chap-link { display:block; padding:8px 22px; color:var(--ink); text-decoration:none; font-size:0.88rem; border-left:3px solid transparent; }
+.sidebar a.chap-link:hover { background:#1d212b; }
+.sidebar a.chap-link.active { background:#1d212b; border-left-color:var(--accent); color:var(--accent); font-weight:600; }
+.sidebar a.home-link { display:block; padding:8px 22px; color:var(--ink-dim); text-decoration:none; font-size:0.82rem; margin-bottom:8px; }
+.main { margin-left:280px; flex:1; display:flex; justify-content:center; min-width:0; }
+.content { max-width:880px; width:100%; padding:36px 40px 100px; background:transparent; }
+.content h1 { font-family:Georgia,serif; color:var(--ink); border-bottom:3px solid var(--accent); padding-bottom:12px; }
+.content h1:first-of-type { margin-top: 0; }
+.content h2 { font-family:Georgia,serif; color:var(--accent); margin-top:44px; }
+.content h3 { color:var(--easy); }
+.day-anchor-wrap { border-top: 4px solid var(--line); padding-top: 6px; margin-top: 56px; }
+.day-anchor-wrap:first-of-type { border-top: none; margin-top: 0; padding-top: 0; }
+
+/* Problem-section styling */
+.probsets { margin-top: 28px; background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 20px 24px; }
+.probsets > h3.pset-heading {
+  font-family:'Courier New',monospace; font-size:1rem; text-transform:uppercase; letter-spacing:0.05em;
+  color:var(--ink); border-bottom:2px solid var(--accent); padding-bottom:6px; margin: 26px 0 12px;
+}
+.probsets > h3.pset-heading:first-child { margin-top: 0; }
+h3.tier { font-family:'Courier New',monospace; font-size:0.92rem; margin:18px 0 8px; display:flex; align-items:center; gap:8px; color:var(--ink); }
+.tier-dot { width:9px; height:9px; border-radius:50%; display:inline-block; }
+.tier.easy .tier-dot{background:var(--easy);} .tier.medium .tier-dot{background:var(--medium);}
+.tier.hard .tier-dot{background:var(--hard);} .tier.challenge .tier-dot{background:var(--challenge);}
+details.problem { background:#12141a; border:1px solid var(--line); border-radius:8px; margin-bottom:8px; }
+details.problem summary { cursor:pointer; padding:10px 14px; font-size:0.92rem; display:flex; gap:8px; align-items:baseline; font-family:'Courier New',monospace; color:var(--ink);}
+.qtag { font-family:'Courier New',monospace; font-size:0.68rem; font-weight:700; background:var(--tag-bg); color:var(--ink-dim); padding:2px 7px; border-radius:999px; white-space:nowrap; }
+.solution { padding:2px 16px 12px; border-top:1px dashed var(--line); font-family:Georgia,serif; font-size:0.88rem;}
+.answer { font-family:'Courier New',monospace; font-weight:700; background:#16241d; color:var(--easy); border-left:4px solid var(--easy); padding:6px 10px; border-radius:4px; margin-top:8px !important; }
+.rawlist { font-family:'Courier New',monospace; font-size:1.05rem; line-height:1.6; padding-left: 1.5em; color:var(--ink); }
+.rawlist li { margin-bottom: 10px; }
+.rawlist .qtag { font-size:0.76rem; }
+.pending-note { font-family:Georgia,serif; font-size:0.82rem; color:var(--accent); font-style:italic; background:#2a2416; border:1px solid var(--accent); border-radius:6px; padding:8px 12px; margin-bottom: 12px;}
+</style>
+
+<style>
+  :root{
+    --ink:#f3ede0; --ink-dim:#a89f8c; --paper:#171a21; --bg:transparent;
+    --line:#2a2e38; --accent:#e8a13a; --accent-dark:#8a5a1f; --accent-soft:#2a2416;
+    --ic:#6fae8f; --ic-soft:#16241d; --hw:#e2725b; --hw-soft:#2a1a14;
+  }
+  * { box-sizing: border-box; }
+  /* body background intentionally inherited from the outer wrapper style block above */
+  .wrap { max-width: 900px; margin: 0 auto; padding: 30px 22px 90px; }
+  h1.doctitle {
+    font-family:"Courier New",monospace; font-size: 1.9rem; font-weight:700;
+    color: var(--ink); border-bottom: 4px solid var(--accent); padding-bottom: 14px;
+    margin: 0 0 8px 0;
+  }
+  p.subtitle { font-family:Georgia,serif; color:var(--ink-dim); font-size:0.95rem; margin:0 0 30px 0; font-style:italic; }
+  #TOC {
+    background: var(--paper); border: 1px solid var(--line); border-radius: 8px;
+    padding: 18px 24px; margin: 0 0 34px 0;
+    font-family: "Courier New", monospace; font-size: 0.9rem; columns: 2; column-gap: 30px;
+  }
+  #TOC a { color: var(--accent); text-decoration: none; font-weight: 600; display:block; padding: 3px 0; break-inside: avoid; }
+  #TOC a:hover { text-decoration: underline; }
+  h2.chapter {
+    font-family:"Courier New",monospace; font-size: 1.35rem; font-weight:700;
+    color: #171a21; background: var(--accent);
+    padding: 12px 18px; border-radius: 6px; margin: 50px 0 20px 0;
+  }
+  h3.day {
+    font-family:"Courier New",monospace; font-size: 1.1rem; font-weight:700;
+    color: var(--accent); background: var(--accent-soft);
+    border-left: 5px solid var(--accent); padding: 8px 14px;
+    margin: 34px 0 6px 0; border-radius: 0 4px 4px 0;
+  }
+  p.dayconnects { font-family:Georgia,serif; font-size:0.85rem; color:var(--ink-dim); margin:0 0 16px 0; font-style:italic; }
+  h4.subhead {
+    font-family:"Courier New",monospace; font-size: 0.82rem; font-weight:700;
+    text-transform: uppercase; letter-spacing: 0.06em; margin: 18px 0 10px 0;
+    padding-bottom: 4px; border-bottom: 1px solid var(--line);
+  }
+  h4.subhead.ic { color: var(--ic); }
+  h4.subhead.hw { color: var(--hw); }
+  div.problem {
+    background: #12141a; border: 1px solid var(--line); border-radius: 7px;
+    padding: 12px 16px; margin-bottom: 10px; color:var(--ink);
+  }
+  div.problem { border-left: 4px solid var(--ic); }
+  .ptag {
+    font-family:"Courier New",monospace; font-size:0.68rem; font-weight:700;
+    padding: 2px 8px; border-radius: 999px; margin-right: 8px; white-space:nowrap;
+    text-transform: uppercase; letter-spacing: 0.03em;
+  }
+  .problem .ptag:not(.applied):not(.evaluate) { background: var(--ic-soft); color: var(--ic); }
+  .ptag.applied { background:#16241d; color:#6fae8f; }
+  .ptag.evaluate { background:#2a1a2e; color:#c68fd9; }
+  .connects { font-family:Georgia,serif; font-size:0.72rem; color:var(--ink-dim); margin-top:6px; }
+  p { margin: 8px 0; }
+  strong { color: var(--accent); }
+  footer { margin-top:50px; font-family:Georgia,serif; font-size:0.82rem; color:var(--ink-dim); text-align:center; }
+</style>
+
+</head>
+<body>
+<div class="shell">
+<nav class="sidebar"><div class="brand">PHYS203<small>Extended Lecture Notes</small></div>
+<a class="home-link" href="../index.html" style="border-bottom:1px solid #24354a; padding-bottom:14px; margin-bottom:6px; display:block;">&larr; Course Home</a>
+<a class="home-link" href="index.html">&larr; Back to Chapter Index</a>
+<a class="chap-link" href="ch1-units-dimensions.html">Ch 1: Units and Dimensions</a>
+<a class="chap-link" href="ch2-kinematics.html">Ch 2: One-Dimensional Kinematics</a>
+<a class="chap-link" href="ch3-vectors.html">Ch 3: Vectors</a>
+<a class="chap-link" href="ch4-2d-motion.html">Ch 4: Two-Dimensional Motion</a>
+<a class="chap-link" href="ch5-newtons-laws.html">Ch 5: Newton's Laws and Applications</a>
+<a class="chap-link active" href="ch6-momentum.html">Ch 6: Momentum and Collisions</a>
+<a class="chap-link" href="ch7-work-energy.html">Ch 7: Work and Energy</a>
+<a class="chap-link" href="ch8-rotational-motion.html">Ch 8: Rotational Motion</a>
+<a class="chap-link" href="ch9-oscillations.html">Ch 9: Oscillations</a>
+<a class="chap-link" href="ch10-waves.html">Ch 10: Waves</a>
+<a class="chap-link" href="ch11-sound.html">Ch 11: Sound</a></nav>
+<main class="main"><div class="content">
+<div class="chapter-intro"><h1 id="chapter-6-momentum-and-collisions">Chapter 6: Momentum and
+Collisions</h1>
+</div>
+<div class="day-anchor-wrap"><h2
+id="class-day-17-momentum-impulse-and-conservation-of-momentum">Class
+Day 17: Momentum, Impulse, and Conservation of Momentum</h2>
+<h3 id="why-this-matters-15">Why this matters</h3>
+<p>Momentum offers a different, often more powerful lens than F=ma for
+analyzing certain problems — especially collisions, where forces act for
+very short, hard-to-measure times, but momentum still gives exact, clean
+answers.</p>
+<h3 id="momentum-and-impulse">Momentum and impulse</h3>
+<p>Momentum is defined as (p = mv) — a vector combining mass and
+velocity into a single measure of “how hard it would be to stop this
+object.” A heavy truck moving slowly and a light car moving fast can
+have comparable momentum, even though their speeds are very
+different.</p>
+<p><strong>Impulse</strong> is the change in momentum, and it’s directly
+connected to force through a short derivation from Newton’s second law.
+Since (F=ma=m(v/t)), rearranging gives:</p>
+<p><span class="math display">\[F\Delta t = m\Delta v = \Delta
+p\]</span></p>
+<p>This is the <strong>impulse-momentum theorem</strong>: the impulse
+delivered (force multiplied by the time it acts) equals the resulting
+change in momentum. The practical, real-world payoff of this equation is
+enormous: for a <em>fixed</em> impulse (a fixed change in momentum, such
+as bringing a passenger’s momentum to zero in a crash), stretching out
+the time (t) over which that change happens directly <em>reduces</em>
+the average force required, since (F=p/t). This is exactly why airbags,
+crumple zones, and padded gymnastics mats work: they don’t change the
+total impulse needed to stop something, they just spread it over more
+time, lowering the peak force.</p>
+<p><strong>Worked example:</strong> A 0.5 kg ball is struck by a bat,
+changing its velocity from −10 m/s to 15 m/s in 0.01 s. Find the impulse
+and the average force.</p>
+<p><span class="math display">\[J = \Delta p = m(v_f-v_i) =
+0.5(15-(-10)) = 12.5\text{ kg}\cdot\text{m/s}\]</span> <span
+class="math display">\[F_{avg} = \frac{J}{\Delta t} = \frac{12.5}{0.01}
+= 1250\text{ N}\]</span></p>
+<h3 id="conservation-of-momentum">Conservation of momentum</h3>
+<p>For an isolated system (no significant external forces), total
+momentum is conserved — it’s exactly the same before and after any
+interaction, such as a collision or explosion. This follows directly
+from Newton’s third law: internal forces between two colliding objects
+are always equal and opposite, so they exactly cancel when you add up
+the total momentum change of the whole system.</p>
+<p><span class="math display">\[p_{total,before} =
+p_{total,after}\]</span></p>
+<p><strong>Worked example:</strong> A 4 kg object at rest is struck by a
+2 kg object moving at 6 m/s, and they stick together. Find their
+combined velocity.</p>
+<p>Before: total momentum (= 2(6)+4(0) = 12) kg·m/s. After, they move
+together with combined mass 6 kg:</p>
+<p><span class="math display">\[12 = 6v_f \Rightarrow v_f = 2\text{
+m/s}\]</span></p>
+<h3 id="common-mistake-to-watch-for-14">Common mistake to watch for</h3>
+<p>Forgetting that momentum, like velocity, is a signed vector quantity
+— in a one-dimensional collision, objects moving in opposite directions
+before impact have momenta with <em>opposite signs</em>, and you must
+keep the signs consistent throughout, or the conservation equation won’t
+balance correctly.</p>
+<h3 id="key-formulas-and-facts-for-this-day-15">Key formulas and facts
+for this day</h3>
+<ul>
+<li>Momentum: (p = mv). Impulse: (J = Ft = p).</li>
+<li>Increasing collision time (same impulse) reduces average force — the
+physics behind airbags and crumple zones.</li>
+<li>Total momentum of an isolated system is conserved, a direct
+consequence of Newton’s third law.</li>
+</ul>
+<hr />
+<div class="probsets">
+<h3 class="pset-heading">Reading</h3>
+<ol class="rawlist">
+<li><span class="qtag" style="margin-right:6px;">Reading Q1</span>Momentum is defined as which product?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q2</span>Impulse is defined as which of the following?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q3</span>The impulse-momentum theorem states impulse equals what?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q4</span>For the same impulse, a longer contact time results in what change in average force?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q5</span>Conservation of momentum follows most directly from which of Newton's laws?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q6</span>In an isolated system with no external forces, total momentum does what over time?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q7</span>Momentum is a vector quantity because it depends on which vector quantity?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q8</span>A 2 kg object at 5 m/s has what momentum?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q9</span>If a net force acts on an object for 3 s producing an impulse of 30 N*s, what is the average force?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q10</span>Airbags reduce injury primarily by affecting which quantity in a collision?</li>
+</ol>
+<h3 class="pset-heading">Assignments</h3>
+<ol class="rawlist">
+<li><span class="qtag" style="margin-right:6px;">Easy Q1</span>Find the momentum of a 3 kg object moving at 4 m/s.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q2</span>Find the momentum of a 6 kg object moving at 2 m/s.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q3</span>A 2 kg object's velocity changes from 0 to 5 m/s. Find the impulse.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q4</span>A 4 kg object's velocity changes from 3 m/s to 8 m/s. Find the impulse.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q5</span>A force of 10 N acts for 2 s. Find the impulse.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q6</span>A force of 20 N acts for 0.5 s. Find the impulse.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q7</span>Find the momentum of a 10 kg object at rest.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q8</span>Find the momentum of a 1 kg object moving at 15 m/s.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q9</span>An impulse of 40 N*s acts over 4 s. Find the average force.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q10</span>An impulse of 15 N*s acts over 3 s. Find the average force.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q1</span>A 0.4 kg ball's velocity changes from -8 m/s to 12 m/s in 0.02 s. Find the impulse.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q2</span>Same ball: find the average force.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q3</span>A 1000 kg car traveling at 18 m/s comes to rest in 5 s. Find the magnitude of the impulse.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q4</span>Same car: find the magnitude of the average braking force.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q5</span>A 5 kg object at rest is struck by a 3 kg object moving at 8 m/s, and they stick together. Find their combined velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q6</span>A 2 kg cart moving at 6 m/s collides with a stationary 4 kg cart; they stick together. Find their combined velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q7</span>A 60 kg astronaut pushes off a 300 kg capsule (both initially at rest), moving away at 1.5 m/s. Find the capsule's resulting velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q8</span>A 0.15 kg baseball traveling at 40 m/s is caught and brought to rest in 0.05 s. Find the magnitude of the average force on the ball.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q9</span>Two ice skaters (55 kg and 65 kg) push apart from rest. If the 55 kg skater moves at 2.5 m/s, find the 65 kg skater's velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q10</span>A 1500 kg truck moving at 10 m/s collides with a stationary 1000 kg car, and they lock together. Find their combined velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q1</span>A 0.5 kg hockey puck moving at 25 m/s is stopped by a goalie's glove in 0.008 s. Find the magnitude of the average force.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q2</span>A 1200 kg car traveling at 22 m/s collides head-on with a stationary 900 kg car, locking together. Find their combined velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q3</span>Find the total momentum before the collision (to verify conservation).</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q4</span>A 2 kg cart (10 m/s) hits a stationary 3 kg cart and sticks. Find the velocity right after this first collision.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q5</span>The combined 5 kg mass then hits a stationary 5 kg cart and sticks. Find the final combined velocity of all three.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q6</span>A 70 kg astronaut, initially at rest relative to a 250 kg satellite, pushes off, and the satellite recoils at 1.2 m/s. Find the astronaut's resulting speed.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q7</span>Same push: find the total kinetic energy generated.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q8</span>A 0.045 kg golf ball is struck by a golf club, leaving at 65 m/s after a contact time of 0.0005 s. Find the average force exerted.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q9</span>A 1600 kg car moving at 20 m/s and an 1100 kg car moving at 15 m/s in the same direction collide and move together. Find their combined velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q10</span>A firework explodes into fragments of 0.3 kg and 0.5 kg, initially moving together at 20 m/s. If the 0.3 kg fragment continues at 35 m/s, find the 0.5 kg fragment's velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">Challenge Q1 (Evaluate)</span>A student claims that a collision with a longer contact time always results in less total impulse delivered. Evaluate this claim, clarifying the actual relationship between contact time, average force, and impulse.</li>
+<li><span class="qtag" style="margin-right:6px;">Challenge Q2 (Create)</span>Design a two-object collision scenario that results in exactly zero final velocity for the combined system after a perfectly inelastic collision. Verify using conservation of momentum.</li>
+<li><span class="qtag" style="margin-right:6px;">Challenge Q3 (Evaluate/Create)</span>An automotive safety engineer wants to reduce peak force on occupants during a collision without changing the vehicle's total impulse. Evaluate how contact/collision time relates to peak force, then create a design recommendation.</li>
+</ol>
+<h3 class="pset-heading">Homework</h3>
+<ol class="rawlist">
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q1</span>Find the momentum of a 4 kg object moving at 3 m/s.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q2</span>Find the momentum of a 7 kg object moving at 2.5 m/s.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q3</span>A 3 kg object's velocity changes from 0 to 6 m/s. Find the impulse.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q4</span>A 5 kg object's velocity changes from 2 m/s to 9 m/s. Find the impulse.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q5</span>A force of 12 N acts for 2.5 s. Find the impulse.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q6</span>A force of 25 N acts for 0.4 s. Find the impulse.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q7</span>Find the momentum of an 8 kg object at rest.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q8</span>Find the momentum of a 1.5 kg object moving at 14 m/s.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q9</span>An impulse of 45 N*s acts over 5 s. Find the average force.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q10</span>An impulse of 18 N*s acts over 3 s. Find the average force.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q1</span>A 0.45 kg ball's velocity changes from -9 m/s to 13 m/s in 0.018 s. Find the impulse.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q2</span>Same ball: find the average force.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q3</span>A 1100 kg car traveling at 20 m/s comes to rest in 4.5 s. Find the magnitude of the impulse.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q4</span>Same car: find the magnitude of the average braking force.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q5</span>A 6 kg object at rest is struck by a 4 kg object moving at 7 m/s, and they stick together. Find their combined velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q6</span>A 3 kg cart moving at 5 m/s collides with a stationary 5 kg cart; they stick together. Find their combined velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q7</span>A 65 kg astronaut pushes off a 320 kg capsule (both at rest), moving away at 1.3 m/s. Find the capsule's resulting velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q8</span>A 0.16 kg baseball traveling at 38 m/s is caught and stopped in 0.045 s. Find the magnitude of the average force.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q9</span>Two ice skaters (58 kg and 68 kg) push apart from rest. If the 58 kg skater moves at 2.2 m/s, find the 68 kg skater's velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q10</span>A 1600 kg truck moving at 9 m/s collides with a stationary 1050 kg car, and they lock together. Find their combined velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q1</span>A 0.55 kg hockey puck moving at 23 m/s is stopped by a goalie's glove in 0.009 s. Find the magnitude of the average force.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q2</span>A 1250 kg car traveling at 20 m/s collides head-on with a stationary 950 kg car, locking together. Find the combined velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q3</span>A 2.5 kg cart (9 m/s) hits a stationary 3.5 kg cart and sticks. Find the velocity right after this first collision.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q4</span>The combined mass then hits a stationary 5.5 kg cart and sticks. Find the final combined velocity of all three.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q5</span>A 72 kg astronaut pushes off a 260 kg satellite, which recoils at 1.1 m/s. Find the astronaut's resulting speed.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q6</span>Same push: find the total kinetic energy generated.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q7</span>A 0.047 kg golf ball leaves a club at 62 m/s after a contact time of 0.00048 s. Find the average force exerted.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q8</span>A 1650 kg car moving at 18 m/s and a 1150 kg car moving at 14 m/s in the same direction collide and move together. Find their combined velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q9</span>A firework explodes into fragments of 0.32 kg and 0.52 kg, initially moving together at 18 m/s. If the 0.32 kg fragment continues at 32 m/s, find the 0.52 kg fragment's velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q10</span>A 0.62 kg ball hits the floor at 5.5 m/s and bounces back at 80% of that speed. Find the magnitude of the impulse delivered by the floor.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Challenge Q1 (Evaluate)</span>A student claims that a collision with a longer contact time always results in less total impulse delivered. Evaluate this claim, clarifying the actual relationship between contact time, average force, and impulse.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Challenge Q2 (Create)</span>Design a two-object collision scenario that results in exactly zero final velocity for the combined system after a perfectly inelastic collision. Verify using conservation of momentum.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Challenge Q3 (Evaluate/Create)</span>An automotive safety engineer wants to reduce peak force on occupants during a collision without changing the vehicle's total impulse. Evaluate how contact/collision time relates to peak force, then create a design recommendation.</li>
+</ol>
+<h3 class="pset-heading">Synthesis Problems</h3>
+<p class="dayconnects">Connects: Newton's second/third laws (Ch.5), kinematics (Ch.2), vectors (Ch.3).</p>
+
+
+<div class="problem"><span class="ptag">1</span><span class="ptag applied">Applied</span>
+<p>A 1300 kg car traveling at 22 m/s crashes into a rigid barrier and comes to rest in 0.15 s due to crumple-zone deformation. Find the average force on the car, then find what that force would have been if the crumple zone instead extended the stopping time to 0.4 s, and discuss the safety implication using Newton's second law and impulse.</p>
+<p class="connects">Connects: impulse-momentum theorem, Newton's second law (Ch.5), applied vehicle-safety design</p></div>
+
+<div class="problem"><span class="ptag">2</span><span class="ptag evaluate">Evaluate</span>
+<p>A student claims momentum conservation only applies "when objects collide," not in other situations like an explosion or a rocket launch. Evaluate this claim using the underlying requirement (no net external force on the system) and a specific counterexample of a stationary firework shell exploding into two fragments.</p>
+<p class="connects">Connects: conservation of momentum, Newton's third law (Ch.5), evaluating scope of a physical principle</p></div>
+
+<div class="problem"><span class="ptag">3</span><span class="ptag applied">Applied</span>
+<p>A 65 kg ice skater at rest throws a 3 kg medicine ball horizontally at 8 m/s to a partner. Find the skater's resulting recoil velocity, then find how far they would slide (in the direction opposite the throw) before stopping if the ice provides a small constant friction deceleration of 0.15 m/s&sup2;.</p>
+<p class="connects">Connects: conservation of momentum, kinematic equations (Ch.2), friction (Ch.5)</p></div>
+
+<div class="problem"><span class="ptag">4</span><span class="ptag evaluate">Evaluate</span>
+<p>A safety engineer claims airbags work by "reducing the total impulse delivered to a passenger during a crash." Evaluate this claim: using the impulse-momentum theorem, clarify whether an airbag actually changes the total impulse needed to stop a passenger (given a fixed mass and speed change), or whether it changes something else that affects injury risk.</p>
+<p class="connects">Connects: impulse-momentum theorem, evaluating a common but imprecise safety-engineering claim</p></div>
+
+<div class="problem"><span class="ptag">5</span><span class="ptag applied">Applied</span>
+<p>A 0.058 kg tennis ball is served at 45 m/s and, after bouncing off a wall, rebounds at 38 m/s (nearly reversed direction) over a contact time of 0.005 s. Find the impulse delivered to the ball and the average force the wall exerted, then convert this force to a multiple of the ball's own weight to assess how large the impact force is relative to gravity.</p>
+<p class="connects">Connects: impulse-momentum theorem, unit/ratio reasoning, applied sports-physics context</p></div>
+
+
+<div class="problem"><span class="ptag">6</span><span class="ptag applied">Applied</span>
+<p>A 1450 kg car traveling at 25 m/s is brought to rest by a combination of braking (providing a known constant force of 6000 N) and a final 0.2 s crumple-zone impact with a barrier. Find the time spent braking before impact (assuming braking alone would reduce speed to 8 m/s right before the crumple-zone impact), then find the average force from the crumple zone during the final impact phase.</p>
+<p class="connects">Connects: impulse-momentum theorem, Newton's second law (Ch.5), multi-phase applied crash analysis</p></div>
+
+<div class="problem"><span class="ptag">7</span><span class="ptag evaluate">Evaluate</span>
+<p>A student solving a recoil problem (e.g., a person jumping off a stationary boat) sets up conservation of momentum but forgets that the boat and person start with zero total momentum, instead assuming the boat's final momentum should equal the person's initial momentum in the same direction. Evaluate this error using a specific example (70 kg person jumping at 3 m/s off a 250 kg boat), finding the correct boat velocity and contrasting it with the (incorrect) same-direction assumption.</p>
+<p class="connects">Connects: conservation of momentum, evaluating a common sign/setup error</p></div>
+
+<div class="problem"><span class="ptag">8</span><span class="ptag applied">Applied</span>
+<p>A 0.15 kg baseball travels at 40 m/s toward a bat and leaves at 45 m/s in the opposite direction after a 0.0008 s contact time. Find the impulse delivered to the ball and the average force exerted by the bat, then compare this force (as a ratio) to the ball's weight.</p>
+<p class="connects">Connects: impulse-momentum theorem, unit/ratio reasoning, applied sports-equipment context</p></div>
+
+<div class="problem"><span class="ptag">9</span><span class="ptag evaluate">Evaluate</span>
+<p>A packaging engineer claims that adding more foam padding to a shipped product "reduces the total force during a drop, so it reduces the impulse too." Evaluate this claim: using the impulse-momentum theorem, determine whether padding changes the total impulse delivered during a drop of fixed height, or whether it changes something else (and if so, what).</p>
+<p class="connects">Connects: impulse-momentum theorem, free fall (Ch.2, for drop height/speed), evaluating an engineering claim</p></div>
+
+<div class="problem"><span class="ptag">10</span><span class="ptag applied">Applied</span>
+<p>A 60 kg astronaut and a 220 kg equipment module are initially at rest, connected by a compressed spring mechanism. When released, the spring pushes them apart, and the astronaut ends up moving at 1.8 m/s. Find the equipment module's resulting velocity, then find the total kinetic energy created by the spring (forward-connecting to energy concepts).</p>
+<p class="connects">Connects: conservation of momentum, forward-looking to kinetic energy (Ch.7)</p></div>
+
+
+</div></div>
+<div class="day-anchor-wrap"><h2 id="class-day-18-elastic-and-inelastic-collisions">Class Day 18:
+Elastic and Inelastic Collisions</h2>
+<h3 id="why-this-matters-16">Why this matters</h3>
+<p>Not all collisions behave the same way once you look beyond momentum.
+Today draws a sharp distinction that matters enormously in practice:
+whether kinetic energy is also conserved, in addition to momentum.</p>
+<h3 id="the-key-distinction">The key distinction</h3>
+<p><strong>Momentum is conserved in essentially every collision</strong>
+(as long as the system is isolated), but <strong>kinetic energy is only
+conserved in elastic collisions.</strong> A collision is called: -
+<strong>Elastic</strong> if kinetic energy is conserved (objects bounce
+apart, none of the mechanical energy converts to heat, sound, or
+permanent deformation). - <strong>Inelastic</strong> if kinetic energy
+is <em>not</em> conserved (some is converted to other forms). A
+<strong>perfectly inelastic</strong> collision is the extreme case where
+the objects stick together and move with a common final velocity.</p>
+<h3 id="the-clean-special-case-equal-mass-elastic-collision">The clean
+special case: equal-mass elastic collision</h3>
+<p>When two objects of <em>equal</em> mass collide elastically, with one
+initially at rest, a remarkably clean result emerges: they simply
+<strong>exchange velocities</strong>. The moving object stops
+completely, and the previously stationary object moves off with the
+exact velocity the first one had. This is worth internalizing as a
+sanity-check case, since it’s easy to verify (both momentum and kinetic
+energy are trivially conserved by a simple swap) and often shows up as a
+special case within larger problems.</p>
+<h3
+id="worked-example-perfectly-inelastic-collision-and-energy-loss">Worked
+example: perfectly inelastic collision and energy loss</h3>
+<p>A 1500 kg car moving at 15 m/s collides with a stationary 1000 kg
+car, and they lock together. Find their combined velocity and the
+kinetic energy lost.</p>
+<p>Momentum conservation: (1500(15) = (1500+1000)v_f v_f = 9).</p>
+<p>Kinetic energy before: ((1500)(15)^2 = 168{,}750) J. Kinetic energy
+after: ((2500)(9)^2=101{,}250) J.</p>
+<p><span class="math display">\[\text{KE lost} = 168{,}750-101{,}250 =
+67{,}500\text{ J}\]</span></p>
+<p>This lost energy doesn’t vanish — it converts into the sound of the
+crash, permanent deformation of the vehicles (crumpling), heat, and so
+on. This is precisely <em>why</em> cars are engineered to crumple in a
+collision: dissipating kinetic energy into crushing metal, rather than
+transmitting it directly into the passengers, is what makes the
+collision survivable, and it’s directly connected to yesterday’s impulse
+discussion — crumpling also extends the collision’s duration, further
+lowering the peak force on occupants.</p>
+<h3 id="common-mistake-to-watch-for-15">Common mistake to watch for</h3>
+<p>Assuming kinetic energy is conserved by default, the way momentum is.
+Only use kinetic-energy conservation as one of your two equations if the
+problem explicitly states (or the physical scenario clearly implies,
+such as billiard balls or idealized elastic springs) that the collision
+is elastic. For an unspecified “generic” collision, momentum
+conservation is the one tool you can always reach for; kinetic energy
+conservation requires justification.</p>
+<h3 id="key-formulas-and-facts-for-this-day-16">Key formulas and facts
+for this day</h3>
+<ul>
+<li>Momentum is conserved in all isolated-system collisions; kinetic
+energy is conserved only in elastic collisions.</li>
+<li>Equal-mass elastic collision (one initially at rest): the two
+objects exchange velocities.</li>
+<li>Kinetic energy “lost” in an inelastic collision converts to heat,
+sound, and deformation — it doesn’t disappear, it changes form.</li>
+</ul>
+<hr />
+<div class="probsets">
+<h3 class="pset-heading">Reading</h3>
+<ol class="rawlist">
+<li><span class="qtag" style="margin-right:6px;">Reading Q1</span>In an elastic collision, which quantities are conserved?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q2</span>In an inelastic collision, which quantity is NOT conserved (compared to an elastic collision)?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q3</span>A perfectly inelastic collision is characterized by what outcome?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q4</span>In an elastic collision between two equal masses (one initially at rest), what happens to their velocities?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q5</span>Kinetic energy lost in an inelastic collision converts into what forms of energy?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q6</span>Is momentum conserved in inelastic collisions?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q7</span>Is kinetic energy conserved in inelastic collisions?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q8</span>A car crash where vehicles crumple together is best classified as what type of collision?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q9</span>Billiard ball collisions are often modeled as approximately what type of collision?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q10</span>The kinetic energy lost in a perfectly inelastic collision can be calculated by comparing which two quantities?</li>
+</ol>
+<h3 class="pset-heading">Assignments</h3>
+<ol class="rawlist">
+<li><span class="qtag" style="margin-right:6px;">Easy Q1</span>A 3 kg cart collides inelastically with a stationary 3 kg cart, sticking together. If the first was moving at 4 m/s, find the combined velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q2</span>Find the kinetic energy of a 4 kg object moving at 3 m/s.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q3</span>Find the kinetic energy of a 6 kg object moving at 2 m/s.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q4</span>A 5 kg cart moving at 6 m/s sticks to a stationary 5 kg cart. Find the combined velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q5</span>Two identical 2 kg carts collide elastically; one moving at 5 m/s hits a stationary one. State the result for their velocities after collision.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q6</span>Classify a collision where kinetic energy is conserved.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q7</span>Classify a collision where objects stick together.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q8</span>Two 1 kg carts undergo elastic collision (one moving, one at rest). Predict the outcome using the equal-mass result.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q9</span>State whether kinetic energy increases, decreases, or stays the same in a perfectly inelastic collision.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q10</span>State whether momentum increases, decreases, or stays the same in any collision (isolated system).</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q1</span>A 2 kg cart moving at 6 m/s collides elastically with an identical stationary 2 kg cart. Find the velocity of the first cart after collision.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q2</span>Same collision: find the velocity of the second cart after collision.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q3</span>A 1400 kg car moving at 16 m/s collides inelastically with a stationary 1000 kg car, locking together. Find their combined velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q4</span>Same collision: find the kinetic energy lost.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q5</span>A 0.25 kg ball moving at 7 m/s collides perfectly inelastically with a stationary 0.35 kg ball. Find their combined velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q6</span>Two 3 kg carts undergo an elastic collision; one moving at 8 m/s strikes a stationary one. Find the first cart's final velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q7</span>Same collision: find the second cart's final velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q8</span>A 1600 kg truck moving at 12 m/s rear-ends a stationary 1300 kg car, moving together afterward. Find the combined velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q9</span>Same collision: find the kinetic energy lost.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q10</span>Two skaters (55 kg and 75 kg) push apart from rest. If the 55 kg skater moves at 3.5 m/s, find the 75 kg skater's velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q1</span>A 1500 kg car moving at 20 m/s collides with a stationary 1500 kg car and they lock together. Find the combined velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q2</span>Same collision: find the percentage of kinetic energy lost.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q3</span>Two carts (2 kg and 6 kg) undergo an elastic collision; the 2 kg cart moves at 12 m/s toward the stationary 6 kg cart. Find the 2 kg cart's final velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q4</span>Same collision: find the 6 kg cart's final velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q5</span>A ballistic pendulum: a 0.01 kg bullet embeds in a stationary 2 kg block. If the bullet's initial speed is 300 m/s, find the combined velocity immediately after impact.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q6</span>Three identical 2 kg carts are in a line; the first (6 m/s) strikes the second, sticking, then that combination strikes the third, sticking. Find the velocity after the first sub-collision.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q7</span>Same sequence: find the final velocity of all three carts combined.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q8</span>A 1300 kg car and a 900 kg car collide and lock together at 8 m/s. If the 1300 kg car moved at 14 m/s before, find the 900 kg car's velocity before collision (may be negative).</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q9</span>A perfectly inelastic collision between a 5 kg object (8 m/s) and a stationary 15 kg object. Find the combined velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q10</span>Same collision: find the fraction of initial kinetic energy lost.</li>
+<li><span class="qtag" style="margin-right:6px;">Challenge Q1 (Evaluate)</span>A student claims that "elastic" collisions are the "normal" case and inelastic collisions are rare exceptions. Evaluate this claim in the context of everyday macroscopic collisions versus idealized physics problems.</li>
+<li><span class="qtag" style="margin-right:6px;">Challenge Q2 (Create)</span>Design a collision scenario where exactly 50% of the initial kinetic energy is lost in a perfectly inelastic collision. Verify your chosen values.</li>
+<li><span class="qtag" style="margin-right:6px;">Challenge Q3 (Evaluate/Create)</span>A sports equipment designer wants a ball that bounces as elastically as possible off a bat or racket. Evaluate what collision properties would achieve this, then create a design recommendation.</li>
+</ol>
+<h3 class="pset-heading">Homework</h3>
+<ol class="rawlist">
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q1</span>A 3.5 kg cart collides inelastically with a stationary 3.5 kg cart, sticking together. If moving at 3.5 m/s initially, find the combined velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q2</span>Find the kinetic energy of a 5 kg object moving at 3 m/s.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q3</span>Find the kinetic energy of a 7 kg object moving at 2.5 m/s.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q4</span>A 6 kg cart moving at 5 m/s sticks to a stationary 6 kg cart. Find the combined velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q5</span>Two identical 2.5 kg carts collide elastically; one moving at 4.5 m/s hits a stationary one. State the result for their velocities.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q6</span>Classify a collision where kinetic energy is not conserved.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q7</span>Classify a collision where objects bounce apart with kinetic energy conserved.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q8</span>Two 1.5 kg carts undergo elastic collision (one moving, one at rest). Predict the outcome using the equal-mass result.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q9</span>State whether kinetic energy increases, decreases, or stays the same in an elastic collision.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q10</span>State whether momentum is conserved in an explosion (isolated system).</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q1</span>A 2.5 kg cart moving at 5.5 m/s collides elastically with an identical stationary 2.5 kg cart. Find the first cart's velocity after collision.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q2</span>Same collision: find the second cart's velocity after collision.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q3</span>A 1450 kg car moving at 15 m/s collides inelastically with a stationary 1050 kg car, locking together. Find the combined velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q4</span>Same collision: find the kinetic energy lost.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q5</span>A 0.28 kg ball moving at 6.5 m/s collides perfectly inelastically with a stationary 0.38 kg ball. Find their combined velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q6</span>Two 3.5 kg carts undergo an elastic collision; one moving at 7.5 m/s strikes a stationary one. Find the first cart's final velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q7</span>Same collision: find the second cart's final velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q8</span>A 1650 kg truck moving at 11 m/s rear-ends a stationary 1350 kg car, moving together afterward. Find the combined velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q9</span>Same collision: find the kinetic energy lost.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q10</span>Two skaters (58 kg and 78 kg) push apart from rest. If the 58 kg skater moves at 3.2 m/s, find the 78 kg skater's velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q1</span>A 1550 kg car moving at 18 m/s collides with a stationary 1550 kg car and locks together. Find the combined velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q2</span>Same collision: find the percentage of kinetic energy lost.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q3</span>Two carts (2.5 kg and 6.5 kg) undergo an elastic collision; the 2.5 kg cart moves at 11 m/s toward the stationary 6.5 kg cart. Find the 2.5 kg cart's final velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q4</span>Same collision: find the 6.5 kg cart's final velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q5</span>A ballistic pendulum has a 0.012 kg bullet embedding in a stationary 2.2 kg block at 280 m/s. Find the combined velocity immediately after impact.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q6</span>Three identical 2.5 kg carts are in a line; the first (5.5 m/s) strikes the second, sticking, then strikes the third, sticking. Find the velocity after the first sub-collision.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q7</span>Same sequence: find the final velocity of all three carts combined.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q8</span>A 1350 kg car and an 850 kg car collide and lock together at 7.5 m/s. If the 1350 kg car moved at 13 m/s before, find the 850 kg car's velocity before collision (may be negative).</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q9</span>A perfectly inelastic collision between a 5.5 kg object (7.5 m/s) and a stationary 16 kg object. Find the combined velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q10</span>Same collision: find the fraction of kinetic energy lost.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Challenge Q1 (Evaluate)</span>A student claims that "elastic" collisions are the "normal" case and inelastic collisions are rare exceptions. Evaluate this claim in the context of everyday macroscopic collisions versus idealized physics problems.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Challenge Q2 (Create)</span>Design a collision scenario where exactly 50% of the initial kinetic energy is lost in a perfectly inelastic collision. Verify your chosen values.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Challenge Q3 (Evaluate/Create)</span>A sports equipment designer wants a ball that bounces as elastically as possible off a bat or racket. Evaluate what collision properties would achieve this, then create a design recommendation.</li>
+</ol>
+<h3 class="pset-heading">Synthesis Problems</h3>
+<p class="dayconnects">Connects: momentum conservation (Day 17), kinetic energy (forward-looking Ch.7), Newton's laws (Ch.5).</p>
+
+
+<div class="problem"><span class="ptag">1</span><span class="ptag applied">Applied</span>
+<p>A 1400 kg car traveling at 18 m/s rear-ends a stationary 1100 kg car, and the two lock together (perfectly inelastic). Find their combined velocity, the kinetic energy lost in the collision, and (given that crumple zones convert this lost energy into structural deformation over an effective 0.3 m of crush distance) the average force involved in that deformation.</p>
+<p class="connects">Connects: inelastic collisions, kinetic energy, work-energy ideas (forward-looking Ch.7), applied crash analysis</p></div>
+
+<div class="problem"><span class="ptag">2</span><span class="ptag evaluate">Evaluate</span>
+<p>A student claims that since momentum is always conserved in collisions, kinetic energy "must be conserved too, since they're both related to mass and velocity." Evaluate this claim by computing both momentum and kinetic energy before and after a specific perfectly inelastic collision (2 kg at 6 m/s hitting a stationary 4 kg mass), showing which quantity is conserved and which is not.</p>
+<p class="connects">Connects: momentum vs. kinetic energy conservation, evaluating a common conflation</p></div>
+
+<div class="problem"><span class="ptag">3</span><span class="ptag applied">Applied</span>
+<p>A ballistic pendulum experiment fires a 0.015 kg bullet into a stationary 3 kg wooden block, which then swings upward as a pendulum. If the block+bullet system rises to a height of 0.08 m after impact, find the combined velocity immediately after the (perfectly inelastic) collision using energy conservation (forward-connecting to Ch.7), then find the bullet's original speed using momentum conservation.</p>
+<p class="connects">Connects: inelastic collision, forward-looking energy conservation (Ch.7), classic multi-principle problem</p></div>
+
+<div class="problem"><span class="ptag">4</span><span class="ptag evaluate">Evaluate</span>
+<p>Two students disagree about a collision between a 5 kg cart (8 m/s) and a stationary 5 kg cart: Student A assumes it's elastic and predicts the first cart stops while the second moves at 8 m/s (velocity exchange for equal masses); Student B assumes it's perfectly inelastic and predicts both move together at 4 m/s. Evaluate what additional information (not yet given) would be needed to determine which prediction is correct, and verify both predictions separately conserve momentum.</p>
+<p class="connects">Connects: elastic vs. inelastic collisions, evaluating what information is needed to fully specify a physical scenario</p></div>
+
+<div class="problem"><span class="ptag">5</span><span class="ptag applied">Applied</span>
+<p>A 1500 kg car (16 m/s) and a 1000 kg car (initially stationary) collide and lock together. Find their combined velocity, the kinetic energy lost, and the deceleration each occupant would experience if that lost energy corresponds to an effective 0.5 s deceleration event for the combined mass, treating it via the impulse-momentum theorem (forward-connecting to Day 17).</p>
+<p class="connects">Connects: inelastic collisions, impulse-momentum theorem (Day 17), multi-concept crash analysis</p></div>
+
+
+<div class="problem"><span class="ptag">6</span><span class="ptag applied">Applied</span>
+<p>A 1550 kg car traveling at 20 m/s rear-ends a stationary 1050 kg car, locking together. Find their combined velocity, the kinetic energy lost, and (if this energy converts entirely into crumpling over 0.35 m) the average crumple-zone force involved.</p>
+<p class="connects">Connects: inelastic collisions, energy-to-force conversion (forward-looking Ch.7), applied crash analysis</p></div>
+
+<div class="problem"><span class="ptag">7</span><span class="ptag evaluate">Evaluate</span>
+<p>A student solving an elastic collision problem between unequal masses (3 kg at 10 m/s hitting a stationary 7 kg mass) uses the equal-mass "velocity exchange" shortcut anyway. Evaluate why this shortcut does not apply here, and carry out the correct elastic-collision calculation for both final velocities.</p>
+<p class="connects">Connects: elastic collisions, evaluating the scope of a special-case shortcut</p></div>
+
+<div class="problem"><span class="ptag">8</span><span class="ptag applied">Applied</span>
+<p>A ballistic pendulum test fires a 0.018 kg bullet into a stationary 3.2 kg block, which rises 0.09 m after the (perfectly inelastic) impact. Find the combined post-impact velocity (using energy conservation for the swing) and the bullet's original speed (using momentum conservation for the impact).</p>
+<p class="connects">Connects: inelastic collision, forward-looking energy conservation (Ch.7), multi-principle synthesis</p></div>
+
+<div class="problem"><span class="ptag">9</span><span class="ptag evaluate">Evaluate</span>
+<p>A manufacturer of sports equipment claims a "high-elasticity" ball "conserves all its energy" when it bounces, since it's called "elastic." Evaluate this claim, distinguishing between the idealized "perfectly elastic collision" concept from this chapter and the real, imperfect elasticity of any physical ball, and discuss what a real bounce height (less than drop height) tells you about the actual collision.</p>
+<p class="connects">Connects: elastic vs. inelastic collisions, evaluating a marketing claim against physical idealization</p></div>
+
+<div class="problem"><span class="ptag">10</span><span class="ptag applied">Applied</span>
+<p>A 1600 kg car (17 m/s) and a 1050 kg car (initially at rest) collide and lock together. Find the combined velocity and the kinetic energy lost, then estimate the average deceleration force on a 75 kg occupant if the lost energy is absorbed over an effective 0.4 s crash pulse (using the impulse-momentum theorem from Day 17 on the occupant's own momentum change).</p>
+<p class="connects">Connects: inelastic collisions, impulse-momentum theorem (Day 17), multi-step applied safety analysis</p></div>
+
+
+</div></div>
+</div></main>
+</div>
+</body>
+</html>

@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 9: Oscillations - PHYS203 Extended Lecture Notes</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]'], ['$$', '$$']] },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="assets/tex-svg.js"></script>
+
+<style>
+:root{
+  --ink:#f3ede0; --ink-dim:#a89f8c; --paper:#171a21; --bg:#0f1115;
+  --line:#2a2e38; --accent:#e8a13a; --easy:#6fae8f; --medium:#e8a13a;
+  --hard:#e2725b; --challenge:#9fb3e0; --tag-bg:#1d212b;
+}
+body { margin:0; background: #1d2230; color:var(--ink); font-family:Georgia,'Times New Roman',serif; }
+.shell { display:flex; min-height:100vh; }
+.sidebar {
+  width:280px; flex-shrink:0; background:#0b0d11; color:var(--ink); padding:22px 0 60px;
+  position:fixed; top:0; left:0; bottom:0; overflow-y:auto; font-family:'Courier New',monospace;
+}
+.sidebar .brand { padding:0 22px 18px; font-family:Georgia,serif; font-weight:800; font-size:1.05rem; color:var(--ink); border-bottom:1px solid var(--line); margin-bottom:14px; }
+.sidebar .brand small { display:block; font-family:'Courier New',monospace; font-weight:400; color:var(--ink-dim); font-size:0.72rem; margin-top:3px; }
+.sidebar a.chap-link { display:block; padding:8px 22px; color:var(--ink); text-decoration:none; font-size:0.88rem; border-left:3px solid transparent; }
+.sidebar a.chap-link:hover { background:#1d212b; }
+.sidebar a.chap-link.active { background:#1d212b; border-left-color:var(--accent); color:var(--accent); font-weight:600; }
+.sidebar a.home-link { display:block; padding:8px 22px; color:var(--ink-dim); text-decoration:none; font-size:0.82rem; margin-bottom:8px; }
+.main { margin-left:280px; flex:1; display:flex; justify-content:center; min-width:0; }
+.content { max-width:880px; width:100%; padding:36px 40px 100px; background:transparent; }
+.content h1 { font-family:Georgia,serif; color:var(--ink); border-bottom:3px solid var(--accent); padding-bottom:12px; }
+.content h1:first-of-type { margin-top: 0; }
+.content h2 { font-family:Georgia,serif; color:var(--accent); margin-top:44px; }
+.content h3 { color:var(--easy); }
+.day-anchor-wrap { border-top: 4px solid var(--line); padding-top: 6px; margin-top: 56px; }
+.day-anchor-wrap:first-of-type { border-top: none; margin-top: 0; padding-top: 0; }
+
+/* Problem-section styling */
+.probsets { margin-top: 28px; background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 20px 24px; }
+.probsets > h3.pset-heading {
+  font-family:'Courier New',monospace; font-size:1rem; text-transform:uppercase; letter-spacing:0.05em;
+  color:var(--ink); border-bottom:2px solid var(--accent); padding-bottom:6px; margin: 26px 0 12px;
+}
+.probsets > h3.pset-heading:first-child { margin-top: 0; }
+h3.tier { font-family:'Courier New',monospace; font-size:0.92rem; margin:18px 0 8px; display:flex; align-items:center; gap:8px; color:var(--ink); }
+.tier-dot { width:9px; height:9px; border-radius:50%; display:inline-block; }
+.tier.easy .tier-dot{background:var(--easy);} .tier.medium .tier-dot{background:var(--medium);}
+.tier.hard .tier-dot{background:var(--hard);} .tier.challenge .tier-dot{background:var(--challenge);}
+details.problem { background:#12141a; border:1px solid var(--line); border-radius:8px; margin-bottom:8px; }
+details.problem summary { cursor:pointer; padding:10px 14px; font-size:0.92rem; display:flex; gap:8px; align-items:baseline; font-family:'Courier New',monospace; color:var(--ink);}
+.qtag { font-family:'Courier New',monospace; font-size:0.68rem; font-weight:700; background:var(--tag-bg); color:var(--ink-dim); padding:2px 7px; border-radius:999px; white-space:nowrap; }
+.solution { padding:2px 16px 12px; border-top:1px dashed var(--line); font-family:Georgia,serif; font-size:0.88rem;}
+.answer { font-family:'Courier New',monospace; font-weight:700; background:#16241d; color:var(--easy); border-left:4px solid var(--easy); padding:6px 10px; border-radius:4px; margin-top:8px !important; }
+.rawlist { font-family:'Courier New',monospace; font-size:1.05rem; line-height:1.6; padding-left: 1.5em; color:var(--ink); }
+.rawlist li { margin-bottom: 10px; }
+.rawlist .qtag { font-size:0.76rem; }
+.pending-note { font-family:Georgia,serif; font-size:0.82rem; color:var(--accent); font-style:italic; background:#2a2416; border:1px solid var(--accent); border-radius:6px; padding:8px 12px; margin-bottom: 12px;}
+</style>
+
+<style>
+  :root{
+    --ink:#f3ede0; --ink-dim:#a89f8c; --paper:#171a21; --bg:transparent;
+    --line:#2a2e38; --accent:#e8a13a; --accent-dark:#8a5a1f; --accent-soft:#2a2416;
+    --ic:#6fae8f; --ic-soft:#16241d; --hw:#e2725b; --hw-soft:#2a1a14;
+  }
+  * { box-sizing: border-box; }
+  /* body background intentionally inherited from the outer wrapper style block above */
+  .wrap { max-width: 900px; margin: 0 auto; padding: 30px 22px 90px; }
+  h1.doctitle {
+    font-family:"Courier New",monospace; font-size: 1.9rem; font-weight:700;
+    color: var(--ink); border-bottom: 4px solid var(--accent); padding-bottom: 14px;
+    margin: 0 0 8px 0;
+  }
+  p.subtitle { font-family:Georgia,serif; color:var(--ink-dim); font-size:0.95rem; margin:0 0 30px 0; font-style:italic; }
+  #TOC {
+    background: var(--paper); border: 1px solid var(--line); border-radius: 8px;
+    padding: 18px 24px; margin: 0 0 34px 0;
+    font-family: "Courier New", monospace; font-size: 0.9rem; columns: 2; column-gap: 30px;
+  }
+  #TOC a { color: var(--accent); text-decoration: none; font-weight: 600; display:block; padding: 3px 0; break-inside: avoid; }
+  #TOC a:hover { text-decoration: underline; }
+  h2.chapter {
+    font-family:"Courier New",monospace; font-size: 1.35rem; font-weight:700;
+    color: #171a21; background: var(--accent);
+    padding: 12px 18px; border-radius: 6px; margin: 50px 0 20px 0;
+  }
+  h3.day {
+    font-family:"Courier New",monospace; font-size: 1.1rem; font-weight:700;
+    color: var(--accent); background: var(--accent-soft);
+    border-left: 5px solid var(--accent); padding: 8px 14px;
+    margin: 34px 0 6px 0; border-radius: 0 4px 4px 0;
+  }
+  p.dayconnects { font-family:Georgia,serif; font-size:0.85rem; color:var(--ink-dim); margin:0 0 16px 0; font-style:italic; }
+  h4.subhead {
+    font-family:"Courier New",monospace; font-size: 0.82rem; font-weight:700;
+    text-transform: uppercase; letter-spacing: 0.06em; margin: 18px 0 10px 0;
+    padding-bottom: 4px; border-bottom: 1px solid var(--line);
+  }
+  h4.subhead.ic { color: var(--ic); }
+  h4.subhead.hw { color: var(--hw); }
+  div.problem {
+    background: #12141a; border: 1px solid var(--line); border-radius: 7px;
+    padding: 12px 16px; margin-bottom: 10px; color:var(--ink);
+  }
+  div.problem { border-left: 4px solid var(--ic); }
+  .ptag {
+    font-family:"Courier New",monospace; font-size:0.68rem; font-weight:700;
+    padding: 2px 8px; border-radius: 999px; margin-right: 8px; white-space:nowrap;
+    text-transform: uppercase; letter-spacing: 0.03em;
+  }
+  .problem .ptag:not(.applied):not(.evaluate) { background: var(--ic-soft); color: var(--ic); }
+  .ptag.applied { background:#16241d; color:#6fae8f; }
+  .ptag.evaluate { background:#2a1a2e; color:#c68fd9; }
+  .connects { font-family:Georgia,serif; font-size:0.72rem; color:var(--ink-dim); margin-top:6px; }
+  p { margin: 8px 0; }
+  strong { color: var(--accent); }
+  footer { margin-top:50px; font-family:Georgia,serif; font-size:0.82rem; color:var(--ink-dim); text-align:center; }
+</style>
+
+</head>
+<body>
+<div class="shell">
+<nav class="sidebar"><div class="brand">PHYS203<small>Extended Lecture Notes</small></div>
+<a class="home-link" href="../index.html" style="border-bottom:1px solid #24354a; padding-bottom:14px; margin-bottom:6px; display:block;">&larr; Course Home</a>
+<a class="home-link" href="index.html">&larr; Back to Chapter Index</a>
+<a class="chap-link" href="ch1-units-dimensions.html">Ch 1: Units and Dimensions</a>
+<a class="chap-link" href="ch2-kinematics.html">Ch 2: One-Dimensional Kinematics</a>
+<a class="chap-link" href="ch3-vectors.html">Ch 3: Vectors</a>
+<a class="chap-link" href="ch4-2d-motion.html">Ch 4: Two-Dimensional Motion</a>
+<a class="chap-link" href="ch5-newtons-laws.html">Ch 5: Newton's Laws and Applications</a>
+<a class="chap-link" href="ch6-momentum.html">Ch 6: Momentum and Collisions</a>
+<a class="chap-link" href="ch7-work-energy.html">Ch 7: Work and Energy</a>
+<a class="chap-link" href="ch8-rotational-motion.html">Ch 8: Rotational Motion</a>
+<a class="chap-link active" href="ch9-oscillations.html">Ch 9: Oscillations</a>
+<a class="chap-link" href="ch10-waves.html">Ch 10: Waves</a>
+<a class="chap-link" href="ch11-sound.html">Ch 11: Sound</a></nav>
+<main class="main"><div class="content">
+<div class="chapter-intro"><h1 id="chapter-9-oscillations">Chapter 9: Oscillations</h1>
+</div>
+<div class="day-anchor-wrap"><h2 id="class-day-28-simple-harmonic-motion-i">Class Day 28: Simple
+Harmonic Motion I</h2>
+<h3 id="why-this-matters-26">Why this matters</h3>
+<p>So far, every motion we’ve studied has either continued in one
+direction or eventually stopped. Oscillation introduces something new:
+motion that repeats itself indefinitely, back and forth around a central
+equilibrium point. Simple harmonic motion (SHM) is the cleanest, most
+important version of this, and it shows up throughout physics, from
+springs to pendulums to the vibration of atoms in a solid.</p>
+<h3 id="what-makes-motion-simple-harmonic">What makes motion “simple
+harmonic”</h3>
+<p>SHM is defined by one specific condition on the restoring force: it
+must be directly proportional to displacement from equilibrium, and
+always point back <em>toward</em> equilibrium:</p>
+<p><span class="math display">\[F = -kx\]</span></p>
+<p>This is Hooke’s law from your work with springs, generalized as the
+defining feature of the entire category of motion. The negative sign is
+the whole story: whenever the object is displaced in either direction,
+the force always points back the other way, continually pulling it back
+toward center — which is exactly what produces a repeating, oscillating
+motion rather than the object simply flying off or settling into a new
+resting position.</p>
+<h3 id="core-vocabulary">Core vocabulary</h3>
+<ul>
+<li><strong>Amplitude</strong> ((A)): the maximum displacement from
+equilibrium — how far the motion swings out on either side.</li>
+<li><strong>Period</strong> ((T)): the time for one complete cycle (out
+and back to the starting point and direction).</li>
+<li><strong>Frequency</strong> ((f)): the number of complete cycles per
+second, related to period by (f=1/T).</li>
+<li><strong>Phase</strong>: describes <em>where</em> in the cycle the
+oscillator is at a given instant — useful for comparing two oscillators
+of the same frequency that are offset in time from each other (out of
+sync, or “out of phase”).</li>
+</ul>
+<p><strong>Worked example:</strong> An oscillator completes 12 cycles in
+3 s. Find its period and frequency.</p>
+<p><span class="math display">\[f = \frac{12\text{ cycles}}{3\text{ s}}
+= 4\text{ Hz} \qquad T = \frac{1}{f} = 0.25\text{ s}\]</span></p>
+<h3 id="the-deep-connection-to-circular-motion">The deep connection to
+circular motion</h3>
+<p>SHM can be understood as the “shadow” of uniform circular motion —
+imagine an object moving in a circle at constant speed, and watch only
+its projection onto one axis (say, just the horizontal shadow it casts).
+That shadow moves back and forth exactly like SHM, speeding up through
+the center and slowing to a stop at the extremes, which is precisely why
+sine and cosine functions (themselves defined via circular motion) are
+the natural mathematical language for describing SHM position over
+time.</p>
+<h3 id="common-mistake-to-watch-for-25">Common mistake to watch for</h3>
+<p>Assuming a larger-amplitude oscillation must have a longer period,
+reasoning that it “has farther to travel.” For true SHM, this is false —
+period depends only on the physical properties of the system (as the
+next class day will make precise for springs and pendulums), not on
+amplitude at all. A pendulum swinging through a wide arc and the same
+pendulum swinging through a narrow arc complete each cycle in the same
+amount of time (as long as the small-angle approximation holds).</p>
+<h3 id="key-formulas-and-facts-for-this-day-26">Key formulas and facts
+for this day</h3>
+<ul>
+<li>SHM requires a restoring force proportional to displacement:
+(F=-kx).</li>
+<li>Amplitude (max displacement), period (time per cycle), frequency
+((f=1/T), cycles per second), and phase (position within the cycle) are
+the core descriptive vocabulary.</li>
+<li>SHM is the one-dimensional projection (“shadow”) of uniform circular
+motion.</li>
+</ul>
+<hr />
+<div class="probsets">
+<h3 class="pset-heading">Reading</h3>
+<ol class="rawlist"><li>SHM requires a restoring force proportional to which quantity?</li><li>Amplitude is defined as what?</li><li>Period is defined as what?</li><li>Frequency is defined as what?</li><li>Period and frequency are related by which formula?</li><li>SHM can be viewed as the projection of which type of motion onto one axis?</li><li>If an oscillator completes 10 cycles in 5 s, what is its frequency?</li><li>Doubling the frequency of an oscillator does what to its period?</li><li>The restoring force in SHM is directed how, relative to displacement?</li><li>Phase describes what about an oscillator at a given time?</li></ol>
+<h3 class="pset-heading">Assignments</h3>
+<h3 class="tier easy"><span class="tier-dot"></span>Easy</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Easy Q1</span>An oscillator completes 4 cycles in 2 s. Find its frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q2</span>An oscillator has a frequency of 5 Hz. Find its period. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q3</span>An oscillator has a period of 0.2 s. Find its frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q4</span>An oscillation has amplitude 4 cm. State the maximum displacement from equilibrium. (Give your answer in cm.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q5</span>An oscillator completes 8 cycles in 4 s. Find its frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q6</span>An oscillator has a frequency of 2 Hz. Find its period. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q7</span>An oscillator has a period of 0.5 s. Find its frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q8</span>An oscillation has amplitude 6 cm. State the minimum displacement from equilibrium (magnitude, at the amplitude points -- this asks for the amplitude value itself). (Give your answer in cm.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q9</span>An oscillator completes 20 cycles in 5 s. Find its frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q10</span>An oscillator has a period of 1 s. Find its frequency. (Give your answer in Hz.)</li></ol>
+<h3 class="tier medium"><span class="tier-dot"></span>Medium</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Medium Q1</span>An oscillator completes 15 cycles in 3 s. Find its period. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q2</span>Same oscillator: find its frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q3</span>An oscillator has a period of 0.4 s. Find how many cycles occur in 8 s.</li><li><span class="qtag" style="margin-right:6px;">Medium Q4</span>An oscillator's frequency is 3.5 Hz. Find its period. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q5</span>Same oscillator: find the number of cycles in 20 s.</li><li><span class="qtag" style="margin-right:6px;">Medium Q6</span>An oscillator has period 0.15 s. Find its frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q7</span>Same oscillator: find the number of cycles in 6 s.</li><li><span class="qtag" style="margin-right:6px;">Medium Q8</span>An oscillator has a frequency of 12 Hz. Find the time for 50 cycles. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q9</span>Two oscillators have periods of 0.3 s and 0.6 s. Find the frequency of the first. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q10</span>Find the frequency of the second. (Give your answer in Hz.)</li></ol>
+<h3 class="tier hard"><span class="tier-dot"></span>Hard</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Hard Q1</span>Two identical pendulums are released at the same amplitude but 0.5 s apart, each with a period of 2 s. Find how far "behind" the second pendulum is, expressed as a fraction of a full cycle.</li><li><span class="qtag" style="margin-right:6px;">Hard Q2</span>An oscillator's position is exactly one-quarter cycle out of phase with a reference oscillator of the same frequency (5 Hz). Find the time delay this represents. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q3</span>A mass-spring system completes exactly 37 cycles in 12.5 s. Find its frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q4</span>Same system: find its period. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q5</span>Same system: find how many cycles it would complete in a full minute.</li><li><span class="qtag" style="margin-right:6px;">Hard Q6</span>An oscillator's frequency is measured by counting 45 cycles over 9.2 s. Find the frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q7</span>Same oscillator: find the period. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q8</span>A vibrating guitar string completes 440 cycles in exactly 1 s. Find its period. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q9</span>A student times 30 oscillations of a pendulum and records 45.6 s. Find the period. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q10</span>Same pendulum: find the frequency. (Give your answer in Hz.)</li></ol>
+<h3 class="tier challenge"><span class="tier-dot"></span>Challenge</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Challenge Q1</span>(Evaluate) A student claims that a pendulum swinging with a larger amplitude must have a longer period, since it "has farther to travel." Evaluate this claim, clarifying under what conditions it is approximately true or false. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q2</span>(Create) Design an oscillator scenario (choose number of cycles and total time) such that the resulting frequency is exactly 2.5 Hz, and verify your chosen values. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q3</span>(Evaluate/Create) A metronome designer wants users to be able to easily verify the device's accuracy using a stopwatch and cycle-counting. Evaluate how many cycles a user should count to achieve reasonable precision, then create a recommended counting procedure. Upload your written response.</li></ol>
+<h3 class="pset-heading">Homework</h3>
+<h3 class="tier easy"><span class="tier-dot"></span>Easy</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Easy Q1</span>An oscillator completes 5 cycles in 2.5 s. Find its frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q2</span>An oscillator has a frequency of 6 Hz. Find its period. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q3</span>An oscillator has a period of 0.25 s. Find its frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q4</span>An oscillation has amplitude 5 cm. State the maximum displacement from equilibrium. (Give your answer in cm.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q5</span>An oscillator completes 9 cycles in 4.5 s. Find its frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q6</span>An oscillator has a frequency of 2.5 Hz. Find its period. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q7</span>An oscillator has a period of 0.6 s. Find its frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q8</span>An oscillation has amplitude 7 cm. State the amplitude value. (Give your answer in cm.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q9</span>An oscillator completes 22 cycles in 5.5 s. Find its frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q10</span>An oscillator has a period of 1.2 s. Find its frequency. (Give your answer in Hz.)</li></ol>
+<h3 class="tier medium"><span class="tier-dot"></span>Medium</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Medium Q1</span>An oscillator completes 17 cycles in 3.4 s. Find its period. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q2</span>Same oscillator: find its frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q3</span>An oscillator has a period of 0.45 s. Find how many cycles occur in 9 s.</li><li><span class="qtag" style="margin-right:6px;">Medium Q4</span>An oscillator's frequency is 3.8 Hz. Find its period. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q5</span>Same oscillator: find the number of cycles in 22 s.</li><li><span class="qtag" style="margin-right:6px;">Medium Q6</span>An oscillator has period 0.17 s. Find its frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q7</span>Same oscillator: find cycles in 6.5 s.</li><li><span class="qtag" style="margin-right:6px;">Medium Q8</span>An oscillator has a frequency of 13 Hz. Find the time for 55 cycles. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q9</span>Two oscillators have periods of 0.35 s and 0.7 s. Find the frequency of the first. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q10</span>Find the frequency of the second. (Give your answer in Hz.)</li></ol>
+<h3 class="tier hard"><span class="tier-dot"></span>Hard</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Hard Q1</span>Two identical pendulums are released 0.6 s apart, each with a period of 2.2 s. Find the phase lag as a fraction of a full cycle.</li><li><span class="qtag" style="margin-right:6px;">Hard Q2</span>An oscillator's position is one-third cycle out of phase with a reference oscillator of frequency 5.5 Hz. Find the time delay. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q3</span>A mass-spring system completes exactly 39 cycles in 13 s. Find its frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q4</span>Same system: find its period. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q5</span>Same system: find the number of cycles in a full minute.</li><li><span class="qtag" style="margin-right:6px;">Hard Q6</span>An oscillator's frequency is measured by counting 48 cycles over 9.6 s. Find the frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q7</span>Same oscillator: find the period. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q8</span>A vibrating string completes 440 cycles in exactly 1 s. Find its period. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q9</span>A student times 32 oscillations of a pendulum, recording 48.8 s. Find the period. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q10</span>Same pendulum: find the frequency. (Give your answer in Hz.)</li></ol>
+<h3 class="tier challenge"><span class="tier-dot"></span>Challenge</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Challenge Q1</span>(Evaluate) A student claims that a pendulum swinging with a larger amplitude must have a longer period, since it "has farther to travel." Evaluate this claim, clarifying under what conditions it is approximately true or false. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q2</span>(Create) Design an oscillator scenario (choose number of cycles and total time) such that the resulting frequency is exactly 2.5 Hz, and verify your chosen values. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q3</span>(Evaluate/Create) A metronome designer wants users to be able to easily verify the device's accuracy using a stopwatch and cycle-counting. Evaluate how many cycles a user should count to achieve reasonable precision, then create a recommended counting procedure. Upload your written response.</li></ol>
+<h3 class="pset-heading">Synthesis Problems</h3>
+<p class="dayconnects">Connects: circular motion (Ch.4), energy conservation (Ch.7), kinematics/derivatives (Ch.2).</p>
+
+
+<div class="problem"><span class="ptag">1</span><span class="ptag applied">Applied</span>
+<p>A mass oscillating in SHM completes exactly 45 cycles in 18 s. Find its frequency and period, then (connecting to the circular-motion analogy from this chapter) find the equivalent angular velocity \(\omega=2\pi f\) that would describe a reference point moving in a circle with this same period.</p>
+<p class="connects">Connects: SHM frequency/period, circular-motion analogy (Ch.4)</p></div>
+
+<div class="problem"><span class="ptag">2</span><span class="ptag evaluate">Evaluate</span>
+<p>A student claims that an oscillator with twice the amplitude of another (same mass, same restoring-force setup) must have twice the period, "since it has farther to travel each cycle." Evaluate this claim using the SHM period formula's independence from amplitude, and explain physically (via speed at different points in the cycle) why a larger amplitude does not actually require more time per cycle.</p>
+<p class="connects">Connects: SHM period/amplitude independence, evaluating a plausible-but-incorrect intuition</p></div>
+
+<div class="problem"><span class="ptag">3</span><span class="ptag applied">Applied</span>
+<p>Two identical pendulums are released 0.35 s apart, each with a period of 1.8 s. Find how far "behind" the second pendulum is, expressed as a fraction of a full cycle, and find the actual phase angle (in degrees, where a full cycle is 360&deg;) this represents.</p>
+<p class="connects">Connects: SHM phase concept, fraction/angle unit conversion (Ch.1)</p></div>
+
+<div class="problem"><span class="ptag">4</span><span class="ptag evaluate">Evaluate</span>
+<p>A student measures an oscillator's frequency using only 3 cycles and a stopwatch, getting a somewhat imprecise result due to human reaction-time error (roughly &plusmn;0.2 s per stop). Evaluate why timing more cycles (e.g., 30 instead of 3) meaningfully reduces the percentage error in the resulting frequency estimate, using a specific numeric comparison for an oscillator with a true period of 0.8 s.</p>
+<p class="connects">Connects: SHM frequency measurement, evaluating measurement-precision strategy (echoes Ch.1's error reasoning)</p></div>
+
+<div class="problem"><span class="ptag">5</span><span class="ptag applied">Applied</span>
+<p>An oscillator's position is well-approximated near equilibrium by the same mathematical form as a point's x-coordinate during uniform circular motion. If a reference circular motion has radius 0.08 m and completes one revolution every 1.2 s, find the "SHM" amplitude and period this corresponds to, and find the maximum speed of the oscillating projection (which equals the reference point's full circular speed).</p>
+<p class="connects">Connects: SHM-circular motion analogy, circular motion speed (Ch.4)</p></div>
+
+
+<div class="problem"><span class="ptag">6</span><span class="ptag applied">Applied</span>
+<p>An oscillator completes 48 cycles in 19 s. Find its frequency and period, and the equivalent circular-motion angular velocity.</p>
+<p class="connects">Connects: SHM frequency/period, circular-motion analogy (Ch.4)</p></div>
+
+<div class="problem"><span class="ptag">7</span><span class="ptag evaluate">Evaluate</span>
+<p>A student claims a pendulum released from a larger starting angle "obviously" takes longer per swing since it "has to cover more arc length." Evaluate this claim using the small-angle SHM period formula's independence from amplitude, and discuss under what condition (large angles) this independence actually begins to break down, connecting to the small-angle approximation's limits.</p>
+<p class="connects">Connects: SHM period/amplitude independence, evaluating the scope of an idealized model</p></div>
+
+<div class="problem"><span class="ptag">8</span><span class="ptag applied">Applied</span>
+<p>Two identical oscillators are released 0.4 s apart, each with period 2.0 s. Find their phase lag as a fraction of a cycle and in degrees.</p>
+<p class="connects">Connects: SHM phase, angle/fraction unit conversion (Ch.1)</p></div>
+
+<div class="problem"><span class="ptag">9</span><span class="ptag evaluate">Evaluate</span>
+<p>A lab group measures an oscillator's period using only a single cycle, getting significant scatter between repeated trials due to reaction-time error. Evaluate a specific improved experimental design (based on the multiple-cycles idea from class) that would reduce this scatter, and quantify the expected improvement for a true period of 0.6 s and a fixed &plusmn;0.15 s timing uncertainty per stopwatch press.</p>
+<p class="connects">Connects: SHM measurement, evaluating experimental design/error reduction</p></div>
+
+<div class="problem"><span class="ptag">10</span><span class="ptag applied">Applied</span>
+<p>A reference circular motion has radius 0.09 m and a period of 1.4 s. Find the equivalent SHM amplitude, period, and maximum speed of the oscillating projection.</p>
+<p class="connects">Connects: SHM-circular motion analogy, circular motion speed (Ch.4)</p></div>
+
+
+</div></div>
+<div class="day-anchor-wrap"><h2
+id="class-day-29-simple-harmonic-motion-ii-mass-spring-systems-and-pendulums">Class
+Day 29: Simple Harmonic Motion II (Mass-Spring Systems and
+Pendulums)</h2>
+<h3 id="why-this-matters-27">Why this matters</h3>
+<p>Today applies yesterday’s general SHM framework to the two most
+common physical examples in this course: a mass on a spring, and a
+simple pendulum. Both turn out to have clean formulas for period that
+depend only on the system’s physical properties, never on amplitude.</p>
+<h3 id="mass-spring-systems">Mass-spring systems</h3>
+<p>For a mass (m) attached to a spring with spring constant (k) (recall
+(F=-kx) from Hooke’s law), the period of oscillation is:</p>
+<p><span class="math display">\[T = 2\pi\sqrt{\frac{m}{k}}\]</span></p>
+<p>The single most important feature of this formula, worth dwelling on:
+<strong>period does not depend on amplitude at all</strong> — only on
+the mass and the spring constant. Pull a mass on a spring back a little,
+or a lot, and it completes each full oscillation in exactly the same
+time either way (a larger pull just means the mass also moves faster at
+each point, exactly balancing out the longer distance it needs to
+cover).</p>
+<p><strong>Worked example:</strong> A 3 kg mass oscillates on a spring
+with (k=300) N/m. Find the period and frequency.</p>
+<p><span class="math display">\[T = 2\pi\sqrt{\frac{3}{300}} =
+2\pi\sqrt{0.01} = 2\pi(0.1) = 0.628\text{ s} \qquad f = \frac{1}{0.628}
+= 1.59\text{ Hz}\]</span></p>
+<h3 id="simple-pendulums">Simple pendulums</h3>
+<p>For a simple pendulum of length (L) swinging under gravity (g), the
+period is:</p>
+<p><span class="math display">\[T = 2\pi\sqrt{\frac{L}{g}}\]</span></p>
+<p>— valid only under the <strong>small-angle approximation</strong>
+(roughly, swings of less than about 15°-20°). Two features are worth
+emphasizing: period depends on length and on local gravity, but
+<strong>not on the mass of the bob at all</strong>, and (like the
+spring) not on amplitude either, as long as the angle stays small. This
+mirrors free fall from Chapter 2, where all masses accelerate
+identically under gravity — here too, a heavier or lighter pendulum bob
+swings with exactly the same period, because the same gravitational
+acceleration acts on both, regardless of mass.</p>
+<p><strong>Worked example (the “seconds pendulum”):</strong> A pendulum
+clock is designed to have a period of exactly 2 s. Find the required
+length.</p>
+<p><span class="math display">\[2 = 2\pi\sqrt{\frac{L}{9.8}} \Rightarrow
+1 = \pi\sqrt{\frac{L}{9.8}} \Rightarrow \frac{L}{9.8} = \frac{1}{\pi^2}
+\Rightarrow L = \frac{9.8}{\pi^2} = 0.993\text{ m}\]</span></p>
+<p>This is a genuinely useful, real-world result: a pendulum roughly 1
+meter long has a period of very close to 2 seconds, which is why old
+pendulum clocks are typically built to about that size. Notice also that
+if this clock were moved somewhere with different local gravity (say, a
+different altitude, or a different planet), the same physical pendulum
+length would produce a <em>different</em> period, since (g) appears
+directly in the formula — a pendulum clock accurate on Earth would run
+at the wrong rate on the Moon, without adjusting its length to
+compensate.</p>
+<h3 id="common-mistake-to-watch-for-26">Common mistake to watch for</h3>
+<p>Assuming the mass-dependence rule for pendulums (period independent
+of mass) also applies for a different, unstated reason than gravity’s
+mass-independence — the two formulas (spring vs. pendulum) arrive at
+“period doesn’t depend on some variable” through genuinely different
+physical mechanisms (the spring formula <em>does</em> depend on mass;
+the pendulum formula does not, precisely because gravity’s acceleration
+doesn’t depend on mass while a spring’s restoring force per unit mass
+does). Don’t over-generalize one system’s independence rule onto the
+other without checking the actual formula.</p>
+<h3 id="key-formulas-and-facts-for-this-day-27">Key formulas and facts
+for this day</h3>
+<ul>
+<li>Mass-spring period: (T=2) — independent of amplitude, but does
+depend on mass.</li>
+<li>Simple pendulum period: (T=2) — independent of both amplitude
+(small-angle) and mass, but depends on local (g).</li>
+<li>Both formulas are valid only under their respective assumptions
+(Hooke’s law holding for the spring; small-angle approximation for the
+pendulum).</li>
+</ul>
+<hr />
+<div class="probsets">
+<h3 class="pset-heading">Reading</h3>
+<ol class="rawlist"><li>Hooke's law is expressed by which formula?</li><li>The period of a mass-spring system is given by which formula?</li><li>The period of a simple pendulum is given by which formula?</li><li>The mass-spring period depends on which two quantities?</li><li>The pendulum period depends on which two quantities?</li><li>Does the pendulum period depend on the bob's mass?</li><li>The simple pendulum formula is valid under what condition?</li><li>If spring constant k increases (mass constant), what happens to the period?</li><li>If pendulum length increases (g constant), what happens to the period?</li><li>A "seconds pendulum" has what approximate period?</li></ol>
+<h3 class="pset-heading">Assignments</h3>
+<h3 class="tier easy"><span class="tier-dot"></span>Easy</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Easy Q1</span>Find the force exerted by a spring with k=100 N/m stretched 0.05 m. (Give your answer in N.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q2</span>Find the period of a 2 kg mass on a spring with k=50 N/m. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q3</span>Find the period of a pendulum with length 0.5 m (g=9.8 m/s^2). (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q4</span>Find the period of a 1 kg mass on a spring with k=100 N/m. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q5</span>Find the period of a pendulum with length 2 m. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q6</span>Find the period of a 4 kg mass on a spring with k=400 N/m. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q7</span>Find the period of a pendulum with length 1 m. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q8</span>Find the period of a 0.5 kg mass on a spring with k=50 N/m. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q9</span>Find the period of a pendulum with length 0.25 m. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q10</span>Find the period of a 3 kg mass on a spring with k=300 N/m. (Give your answer in s.)</li></ol>
+<h3 class="tier medium"><span class="tier-dot"></span>Medium</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Medium Q1</span>A 2.5 kg mass oscillates on a spring with k=250 N/m. Find the period. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q2</span>Same system: find the frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q3</span>A pendulum has a period of 1.5 s. Find its length. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q4</span>A spring-mass system's period is measured as 0.6 s with a 1 kg mass. Find the spring constant. (Give your answer in N/m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q5</span>A pendulum clock needs a 1 s period. Find the required length. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q6</span>A 2 kg mass hangs at rest from a vertical spring, stretching it 0.05 m. Using Hooke's law, find the spring constant. (Give your answer in N/m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q7</span>Same system: find the period of oscillation for this mass on this spring. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q8</span>A pendulum with length 1.5 m: find its period. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q9</span>A spring with k=180 N/m supports a mass with period 0.9 s. Find the mass. (Give your answer in kg.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q10</span>A pendulum's period is 2.5 s. Find its length. (Give your answer in m.)</li></ol>
+<h3 class="tier hard"><span class="tier-dot"></span>Hard</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Hard Q1</span>A "seconds pendulum" (period exactly 2 s) is designed for Earth's surface gravity. Find its required length. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q2</span>Same pendulum: find what length would be needed on the Moon (g=1.62 m/s^2) to keep the same 2 s period. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q3</span>A mass-spring system has a measured period of 1.1 s with k=150 N/m. Find the mass. (Give your answer in kg.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q4</span>Same system: find the new period if the mass is doubled. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q5</span>A pendulum clock (length 1 m) is taken to a mountain where g=9.78 m/s^2 instead of 9.81 m/s^2. Find the fractional change in period (dT/T).</li><li><span class="qtag" style="margin-right:6px;">Hard Q6</span>A spring-mass system's period is found to double when additional mass is added. Find the ratio of the new total mass to the original mass.</li><li><span class="qtag" style="margin-right:6px;">Hard Q7</span>Two pendulums have lengths in a 4:1 ratio. Find the ratio of their periods (longer/shorter).</li><li><span class="qtag" style="margin-right:6px;">Hard Q8</span>A mass-spring system has k=320 N/m and the same period as a pendulum of length 1.5 m. Find the mass of the spring system. (Give your answer in kg.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q9</span>A 2 kg mass on a vertical spring stretches the spring by 0.05 m at equilibrium. Find k. (Give your answer in N/m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q10</span>Same system, set into oscillation: find the resulting period. (Give your answer in s.)</li></ol>
+<h3 class="tier challenge"><span class="tier-dot"></span>Challenge</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Challenge Q1</span>(Evaluate) A student claims that a heavier mass on a spring always has a longer period than a lighter mass on the same spring, and that this parallels how a longer pendulum has a longer period. Evaluate whether the underlying reasons for mass-dependence and length-dependence are actually analogous or fundamentally different. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q2</span>(Create) Design a mass-spring system (choose mass and spring constant) with a period of exactly 1 s, and verify your chosen values. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q3</span>(Evaluate/Create) A grandfather clock manufacturer wants pendulum clocks that keep accurate time across a range of installation locations with slightly different local g values. Evaluate how sensitive pendulum period is to small variations in g, then create a design recommendation. Upload your written response.</li></ol>
+<h3 class="pset-heading">Homework</h3>
+<h3 class="tier easy"><span class="tier-dot"></span>Easy</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Easy Q1</span>Find the force exerted by a spring with k=120 N/m stretched 0.04 m. (Give your answer in N.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q2</span>Find the period of a 2.5 kg mass on a spring with k=55 N/m. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q3</span>Find the period of a pendulum with length 0.55 m. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q4</span>Find the period of a 1.5 kg mass on a spring with k=105 N/m. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q5</span>Find the period of a pendulum with length 2.2 m. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q6</span>Find the period of a 4.5 kg mass on a spring with k=405 N/m. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q7</span>Find the period of a pendulum with length 1.1 m. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q8</span>Find the period of a 0.6 kg mass on a spring with k=55 N/m. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q9</span>Find the period of a pendulum with length 0.27 m. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q10</span>Find the period of a 3.5 kg mass on a spring with k=305 N/m. (Give your answer in s.)</li></ol>
+<h3 class="tier medium"><span class="tier-dot"></span>Medium</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Medium Q1</span>A 2.7 kg mass oscillates on a spring with k=260 N/m. Find the period. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q2</span>Same system: find the frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q3</span>A pendulum has a period of 1.6 s. Find its length. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q4</span>A spring-mass system's period is measured as 0.65 s with a 1.1 kg mass. Find the spring constant. (Give your answer in N/m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q5</span>A pendulum clock needs a 1.1 s period. Find the required length. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q6</span>A 2.2 kg mass hangs at rest from a vertical spring, stretching it 0.055 m. Find the spring constant. (Give your answer in N/m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q7</span>Same system: find the period of oscillation. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q8</span>A pendulum with length 1.6 m: find its period. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q9</span>A spring with k=185 N/m supports a mass with period 0.95 s. Find the mass. (Give your answer in kg.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q10</span>A pendulum's period is 2.6 s. Find its length. (Give your answer in m.)</li></ol>
+<h3 class="tier hard"><span class="tier-dot"></span>Hard</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Hard Q1</span>A "seconds pendulum" is designed for g=9.8 m/s^2. Find its length. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q2</span>Same period requirement: find the length needed on Mars (g=3.71 m/s^2). (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q3</span>A mass-spring system has a measured period of 1.15 s with k=155 N/m. Find the mass. (Give your answer in kg.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q4</span>Same system: find the new period if the mass is doubled. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q5</span>A pendulum clock (length 1 m) is taken to a location where g=9.79 m/s^2 instead of 9.81 m/s^2. Find the fractional change in period.</li><li><span class="qtag" style="margin-right:6px;">Hard Q6</span>A spring-mass system's period doubles when additional mass is added. Find the ratio of new total mass to original mass.</li><li><span class="qtag" style="margin-right:6px;">Hard Q7</span>Two pendulums have lengths in a 9:1 ratio. Find the ratio of their periods (longer/shorter).</li><li><span class="qtag" style="margin-right:6px;">Hard Q8</span>A mass-spring system has k=330 N/m and the same period as a pendulum of length 1.6 m. Find the mass. (Give your answer in kg.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q9</span>A 2.2 kg mass on a vertical spring stretches it 0.055 m at equilibrium. Find k. (Give your answer in N/m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q10</span>Same system: find the resulting period. (Give your answer in s.)</li></ol>
+<h3 class="tier challenge"><span class="tier-dot"></span>Challenge</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Challenge Q1</span>(Evaluate) A student claims that a heavier mass on a spring always has a longer period than a lighter mass on the same spring, and that this parallels how a longer pendulum has a longer period. Evaluate whether the underlying reasons for mass-dependence and length-dependence are actually analogous or fundamentally different. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q2</span>(Create) Design a mass-spring system (choose mass and spring constant) with a period of exactly 1 s, and verify your chosen values. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q3</span>(Evaluate/Create) A grandfather clock manufacturer wants pendulum clocks that keep accurate time across a range of installation locations with slightly different local g values. Evaluate how sensitive pendulum period is to small variations in g, then create a design recommendation. Upload your written response.</li></ol>
+<h3 class="pset-heading">Synthesis Problems</h3>
+<p class="dayconnects">Connects: Newton's second law (Ch.5), free fall/gravity (Ch.2), energy conservation (Ch.7), SHM basics (Day 28).</p>
+
+
+<div class="problem"><span class="ptag">1</span><span class="ptag applied">Applied</span>
+<p>A 2.2 kg mass hangs at rest from a vertical spring, stretching it 0.055 m. Find the spring constant using Hooke's law (equilibrium, connecting to Ch.5's force-balance methods), then find the period of oscillation if the mass is set into vertical SHM on this same spring.</p>
+<p class="connects">Connects: Hooke's law/equilibrium (Ch.5), SHM period formula</p></div>
+
+<div class="problem"><span class="ptag">2</span><span class="ptag evaluate">Evaluate</span>
+<p>A student claims that since a pendulum's period doesn't depend on its bob's mass, "mass basically doesn't matter anywhere in oscillation problems." Evaluate this claim by contrasting it with the mass-spring period formula \(T=2\pi\sqrt{m/k}\), which *does* depend on mass, and explain the different underlying physical reasons (gravity's mass-independence vs. a spring's force-per-unit-mass dependence).</p>
+<p class="connects">Connects: SHM period formulas (spring vs. pendulum), evaluating an over-generalized claim</p></div>
+
+<div class="problem"><span class="ptag">3</span><span class="ptag applied">Applied</span>
+<p>A "seconds pendulum" (period exactly 2 s) is designed for Earth's gravity. Find its required length on Earth, then find the required length for the same 2 s period on the Moon (g=1.62 m/s&sup2;), and explain (using the pendulum period formula) why the Moon version must be shorter, not longer.</p>
+<p class="connects">Connects: SHM pendulum formula, gravity comparison (forward-connecting to gravitational concepts), evaluating a design consequence</p></div>
+
+<div class="problem"><span class="ptag">4</span><span class="ptag evaluate">Evaluate</span>
+<p>A pendulum clock, accurate at sea level, is taken to a mountain location where \(g\) is very slightly smaller. A technician claims "since the change in \(g\) is tiny, the clock's timekeeping error must be negligible too, proportionally." Evaluate this claim by finding the fractional change in period (\(dT/T\)) resulting from a fractional change in \(g\) of -0.03% (a realistic mountain-altitude change), and discuss whether "tiny cause, tiny effect" holds proportionally here.</p>
+<p class="connects">Connects: SHM pendulum formula, sensitivity/error-propagation analysis, evaluating a proportionality assumption</p></div>
+
+<div class="problem"><span class="ptag">5</span><span class="ptag applied">Applied</span>
+<p>A 3 kg mass on a spring (k=270 N/m) is pulled 0.08 m from equilibrium and released from rest. Find the period of oscillation, then (connecting to energy conservation, Ch.7) find the mass's maximum speed during the oscillation, using the fact that all the initial elastic PE converts to kinetic energy as the mass passes through equilibrium.</p>
+<p class="connects">Connects: SHM period, energy conservation (Ch.7), elastic PE</p></div>
+
+
+<div class="problem"><span class="ptag">6</span><span class="ptag applied">Applied</span>
+<p>A 2.4 kg mass hangs from a vertical spring, stretching it 0.06 m. Find the spring constant and the period of oscillation if set into vertical SHM.</p>
+<p class="connects">Connects: Hooke's law/equilibrium (Ch.5), SHM period formula</p></div>
+
+<div class="problem"><span class="ptag">7</span><span class="ptag evaluate">Evaluate</span>
+<p>A student generalizes "period doesn't depend on mass" from the pendulum case to the mass-spring case, predicting incorrectly that a heavier mass on the same spring oscillates with the same period as a lighter one. Evaluate this error using the actual mass-spring formula, computing periods for a 1 kg and a 4 kg mass on the same k=200 N/m spring to show the discrepancy.</p>
+<p class="connects">Connects: SHM period formulas, evaluating an incorrect cross-formula generalization</p></div>
+
+<div class="problem"><span class="ptag">8</span><span class="ptag applied">Applied</span>
+<p>A "seconds pendulum" is designed for Earth's gravity (length found from \(T=2\) s). Find its required length on Mars (g=3.71 m/s&sup2;) for the same 2 s period, and explain why the Mars version must be shorter than the Earth version.</p>
+<p class="connects">Connects: SHM pendulum formula, gravity comparison, evaluating a design consequence</p></div>
+
+<div class="problem"><span class="ptag">9</span><span class="ptag evaluate">Evaluate</span>
+<p>A pendulum clock's manufacturer claims their clock is "precision-tested to be accurate anywhere on Earth" without any adjustment. Evaluate this claim by computing the fractional period change resulting from realistic variations in \(g\) across Earth's surface (roughly &plusmn;0.05% due to latitude and altitude), and discuss whether "anywhere on Earth, no adjustment" is a physically supportable claim.</p>
+<p class="connects">Connects: SHM pendulum formula, sensitivity analysis, evaluating a manufacturer's claim</p></div>
+
+<div class="problem"><span class="ptag">10</span><span class="ptag applied">Applied</span>
+<p>A 3.2 kg mass on a spring (k=280 N/m) is pulled 0.085 m from equilibrium and released. Find the period of oscillation and the mass's maximum speed during the motion.</p>
+<p class="connects">Connects: SHM period, energy conservation (Ch.7), elastic PE</p></div>
+
+
+</div></div>
+</div></main>
+</div>
+</body>
+</html>

@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 4: Two-Dimensional Motion - PHYS203 Extended Lecture Notes</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]'], ['$$', '$$']] },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="assets/tex-svg.js"></script>
+
+<style>
+:root{
+  --ink:#f3ede0; --ink-dim:#a89f8c; --paper:#171a21; --bg:#0f1115;
+  --line:#2a2e38; --accent:#e8a13a; --easy:#6fae8f; --medium:#e8a13a;
+  --hard:#e2725b; --challenge:#9fb3e0; --tag-bg:#1d212b;
+}
+body { margin:0; background: #1d2230; color:var(--ink); font-family:Georgia,'Times New Roman',serif; }
+.shell { display:flex; min-height:100vh; }
+.sidebar {
+  width:280px; flex-shrink:0; background:#0b0d11; color:var(--ink); padding:22px 0 60px;
+  position:fixed; top:0; left:0; bottom:0; overflow-y:auto; font-family:'Courier New',monospace;
+}
+.sidebar .brand { padding:0 22px 18px; font-family:Georgia,serif; font-weight:800; font-size:1.05rem; color:var(--ink); border-bottom:1px solid var(--line); margin-bottom:14px; }
+.sidebar .brand small { display:block; font-family:'Courier New',monospace; font-weight:400; color:var(--ink-dim); font-size:0.72rem; margin-top:3px; }
+.sidebar a.chap-link { display:block; padding:8px 22px; color:var(--ink); text-decoration:none; font-size:0.88rem; border-left:3px solid transparent; }
+.sidebar a.chap-link:hover { background:#1d212b; }
+.sidebar a.chap-link.active { background:#1d212b; border-left-color:var(--accent); color:var(--accent); font-weight:600; }
+.sidebar a.home-link { display:block; padding:8px 22px; color:var(--ink-dim); text-decoration:none; font-size:0.82rem; margin-bottom:8px; }
+.main { margin-left:280px; flex:1; display:flex; justify-content:center; min-width:0; }
+.content { max-width:880px; width:100%; padding:36px 40px 100px; background:transparent; }
+.content h1 { font-family:Georgia,serif; color:var(--ink); border-bottom:3px solid var(--accent); padding-bottom:12px; }
+.content h1:first-of-type { margin-top: 0; }
+.content h2 { font-family:Georgia,serif; color:var(--accent); margin-top:44px; }
+.content h3 { color:var(--easy); }
+.day-anchor-wrap { border-top: 4px solid var(--line); padding-top: 6px; margin-top: 56px; }
+.day-anchor-wrap:first-of-type { border-top: none; margin-top: 0; padding-top: 0; }
+
+/* Problem-section styling */
+.probsets { margin-top: 28px; background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 20px 24px; }
+.probsets > h3.pset-heading {
+  font-family:'Courier New',monospace; font-size:1rem; text-transform:uppercase; letter-spacing:0.05em;
+  color:var(--ink); border-bottom:2px solid var(--accent); padding-bottom:6px; margin: 26px 0 12px;
+}
+.probsets > h3.pset-heading:first-child { margin-top: 0; }
+h3.tier { font-family:'Courier New',monospace; font-size:0.92rem; margin:18px 0 8px; display:flex; align-items:center; gap:8px; color:var(--ink); }
+.tier-dot { width:9px; height:9px; border-radius:50%; display:inline-block; }
+.tier.easy .tier-dot{background:var(--easy);} .tier.medium .tier-dot{background:var(--medium);}
+.tier.hard .tier-dot{background:var(--hard);} .tier.challenge .tier-dot{background:var(--challenge);}
+details.problem { background:#12141a; border:1px solid var(--line); border-radius:8px; margin-bottom:8px; }
+details.problem summary { cursor:pointer; padding:10px 14px; font-size:0.92rem; display:flex; gap:8px; align-items:baseline; font-family:'Courier New',monospace; color:var(--ink);}
+.qtag { font-family:'Courier New',monospace; font-size:0.68rem; font-weight:700; background:var(--tag-bg); color:var(--ink-dim); padding:2px 7px; border-radius:999px; white-space:nowrap; }
+.solution { padding:2px 16px 12px; border-top:1px dashed var(--line); font-family:Georgia,serif; font-size:0.88rem;}
+.answer { font-family:'Courier New',monospace; font-weight:700; background:#16241d; color:var(--easy); border-left:4px solid var(--easy); padding:6px 10px; border-radius:4px; margin-top:8px !important; }
+.rawlist { font-family:'Courier New',monospace; font-size:1.05rem; line-height:1.6; padding-left: 1.5em; color:var(--ink); }
+.rawlist li { margin-bottom: 10px; }
+.rawlist .qtag { font-size:0.76rem; }
+.pending-note { font-family:Georgia,serif; font-size:0.82rem; color:var(--accent); font-style:italic; background:#2a2416; border:1px solid var(--accent); border-radius:6px; padding:8px 12px; margin-bottom: 12px;}
+</style>
+
+<style>
+  :root{
+    --ink:#f3ede0; --ink-dim:#a89f8c; --paper:#171a21; --bg:transparent;
+    --line:#2a2e38; --accent:#e8a13a; --accent-dark:#8a5a1f; --accent-soft:#2a2416;
+    --ic:#6fae8f; --ic-soft:#16241d; --hw:#e2725b; --hw-soft:#2a1a14;
+  }
+  * { box-sizing: border-box; }
+  /* body background intentionally inherited from the outer wrapper style block above */
+  .wrap { max-width: 900px; margin: 0 auto; padding: 30px 22px 90px; }
+  h1.doctitle {
+    font-family:"Courier New",monospace; font-size: 1.9rem; font-weight:700;
+    color: var(--ink); border-bottom: 4px solid var(--accent); padding-bottom: 14px;
+    margin: 0 0 8px 0;
+  }
+  p.subtitle { font-family:Georgia,serif; color:var(--ink-dim); font-size:0.95rem; margin:0 0 30px 0; font-style:italic; }
+  #TOC {
+    background: var(--paper); border: 1px solid var(--line); border-radius: 8px;
+    padding: 18px 24px; margin: 0 0 34px 0;
+    font-family: "Courier New", monospace; font-size: 0.9rem; columns: 2; column-gap: 30px;
+  }
+  #TOC a { color: var(--accent); text-decoration: none; font-weight: 600; display:block; padding: 3px 0; break-inside: avoid; }
+  #TOC a:hover { text-decoration: underline; }
+  h2.chapter {
+    font-family:"Courier New",monospace; font-size: 1.35rem; font-weight:700;
+    color: #171a21; background: var(--accent);
+    padding: 12px 18px; border-radius: 6px; margin: 50px 0 20px 0;
+  }
+  h3.day {
+    font-family:"Courier New",monospace; font-size: 1.1rem; font-weight:700;
+    color: var(--accent); background: var(--accent-soft);
+    border-left: 5px solid var(--accent); padding: 8px 14px;
+    margin: 34px 0 6px 0; border-radius: 0 4px 4px 0;
+  }
+  p.dayconnects { font-family:Georgia,serif; font-size:0.85rem; color:var(--ink-dim); margin:0 0 16px 0; font-style:italic; }
+  h4.subhead {
+    font-family:"Courier New",monospace; font-size: 0.82rem; font-weight:700;
+    text-transform: uppercase; letter-spacing: 0.06em; margin: 18px 0 10px 0;
+    padding-bottom: 4px; border-bottom: 1px solid var(--line);
+  }
+  h4.subhead.ic { color: var(--ic); }
+  h4.subhead.hw { color: var(--hw); }
+  div.problem {
+    background: #12141a; border: 1px solid var(--line); border-radius: 7px;
+    padding: 12px 16px; margin-bottom: 10px; color:var(--ink);
+  }
+  div.problem { border-left: 4px solid var(--ic); }
+  .ptag {
+    font-family:"Courier New",monospace; font-size:0.68rem; font-weight:700;
+    padding: 2px 8px; border-radius: 999px; margin-right: 8px; white-space:nowrap;
+    text-transform: uppercase; letter-spacing: 0.03em;
+  }
+  .problem .ptag:not(.applied):not(.evaluate) { background: var(--ic-soft); color: var(--ic); }
+  .ptag.applied { background:#16241d; color:#6fae8f; }
+  .ptag.evaluate { background:#2a1a2e; color:#c68fd9; }
+  .connects { font-family:Georgia,serif; font-size:0.72rem; color:var(--ink-dim); margin-top:6px; }
+  p { margin: 8px 0; }
+  strong { color: var(--accent); }
+  footer { margin-top:50px; font-family:Georgia,serif; font-size:0.82rem; color:var(--ink-dim); text-align:center; }
+</style>
+
+</head>
+<body>
+<div class="shell">
+<nav class="sidebar"><div class="brand">PHYS203<small>Extended Lecture Notes</small></div>
+<a class="home-link" href="../index.html" style="border-bottom:1px solid #24354a; padding-bottom:14px; margin-bottom:6px; display:block;">&larr; Course Home</a>
+<a class="home-link" href="index.html">&larr; Back to Chapter Index</a>
+<a class="chap-link" href="ch1-units-dimensions.html">Ch 1: Units and Dimensions</a>
+<a class="chap-link" href="ch2-kinematics.html">Ch 2: One-Dimensional Kinematics</a>
+<a class="chap-link" href="ch3-vectors.html">Ch 3: Vectors</a>
+<a class="chap-link active" href="ch4-2d-motion.html">Ch 4: Two-Dimensional Motion</a>
+<a class="chap-link" href="ch5-newtons-laws.html">Ch 5: Newton's Laws and Applications</a>
+<a class="chap-link" href="ch6-momentum.html">Ch 6: Momentum and Collisions</a>
+<a class="chap-link" href="ch7-work-energy.html">Ch 7: Work and Energy</a>
+<a class="chap-link" href="ch8-rotational-motion.html">Ch 8: Rotational Motion</a>
+<a class="chap-link" href="ch9-oscillations.html">Ch 9: Oscillations</a>
+<a class="chap-link" href="ch10-waves.html">Ch 10: Waves</a>
+<a class="chap-link" href="ch11-sound.html">Ch 11: Sound</a></nav>
+<main class="main"><div class="content">
+<div class="chapter-intro"><h1 id="chapter-4-two-dimensional-motion">Chapter 4: Two-Dimensional
+Motion</h1>
+</div>
+<div class="day-anchor-wrap"><h2 id="class-day-10-simple-2d-motion">Class Day 10: Simple 2D
+Motion</h2>
+<h3 id="why-this-matters-8">Why this matters</h3>
+<p>This is the day where Chapters 2 and 3 finally merge. Everything you
+learned about position, velocity, and acceleration in 1D still applies —
+you’re just going to apply it <em>twice</em>, once for the x-direction
+and once for the y-direction, entirely independently of each other.</p>
+<h3 id="the-key-idea-independence">The key idea: independence</h3>
+<p>If the acceleration in the x-direction, \(a_x\), doesn’t depend on
+what’s happening in the y-direction (and vice versa), then the x-motion
+and y-motion can be solved as two completely separate 1D problems, each
+using the exact same tools from Chapter 2, and then recombined at the
+end using vector addition.</p>
+<p>Position becomes a vector: (r(t) = (x(t), y(t))). Velocity and
+acceleration are found by differentiating each component separately:</p>
+<p><span class="math display">\[\vec v(t) = \left(\frac{dx}{dt},\
+\frac{dy}{dt}\right) \qquad \vec a(t) = \left(\frac{d^2x}{dt^2},\ \frac{d^2y}{dt^2}\right)\]</span></p>
+<p><strong>Worked example:</strong> An object has position (x(t)=4t),
+(y(t)=5t-2t^2). Find its velocity components at (t=1)s.</p>
+<p><span class="math display">\[v_x(t) = \frac{d}{dt}(4t) = 4 \qquad
+v_y(t) = \frac{d}{dt}(5t-2t^2) = 5-4t\]</span></p>
+<p>At (t=1): \(v_x=4\) m/s (constant, unchanged), (v_y = 5-4(1)=1)
+m/s.</p>
+<h3 id="recombining-into-a-single-speed-or-direction">Recombining into a
+single speed or direction</h3>
+<p>Once you have both velocity components at some instant, the object’s
+actual speed (a scalar) and direction come from the same magnitude/angle
+formulas you learned in Chapter 3:</p>
+<p><span class="math display">\[\text{speed} = \sqrt{v_x^2+v_y^2} \qquad
+\theta = \tan^{-1}\left(\frac{v_y}{v_x}\right)\]</span></p>
+<p>A common and important error to avoid: <strong>you cannot find the
+speed by simply adding \(v_x\) and \(v_y\) directly.</strong> Speed is the
+<em>magnitude</em> of the velocity vector, which requires the
+Pythagorean combination, not simple addition — adding the components
+directly conflates a vector quantity with its magnitude and will give a
+wrong (usually too large) answer.</p>
+<h3 id="what-kind-of-path-results">What kind of path results?</h3>
+<p>If both \(a_x\) and \(a_y\) are zero (no acceleration at all), the object
+moves in a straight line at constant velocity. If one direction has
+acceleration and the other doesn’t (as in the worked example above,
+where \(a_x=0\) but \(a_y=-4\)), the resulting path is generally a curve —
+specifically, a parabola, since one coordinate grows linearly in time
+while the other involves a \(t^2\) term. This exact situation — constant
+velocity horizontally, constant acceleration vertically — is precisely
+what tomorrow’s topic, projectile motion, is built on.</p>
+<h3 id="common-mistake-to-watch-for-7">Common mistake to watch for</h3>
+<p>Trying to solve the x and y motion “together” as one combined
+equation, rather than treating them as two separate, parallel 1D
+problems that happen to share the same clock ((t)). The whole benefit of
+the independence principle is that you <em>don’t</em> need any new
+mathematical tools for 2D motion — you just apply Chapter 2’s toolkit
+twice and combine the results at the end with vector addition.</p>
+<h3 id="key-formulas-and-facts-for-this-day-8">Key formulas and facts
+for this day</h3>
+<ul>
+<li>(r(t)=(x(t),y(t))); differentiate each component separately for
+velocity and acceleration.</li>
+<li>If \(a_x\) and \(a_y\) don’t depend on each other, x-motion and y-motion
+can be solved independently using 1D kinematics tools.</li>
+<li>Speed = \(\sqrt{v_x^2+v_y^2}\) — never simply \(v_x+v_y\).</li>
+</ul>
+<hr />
+<div class="probsets">
+<h3 class="pset-heading">Reading</h3>
+<ol class="rawlist">
+<li><span class="qtag" style="margin-right:6px;">Reading Q1</span>In two-dimensional motion, the x- and y-components of position are treated as what kind of quantities?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q2</span>Why can 2D motion generally be split into two independent 1D motion problems?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q3</span>The 2D velocity vector is related to the 2D position vector by which operation?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q4</span>If ax and ay do not depend on each other, what does this imply about solving x(t) and y(t)?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q5</span>An object with constant vx and constant nonzero ay follows what type of 2D path?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q6</span>The 2D acceleration vector is related to the 2D velocity vector by which operation?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q7</span>If an object has zero acceleration in both x and y, what type of path does it follow?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q8</span>In 2D kinematics, which quantity is generally NOT assumed to be independent between the x- and y-directions?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q9</span>Given x(t) and y(t) separately, how would you find the object's speed at a given time?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q10</span>Which best describes the strategy for solving simple 2D motion problems?</li>
+</ol>
+<h3 class="pset-heading">Assignments</h3>
+<ol class="rawlist">
+<li><span class="qtag" style="margin-right:6px;">Easy Q1</span>An object has x(t) = 3t and y(t) = 4t. Find vx. (Give your answer in m/s.)</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q2</span>Same object: find vy. (Give your answer in m/s.)</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q3</span>An object has vx = 2 m/s and vy = 5 m/s (both constant). Find its speed. (Give your answer in m/s.)</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q4</span>An object's position is (x,y)=(6,8). Find its distance from the origin.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q5</span>An object has x(t) = 2t^2 and y(t) = 3t. Find vx(t) as a formula times t=1 (i.e. vx at t=1s). (Give your answer in m/s.)</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q6</span>Given vx = 4 m/s and vy = 3 m/s, find the speed.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q7</span>An object starts at (0,0) with vx=5 m/s, vy=0, no acceleration. Find its x-position at t=2s. (Give your answer in m.)</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q8</span>Same object: find its y-position at t=2s. (Give your answer in m.)</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q9</span>An object has constant acceleration components (2,-3) m/s^2. Find its acceleration magnitude.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q10</span>An object has ax=0 and ay=-9.8 m/s^2. Describe its horizontal motion.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q1</span>An object has position x(t)=4t, y(t)=5t-2t^2. Find vy at t=1s. (Give your answer in m/s.)</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q2</span>A particle moves with initial velocity (5,10) m/s and constant acceleration (0,-9.8) m/s^2. Find vy at t=2s. (Give your answer in m/s.)</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q3</span>A drone moves with vx=3 m/s (constant) and vy(t)=6-2t m/s, starting at the origin. Find its x-position at t=2s. (Give your answer in m.)</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q4</span>Same drone: find its y-position at t=2s. (Give your answer in m.)</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q5</span>An object moves with ax=2 m/s^2, ay=-9.8 m/s^2, starting velocity (4,0) m/s. Find vx at t=3s. (Give your answer in m/s.)</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q6</span>Same object: find vy at t=3s. (Give your answer in m/s.)</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q7</span>A particle has x(t)=10t and y(t)=20t-5t^2. Find the time at which y(t) returns to zero (besides t=0). (Give your answer in s.)</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q8</span>An object's speed is 10 m/s at an instant when vx=6 m/s. Find vy at that instant. (Give your answer in m/s.)</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q9</span>A particle has ax=0, ay=-10 m/s^2, starting velocity (8,15) m/s from origin. Find its x-position at t=1s. (Give your answer in m.)</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q10</span>Same particle: find its y-position at t=1s. (Give your answer in m.)</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q1</span>An object moves with x(t)=5t, y(t)=20t-4.9t^2. Find the time at which y(t) returns to zero (besides t=0). (Give your answer in s.)</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q2</span>Same object: find the x-position at that time. (Give your answer in m.)</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q3</span>An object has vx(t)=4 (constant), vy(t)=8-4t. Find the time at which vy=0. (Give your answer in s.)</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q4</span>Same object: find the speed at that instant. (Give your answer in m/s.)</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q5</span>A particle has x(t)=2t^2, y(t)=8t-t^2. Find the time at which the particle's speed is minimized. (Give your answer in s.)</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q6</span>An object starts at the origin with velocity (10,5) m/s and acceleration (-2,-9.8) m/s^2. Find its x-position at t=1s. (Give your answer in m.)</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q7</span>Same object: find its y-position at t=1s. (Give your answer in m.)</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q8</span>A particle has vx(t)=2t, vy(t)=6 (constant), starting at the origin. Find its x-position at t=3s. (Give your answer in m.)</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q9</span>Same particle: find its y-position at t=3s. (Give your answer in m.)</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q10</span>A particle has ax=1 m/s^2 and ay=-2 m/s^2, starting from rest at the origin. Find the equation of its path, y as a function of x (eliminate t).</li>
+<li><span class="qtag" style="margin-right:6px;">Challenge Q1 (Evaluate)</span>A student claims that since x-motion and y-motion are "independent," total speed can be found by adding vx and vy directly. Evaluate this claim and clarify the correct relationship.</li>
+<li><span class="qtag" style="margin-right:6px;">Challenge Q2 (Create)</span>Design a 2D motion scenario such that the object returns to its starting y-value at exactly t=4s, and verify your chosen values.</li>
+<li><span class="qtag" style="margin-right:6px;">Challenge Q3 (Evaluate/Create)</span>A video game physics engine needs to simulate 2D motion for many objects efficiently. Evaluate why treating x- and y-motion independently is computationally convenient, then create a brief explanation for a non-physicist developer.</li>
+</ol>
+<h3 class="pset-heading">Homework</h3>
+<ol class="rawlist">
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q1</span>An object has x(t)=4t and y(t)=5t. Find vx. (Give your answer in m/s.)</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q2</span>Same object: find vy. (Give your answer in m/s.)</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q3</span>An object has vx=3 m/s and vy=4 m/s (constant). Find its speed. (Give your answer in m/s.)</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q4</span>An object's position is (x,y)=(9,12). Find its distance from the origin.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q5</span>An object has x(t)=3t^2 and y(t)=2t. Find vx at t=1s. (Give your answer in m/s.)</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q6</span>Given vx=6 m/s and vy=8 m/s, find the speed.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q7</span>An object starts at (0,0) with vx=6 m/s, vy=0. Find its x-position at t=2s. (Give your answer in m.)</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q8</span>Same object: find its y-position at t=2s. (Give your answer in m.)</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q9</span>An object has constant acceleration components (3,-4) m/s^2. Find its acceleration magnitude.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q10</span>An object has ax=0 and ay=-9.8 m/s^2. Describe its horizontal motion.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q1</span>An object has position x(t)=5t, y(t)=6t-2.5t^2. Find vy at t=1s. (Give your answer in m/s.)</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q2</span>A particle moves with initial velocity (6,11) m/s and acceleration (0,-9.8) m/s^2. Find vy at t=2s. (Give your answer in m/s.)</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q3</span>A drone moves with vx=3.5 m/s (constant) and vy(t)=6.5-2t m/s, starting at origin. Find x-position at t=2s. (Give your answer in m.)</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q4</span>Same drone: find y-position at t=2s. (Give your answer in m.)</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q5</span>An object moves with ax=2.5 m/s^2, ay=-9.8 m/s^2, starting velocity (4.5,0) m/s. Find vx at t=3s. (Give your answer in m/s.)</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q6</span>Same object: find vy at t=3s. (Give your answer in m/s.)</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q7</span>A particle has x(t)=11t and y(t)=21t-5t^2. Find the time at which y(t) returns to zero.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q8</span>An object's speed is 11 m/s at an instant when vx=6.5 m/s. Find vy.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q9</span>A particle has ax=0, ay=-10 m/s^2, starting velocity (8.5,15.5) m/s from origin. Find x-position at t=1s. (Give your answer in m.)</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q10</span>Same particle: find y-position at t=1s. (Give your answer in m.)</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q1</span>An object moves with x(t)=5.5t, y(t)=21t-4.9t^2. Find the time at which y(t) returns to zero.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q2</span>Same object: find the x-position at that time.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q3</span>An object has vx(t)=4.5 (constant), vy(t)=8.5-4t. Find the time at which vy=0.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q4</span>Same object: find the speed at that instant.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q5</span>A particle has x(t)=2.2t^2, y(t)=8.5t-t^2. Find the time at which the particle's speed is minimized.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q6</span>An object starts at the origin with velocity (11,5.5) m/s and acceleration (-2.2,-9.8) m/s^2. Find its x-position at t=1s.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q7</span>Same object: find its y-position at t=1s.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q8</span>A particle has vx(t)=2.2t, vy(t)=6.5 (constant), starting at the origin. Find its x-position at t=3s.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q9</span>Same particle: find its y-position at t=3s.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q10</span>A particle has ax=1.2 m/s^2 and ay=-2.2 m/s^2, starting from rest at the origin. Find the equation of its path, y as a function of x.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Challenge Q1 (Evaluate)</span>A student claims that since x-motion and y-motion are "independent," total speed can be found by adding vx and vy directly. Evaluate this claim and clarify the correct relationship.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Challenge Q2 (Create)</span>Design a 2D motion scenario such that the object returns to its starting y-value at exactly t=4s, and verify your chosen values.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Challenge Q3 (Evaluate/Create)</span>A video game physics engine needs to simulate 2D motion for many objects efficiently. Evaluate why treating x- and y-motion independently is computationally convenient, then create a brief explanation for a non-physicist developer.</li>
+</ol>
+<h3 class="pset-heading">Synthesis Problems</h3>
+<p class="dayconnects">Connects: vectors (Ch.3), 1D kinematics (Ch.2), independence of x/y motion.</p>
+
+
+<div class="problem"><span class="ptag">1</span><span class="ptag applied">Applied</span>
+<p>A hovercraft's position is given by \(x(t) = 4t\), \(y(t) = 6t - 0.5t^2\) (meters, SI units) for a rescue maneuver. Find its velocity components as functions of time, its speed and direction of travel at \(t=3\) s, and the time at which its y-velocity becomes zero.</p>
+<p class="connects">Connects: independent x/y kinematics, vector speed/direction (Ch.3), derivatives (Ch.2)</p></div>
+
+<div class="problem"><span class="ptag">2</span><span class="ptag evaluate">Evaluate</span>
+<p>A student computes the "total speed" of a 2D-moving object by adding its x-velocity and y-velocity components directly (\(v = v_x + v_y\)) rather than combining them as a vector. Evaluate this method with a specific counterexample where \(v_x=3\) m/s and \(v_y=4\) m/s, comparing the student's answer to the correct speed.</p>
+<p class="connects">Connects: vector magnitude (Ch.3), evaluating a common 2D-motion misconception</p></div>
+
+<div class="problem"><span class="ptag">3</span><span class="ptag applied">Applied</span>
+<p>A robot vacuum moves with constant \(v_x=0.3\) m/s and \(a_y=-0.05\) m/s&sup2; (starting from rest in y) for 8 s before its bump sensor triggers a turn. Find its position and velocity vector at the moment of the turn, and find the total distance from its starting point at that instant.</p>
+<p class="connects">Connects: independent x/y kinematics, vector magnitude, applied robotics context</p></div>
+
+<div class="problem"><span class="ptag">4</span><span class="ptag evaluate">Evaluate</span>
+<p>A physics student argues that since x-motion and y-motion are "independent," changing the y-acceleration of an object mid-flight (e.g., by an external push) must also change its x-velocity, "since it's all one object." Evaluate this claim, explaining precisely what the independence principle does and does not guarantee.</p>
+<p class="connects">Connects: independence of 2D motion components, conceptual evaluation</p></div>
+
+<div class="problem"><span class="ptag">5</span><span class="ptag applied">Applied</span>
+<p>A conveyor-fed packaging arm has \(x(t)=2t^2\), \(y(t)=10t-t^2\) (cm, over \(0\le t\le5\) s). Find the arm's acceleration vector (constant, if it is one), and determine the time at which the arm's speed is at a minimum.</p>
+<p class="connects">Connects: derivatives, optimization, vector speed (Ch.2-3 synthesis)</p></div>
+
+
+<div class="problem"><span class="ptag">6</span><span class="ptag applied">Applied</span>
+<p>A drone's position is \(x(t)=5t\), \(y(t)=8t-0.6t^2\) (meters). Find its velocity vector at \(t=2\) s (magnitude and direction), and find the time at which the drone's path is purely horizontal (i.e., \(v_y=0\)).</p>
+<p class="connects">Connects: independent x/y kinematics, vector magnitude/direction (Ch.3)</p></div>
+
+<div class="problem"><span class="ptag">7</span><span class="ptag evaluate">Evaluate</span>
+<p>A student claims that if an object's x-position and y-position are both increasing functions of time, its speed must also be continuously increasing. Evaluate this claim using the example \(x(t)=3t\), \(y(t)=10t-t^2\), by finding the speed at \(t=2\) s and \(t=6\) s and checking whether it actually increased.</p>
+<p class="connects">Connects: vector speed, evaluating a plausible-but-flawed inference</p></div>
+
+<div class="problem"><span class="ptag">8</span><span class="ptag applied">Applied</span>
+<p>An automated guided vehicle in a warehouse has \(a_x = 0.4\) m/s&sup2; and \(a_y = -0.2\) m/s&sup2;, starting from rest at the origin. Find its position vector and velocity vector at \(t=5\) s, and find the angle its velocity makes with the x-axis at that time.</p>
+<p class="connects">Connects: 2D kinematic equations, vector direction (Ch.3)</p></div>
+
+<div class="problem"><span class="ptag">9</span><span class="ptag evaluate">Evaluate</span>
+<p>A simulation engineer for a video game wants to model 2D character motion efficiently. Evaluate why treating x-motion and y-motion as fully independent 1D problems (as done in this chapter) is computationally convenient compared to solving the 2D motion as one coupled system, and explain under what circumstances (if any) this independence assumption would break down.</p>
+<p class="connects">Connects: independence of 2D motion, applied computational-physics reasoning</p></div>
+
+<div class="problem"><span class="ptag">10</span><span class="ptag applied">Applied</span>
+<p>A window-cleaning robot on a building facade has position \(x(t)=3t^2\), \(y(t)=12t\) (cm). Find the time at which its speed equals exactly 15 cm/s, and find its position at that time.</p>
+<p class="connects">Connects: vector speed, derivatives, algebraic solving (Ch.2-3 synthesis)</p></div>
+
+
+</div></div>
+<div class="day-anchor-wrap"><h2 id="class-day-11-projectile-motion">Class Day 11: Projectile
+Motion</h2>
+<h3 id="why-this-matters-9">Why this matters</h3>
+<p>Projectile motion is the single most direct application of
+yesterday’s independence principle, and one of the most common problem
+types in all of introductory physics: an object launched into the air,
+moving under gravity alone (no air resistance), tracing out the classic
+arc shape.</p>
+<h3 id="setting-up-the-problem">Setting up the problem</h3>
+<p>The key move is decomposing the initial launch velocity into
+horizontal and vertical components right at the start:</p>
+<p><span class="math display">\[v_{x0} = v_0\cos\theta \qquad v_{y0} =
+v_0\sin\theta\]</span></p>
+<p>From there, independence takes over completely:</p>
+<ul>
+<li><strong>Horizontal motion:</strong> constant velocity (no horizontal
+acceleration, assuming no air resistance): (x(t) = v_{x0}t).</li>
+<li><strong>Vertical motion:</strong> free fall, exactly as in Chapter 2
+Day 4, with \(a_y=-g\): (y(t) = v_{y0}t - 12gt^2).</li>
+</ul>
+<p>Everything else in this topic — time of flight, maximum height, range
+— is just applying Chapter 2’s kinematic toolkit to these two
+equations.</p>
+<h3 id="the-three-headline-results">The three headline results</h3>
+<p><strong>Time of flight</strong> (for launch and landing at the same
+height): set (y=0) and solve for the nonzero root:</p>
+<p><span class="math display">\[0 = v_{y0}t-\tfrac12gt^2 \Rightarrow
+t_{flight} = \frac{2v_{y0}}{g}\]</span></p>
+<p><strong>Maximum height</strong> (where \(v_y=0\), the vertical analog
+of the ball-thrown-up peak from Chapter 2):</p>
+<p><span class="math display">\[h_{max} =
+\frac{v_{y0}^2}{2g}\]</span></p>
+<p><strong>Range</strong> (horizontal distance at landing): combine the
+time of flight with the constant horizontal velocity:</p>
+<p><span class="math display">\[R = v_{x0}\times t_{flight} =
+v_{x0}\times\frac{2v_{y0}}{g} = \frac{2v_0^2\sin\theta\cos\theta}{g} =
+\frac{v_0^2\sin(2\theta)}{g}\]</span></p>
+<p>(the last step uses the trig identity (2=(2)), which is where the
+compact range formula comes from).</p>
+<p><strong>Worked example:</strong> A projectile is launched at 24 m/s
+at 40° from level ground. Find its range, maximum height, and time of
+flight.</p>
+<p><span class="math display">\[v_{x0}=24\cos40°=18.4\text{ m/s}, \qquad
+v_{y0}=24\sin40°=15.4\text{ m/s}\]</span> <span
+class="math display">\[t_{flight}=\frac{2(15.4)}{9.8}=3.15\text{ s},
+\qquad h_{max}=\frac{15.4^2}{2(9.8)}=12.1\text{ m}, \qquad
+R=18.4\times3.15=58.0\text{ m}\]</span></p>
+<h3 id="the-complementary-angle-symmetry">The complementary-angle
+symmetry</h3>
+<p>Because ((2)) is symmetric about 45° (i.e.,
+((2°)=(60°)=(120°)=(2°))), any two launch angles that add up to 90°
+(like 30°/60°, or 20°/70°) produce the <em>exact same range</em> for the
+same launch speed, on level ground. The maximum range for a fixed launch
+speed occurs at exactly 45°, since that’s where ((2)) reaches its peak
+value of 1.</p>
+<p>This symmetry breaks, however, the moment launch and landing heights
+differ (e.g., launching from an elevated platform down to ground level)
+— in that case, the optimal angle for maximum range shifts to something
+<em>less</em> than 45°, since the projectile spends extra unpaired time
+falling the additional height with only its (unchanging) horizontal
+velocity acting.</p>
+<h3 id="common-mistake-to-watch-for-8">Common mistake to watch for</h3>
+<p>Forgetting that the simple \(t_{flight}=2v_{y0}/g\) and range formulas
+above <strong>only apply when launch and landing heights are
+equal.</strong> The moment a problem describes a launch from a cliff,
+platform, or building, you must go back to the general vertical position
+equation, \(y=v_{y0}t-\tfrac12gt^2\), set (y) equal to whatever the actual
+height difference is (often negative, if landing below the launch
+point), and solve the resulting quadratic directly — the shortcut
+formulas no longer apply.</p>
+<h3 id="key-formulas-and-facts-for-this-day-9">Key formulas and facts
+for this day</h3>
+<ul>
+<li>\(v_{x0}=v_0\), \(v_{y0}=v_0\); horizontal motion is constant-velocity,
+vertical motion is free fall.</li>
+<li>Time of flight \(t=2v_{y0}/g\), max height (=v_{y0}^2/(2g)), range
+(=v_0^2(2)/g) — <strong>valid only for equal launch/landing
+height.</strong></li>
+<li>Complementary launch angles (summing to 90°) give equal range on
+level ground; 45° maximizes range in that case.</li>
+</ul>
+<hr />
+<div class="probsets">
+<h3 class="pset-heading">Reading</h3>
+<ol class="rawlist">
+<li><span class="qtag" style="margin-right:6px;">Reading Q1</span>Time of flight for a projectile launched and landing at the same height is determined by which motion component?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q2</span>Maximum height is reached when which velocity component equals zero?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q3</span>For launch and landing at the same height, which launch angle maximizes range?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q4</span>Two launch angles that sum to 90 degrees produce what relationship in range (level ground)?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q5</span>The range formula depends on which two quantities primarily (for fixed launch/landing height)?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q6</span>If launched from an elevated height, how does the time of flight compare to launching from ground level at the same angle and speed?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q7</span>On a velocity-vs-time graph for the vertical component, where does the graph cross zero?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q8</span>The horizontal position-time graph for a projectile has what shape?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q9</span>The vertical position-time graph for a projectile has what shape?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q10</span>At the exact peak of a projectile's trajectory, what is true of the vertical velocity?</li>
+</ol>
+<h3 class="pset-heading">Assignments</h3>
+<ol class="rawlist">
+<li><span class="qtag" style="margin-right:6px;">Easy Q1</span>A projectile is launched at 10 m/s at 45 degrees. Find its time of flight (level ground, g=9.8 m/s^2). (Give your answer in s.)</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q2</span>A projectile is launched at 20 m/s at 30 degrees. Find its maximum height. (Give your answer in m.)</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q3</span>A projectile is launched at 15 m/s at 60 degrees. Find its range (level ground). (Give your answer in m.)</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q4</span>A ball launched at 12 m/s at 45 degrees reaches what maximum height? (Give your answer in m.)</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q5</span>A ball launched at 8 m/s at 90 degrees (straight up) has what range? (Give your answer in m.)</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q6</span>A projectile launched at 5 m/s at 0 degrees (horizontal, from ground level) has what maximum height above launch? (Give your answer in m.)</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q7</span>A projectile is launched at 18 m/s at 45 degrees. Find its range.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q8</span>A projectile is launched at 14 m/s at 30 degrees. Find its time of flight.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q9</span>A projectile launched at 25 m/s at 40 degrees has what initial vertical velocity component?</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q10</span>A projectile launched at 30 m/s at 60 degrees has what initial horizontal velocity component?</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q1</span>A projectile is launched at 24 m/s at 40 degrees from level ground. Find its range.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q2</span>Same projectile: find its maximum height.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q3</span>Same projectile: find its time of flight.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q4</span>A ball is thrown from a 12 m platform at 16 m/s at 25 degrees above horizontal. Find the time of flight (landing 12 m below launch).</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q5</span>Find the range for a projectile launched at speed 1 (any units) at 20 degrees, using R=v0^2*sin(2*theta)/g. Report sin(2*20deg).</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q6</span>Find sin(2*70deg), confirming it equals the same value as sin(2*20deg).</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q7</span>A projectile's time of flight is 3.5 s. Find its initial vertical velocity component.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q8</span>A projectile is launched at 22 m/s at 50 degrees. Find its maximum height.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q9</span>Same projectile: find the time to reach maximum height.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q10</span>A soccer ball is kicked at 20 m/s at 35 degrees. Find how far downfield it lands (level ground).</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q1</span>A projectile is launched at 32 m/s at 48 degrees from a cliff 20 m above the landing area. Find the total time of flight.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q2</span>Same projectile: find the horizontal range.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q3</span>A projectile launched at 45 degrees reaches a range of 100 m. Find the required launch speed.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q4</span>Two projectiles are launched from the same point at the same speed but 20 degrees and 70 degrees. Find the ratio of their maximum heights (h20/h70).</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q5</span>A cannonball launched at 50 m/s at 30 degrees from a 25 m tall wall lands on level ground below. Find the total horizontal distance from the base of the wall.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q6</span>A golfer's shot has a time of flight of 4.2 s and a range of 150 m (level ground). Find the launch speed.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q7</span>Same shot: find the launch angle in degrees.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q8</span>A projectile launched at 38 m/s at 55 degrees into a valley 15 m below the launch point lands at what horizontal distance from the launch point?</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q9</span>A projectile's range is measured as 80 m for a launch angle of 35 degrees. Find the launch speed.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q10</span>Same speed: predict the range for the complementary angle (55 degrees).</li>
+<li><span class="qtag" style="margin-right:6px;">Challenge Q1 (Evaluate)</span>A student concludes that 45 degrees always gives maximum range, even when launch and landing heights differ. Evaluate this claim using a launch-from-elevated-height scenario as a counterexample.</li>
+<li><span class="qtag" style="margin-right:6px;">Challenge Q2 (Create)</span>Design a projectile scenario (choose launch height, speed, and angle) where the range is exactly 50 m, and verify your chosen values.</li>
+<li><span class="qtag" style="margin-right:6px;">Challenge Q3 (Evaluate/Create)</span>A javelin coach wants athletes to understand why javelins are thrown at angles noticeably less than 45 degrees for maximum distance. Evaluate what real-world factors the basic model omits, then create a brief explanation.</li>
+</ol>
+<h3 class="pset-heading">Homework</h3>
+<ol class="rawlist">
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q1</span>A projectile is launched at 12 m/s at 45 degrees. Find its time of flight.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q2</span>A projectile is launched at 22 m/s at 30 degrees. Find its maximum height.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q3</span>A projectile is launched at 17 m/s at 60 degrees. Find its range.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q4</span>A ball launched at 14 m/s at 45 degrees reaches what maximum height?</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q5</span>A ball launched at 9 m/s at 90 degrees has what range?</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q6</span>A projectile launched at 6 m/s at 0 degrees from ground level has what maximum height?</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q7</span>A projectile is launched at 20 m/s at 45 degrees. Find its range.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q8</span>A projectile is launched at 16 m/s at 30 degrees. Find its time of flight.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q9</span>A projectile launched at 27 m/s at 42 degrees has what initial vertical velocity component?</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q10</span>A projectile launched at 32 m/s at 58 degrees has what initial horizontal velocity component?</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q1</span>A projectile is launched at 26 m/s at 42 degrees from level ground. Find its range.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q2</span>Same projectile: find its maximum height.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q3</span>Same projectile: find its time of flight.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q4</span>A ball is thrown from a 14 m platform at 18 m/s at 22 degrees above horizontal. Find the time of flight.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q5</span>Find sin(2*15deg).</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q6</span>Find sin(2*75deg), confirming it equals sin(2*15deg).</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q7</span>A projectile's time of flight is 3.0 s. Find its initial vertical velocity component.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q8</span>A projectile is launched at 24 m/s at 52 degrees. Find its maximum height.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q9</span>Same projectile: find the time to reach maximum height.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q10</span>A soccer ball is kicked at 22 m/s at 38 degrees. Find how far downfield it lands.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q1</span>A projectile is launched at 34 m/s at 46 degrees from a cliff 22 m above the landing area. Find the total time of flight.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q2</span>Same projectile: find the horizontal range.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q3</span>A projectile launched at 45 degrees reaches a range of 120 m. Find the required launch speed.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q4</span>Two projectiles are launched at the same speed but 25 degrees and 65 degrees. Find the ratio of their maximum heights (h25/h65).</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q5</span>A cannonball launched at 55 m/s at 32 degrees from a 28 m tall wall lands on level ground. Find the total horizontal distance from the wall's base.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q6</span>A golfer's shot has a time of flight of 4.5 s and a range of 160 m. Find the launch speed.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q7</span>Same shot: find the launch angle in degrees.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q8</span>A projectile launched at 40 m/s at 58 degrees into a valley 18 m below the launch point lands at what horizontal distance?</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q9</span>A projectile's range is 90 m for a launch angle of 38 degrees. Find the launch speed.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q10</span>Same speed: predict the range at the complementary angle (52 degrees).</li>
+<li><span class="qtag" style="margin-right:6px;">HW Challenge Q1 (Evaluate)</span>A student concludes that 45 degrees always gives maximum range, even when launch and landing heights differ. Evaluate this claim using a launch-from-elevated-height scenario as a counterexample.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Challenge Q2 (Create)</span>Design a projectile scenario (choose launch height, speed, and angle) where the range is exactly 50 m, and verify your chosen values.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Challenge Q3 (Evaluate/Create)</span>A javelin coach wants athletes to understand why javelins are thrown at angles noticeably less than 45 degrees for maximum distance. Evaluate what real-world factors the basic model omits, then create a brief explanation.</li>
+</ol>
+<h3 class="pset-heading">Synthesis Problems</h3>
+<p class="dayconnects">Connects: 2D motion (Day 10), free fall (Ch.2), vector decomposition (Ch.3), unit conversion.</p>
+
+
+<div class="problem"><span class="ptag">1</span><span class="ptag applied">Applied</span>
+<p>A fire hose nozzle launches water at 22 m/s at 35&deg; above horizontal from a height of 1.5 m, aiming at a fire on a balcony 1.5 m above the ground and 30 m away horizontally. Determine whether the water stream's trajectory passes through that target point (height and horizontal distance simultaneously), showing your full reasoning.</p>
+<p class="connects">Connects: projectile motion, free fall (Ch.2), vector decomposition (Ch.3)</p></div>
+
+<div class="problem"><span class="ptag">2</span><span class="ptag evaluate">Evaluate</span>
+<p>A javelin coach notices elite throwers release the javelin at angles noticeably less than 45&deg;, contrary to the "45&deg; maximizes range" rule from ideal projectile motion. Evaluate at least two physical reasons the idealized model in this course might not directly apply to javelin throwing (consider release height and air resistance/aerodynamic lift).</p>
+<p class="connects">Connects: projectile motion optimum-angle theory, evaluating a real-world discrepancy</p></div>
+
+<div class="problem"><span class="ptag">3</span><span class="ptag applied">Applied</span>
+<p>A trebuchet launches a projectile at 28 m/s at 40&deg; from a platform 10 m above a target field. Find the total time of flight, the horizontal range, and the impact speed (magnitude) of the projectile when it lands.</p>
+<p class="connects">Connects: projectile motion with unequal launch/landing height, vector magnitude at impact (Ch.3)</p></div>
+
+<div class="problem"><span class="ptag">4</span><span class="ptag evaluate">Evaluate</span>
+<p>A student uses the shortcut formula \(R=v_0^2\sin(2\theta)/g\) for a cannonball launched from the top of a 20 m wall onto a distant flat field. Evaluate why this shortcut formula does not apply here, explain what must be done instead, and set up (without necessarily finishing the full arithmetic) the correct equation that must be solved.</p>
+<p class="connects">Connects: projectile motion, evaluating the scope/limits of a shortcut formula</p></div>
+
+<div class="problem"><span class="ptag">5</span><span class="ptag applied">Applied</span>
+<p>A basketball player shoots from 6.5 m away (horizontal distance) and releases the ball at 2.0 m height with a launch speed of 7.5 m/s at 50&deg; above horizontal, aiming for a hoop at 3.05 m height. Determine whether the ball's trajectory passes through the hoop's location at the correct horizontal distance, and if not, find the ball's actual height at that horizontal distance.</p>
+<p class="connects">Connects: projectile motion, applied sports-physics verification</p></div>
+
+
+<div class="problem"><span class="ptag">6</span><span class="ptag applied">Applied</span>
+<p>A water park slide launches riders horizontally off a platform at 4 m/s from a height of 3 m above a splash pool. Find the time to reach the water, the horizontal distance traveled, and the rider's total speed (magnitude) at splashdown, then convert that speed to km/h for a safety report.</p>
+<p class="connects">Connects: projectile motion (horizontal launch case), free fall (Ch.2), unit conversion (Ch.1)</p></div>
+
+<div class="problem"><span class="ptag">7</span><span class="ptag evaluate">Evaluate</span>
+<p>A student claims that two projectiles launched at complementary angles (e.g., 30&deg; and 60&deg;) from the same height at the same speed will also have the same time of flight, since they have the same range. Evaluate this claim by computing the time of flight for both angles at a chosen launch speed, showing whether the claim is true or false.</p>
+<p class="connects">Connects: projectile motion, complementary-angle range symmetry, evaluating an extended claim</p></div>
+
+<div class="problem"><span class="ptag">8</span><span class="ptag applied">Applied</span>
+<p>A search-and-rescue plane drops a supply package (initial vertical velocity zero, horizontal velocity equal to the plane's 60 m/s) from an altitude of 250 m, aiming to land it at a target on the ground. Find the time to fall, the horizontal distance the package travels, and how far ahead of the target (horizontally) the package should be released relative to the target's position at release time.</p>
+<p class="connects">Connects: projectile motion (horizontal launch), applied aviation/logistics context</p></div>
+
+<div class="problem"><span class="ptag">9</span><span class="ptag evaluate">Evaluate</span>
+<p>A golf equipment reviewer claims that "increasing your swing speed by 10% increases your drive distance by 10%." Evaluate this claim using the range formula for projectile motion (assuming a fixed launch angle), determining the actual percentage increase in range that would result from a 10% increase in launch speed.</p>
+<p class="connects">Connects: projectile motion range formula, percentage/proportional reasoning, evaluating a marketing claim</p></div>
+
+<div class="problem"><span class="ptag">10</span><span class="ptag applied">Applied</span>
+<p>A ski jumper leaves the ramp at 24 m/s at 8&deg; above horizontal, and the landing slope drops away at a constant angle such that landing height decreases by 0.6 m for every 1 m of horizontal distance. Find the horizontal distance at which the jumper lands (i.e., solve for where the parabolic trajectory intersects the linear slope equation \(y = -0.6x\)).</p>
+<p class="connects">Connects: projectile motion, intersection of a parabola and a line, applied sports-engineering context</p></div>
+
+
+</div></div>
+<div class="day-anchor-wrap"><h2 id="class-day-12-uniform-circular-motion">Class Day 12: Uniform
+Circular Motion</h2>
+<h3 id="why-this-matters-10">Why this matters</h3>
+<p>Circular motion introduces a genuinely new and often counterintuitive
+idea: an object can be <em>accelerating</em> even while moving at a
+perfectly constant speed. Reconciling this with the everyday sense of
+“acceleration means speeding up or slowing down” is the main conceptual
+hurdle of the day.</p>
+<h3 id="the-apparent-paradox-resolved">The apparent paradox,
+resolved</h3>
+<p>Acceleration is defined as the rate of change of <em>velocity</em> —
+and velocity is a vector, carrying both magnitude (speed) and direction.
+In uniform circular motion, the speed genuinely never changes, but the
+<em>direction</em> of the velocity vector is constantly changing,
+sweeping around the circle. Since velocity is changing (even though
+speed alone isn’t), there must be a nonzero acceleration — it’s just
+entirely a change in direction, not magnitude.</p>
+<h3 id="centripetal-acceleration">Centripetal acceleration</h3>
+<p>This direction-only acceleration is called <strong>centripetal
+acceleration</strong> (“center-seeking”), and it always points from the
+object directly toward the center of the circle, perpendicular to the
+velocity at every instant. Its magnitude is:</p>
+<p><span class="math display">\[a_c = \frac{v^2}{r}\]</span></p>
+<p>where (v) is the (constant) speed and (r) is the radius of the
+circular path.</p>
+<p><strong>Worked example:</strong> A 1500 kg car rounds a curve of
+radius 60 m at 18 m/s. Find the centripetal acceleration and the force
+required.</p>
+<p><span class="math display">\[a_c = \frac{18^2}{60} = 5.4\text{
+m/s}^2\]</span></p>
+<p>Using Newton’s second law (previewing Chapter 5): (F_c = ma_c =
+1500(5.4) = 8100).</p>
+<h3 id="centripetal-force-is-a-role-not-a-new-kind-of-force">Centripetal
+force is a role, not a new kind of force</h3>
+<p>This is the single most important conceptual point of the day:
+<strong>“centripetal force” is not a new, separate type of force
+alongside gravity, tension, friction, and normal force</strong> — it’s
+simply the <em>name given to whichever real force</em> (or combination
+of forces) happens to be supplying the center-pointing acceleration in a
+given situation. For a car rounding a curve, friction between the tires
+and road provides the centripetal force. For a ball on a string swung in
+a horizontal circle, the string’s tension provides it. For a satellite
+orbiting Earth, gravity itself provides it. The formula \(F_c=mv^2/r\)
+tells you <em>how much</em> center-pointing force is needed; identifying
+<em>which real force</em> is doing that job is a separate, physical
+question you must answer by looking at the actual setup.</p>
+<h3 id="common-mistake-to-watch-for-9">Common mistake to watch for</h3>
+<p>Drawing a free-body diagram with an <em>additional</em> outward
+“centrifugal force” arrow, on top of the real forces present. In the
+(non-rotating, inertial) reference frame used throughout this course,
+there is no such outward force — the sensation of being “pushed outward”
+in a turning car is really just your body’s inertia (tending to continue
+in a straight line) combined with the car seat/door pushing you
+<em>inward</em>, toward the center, to keep you on the curved path along
+with the car.</p>
+<h3 id="key-formulas-and-facts-for-this-day-10">Key formulas and facts
+for this day</h3>
+<ul>
+<li>In uniform circular motion, speed is constant but velocity direction
+continuously changes, producing a nonzero acceleration.</li>
+<li>Centripetal acceleration: \(a_c=v^2/r\), always directed toward the
+center.</li>
+<li>Centripetal force, \(F_c=mv^2/r\), is the net inward force required —
+it is supplied by whatever real force (tension, friction, gravity, etc.)
+is present in a given problem, not a separate force in its own
+right.</li>
+</ul>
+<hr />
+<div class="probsets">
+<h3 class="pset-heading">Reading</h3>
+<ol class="rawlist">
+<li><span class="qtag" style="margin-right:6px;">Reading Q1</span>In uniform circular motion, which quantity remains constant?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q2</span>In uniform circular motion, which quantity is constantly changing even though speed is constant?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q3</span>Centripetal acceleration always points in what direction?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q4</span>The formula for centripetal acceleration is which of the following?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q5</span>Centripetal force is best described as which of the following?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q6</span>If the radius of a circular path doubles at constant speed, what happens to the centripetal acceleration?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q7</span>If the speed doubles at constant radius, what happens to the centripetal acceleration?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q8</span>What provides the centripetal force for a car rounding a curve?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q9</span>What provides the centripetal force for a satellite orbiting Earth?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q10</span>The direction of velocity in uniform circular motion is best described as what, relative to the radius?</li>
+</ol>
+<h3 class="pset-heading">Assignments</h3>
+<ol class="rawlist">
+<li><span class="qtag" style="margin-right:6px;">Easy Q1</span>Find the centripetal acceleration of an object moving at 4 m/s in a circle of radius 2 m.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q2</span>Find the centripetal acceleration of an object moving at 6 m/s in a circle of radius 3 m.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q3</span>Find the centripetal force on a 2 kg object with centripetal acceleration 5 m/s^2.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q4</span>Find the centripetal force needed for a 1 kg object moving at 3 m/s in a circle of radius 1 m.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q5</span>Find the centripetal acceleration for an object at 10 m/s in a circle of radius 5 m.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q6</span>Find the centripetal force on a 3 kg object with centripetal acceleration 4 m/s^2.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q7</span>An object moves at constant speed in a circle. State the direction of its velocity relative to the radius.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q8</span>An object moves at constant speed in a circle. State the direction of its centripetal acceleration relative to the radius.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q9</span>If radius doubles at constant speed, describe the change in centripetal acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q10</span>If speed triples at constant radius, describe the change in centripetal acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q1</span>A 1500 kg car rounds a curve of radius 60 m at 18 m/s. Find the centripetal acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q2</span>Same car: find the centripetal force required.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q3</span>A 0.2 kg ball on a string moves in a horizontal circle of radius 0.6 m at 5 m/s. Find the tension.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q4</span>A satellite orbits at 7,500 m/s in a circular path of radius 6,800 km. Find its centripetal acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q5</span>An 800 kg car rounds a curve of radius 100 m. If the maximum available centripetal force is 4000 N, find the maximum safe speed.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q6</span>A merry-go-round rider 3 m from the center experiences centripetal acceleration of 2 m/s^2. Find the rider's speed.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q7</span>A 0.5 kg mass swings in a horizontal circle of radius 0.4 m at 4 m/s. Find the required centripetal force.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q8</span>A roller coaster car moves through a loop of radius 10 m at 15 m/s at the bottom. Find the centripetal acceleration at that point.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q9</span>A 1200 kg car needs a centripetal force of 6000 N to round a curve of radius 80 m. Find its speed.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q10</span>A washing machine drum of radius 0.3 m spins such that clothes at the edge experience centripetal acceleration of 20 m/s^2. Find the speed of the clothes.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q1</span>A car rounds a banked curve of radius 50 m at 20 m/s, frictionless and properly banked. Find the required banking angle (tan(theta)=v^2/(rg)).</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q2</span>A roller coaster loop has radius 8 m. Find the minimum speed at the top such that the riders' weight alone provides the centripetal force.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q3</span>A conical pendulum has a string length of 1.2 m making an angle of 25 degrees with the vertical. Find the radius of the circular path.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q4</span>A car of mass 1300 kg rounds an unbanked curve of radius 70 m. Given a maximum static friction coefficient of 0.6, find the maximum safe speed.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q5</span>A centrifuge spins a sample at radius 0.1 m such that the sample experiences a centripetal acceleration of 5000 m/s^2. Find the required speed at that radius.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q6</span>A car's tires can provide a maximum centripetal force equal to 0.8 times the car's weight. Find the maximum speed for a 90 m radius curve.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q7</span>A pilot performing a circular turn at constant altitude and speed 200 m/s experiences a centripetal acceleration of 3g. Find the radius of the turn.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q8</span>A rotating space station of radius 200 m is designed to simulate Earth's gravity (9.8 m/s^2) via centripetal acceleration at the rim. Find the required speed at the rim.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q9</span>Two satellites orbit Earth at different radii, 7,000 km and 10,000 km. Given their required centripetal accelerations are provided by gravity (which decreases with radius), qualitatively explain which satellite must have a lower orbital speed and why.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q10</span>A ball on a string moves in a vertical circle. At the top, both gravity and tension contribute to centripetal force. Set up (without fully solving) the equation for tension at the top, given speed v, radius r, and mass m.</li>
+<li><span class="qtag" style="margin-right:6px;">Challenge Q1 (Evaluate)</span>A student claims that centripetal force is a distinct, separate force alongside gravity, friction, tension, etc. Evaluate this claim and clarify what centripetal force actually represents.</li>
+<li><span class="qtag" style="margin-right:6px;">Challenge Q2 (Create)</span>Design a circular-motion scenario (choose mass, speed, and radius) where the required centripetal force exactly equals the object's weight, and verify your chosen values.</li>
+<li><span class="qtag" style="margin-right:6px;">Challenge Q3 (Evaluate/Create)</span>An amusement park wants riders to experience no more than 2g of centripetal acceleration. Evaluate how radius and rotational speed trade off, then create a recommended combination.</li>
+</ol>
+<h3 class="pset-heading">Homework</h3>
+<ol class="rawlist">
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q1</span>Find the centripetal acceleration of an object moving at 5 m/s in a circle of radius 2.5 m.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q2</span>Find the centripetal acceleration of an object moving at 7 m/s in a circle of radius 3.5 m.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q3</span>Find the centripetal force on a 2.5 kg object with centripetal acceleration 4 m/s^2.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q4</span>Find the centripetal force needed for a 1.5 kg object moving at 3 m/s in a circle of radius 1 m.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q5</span>Find the centripetal acceleration for an object at 12 m/s in a circle of radius 6 m.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q6</span>Find the centripetal force on a 4 kg object with centripetal acceleration 3 m/s^2.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q7</span>An object at 8 m/s moves in a circle of radius 4 m; find its centripetal acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q8</span>An object moves at constant speed in a circle. State the angle between its velocity and centripetal acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q9</span>If radius triples at constant speed, describe the change in centripetal acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q10</span>If speed doubles at constant radius, describe the change in centripetal force needed.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q1</span>A 1400 kg car rounds a curve of radius 55 m at 16 m/s. Find the centripetal acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q2</span>Same car: find the centripetal force required.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q3</span>A 0.25 kg ball on a string moves in a horizontal circle of radius 0.5 m at 4.5 m/s. Find the tension.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q4</span>A satellite orbits at 7,200 m/s in a circular path of radius 6,900 km. Find its centripetal acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q5</span>A 750 kg car rounds a curve of radius 90 m. If the maximum available centripetal force is 3500 N, find the maximum safe speed.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q6</span>A merry-go-round rider 2.5 m from the center experiences centripetal acceleration of 2.5 m/s^2. Find the rider's speed.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q7</span>A 0.4 kg mass swings in a horizontal circle of radius 0.5 m at 3.5 m/s. Find the required centripetal force.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q8</span>A roller coaster car moves through a loop of radius 12 m at 16 m/s at the bottom. Find the centripetal acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q9</span>A 1000 kg car needs a centripetal force of 5000 N to round a curve of radius 75 m. Find its speed.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q10</span>A washing machine drum of radius 0.25 m spins such that clothes at the edge experience centripetal acceleration of 18 m/s^2. Find the speed of the clothes.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q1</span>A car rounds a banked curve of radius 45 m at 18 m/s. Find the required banking angle.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q2</span>A roller coaster loop has radius 9 m. Find the minimum speed at the top such that riders' weight alone provides the centripetal force.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q3</span>A conical pendulum has a string length of 1.0 m making an angle of 20 degrees with the vertical. Find the radius of the circular path.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q4</span>A car of mass 1250 kg rounds an unbanked curve of radius 65 m. Given max static friction coefficient of 0.55, find the maximum safe speed.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q5</span>A centrifuge spins a sample at radius 0.08 m with centripetal acceleration 4500 m/s^2. Find the required speed at that radius.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q6</span>A car's tires provide a maximum centripetal force equal to 0.75 times the car's weight. Find the maximum speed for an 85 m radius curve.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q7</span>A pilot performing a circular turn at 180 m/s experiences a centripetal acceleration of 2.5g. Find the radius of the turn.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q8</span>A rotating space station of radius 150 m is designed to simulate 9.8 m/s^2 at the rim. Find the required speed at the rim.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q9</span>Two satellites orbit at 7,200 km and 9,500 km. Qualitatively explain which must have lower orbital speed if gravity alone provides centripetal force.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q10</span>A ball on a string moves in a vertical circle. Set up (without solving) the equation for tension at the bottom of the circle, given speed v, radius r, and mass m.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Challenge Q1 (Evaluate)</span>A student claims that centripetal force is a distinct, separate force alongside gravity, friction, tension, etc. Evaluate this claim and clarify what centripetal force actually represents.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Challenge Q2 (Create)</span>Design a circular-motion scenario (choose mass, speed, and radius) where the required centripetal force exactly equals the object's weight, and verify your chosen values.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Challenge Q3 (Evaluate/Create)</span>An amusement park wants riders to experience no more than 2g of centripetal acceleration. Evaluate how radius and rotational speed trade off, then create a recommended combination.</li>
+</ol>
+<h3 class="pset-heading">Synthesis Problems</h3>
+<p class="dayconnects">Connects: vectors (Ch.3), projectile/2D motion (Days 10-11), forward-looking to force concepts.</p>
+
+
+<div class="problem"><span class="ptag">1</span><span class="ptag applied">Applied</span>
+<p>A car (1400 kg) enters an unbanked highway curve of radius 120 m. The maximum static friction force the tires can provide is measured as 9800 N. Find the maximum safe speed for the curve, then convert this to km/h and compare it to a posted speed limit of 100 km/h, stating whether the limit is conservative or not for this curve.</p>
+<p class="connects">Connects: centripetal force/acceleration, unit conversion (Ch.1), evaluating a real safety design</p></div>
+
+<div class="problem"><span class="ptag">2</span><span class="ptag evaluate">Evaluate</span>
+<p>A student explains that a ball swung in a horizontal circle on a string "wants to fly outward, and the string's tension balances that outward force." Evaluate this explanation from the standpoint of an observer standing still on the ground (an inertial frame), explaining what is actually providing the centripetal force and why there is no real "outward force" in this frame.</p>
+<p class="connects">Connects: centripetal force conceptual understanding, evaluating a common "centrifugal force" misconception</p></div>
+
+<div class="problem"><span class="ptag">3</span><span class="ptag applied">Applied</span>
+<p>A centrifuge used in a lab spins samples at a radius of 0.12 m. If a sample must experience a centripetal acceleration of exactly 8000 m/s&sup2; (about 816 times \(g\)) for a required test, find the necessary rotational speed in rad/s, and convert this to rpm.</p>
+<p class="connects">Connects: centripetal acceleration, unit conversion (rad/s to rpm), applied lab-equipment design</p></div>
+
+<div class="problem"><span class="ptag">4</span><span class="ptag evaluate">Evaluate</span>
+<p>Two satellites orbit Earth at different radii, both in uniform circular motion under gravity alone. A student claims "the satellite farther out must be moving faster, since it has farther to travel around its orbit." Evaluate this claim using the relationship between orbital radius, gravity, and required centripetal speed (\(v=\sqrt{GM/r}\) for gravity-driven circular orbits, forward-referenced here) &mdash; without needing exact numbers, reason through whether speed should increase or decrease with radius.</p>
+<p class="connects">Connects: centripetal motion, evaluating an intuitive-but-incorrect orbital claim</p></div>
+
+<div class="problem"><span class="ptag">5</span><span class="ptag applied">Applied</span>
+<p>A pilot performs a circular turn at constant altitude and speed 220 m/s, experiencing a centripetal acceleration of 4\(g\). Find the radius of the turn, and find the time to complete one full circle at this speed and radius.</p>
+<p class="connects">Connects: centripetal acceleration, circular-motion period, applied aviation-physiology context</p></div>
+
+
+<div class="problem"><span class="ptag">6</span><span class="ptag applied">Applied</span>
+<p>A playground merry-go-round has a radius of 1.8 m and completes one rotation every 3.5 s. Find the speed and centripetal acceleration of a child sitting at the very edge, and find the minimum coefficient of static friction between the child and the seat needed to prevent sliding outward (assuming friction alone provides the centripetal force).</p>
+<p class="connects">Connects: centripetal motion, period-to-speed conversion, forward-looking friction/force reasoning</p></div>
+
+<div class="problem"><span class="ptag">7</span><span class="ptag evaluate">Evaluate</span>
+<p>A roller coaster designer claims that doubling the radius of a circular loop (keeping the same speed) makes the ride "twice as intense" for riders. Evaluate this claim quantitatively using the centripetal acceleration formula \(a_c=v^2/r\), determining the actual factor by which the acceleration (and hence the "intensity") changes.</p>
+<p class="connects">Connects: centripetal acceleration, proportional reasoning, evaluating a design claim</p></div>
+
+<div class="problem"><span class="ptag">8</span><span class="ptag applied">Applied</span>
+<p>A 1600 kg car rounds a banked curve of radius 90 m, banked at exactly the angle needed for the curve to be safely negotiated with zero reliance on friction at a design speed of 70 km/h. Convert the design speed to m/s and find the required banking angle.</p>
+<p class="connects">Connects: centripetal motion, banked-curve geometry, unit conversion (Ch.1)</p></div>
+
+<div class="problem"><span class="ptag">9</span><span class="ptag evaluate">Evaluate</span>
+<p>A washing machine's spin cycle is advertised as spinning clothes at "1200 rpm" to remove water via centripetal effects. Evaluate the resulting centripetal acceleration (in multiples of \(g\)) experienced by clothing at a drum radius of 0.25 m, and discuss whether this seems physically consistent with how forcefully water is observed to be extracted during a spin cycle.</p>
+<p class="connects">Connects: centripetal acceleration, unit conversion (rpm to rad/s), evaluating a consumer appliance specification</p></div>
+
+<div class="problem"><span class="ptag">10</span><span class="ptag applied">Applied</span>
+<p>A conical pendulum (a ball on a string swinging in a horizontal circle while the string traces a cone shape) has a string of length 1.4 m making an angle of 28&deg; with the vertical. Find the radius of the ball's circular path and the ball's speed, using the fact that the vertical component of tension supports the ball's weight while the horizontal component provides the centripetal force.</p>
+<p class="connects">Connects: centripetal motion, vector decomposition (Ch.3), forward-looking to tension/force analysis</p></div>
+
+
+</div></div>
+</div></main>
+</div>
+</body>
+</html>

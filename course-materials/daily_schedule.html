@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>PHYS203 - Daily Assignment Schedule</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', Calibri, Arial, sans-serif; color: #1c2430; background: #eef0ea; font-size: 9pt; }
+.wrap { max-width: 1150px; margin: 0 auto; padding: 26px 24px 40px; }
+header { background: #0A1A2E; color: #fff; padding: 15px 20px; border-radius: 8px; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: baseline; }
+header h1 { font-family: Georgia, serif; font-size: 16pt; font-weight: 800; }
+header p { font-size: 8.5pt; color: #b9c4d6; margin-top: 3px; }
+header .term { text-align: right; font-size: 8.5pt; color: #dbe4f0; }
+
+.legend { display: flex; gap: 14px; margin-bottom: 10px; flex-wrap: wrap; font-size: 8pt; }
+.legend .item { display: flex; align-items: center; gap: 5px; }
+.legend .swatch { width: 11px; height: 11px; border-radius: 3px; display: inline-block; }
+
+table.main { width: 100%; border-collapse: collapse; background: #fff; border-radius: 6px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+table.main th { background: #0A1A2E; color: #fff; text-align: left; padding: 6px 7px; font-size: 8pt; font-family: Georgia, serif; position: sticky; top: 0; }
+table.main td { padding: 4px 7px; vertical-align: top; border-bottom: 1px solid #e5e3d8; font-size: 8.2pt; }
+tr.dayrow:nth-child(even) { background: #f8f7f2; }
+td.mnum { font-weight: 800; color: #0A1A2E; text-align: center; width: 26px; font-size: 8.5pt; }
+td.dt { font-weight: 700; color: #0A1A2E; white-space: nowrap; width: 78px; font-size: 8pt; }
+td.topic { font-weight: 600; width: 155px; padding-left: 8px; }
+.none { color: #b8b5aa; font-style: italic; font-size: 7.8pt; }
+
+.pill { display: inline-block; padding: 1.5px 6px; border-radius: 999px; font-size: 7.2pt; font-weight: 600; margin: 1px; white-space: nowrap; }
+.p-reading { background: #e8ecf4; color: #2c4670; border: 1px solid #b9c4d6; }
+.p-home { background: #fdecea; color: #8a2a20; border: 1px solid #e6b3ac; }
+.p-complex { background: #eef2e0; color: #4a6b1f; border: 1px solid #c8d9a8; }
+.p-quiz { background: #f3e0f7; color: #6b2a80; border: 1px solid #d9b3e6; font-weight: 800; }
+
+tr.breakrow td { background: #fdf3e3; color: #8a5a00; font-style: italic; font-weight: 700; text-align: center; padding: 4px; font-size: 8pt; }
+
+.notesbox { margin-top: 14px; background: #fff8e6; border: 1px solid #e0a020; border-left: 5px solid #e0a020; border-radius: 6px; padding: 9px 15px; font-size: 8pt; line-height: 1.5; }
+.notesbox strong { color: #8a5a00; }
+.examblock { margin-top: 12px; background: #0A1A2E; color: #fff; border-radius: 8px; padding: 10px 16px; display: flex; justify-content: space-between; align-items: center; }
+.examblock .t { font-family: Georgia, serif; font-size: 10.5pt; font-weight: 800; }
+.examblock .d { font-size: 8.8pt; color: #dbe4f0; }
+footer { margin-top: 14px; text-align: center; font-size: 7.5pt; color: #6b7280; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div>
+    <h1>PHYS203 &mdash; Daily Assignment Schedule</h1>
+    <p>What's due each class meeting: Reading &amp; Daily Assignments, Weekly Check-In Quiz &mdash; plus chapter-wise Complex Problems shown on their write-up day</p>
+  </div>
+  <div class="term">Goshen College<br>Fall 2026 &middot; MWF</div>
+</header>
+
+<div class="legend">
+  <div class="item"><span class="swatch" style="background:#e8ecf4; border:1px solid #b9c4d6;"></span> Reading (due this day, pre-class)</div>
+  <div class="item"><span class="swatch" style="background:#fdecea; border:1px solid #e6b3ac;"></span> Daily Assignment (due next class)</div>
+  <div class="item"><span class="swatch" style="background:#eef2e0; border:1px solid #c8d9a8;"></span> Complex Write-up (chapter-wise, shown on write-up day)</div>
+  <div class="item"><span class="swatch" style="background:#f3e0f7; border:1px solid #d9b3e6;"></span> Weekly Quiz (end of chapter)</div>
+</div>
+
+<table class="main">
+  <tr><th>#</th><th>Date</th><th>Topic Introduced</th><th>Reading Due</th><th>Daily Due</th><th>Complex Write-up Due</th><th>Quiz Due</th></tr>
+  
+    <tr class="dayrow">
+      <td class="mnum">1</td>
+      <td class="dt">Mon, Aug 31</td>
+      <td class="topic" style="border-left:4px solid #0A1A2E"><em>Course Introduction &amp; Syllabus</em></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+    </tr>
+    
+    <tr class="dayrow">
+      <td class="mnum">2</td>
+      <td class="dt">Wed, Sep 2</td>
+      <td class="topic" style="border-left:4px solid 4A5A7A">Units</td>
+      <td class="cell"><span class="pill p-reading">Units</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+    </tr>
+    
+    <tr class="dayrow">
+      <td class="mnum">3</td>
+      <td class="dt">Fri, Sep 4</td>
+      <td class="topic" style="border-left:4px solid 4A5A7A">Dimensions</td>
+      <td class="cell"><span class="pill p-reading">Dimensions</span></td>
+      <td class="cell"><span class="pill p-home">Units</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+    </tr>
+    <tr class="breakrow"><td colspan="7">&#9866; Labor Day &mdash; no class Sep 4&ndash;Sep 9</td></tr>
+    <tr class="dayrow">
+      <td class="mnum">4</td>
+      <td class="dt">Wed, Sep 9</td>
+      <td class="topic" style="border-left:4px solid 1F7A6C">Avg Velocity/Acceleration</td>
+      <td class="cell"><span class="pill p-reading">Avg Velocity/Acceleration</span></td>
+      <td class="cell"><span class="pill p-home">Dimensions</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+      <td class="cell"><span class="pill p-quiz">Units and Dimensions</span></td>
+    </tr>
+    
+    <tr class="dayrow">
+      <td class="mnum">5</td>
+      <td class="dt">Fri, Sep 11</td>
+      <td class="topic" style="border-left:4px solid 1F7A6C">Instantaneous Vel/Acc</td>
+      <td class="cell"><span class="pill p-reading">Instantaneous Vel/Acc</span></td>
+      <td class="cell"><span class="pill p-home">Avg Velocity/Acceleration</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+    </tr>
+    
+    <tr class="dayrow">
+      <td class="mnum">6</td>
+      <td class="dt">Mon, Sep 14</td>
+      <td class="topic" style="border-left:4px solid 1F7A6C">Kinematic Equations</td>
+      <td class="cell"><span class="pill p-reading">Kinematic Equations</span></td>
+      <td class="cell"><span class="pill p-home">Instantaneous Vel/Acc</span></td>
+      <td class="cell"><span class="pill p-complex">Ch1: Units and Dimensions (Moodle by Sun 2026-09-13)</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+    </tr>
+    
+    <tr class="dayrow">
+      <td class="mnum">7</td>
+      <td class="dt">Wed, Sep 16</td>
+      <td class="topic" style="border-left:4px solid 1F7A6C">Free Fall</td>
+      <td class="cell"><span class="pill p-reading">Free Fall</span></td>
+      <td class="cell"><span class="pill p-home">Kinematic Equations</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+    </tr>
+    
+    <tr class="dayrow">
+      <td class="mnum">8</td>
+      <td class="dt">Fri, Sep 18</td>
+      <td class="topic" style="border-left:4px solid 6B3FA0">Vectors</td>
+      <td class="cell"><span class="pill p-reading">Vectors</span></td>
+      <td class="cell"><span class="pill p-home">Free Fall</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+      <td class="cell"><span class="pill p-quiz">1D Kinematics</span></td>
+    </tr>
+    <tr class="breakrow"><td colspan="7">&#9866; Community Engagement Day &mdash; no class Sep 18&ndash;Sep 23</td></tr>
+    <tr class="dayrow">
+      <td class="mnum">9</td>
+      <td class="dt">Wed, Sep 23</td>
+      <td class="topic" style="border-left:4px solid 6B3FA0">Vector Decomposition</td>
+      <td class="cell"><span class="pill p-reading">Vector Decomposition</span></td>
+      <td class="cell"><span class="pill p-home">Vectors</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+    </tr>
+    
+    <tr class="dayrow">
+      <td class="mnum">10</td>
+      <td class="dt">Fri, Sep 25</td>
+      <td class="topic" style="border-left:4px solid C2650A">Simple 2D Motion</td>
+      <td class="cell"><span class="pill p-reading">Simple 2D Motion</span></td>
+      <td class="cell"><span class="pill p-home">Vector Decomposition</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+      <td class="cell"><span class="pill p-quiz">Vectors</span></td>
+    </tr>
+    
+    <tr class="dayrow">
+      <td class="mnum">11</td>
+      <td class="dt">Mon, Sep 28</td>
+      <td class="topic" style="border-left:4px solid C2650A">Projectile Motion</td>
+      <td class="cell"><span class="pill p-reading">Projectile Motion</span></td>
+      <td class="cell"><span class="pill p-home">Simple 2D Motion</span></td>
+      <td class="cell"><span class="pill p-complex">Ch2: 1D Kinematics (Moodle by Sun 2026-09-27)</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+    </tr>
+    
+    <tr class="dayrow">
+      <td class="mnum">12</td>
+      <td class="dt">Wed, Sep 30</td>
+      <td class="topic" style="border-left:4px solid C2650A">Uniform Circular Motion</td>
+      <td class="cell"><span class="pill p-reading">Uniform Circular Motion</span></td>
+      <td class="cell"><span class="pill p-home">Projectile Motion</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+    </tr>
+    
+    <tr class="dayrow">
+      <td class="mnum">13</td>
+      <td class="dt">Fri, Oct 2</td>
+      <td class="topic" style="border-left:4px solid A02334">Newton's Laws & Forces</td>
+      <td class="cell"><span class="pill p-reading">Newton's Laws & Forces</span></td>
+      <td class="cell"><span class="pill p-home">Uniform Circular Motion</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+      <td class="cell"><span class="pill p-quiz">2D Motion</span></td>
+    </tr>
+    
+    <tr class="dayrow">
+      <td class="mnum">14</td>
+      <td class="dt">Mon, Oct 5</td>
+      <td class="topic" style="border-left:4px solid A02334">F=ma Multiple Contexts</td>
+      <td class="cell"><span class="pill p-reading">F=ma Multiple Contexts</span></td>
+      <td class="cell"><span class="pill p-home">Newton's Laws & Forces</span></td>
+      <td class="cell"><span class="pill p-complex">Ch3: Vectors (Moodle by Sun 2026-10-04)</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+    </tr>
+    
+    <tr class="dayrow">
+      <td class="mnum">15</td>
+      <td class="dt">Wed, Oct 7</td>
+      <td class="topic" style="border-left:4px solid A02334">Inclined Planes</td>
+      <td class="cell"><span class="pill p-reading">Inclined Planes</span></td>
+      <td class="cell"><span class="pill p-home">F=ma Multiple Contexts</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+    </tr>
+    
+    <tr class="dayrow">
+      <td class="mnum">16</td>
+      <td class="dt">Fri, Oct 9</td>
+      <td class="topic" style="border-left:4px solid A02334">Frictional Forces</td>
+      <td class="cell"><span class="pill p-reading">Frictional Forces</span></td>
+      <td class="cell"><span class="pill p-home">Inclined Planes</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+    </tr>
+    
+    <tr class="dayrow">
+      <td class="mnum">17</td>
+      <td class="dt">Mon, Oct 12</td>
+      <td class="topic" style="border-left:4px solid 106B77">Momentum & Impulse</td>
+      <td class="cell"><span class="pill p-reading">Momentum & Impulse</span></td>
+      <td class="cell"><span class="pill p-home">Frictional Forces</span></td>
+      <td class="cell"><span class="pill p-complex">Ch4: 2D Motion (Moodle by Sun 2026-10-11)</span></td>
+      <td class="cell"><span class="pill p-quiz">Newton's Laws</span></td>
+    </tr>
+    
+    <tr class="dayrow">
+      <td class="mnum">18</td>
+      <td class="dt">Wed, Oct 14</td>
+      <td class="topic" style="border-left:4px solid 106B77">Elastic/Inelastic Collisions</td>
+      <td class="cell"><span class="pill p-reading">Elastic/Inelastic Collisions</span></td>
+      <td class="cell"><span class="pill p-home">Momentum & Impulse</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+    </tr>
+    
+    <tr class="dayrow">
+      <td class="mnum">19</td>
+      <td class="dt">Fri, Oct 16</td>
+      <td class="topic" style="border-left:4px solid 2E7D32">Work-Energy Theorem</td>
+      <td class="cell"><span class="pill p-reading">Work-Energy Theorem</span></td>
+      <td class="cell"><span class="pill p-home">Elastic/Inelastic Collisions</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+      <td class="cell"><span class="pill p-quiz">Momentum & Collisions</span></td>
+    </tr>
+    <tr class="breakrow"><td colspan="7">&#9866; Mid-term break &mdash; no class Oct 16&ndash;Oct 23</td></tr>
+    <tr class="dayrow">
+      <td class="mnum">20</td>
+      <td class="dt">Fri, Oct 23</td>
+      <td class="topic" style="border-left:4px solid 2E7D32">Potential Energy & Conservation</td>
+      <td class="cell"><span class="pill p-reading">Potential Energy & Conservation</span></td>
+      <td class="cell"><span class="pill p-home">Work-Energy Theorem</span></td>
+      <td class="cell"><span class="pill p-complex">Ch5: Newton's Laws (Moodle by Sun 2026-10-18)</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+    </tr>
+    
+    <tr class="dayrow">
+      <td class="mnum">21</td>
+      <td class="dt">Mon, Oct 26</td>
+      <td class="topic" style="border-left:4px solid 2E7D32">Applications: Cons. of Energy</td>
+      <td class="cell"><span class="pill p-reading">Applications: Cons. of Energy</span></td>
+      <td class="cell"><span class="pill p-home">Potential Energy & Conservation</span></td>
+      <td class="cell"><span class="pill p-complex">Ch6: Momentum & Collisions (Moodle by Sun 2026-10-25)</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+    </tr>
+    
+    <tr class="dayrow">
+      <td class="mnum">22</td>
+      <td class="dt">Wed, Oct 28</td>
+      <td class="topic" style="border-left:4px solid 3949AB">Angular Kinematics</td>
+      <td class="cell"><span class="pill p-reading">Angular Kinematics</span></td>
+      <td class="cell"><span class="pill p-home">Applications: Cons. of Energy</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+      <td class="cell"><span class="pill p-quiz">Work & Energy</span></td>
+    </tr>
+    
+    <tr class="dayrow">
+      <td class="mnum">23</td>
+      <td class="dt">Fri, Oct 30</td>
+      <td class="topic" style="border-left:4px solid 3949AB">Rotational KE & Moment of Inertia</td>
+      <td class="cell"><span class="pill p-reading">Rotational KE & Moment of Inertia</span></td>
+      <td class="cell"><span class="pill p-home">Angular Kinematics</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+    </tr>
+    
+    <tr class="dayrow">
+      <td class="mnum">24</td>
+      <td class="dt">Mon, Nov 2</td>
+      <td class="topic" style="border-left:4px solid 3949AB">Torque I</td>
+      <td class="cell"><span class="pill p-reading">Torque I</span></td>
+      <td class="cell"><span class="pill p-home">Rotational KE & Moment of Inertia</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+    </tr>
+    
+    <tr class="dayrow">
+      <td class="mnum">25</td>
+      <td class="dt">Wed, Nov 4</td>
+      <td class="topic" style="border-left:4px solid 3949AB">Torque II & Rotational 2nd Law</td>
+      <td class="cell"><span class="pill p-reading">Torque II & Rotational 2nd Law</span></td>
+      <td class="cell"><span class="pill p-home">Torque I</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+    </tr>
+    
+    <tr class="dayrow">
+      <td class="mnum">26</td>
+      <td class="dt">Fri, Nov 6</td>
+      <td class="topic" style="border-left:4px solid 3949AB">Angular Momentum</td>
+      <td class="cell"><span class="pill p-reading">Angular Momentum</span></td>
+      <td class="cell"><span class="pill p-home">Torque II & Rotational 2nd Law</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+    </tr>
+    
+    <tr class="dayrow">
+      <td class="mnum">27</td>
+      <td class="dt">Mon, Nov 9</td>
+      <td class="topic" style="border-left:4px solid 3949AB">Rolling & Gyroscopic Motion</td>
+      <td class="cell"><span class="pill p-reading">Rolling & Gyroscopic Motion</span></td>
+      <td class="cell"><span class="pill p-home">Angular Momentum</span></td>
+      <td class="cell"><span class="pill p-complex">Ch7: Work & Energy (Moodle by Sun 2026-11-08)</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+    </tr>
+    
+    <tr class="dayrow">
+      <td class="mnum">28</td>
+      <td class="dt">Wed, Nov 11</td>
+      <td class="topic" style="border-left:4px solid 8E24AA">SHM I</td>
+      <td class="cell"><span class="pill p-reading">SHM I</span></td>
+      <td class="cell"><span class="pill p-home">Rolling & Gyroscopic Motion</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+      <td class="cell"><span class="pill p-quiz">Rotational Motion</span></td>
+    </tr>
+    
+    <tr class="dayrow">
+      <td class="mnum">29</td>
+      <td class="dt">Fri, Nov 13</td>
+      <td class="topic" style="border-left:4px solid 8E24AA">SHM II (Springs & Pendulums)</td>
+      <td class="cell"><span class="pill p-reading">SHM II (Springs & Pendulums)</span></td>
+      <td class="cell"><span class="pill p-home">SHM I</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+    </tr>
+    
+    <tr class="dayrow">
+      <td class="mnum">30</td>
+      <td class="dt">Mon, Nov 16</td>
+      <td class="topic" style="border-left:4px solid 0277BD">Wave Properties</td>
+      <td class="cell"><span class="pill p-reading">Wave Properties</span></td>
+      <td class="cell"><span class="pill p-home">SHM II (Springs & Pendulums)</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+      <td class="cell"><span class="pill p-quiz">Oscillations</span></td>
+    </tr>
+    
+    <tr class="dayrow">
+      <td class="mnum">31</td>
+      <td class="dt">Wed, Nov 18</td>
+      <td class="topic" style="border-left:4px solid 0277BD">Superposition & Interference</td>
+      <td class="cell"><span class="pill p-reading">Superposition & Interference</span></td>
+      <td class="cell"><span class="pill p-home">Wave Properties</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+    </tr>
+    
+    <tr class="dayrow">
+      <td class="mnum">32</td>
+      <td class="dt">Fri, Nov 20</td>
+      <td class="topic" style="border-left:4px solid 0277BD">Traveling & Standing Waves</td>
+      <td class="cell"><span class="pill p-reading">Traveling & Standing Waves</span></td>
+      <td class="cell"><span class="pill p-home">Superposition & Interference</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+    </tr>
+    
+    <tr class="dayrow">
+      <td class="mnum">33</td>
+      <td class="dt">Mon, Nov 23</td>
+      <td class="topic" style="border-left:4px solid D84315">Speed of Sound</td>
+      <td class="cell"><span class="pill p-reading">Speed of Sound</span></td>
+      <td class="cell"><span class="pill p-home">Traveling & Standing Waves</span></td>
+      <td class="cell"><span class="pill p-complex">Ch8: Rotational Motion (Moodle by Sun 2026-11-22)</span><span class="pill p-complex">Ch9: Oscillations (Moodle by Sun 2026-11-22)</span></td>
+      <td class="cell"><span class="pill p-quiz">Waves</span></td>
+    </tr>
+    <tr class="breakrow"><td colspan="7">&#9866; Thanksgiving break &mdash; no class Nov 23&ndash;Nov 30</td></tr>
+    <tr class="dayrow">
+      <td class="mnum">34</td>
+      <td class="dt">Mon, Nov 30</td>
+      <td class="topic" style="border-left:4px solid D84315">Sound Intensity & Decibels</td>
+      <td class="cell"><span class="pill p-reading">Sound Intensity & Decibels</span></td>
+      <td class="cell"><span class="pill p-home">Speed of Sound</span></td>
+      <td class="cell"><span class="pill p-complex">Ch10: Waves (Moodle by Sun 2026-11-29)</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+    </tr>
+    
+    <tr class="dayrow">
+      <td class="mnum">35</td>
+      <td class="dt">Wed, Dec 2</td>
+      <td class="topic" style="border-left:4px solid D84315">The Doppler Effect</td>
+      <td class="cell"><span class="pill p-reading">The Doppler Effect</span></td>
+      <td class="cell"><span class="pill p-home">Sound Intensity & Decibels</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+    </tr>
+    
+    <tr class="dayrow">
+      <td class="mnum">36</td>
+      <td class="dt">Fri, Dec 4</td>
+      <td class="topic" style="border-left:4px solid #0A1A2E"><em>Final Exam Review</em></td>
+      <td class="cell"><span class="none">&mdash;</span></td>
+      <td class="cell"><span class="pill p-home">The Doppler Effect</span></td>
+      <td class="cell"><span class="pill p-complex">Ch11: Sound (Moodle by Sun 2026-11-29)</span></td>
+      <td class="cell"><span class="pill p-quiz">Sound</span></td>
+    </tr>
+    
+</table>
+
+<div class="examblock">
+  <div class="t">Final Exam Period</div>
+  <div class="d">Reading Day: Mon, Dec 7 &nbsp;|&nbsp; Final Exams: Dec 8&ndash;10 &nbsp;|&nbsp; Cumulative, covers all 11 chapters</div>
+</div>
+
+<div class="notesbox">
+  <strong>Daily cadence:</strong> Reading Assignments are due the same class day the topic is introduced (pre-class check). Daily Assignments are due before the start of the next class. Complex Problems are assigned chapter-wise (not per day): each chapter's Complex Problems are uploaded in Moodle by the end of the following week's Sunday (11:59 PM), with the accompanying write-up due in class the next class meeting after that. The Weekly Check-In Quiz is due at the beginning of class on the first day of each week, and Concept Quest is due biweekly on the last day of the week. Due dates automatically skip forward over breaks (Labor Day, Community Engagement Day, mid-term break, Thanksgiving) to the next real class meeting. <strong>Instructor note:</strong> the final chapter (Sound) is a scheduling exception, since no class meetings remain after its usual due-date cycle; its Moodle deadline is pulled back a week so the write-up can still be submitted at the Final Exam Review session.
+</div>
+
+<footer>PHYS203 General Physics I &middot; Fall 2026 &middot; Goshen College Department of Physics &middot; Based on the official 2026&ndash;27 Traditional Academic Calendar</footer>
+
+</div>
+</body>
+</html>

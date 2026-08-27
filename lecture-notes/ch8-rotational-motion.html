@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 8: Rotational Motion - PHYS203 Extended Lecture Notes</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]'], ['$$', '$$']] },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="assets/tex-svg.js"></script>
+
+<style>
+:root{
+  --ink:#f3ede0; --ink-dim:#a89f8c; --paper:#171a21; --bg:#0f1115;
+  --line:#2a2e38; --accent:#e8a13a; --easy:#6fae8f; --medium:#e8a13a;
+  --hard:#e2725b; --challenge:#9fb3e0; --tag-bg:#1d212b;
+}
+body { margin:0; background: #1d2230; color:var(--ink); font-family:Georgia,'Times New Roman',serif; }
+.shell { display:flex; min-height:100vh; }
+.sidebar {
+  width:280px; flex-shrink:0; background:#0b0d11; color:var(--ink); padding:22px 0 60px;
+  position:fixed; top:0; left:0; bottom:0; overflow-y:auto; font-family:'Courier New',monospace;
+}
+.sidebar .brand { padding:0 22px 18px; font-family:Georgia,serif; font-weight:800; font-size:1.05rem; color:var(--ink); border-bottom:1px solid var(--line); margin-bottom:14px; }
+.sidebar .brand small { display:block; font-family:'Courier New',monospace; font-weight:400; color:var(--ink-dim); font-size:0.72rem; margin-top:3px; }
+.sidebar a.chap-link { display:block; padding:8px 22px; color:var(--ink); text-decoration:none; font-size:0.88rem; border-left:3px solid transparent; }
+.sidebar a.chap-link:hover { background:#1d212b; }
+.sidebar a.chap-link.active { background:#1d212b; border-left-color:var(--accent); color:var(--accent); font-weight:600; }
+.sidebar a.home-link { display:block; padding:8px 22px; color:var(--ink-dim); text-decoration:none; font-size:0.82rem; margin-bottom:8px; }
+.main { margin-left:280px; flex:1; display:flex; justify-content:center; min-width:0; }
+.content { max-width:880px; width:100%; padding:36px 40px 100px; background:transparent; }
+.content h1 { font-family:Georgia,serif; color:var(--ink); border-bottom:3px solid var(--accent); padding-bottom:12px; }
+.content h1:first-of-type { margin-top: 0; }
+.content h2 { font-family:Georgia,serif; color:var(--accent); margin-top:44px; }
+.content h3 { color:var(--easy); }
+.day-anchor-wrap { border-top: 4px solid var(--line); padding-top: 6px; margin-top: 56px; }
+.day-anchor-wrap:first-of-type { border-top: none; margin-top: 0; padding-top: 0; }
+
+/* Problem-section styling */
+.probsets { margin-top: 28px; background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 20px 24px; }
+.probsets > h3.pset-heading {
+  font-family:'Courier New',monospace; font-size:1rem; text-transform:uppercase; letter-spacing:0.05em;
+  color:var(--ink); border-bottom:2px solid var(--accent); padding-bottom:6px; margin: 26px 0 12px;
+}
+.probsets > h3.pset-heading:first-child { margin-top: 0; }
+h3.tier { font-family:'Courier New',monospace; font-size:0.92rem; margin:18px 0 8px; display:flex; align-items:center; gap:8px; color:var(--ink); }
+.tier-dot { width:9px; height:9px; border-radius:50%; display:inline-block; }
+.tier.easy .tier-dot{background:var(--easy);} .tier.medium .tier-dot{background:var(--medium);}
+.tier.hard .tier-dot{background:var(--hard);} .tier.challenge .tier-dot{background:var(--challenge);}
+details.problem { background:#12141a; border:1px solid var(--line); border-radius:8px; margin-bottom:8px; }
+details.problem summary { cursor:pointer; padding:10px 14px; font-size:0.92rem; display:flex; gap:8px; align-items:baseline; font-family:'Courier New',monospace; color:var(--ink);}
+.qtag { font-family:'Courier New',monospace; font-size:0.68rem; font-weight:700; background:var(--tag-bg); color:var(--ink-dim); padding:2px 7px; border-radius:999px; white-space:nowrap; }
+.solution { padding:2px 16px 12px; border-top:1px dashed var(--line); font-family:Georgia,serif; font-size:0.88rem;}
+.answer { font-family:'Courier New',monospace; font-weight:700; background:#16241d; color:var(--easy); border-left:4px solid var(--easy); padding:6px 10px; border-radius:4px; margin-top:8px !important; }
+.rawlist { font-family:'Courier New',monospace; font-size:1.05rem; line-height:1.6; padding-left: 1.5em; color:var(--ink); }
+.rawlist li { margin-bottom: 10px; }
+.rawlist .qtag { font-size:0.76rem; }
+.pending-note { font-family:Georgia,serif; font-size:0.82rem; color:var(--accent); font-style:italic; background:#2a2416; border:1px solid var(--accent); border-radius:6px; padding:8px 12px; margin-bottom: 12px;}
+</style>
+
+<style>
+  :root{
+    --ink:#f3ede0; --ink-dim:#a89f8c; --paper:#171a21; --bg:transparent;
+    --line:#2a2e38; --accent:#e8a13a; --accent-dark:#8a5a1f; --accent-soft:#2a2416;
+    --ic:#6fae8f; --ic-soft:#16241d; --hw:#e2725b; --hw-soft:#2a1a14;
+  }
+  * { box-sizing: border-box; }
+  /* body background intentionally inherited from the outer wrapper style block above */
+  .wrap { max-width: 900px; margin: 0 auto; padding: 30px 22px 90px; }
+  h1.doctitle {
+    font-family:"Courier New",monospace; font-size: 1.9rem; font-weight:700;
+    color: var(--ink); border-bottom: 4px solid var(--accent); padding-bottom: 14px;
+    margin: 0 0 8px 0;
+  }
+  p.subtitle { font-family:Georgia,serif; color:var(--ink-dim); font-size:0.95rem; margin:0 0 30px 0; font-style:italic; }
+  #TOC {
+    background: var(--paper); border: 1px solid var(--line); border-radius: 8px;
+    padding: 18px 24px; margin: 0 0 34px 0;
+    font-family: "Courier New", monospace; font-size: 0.9rem; columns: 2; column-gap: 30px;
+  }
+  #TOC a { color: var(--accent); text-decoration: none; font-weight: 600; display:block; padding: 3px 0; break-inside: avoid; }
+  #TOC a:hover { text-decoration: underline; }
+  h2.chapter {
+    font-family:"Courier New",monospace; font-size: 1.35rem; font-weight:700;
+    color: #171a21; background: var(--accent);
+    padding: 12px 18px; border-radius: 6px; margin: 50px 0 20px 0;
+  }
+  h3.day {
+    font-family:"Courier New",monospace; font-size: 1.1rem; font-weight:700;
+    color: var(--accent); background: var(--accent-soft);
+    border-left: 5px solid var(--accent); padding: 8px 14px;
+    margin: 34px 0 6px 0; border-radius: 0 4px 4px 0;
+  }
+  p.dayconnects { font-family:Georgia,serif; font-size:0.85rem; color:var(--ink-dim); margin:0 0 16px 0; font-style:italic; }
+  h4.subhead {
+    font-family:"Courier New",monospace; font-size: 0.82rem; font-weight:700;
+    text-transform: uppercase; letter-spacing: 0.06em; margin: 18px 0 10px 0;
+    padding-bottom: 4px; border-bottom: 1px solid var(--line);
+  }
+  h4.subhead.ic { color: var(--ic); }
+  h4.subhead.hw { color: var(--hw); }
+  div.problem {
+    background: #12141a; border: 1px solid var(--line); border-radius: 7px;
+    padding: 12px 16px; margin-bottom: 10px; color:var(--ink);
+  }
+  div.problem { border-left: 4px solid var(--ic); }
+  .ptag {
+    font-family:"Courier New",monospace; font-size:0.68rem; font-weight:700;
+    padding: 2px 8px; border-radius: 999px; margin-right: 8px; white-space:nowrap;
+    text-transform: uppercase; letter-spacing: 0.03em;
+  }
+  .problem .ptag:not(.applied):not(.evaluate) { background: var(--ic-soft); color: var(--ic); }
+  .ptag.applied { background:#16241d; color:#6fae8f; }
+  .ptag.evaluate { background:#2a1a2e; color:#c68fd9; }
+  .connects { font-family:Georgia,serif; font-size:0.72rem; color:var(--ink-dim); margin-top:6px; }
+  p { margin: 8px 0; }
+  strong { color: var(--accent); }
+  footer { margin-top:50px; font-family:Georgia,serif; font-size:0.82rem; color:var(--ink-dim); text-align:center; }
+</style>
+
+</head>
+<body>
+<div class="shell">
+<nav class="sidebar"><div class="brand">PHYS203<small>Extended Lecture Notes</small></div>
+<a class="home-link" href="../index.html" style="border-bottom:1px solid #24354a; padding-bottom:14px; margin-bottom:6px; display:block;">&larr; Course Home</a>
+<a class="home-link" href="index.html">&larr; Back to Chapter Index</a>
+<a class="chap-link" href="ch1-units-dimensions.html">Ch 1: Units and Dimensions</a>
+<a class="chap-link" href="ch2-kinematics.html">Ch 2: One-Dimensional Kinematics</a>
+<a class="chap-link" href="ch3-vectors.html">Ch 3: Vectors</a>
+<a class="chap-link" href="ch4-2d-motion.html">Ch 4: Two-Dimensional Motion</a>
+<a class="chap-link" href="ch5-newtons-laws.html">Ch 5: Newton's Laws and Applications</a>
+<a class="chap-link" href="ch6-momentum.html">Ch 6: Momentum and Collisions</a>
+<a class="chap-link" href="ch7-work-energy.html">Ch 7: Work and Energy</a>
+<a class="chap-link active" href="ch8-rotational-motion.html">Ch 8: Rotational Motion</a>
+<a class="chap-link" href="ch9-oscillations.html">Ch 9: Oscillations</a>
+<a class="chap-link" href="ch10-waves.html">Ch 10: Waves</a>
+<a class="chap-link" href="ch11-sound.html">Ch 11: Sound</a></nav>
+<main class="main"><div class="content">
+<div class="chapter-intro"><h1 id="chapter-8-rotational-motion">Chapter 8: Rotational Motion</h1>
+</div>
+<div class="day-anchor-wrap"><h2 id="class-day-22-angular-kinematics">Class Day 22: Angular
+Kinematics</h2>
+<h3 id="why-this-matters-20">Why this matters</h3>
+<p>Rotational motion turns out to be a near-perfect mirror of everything
+you already know from Chapter 2 — the same equations, the same logic,
+just describing angles instead of positions. Today establishes that
+mapping explicitly, so the rest of the chapter feels like familiar
+territory wearing new notation.</p>
+<h3 id="the-direct-analogy">The direct analogy</h3>
+<p>Angular position \(\theta\), angular velocity (=d/dt), and angular
+acceleration (=d/dt) play exactly the roles that (x), (v), and (a)
+played in Chapter 2. In fact, the rotational kinematic equations are
+<em>literally</em> the same four equations from Chapter 2, Day 3, with
+the substitutions (x), (v), (a):</p>
+<p><span class="math display">\[\omega = \omega_0+\alpha t \qquad
+\theta=\theta_0+\omega_0t+\tfrac12\alpha t^2 \qquad
+\omega^2=\omega_0^2+2\alpha(\theta-\theta_0)\]</span></p>
+<p>Every technique from that day — identifying the missing variable,
+choosing the matching equation — transfers over unchanged.</p>
+<h3 id="connecting-angular-and-linear-quantities">Connecting angular and
+linear quantities</h3>
+<p>The one genuinely new piece is the bridge between angular quantities
+(which describe the whole rigid object, regardless of size) and linear
+quantities at a specific point on that object (which depend on how far
+that point is from the rotation axis):</p>
+<p><span class="math display">\[v = r\omega \qquad a_t =
+r\alpha\]</span></p>
+<p>Every point on a rigid rotating object shares the <em>same</em> \(\omega\)
+and \(\alpha\) — but points farther from the axis sweep out more linear distance
+per rotation, so they have a <em>larger</em> linear speed (v), even
+though the whole object is “rotating at the same rate.” This resolves
+the seemingly odd fact that a horse near the outer rim of a
+merry-go-round moves faster (in m/s) than a horse near the center, even
+though both complete each full circle in exactly the same time.</p>
+<p><strong>Worked example:</strong> A fan blade rotates at 15 rad/s.
+Find the linear speed of a point 0.2 m from the center.</p>
+<p><span class="math display">\[v = r\omega = 0.2(15) = 3\text{
+m/s}\]</span></p>
+<h3 id="unit-conversions-youll-use-constantly">Unit conversions you’ll
+use constantly</h3>
+<p>Angular velocity is often given in revolutions per minute (rpm)
+rather than rad/s, so converting between them is a routine first
+step:</p>
+<p><span class="math display">\[\omega\,[\text{rad/s}] =
+\omega\,[\text{rpm}]\times\frac{2\pi\text{ rad}}{1\text{
+rev}}\times\frac{1\text{ min}}{60\text{ s}}\]</span></p>
+<h3 id="common-mistake-to-watch-for-19">Common mistake to watch for</h3>
+<p>Confusing “the wheel is spinning at a constant rate” (constant \(\omega\))
+with “every point on the wheel moves at the same speed” — these are not
+the same claim. \(\omega\) is shared by every point on a rigid body; (v=r) is
+not, since it depends on (r), which differs from point to point.</p>
+<h3 id="key-formulas-and-facts-for-this-day-20">Key formulas and facts
+for this day</h3>
+<ul>
+<li>Rotational kinematics mirrors linear kinematics exactly: (x), (v),
+(a), same four equations.</li>
+<li>(v=r), \(a_t=r\alpha\): all points on a rigid body share \(\omega\) and \(\alpha\), but
+linear speed/acceleration depend on radius.</li>
+<li>Convert rpm to rad/s via (/60).</li>
+</ul>
+<hr />
+<div class="probsets">
+<h3 class="pset-heading">Reading</h3>
+<ol class="rawlist"><li>Angular velocity relates to linear velocity by which formula?</li><li>Angular acceleration relates to tangential acceleration by which formula?</li><li>All points on a rigid rotating object share which quantity?</li><li>A point farther from the rotation axis has what, compared to a point closer, for the same angular velocity?</li><li>The rotational kinematic equations are analogous to which linear equations?</li><li>One revolution equals how many radians?</li><li>Angular acceleration is the rate of change of which quantity?</li><li>If omega is constant, what is alpha?</li><li>Converting rpm to rad/s requires multiplying by what factor (in terms of pi)?</li><li>A wheel's angular position increases linearly with time. What does this imply about omega and alpha?</li></ol>
+<h3 class="pset-heading">Assignments</h3>
+<h3 class="tier easy"><span class="tier-dot"></span>Easy</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Easy Q1</span>A wheel rotates at 5 rad/s. Find the linear speed of a point 0.2 m from the axis. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q2</span>A wheel rotates at 3 rad/s. Find the linear speed of a point 0.5 m from the axis. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q3</span>Convert 60 rpm to rad/s. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q4</span>Convert 120 rpm to rad/s. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q5</span>A wheel accelerates from 2 rad/s to 6 rad/s in 2 s. Find its angular acceleration. (Give your answer in rad/s^2.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q6</span>A wheel accelerates from 0 to 10 rad/s in 5 s. Find its angular acceleration. (Give your answer in rad/s^2.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q7</span>A point 0.3 m from an axis has linear speed 1.2 m/s. Find the angular velocity. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q8</span>A point 0.4 m from an axis has linear speed 2 m/s. Find the angular velocity. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q9</span>Convert 2 rad/s to rpm. (Give your answer in rpm.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q10</span>Convert pi rad/s to rpm. (Give your answer in rpm.)</li></ol>
+<h3 class="tier medium"><span class="tier-dot"></span>Medium</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Medium Q1</span>A fan blade rotates at 12 rad/s. Find the linear speed of a point 0.25 m from the center. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q2</span>A wheel's angular velocity increases from 4 rad/s to 14 rad/s over 5 s. Find its angular acceleration. (Give your answer in rad/s^2.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q3</span>A rotating disk starts at rest and reaches 15 rad/s after 3 s of constant angular acceleration. Find the angular acceleration. (Give your answer in rad/s^2.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q4</span>Same disk: find the angular displacement during this time. (Give your answer in rad.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q5</span>Convert 450 rpm to rad/s. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q6</span>A CD spins at 200 rpm. Find the linear speed of a point 0.05 m from the center. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q7</span>A wheel decelerates from 20 rad/s to 5 rad/s over 3 s. Find its angular acceleration. (Give your answer in rad/s^2.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q8</span>A wheel rotates through 100 rad in 8 s starting from rest with constant angular acceleration. Find the angular acceleration. (Give your answer in rad/s^2.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q9</span>A merry-go-round accelerates from rest to 3 rad/s in 6 s. Find the angular displacement during this time. (Give your answer in rad.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q10</span>A gear rotates at 8 rad/s and has a radius of 0.15 m. Find the linear speed at its edge. (Give your answer in m/s.)</li></ol>
+<h3 class="tier hard"><span class="tier-dot"></span>Hard</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Hard Q1</span>A centrifuge accelerates from rest to 500 rad/s in 10 s with constant angular acceleration. Find the angular acceleration. (Give your answer in rad/s^2.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q2</span>Same centrifuge: find the number of full revolutions completed during this time. (Give your answer in revolutions.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q3</span>A wheel decelerates from 30 rad/s to rest over 50 rad of angular displacement. Find the angular acceleration (deceleration). (Give your answer in rad/s^2.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q4</span>Same wheel: find the time taken. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q5</span>Two gears mesh: gear A (radius 0.1 m) rotates at 20 rad/s, driving gear B (radius 0.3 m). Find gear B's angular velocity. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q6</span>A turbine blade tip (1.2 m from the axis) reaches a linear speed of 300 m/s. Find that angular velocity in rad/s. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q7</span>Same turbine: find that angular velocity in rpm. (Give your answer in rpm.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q8</span>A flywheel undergoes constant angular acceleration, reaching 40 rad/s after completing 100 revolutions from rest. Find the angular acceleration. (Give your answer in rad/s^2.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q9</span>A rotating space station (radius 200 m) needs a rim linear speed of 44.3 m/s to simulate Earth gravity. Find the required angular velocity in rad/s. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q10</span>Same station: find the required angular velocity in rpm. (Give your answer in rpm.)</li></ol>
+<h3 class="tier challenge"><span class="tier-dot"></span>Challenge</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Challenge Q1</span>(Evaluate) A student claims that a point on the rim of a spinning wheel and a point near the center both "rotate at the same speed." Evaluate this claim, clarifying which quantity is actually the same and which differs. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q2</span>(Create) Design a rotational kinematics scenario (choose initial angular velocity, angular acceleration, and time) such that a wheel completes exactly 10 full revolutions, and verify your chosen values. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q3</span>(Evaluate/Create) An engineer is designing a centrifuge that must reach 10,000 rpm without exceeding a maximum safe angular acceleration. Evaluate how spin-up time relates to angular acceleration, then create a recommended minimum spin-up time. Upload your written response.</li></ol>
+<h3 class="pset-heading">Homework</h3>
+<h3 class="tier easy"><span class="tier-dot"></span>Easy</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Easy Q1</span>A wheel rotates at 6 rad/s. Find the linear speed of a point 0.25 m from the axis. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q2</span>A wheel rotates at 4 rad/s. Find the linear speed of a point 0.55 m from the axis. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q3</span>Convert 90 rpm to rad/s. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q4</span>Convert 150 rpm to rad/s. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q5</span>A wheel accelerates from 3 rad/s to 7 rad/s in 2 s. Find its angular acceleration. (Give your answer in rad/s^2.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q6</span>A wheel accelerates from 0 to 12 rad/s in 6 s. Find its angular acceleration. (Give your answer in rad/s^2.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q7</span>A point 0.35 m from an axis has linear speed 1.4 m/s. Find the angular velocity. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q8</span>A point 0.45 m from an axis has linear speed 2.25 m/s. Find the angular velocity. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q9</span>Convert 3 rad/s to rpm. (Give your answer in rpm.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q10</span>Convert 2*pi rad/s to rpm. (Give your answer in rpm.)</li></ol>
+<h3 class="tier medium"><span class="tier-dot"></span>Medium</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Medium Q1</span>A fan blade rotates at 14 rad/s. Find the linear speed of a point 0.28 m from the center. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q2</span>A wheel's angular velocity increases from 5 rad/s to 16 rad/s over 5.5 s. Find its angular acceleration. (Give your answer in rad/s^2.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q3</span>A rotating disk starts at rest and reaches 17 rad/s after 3.5 s of constant angular acceleration. Find the angular acceleration. (Give your answer in rad/s^2.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q4</span>Same disk: find the angular displacement. (Give your answer in rad.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q5</span>Convert 480 rpm to rad/s. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q6</span>A CD spins at 220 rpm. Find the linear speed of a point 0.055 m from the center. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q7</span>A wheel decelerates from 22 rad/s to 6 rad/s over 3.2 s. Find its angular acceleration. (Give your answer in rad/s^2.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q8</span>A wheel rotates through 110 rad in 8.5 s starting from rest with constant angular acceleration. Find the angular acceleration. (Give your answer in rad/s^2.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q9</span>A merry-go-round accelerates from rest to 3.5 rad/s in 6.5 s. Find the angular displacement. (Give your answer in rad.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q10</span>A gear rotates at 9 rad/s and has a radius of 0.17 m. Find the linear speed at its edge. (Give your answer in m/s.)</li></ol>
+<h3 class="tier hard"><span class="tier-dot"></span>Hard</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Hard Q1</span>A centrifuge accelerates from rest to 520 rad/s in 11 s. Find the angular acceleration. (Give your answer in rad/s^2.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q2</span>Same centrifuge: find the revolutions completed. (Give your answer in revolutions.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q3</span>A wheel decelerates from 32 rad/s to rest over 55 rad. Find the angular acceleration. (Give your answer in rad/s^2.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q4</span>Same wheel: find the time taken. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q5</span>Two gears mesh: gear A (radius 0.12 m) rotates at 22 rad/s, driving gear B (radius 0.32 m). Find gear B's angular velocity. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q6</span>A turbine blade tip (1.3 m from axis) reaches 310 m/s. Find that angular velocity in rad/s. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q7</span>Same turbine: find that angular velocity in rpm. (Give your answer in rpm.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q8</span>A flywheel undergoes constant angular acceleration, reaching 42 rad/s after 105 revolutions from rest. Find the angular acceleration. (Give your answer in rad/s^2.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q9</span>A rotating space station (radius 210 m) needs a rim speed of 45.3 m/s. Find the required angular velocity in rad/s. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q10</span>Same station: find the required angular velocity in rpm. (Give your answer in rpm.)</li></ol>
+<h3 class="tier challenge"><span class="tier-dot"></span>Challenge</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Challenge Q1</span>(Evaluate) A student claims that a point on the rim of a spinning wheel and a point near the center both "rotate at the same speed." Evaluate this claim, clarifying which quantity is actually the same and which differs. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q2</span>(Create) Design a rotational kinematics scenario (choose initial angular velocity, angular acceleration, and time) such that a wheel completes exactly 10 full revolutions, and verify your chosen values. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q3</span>(Evaluate/Create) An engineer is designing a centrifuge that must reach 10,000 rpm without exceeding a maximum safe angular acceleration. Evaluate how spin-up time relates to angular acceleration, then create a recommended minimum spin-up time. Upload your written response.</li></ol>
+<h3 class="pset-heading">Synthesis Problems</h3>
+<p class="dayconnects">Connects: linear kinematics (Ch.2), unit conversion (Ch.1), circular motion (Ch.4).</p>
+
+
+<div class="problem"><span class="ptag">1</span><span class="ptag applied">Applied</span>
+<p>A washing machine's drum accelerates uniformly from rest to 1000 rpm over 8 s during spin-up. Convert to rad/s, find the angular acceleration, the number of full revolutions completed during spin-up, and the linear speed of a point on the drum's inner wall (radius 0.28 m) at the end of spin-up.</p>
+<p class="connects">Connects: angular kinematics, unit conversion (Ch.1), linear-angular speed relationship (Ch.4)</p></div>
+
+<div class="problem"><span class="ptag">2</span><span class="ptag evaluate">Evaluate</span>
+<p>A student claims that two points on the same spinning wheel, one near the center and one near the rim, "must have different angular velocities since the rim point clearly moves faster." Evaluate this claim, distinguishing between angular velocity (shared by every point on a rigid body) and linear speed (which depends on radius), using the \(v=r\omega\) relationship from Chapter 4.</p>
+<p class="connects">Connects: angular kinematics, linear-angular relationship (Ch.4), evaluating a common conflation</p></div>
+
+<div class="problem"><span class="ptag">3</span><span class="ptag applied">Applied</span>
+<p>A bicycle wheel (radius 0.33 m) rolls without slipping while the bike accelerates from 3 m/s to 9 m/s over 4 s in a straight line. Find the wheel's angular acceleration, and (connecting to linear kinematics, Ch.2) find the distance the bike traveled during this acceleration.</p>
+<p class="connects">Connects: angular kinematics, rolling-without-slipping (v=r&omega;), linear kinematic equations (Ch.2)</p></div>
+
+<div class="problem"><span class="ptag">4</span><span class="ptag evaluate">Evaluate</span>
+<p>A car's speedometer, which actually measures wheel rotation rate, is recalibrated after the owner installs larger-diameter tires without updating the car's computer. Evaluate whether the speedometer will now over-read or under-read the car's true road speed, explaining your reasoning using the \(v=r\omega\) relationship.</p>
+<p class="connects">Connects: angular/linear speed relationship, evaluating a real-world consequence of a physical relationship</p></div>
+
+<div class="problem"><span class="ptag">5</span><span class="ptag applied">Applied</span>
+<p>A centrifuge spins up from rest to 15,000 rpm over 30 s (assume constant angular acceleration), then must be safely braked back to rest over the next 45 s. Find the angular acceleration for both spin-up and spin-down phases, and find the total number of revolutions completed during the entire spin-up-and-down cycle.</p>
+<p class="connects">Connects: angular kinematics, unit conversion (Ch.1), two-phase motion (analogous to Ch.2's kinematic-phase problems)</p></div>
+
+
+<div class="problem"><span class="ptag">6</span><span class="ptag applied">Applied</span>
+<p>A power drill's chuck accelerates from rest to 1800 rpm in 1.5 s. Convert to rad/s, find the angular acceleration, the number of revolutions during spin-up, and the linear speed of a drill-bit point 3 mm from the rotation axis at full speed.</p>
+<p class="connects">Connects: angular kinematics, unit conversion (Ch.1), linear-angular relationship (Ch.4)</p></div>
+
+<div class="problem"><span class="ptag">7</span><span class="ptag evaluate">Evaluate</span>
+<p>A student assumes that if a wheel's angular velocity is constant, every point on the wheel must have constant linear velocity too, "since nothing is changing." Evaluate this claim carefully, distinguishing between constant linear *speed* and constant linear *velocity* (a vector) for a point moving in a circle at constant angular velocity, connecting back to the centripetal-acceleration discussion from Chapter 4.</p>
+<p class="connects">Connects: angular kinematics, centripetal acceleration (Ch.4), evaluating a subtle vector-vs-scalar distinction</p></div>
+
+<div class="problem"><span class="ptag">8</span><span class="ptag applied">Applied</span>
+<p>A car's wheel (radius 0.31 m) rolls without slipping while the car decelerates from 20 m/s to 5 m/s over 5 s. Find the wheel's angular deceleration and the distance traveled during this time.</p>
+<p class="connects">Connects: angular kinematics, rolling motion, linear kinematic equations (Ch.2)</p></div>
+
+<div class="problem"><span class="ptag">9</span><span class="ptag evaluate">Evaluate</span>
+<p>A machinist claims two gears of different radii meshed together "must have the same angular velocity, since they're locked together and turning as one system." Evaluate this claim, explaining what quantity actually must match at the point of contact between two meshed gears (hint: their linear/tangential speeds, not their angular velocities), and find the angular velocity ratio for two meshed gears of radius 0.05 m and 0.15 m.</p>
+<p class="connects">Connects: angular kinematics, linear-angular relationship at a shared contact point, evaluating a mechanical-systems misconception</p></div>
+
+<div class="problem"><span class="ptag">10</span><span class="ptag applied">Applied</span>
+<p>A turbine spins up from rest to 3600 rpm over 25 s, then must be braked to a stop over the next 40 s. Find the angular acceleration for both phases and the total number of revolutions over the full cycle.</p>
+<p class="connects">Connects: angular kinematics, unit conversion, multi-phase motion analysis</p></div>
+
+
+</div></div>
+<div class="day-anchor-wrap"><h2
+id="class-day-23-rotational-kinetic-energy-moment-of-inertia-and-conservation-of-energy-in-rotational-motion">Class
+Day 23: Rotational Kinetic Energy, Moment of Inertia, and Conservation
+of Energy in Rotational Motion</h2>
+<h3 id="why-this-matters-21">Why this matters</h3>
+<p>Just as linear motion has kinetic energy, rotating objects carry
+their own form of kinetic energy — and the quantity that plays the role
+of “mass” in that formula, moment of inertia, turns out to depend on
+more than just how much mass an object has.</p>
+<h3 id="moment-of-inertia-mass-isnt-the-whole-story">Moment of inertia:
+mass isn’t the whole story</h3>
+<p>Rotational kinetic energy is:</p>
+<p><span class="math display">\[KE_{rot} = \tfrac12
+I\omega^2\]</span></p>
+<p>directly paralleling \(\tfrac12mv^2\), with moment of inertia (I) playing the
+role of mass. But unlike ordinary mass, (I) depends critically on
+<strong>how that mass is distributed relative to the rotation
+axis</strong> — the same total mass arranged farther from the axis
+produces a <em>larger</em> moment of inertia (harder to spin up or slow
+down) than the same mass concentrated near the axis. This is why a
+figure skater spins faster when pulling their arms in (Day 5 will make
+this precise): they’re not changing their mass, only how far it’s
+distributed from their spin axis.</p>
+<p>Standard formulas for common shapes (all with mass (M), radius
+(R)):</p>
+<p><span class="math display">\[I_{disk}=\tfrac12MR^2 \qquad
+I_{ring}=MR^2 \qquad I_{sphere}=\tfrac25MR^2 \qquad
+I_{rod,center}=\tfrac{1}{12}ML^2\]</span></p>
+<p>Notice a ring has <em>twice</em> the moment of inertia of a solid
+disk of the same mass and radius — all of a ring’s mass sits at the
+maximum distance (R) from the axis, while a disk’s mass is spread out
+from the center to the edge, with much of it closer in.</p>
+<h3
+id="total-kinetic-energy-and-energy-conservation-with-rotation">Total
+kinetic energy and energy conservation with rotation</h3>
+<p>When an object both moves through space <em>and</em> spins (like a
+ball rolling down a hill), total kinetic energy includes both
+contributions:</p>
+<p><span class="math display">\[KE_{total} = \tfrac12mv^2 +
+\tfrac12I\omega^2\]</span></p>
+<p>This modifies the conservation-of-energy equation from Chapter 7:
+some of the gravitational PE converts into <em>rotational</em> KE, not
+just translational KE, meaning a rolling object reaches the bottom of a
+hill <em>slower</em> than a frictionlessly sliding (non-rotating) object
+of the same mass, since rolling “diverts” part of the available energy
+into spinning rather than pure forward motion.</p>
+<p><strong>Worked example:</strong> A falling 3 kg mass is connected to
+a pulley (treated as having moment of inertia \(I=0.05\text{ kg}\cdot\text{m}^2\), radius 0.15 m)
+via a string. Find the mass’s speed after falling 2 m.</p>
+<p>Energy conservation, now including the pulley’s rotational KE, with
+(=v/R) linking the pulley’s spin to the string’s (and mass’s) speed:</p>
+<p><span class="math display">\[mgh = \tfrac12mv^2+\tfrac12I\omega^2 =
+\tfrac12mv^2+\tfrac12I\left(\frac{v}{R}\right)^2\]</span> <span
+class="math display">\[3(9.8)(2) =
+\tfrac12(3)v^2+\tfrac12(0.05)\frac{v^2}{0.15^2}\]</span> <span
+class="math display">\[58.8 = 1.5v^2+1.111v^2 = 2.611v^2 \Rightarrow
+v=\sqrt{22.52}=4.75\text{ m/s}\]</span></p>
+<p>Compare this to what you’d get ignoring the pulley’s mass entirely
+((v==6.26) m/s) — the pulley’s own rotational inertia noticeably slows
+the fall, since some of the gravitational PE has to go into spinning the
+pulley up, not just accelerating the falling mass.</p>
+<h3 id="common-mistake-to-watch-for-20">Common mistake to watch for</h3>
+<p>Using \(I=mR^2\) automatically for every rotating object, regardless of
+shape. That formula is only exactly correct for a thin ring (all mass at
+radius (R)) — using it for a solid disk or sphere significantly
+overestimates the true moment of inertia and gives incorrect
+energy-conservation results.</p>
+<h3 id="key-formulas-and-facts-for-this-day-21">Key formulas and facts
+for this day</h3>
+<ul>
+<li>\(KE_{rot}=\tfrac12I\omega^2\); (I) depends on both mass and how it’s distributed
+relative to the axis (not just total mass).</li>
+<li>Standard shapes: disk \(\tfrac12MR^2\); ring \(MR^2\); sphere \(\tfrac25MR^2\); rod
+about center \(\tfrac1{12}ML^2\).</li>
+<li>Total KE for rolling/rotating-and-translating objects:
+\(\tfrac12mv^2+\tfrac12I\omega^2\) — rotational KE “diverts” energy away from pure
+translational motion.</li>
+</ul>
+<hr />
+<div class="probsets">
+<h3 class="pset-heading">Reading</h3>
+<ol class="rawlist"><li>Rotational kinetic energy is given by which formula?</li><li>Moment of inertia depends on mass and what other factor?</li><li>A solid disk's moment of inertia formula is which of the following?</li><li>A thin ring's moment of inertia formula is which of the following?</li><li>For the same mass and radius, which has a larger moment of inertia: a solid disk or a ring?</li><li>Total kinetic energy for a system with both translation and rotation is given by which formula?</li><li>A falling mass connected to a massive pulley accelerates how, compared to the same mass with a massless pulley?</li><li>If omega doubles, what happens to rotational KE (I constant)?</li><li>If I doubles, what happens to rotational KE (omega constant)?</li><li>A rolling object down a frictionless incline reaches the bottom how, compared to a frictionlessly sliding (non-rotating) object?</li></ol>
+<h3 class="pset-heading">Assignments</h3>
+<h3 class="tier easy"><span class="tier-dot"></span>Easy</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Easy Q1</span>Find the rotational KE of a wheel with I=1 kg*m^2 at 4 rad/s. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q2</span>Find the rotational KE of a wheel with I=2 kg*m^2 at 3 rad/s. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q3</span>Find the moment of inertia of a solid disk with M=2 kg, R=0.2 m (I=(1/2)MR^2). (Give your answer in kg*m^2.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q4</span>Find the moment of inertia of a ring with M=3 kg, R=0.3 m (I=MR^2). (Give your answer in kg*m^2.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q5</span>Find the rotational KE of a disk with I=0.5 kg*m^2 at 6 rad/s. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q6</span>Find the moment of inertia of a solid sphere with M=4 kg, R=0.1 m (I=(2/5)MR^2). (Give your answer in kg*m^2.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q7</span>Find the rotational KE of a sphere with I=0.08 kg*m^2 at 5 rad/s. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q8</span>A 2 kg mass falls, connected to a massless pulley. Find its speed after falling 3 m (translational only). (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q9</span>Find the moment of inertia of a ring with M=2 kg, R=0.4 m. (Give your answer in kg*m^2.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q10</span>State whether a rolling object or a frictionless sliding object reaches the bottom of the same incline faster. Upload your written response.</li></ol>
+<h3 class="tier medium"><span class="tier-dot"></span>Medium</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Medium Q1</span>A solid cylinder (M=5 kg, R=0.2 m) rotates at 8 rad/s. Find its moment of inertia. (Give your answer in kg*m^2.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q2</span>Same cylinder: find its rotational KE. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q3</span>A thin ring (M=4 kg, R=0.35 m) rotates at 5 rad/s. Find its moment of inertia. (Give your answer in kg*m^2.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q4</span>Same ring: find its rotational KE. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q5</span>Find the moment of inertia of a solid sphere (3 kg, 0.2 m radius). (Give your answer in kg*m^2.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q6</span>Find the moment of inertia of a solid disk of the same mass and radius (3 kg, 0.2 m). (Give your answer in kg*m^2.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q7</span>A flywheel with I=6 kg*m^2 needs 300 J of rotational KE. Find the required angular velocity. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q8</span>A falling 3 kg mass is connected to a pulley with I=0.05 kg*m^2 and R=0.15 m. Using energy conservation, find the speed after falling 2 m. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q9</span>A solid disk rolls down a frictionless incline from a height of 2 m. Find its speed at the bottom (including rotational KE). (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q10</span>A rod rotating about its center (I=(1/12)ML^2) with M=2 kg, L=1 m rotates at 4 rad/s. Find its moment of inertia. (Give your answer in kg*m^2.)</li></ol>
+<h3 class="tier hard"><span class="tier-dot"></span>Hard</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Hard Q1</span>A composite object: solid disk (M=3 kg, R=0.25 m) with a thin ring (M=1 kg, same R) at the rim. Find the total moment of inertia (sum). (Give your answer in kg*m^2.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q2</span>Same object: find the rotational KE at 5 rad/s. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q3</span>A falling 6 kg mass is connected over a pulley with I=0.2 kg*m^2 and R=0.15 m. Using energy conservation, find the speed after falling 4 m. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q4</span>A solid sphere (2 kg, 0.12 m radius) rolls down a frictionless incline from height 2 m. Find its speed at the bottom. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q5</span>A hollow sphere of the same mass and radius rolls down the same incline. Find its speed at the bottom. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q6</span>A yo-yo system (I=0.0006 kg*m^2, R=0.022 m, mass 0.12 kg) is released from rest and falls 1.5 m. Find its final linear speed. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q7</span>Same yo-yo: find its angular velocity (v=r*omega). (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q8</span>A pulley system has two masses (3 kg and 5 kg) connected over a pulley (I=0.08 kg*m^2, R=0.1 m), with the 5 kg mass descending 2 m. Find the common speed. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q9</span>A solid disk (M=4 kg, R=0.3 m) rolls down a frictionless incline of height 3.5 m, then continues onto a frictionless horizontal surface. Find its speed on the horizontal surface. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q10</span>A pulley with mass (M_pulley=1 kg, R=0.1 m, solid disk) has a 4 kg mass hanging and falling 2 m. Find the mass's speed, accounting for the pulley's rotational KE. (Give your answer in m/s.)</li></ol>
+<h3 class="tier challenge"><span class="tier-dot"></span>Challenge</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Challenge Q1</span>(Evaluate) A student claims that a rolling object and a frictionlessly sliding object (both starting from rest at the same height, same mass) should reach the bottom of an incline with the same speed. Evaluate this claim, clarifying where the rolling object's energy actually goes. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q2</span>(Create) Design a falling-mass-and-pulley scenario (choose mass, pulley moment of inertia, radius, and fall height) such that the mass's final speed is exactly 4 m/s. Verify using energy conservation. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q3</span>(Evaluate/Create) A toy designer wants a marble-race track where different shaped balls race down identical ramps with scientifically accurate, predictable outcomes. Evaluate what shape factors determine the winner, then create a design note. Upload your written response.</li></ol>
+<h3 class="pset-heading">Homework</h3>
+<h3 class="tier easy"><span class="tier-dot"></span>Easy</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Easy Q1</span>Find the rotational KE of a wheel with I=1.5 kg*m^2 at 4 rad/s. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q2</span>Find the rotational KE of a wheel with I=2.5 kg*m^2 at 3 rad/s. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q3</span>Find the moment of inertia of a solid disk with M=2.5 kg, R=0.22 m. (Give your answer in kg*m^2.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q4</span>Find the moment of inertia of a ring with M=3.5 kg, R=0.32 m. (Give your answer in kg*m^2.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q5</span>Find the rotational KE of a disk with I=0.55 kg*m^2 at 6 rad/s. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q6</span>Find the moment of inertia of a solid sphere with M=4.5 kg, R=0.12 m. (Give your answer in kg*m^2.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q7</span>Find the rotational KE of a sphere with I=0.09 kg*m^2 at 5 rad/s. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q8</span>A 2.5 kg mass falls, connected to a massless pulley. Find its speed after falling 3.5 m. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q9</span>Find the moment of inertia of a ring with M=2.5 kg, R=0.42 m. (Give your answer in kg*m^2.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q10</span>State whether a rolling object or frictionless sliding object reaches the bottom faster. Upload your written response.</li></ol>
+<h3 class="tier medium"><span class="tier-dot"></span>Medium</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Medium Q1</span>A solid cylinder (M=5.5 kg, R=0.22 m) rotates at 8.5 rad/s. Find its moment of inertia. (Give your answer in kg*m^2.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q2</span>Same cylinder: find its rotational KE. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q3</span>A thin ring (M=4.5 kg, R=0.37 m) rotates at 5.5 rad/s. Find its moment of inertia. (Give your answer in kg*m^2.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q4</span>Same ring: find its rotational KE. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q5</span>Find the moment of inertia of a solid sphere (3.5 kg, 0.22 m radius). (Give your answer in kg*m^2.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q6</span>Find the moment of inertia of a solid disk of the same mass and radius. (Give your answer in kg*m^2.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q7</span>A flywheel with I=6.5 kg*m^2 needs 320 J of rotational KE. Find the required angular velocity. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q8</span>A falling 3.5 kg mass is connected to a pulley with I=0.055 kg*m^2 and R=0.16 m. Find the speed after falling 2.2 m. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q9</span>A solid disk rolls down a frictionless incline from a height of 2.2 m. Find its speed at the bottom. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q10</span>A rod (M=2.5 kg, L=1.1 m) rotating about its center at 4.5 rad/s. Find its moment of inertia. (Give your answer in kg*m^2.)</li></ol>
+<h3 class="tier hard"><span class="tier-dot"></span>Hard</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Hard Q1</span>A composite object: solid disk (M=3.5 kg, R=0.27 m) with a thin ring (M=1.2 kg, same R) at the rim. Find the total moment of inertia. (Give your answer in kg*m^2.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q2</span>Same object: find the rotational KE at 5.5 rad/s. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q3</span>A falling 6.5 kg mass is connected over a pulley with I=0.22 kg*m^2 and R=0.16 m. Find the speed after falling 4.2 m. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q4</span>A solid sphere (2.2 kg, 0.13 m radius) rolls down a frictionless incline from height 2.2 m. Find its speed at the bottom. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q5</span>A hollow sphere of the same mass and radius rolls down the same incline. Find its speed at the bottom. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q6</span>A yo-yo system (I=0.00065 kg*m^2, R=0.023 m, mass 0.13 kg) falls 1.6 m from rest. Find its final linear speed. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q7</span>Same yo-yo: find its angular velocity. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q8</span>A pulley system has two masses (3.2 kg and 5.2 kg) connected over a pulley (I=0.085 kg*m^2, R=0.11 m), with the 5.2 kg mass descending 2.2 m. Find the common speed. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q9</span>A solid disk (M=4.2 kg, R=0.32 m) rolls down a frictionless incline of height 3.7 m onto a frictionless horizontal surface. Find its speed on the horizontal surface. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q10</span>A pulley with mass (M_pulley=1.2 kg, R=0.11 m, solid disk) has a 4.2 kg mass falling 2.2 m. Find the mass's speed. (Give your answer in m/s.)</li></ol>
+<h3 class="tier challenge"><span class="tier-dot"></span>Challenge</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Challenge Q1</span>(Evaluate) A student claims that a rolling object and a frictionlessly sliding object (both starting from rest at the same height, same mass) should reach the bottom of an incline with the same speed. Evaluate this claim, clarifying where the rolling object's energy actually goes. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q2</span>(Create) Design a falling-mass-and-pulley scenario (choose mass, pulley moment of inertia, radius, and fall height) such that the mass's final speed is exactly 4 m/s. Verify using energy conservation. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q3</span>(Evaluate/Create) A toy designer wants a marble-race track where different shaped balls race down identical ramps with scientifically accurate, predictable outcomes. Evaluate what shape factors determine the winner, then create a design note. Upload your written response.</li></ol>
+<h3 class="pset-heading">Synthesis Problems</h3>
+<p class="dayconnects">Connects: angular kinematics (Day 22), energy conservation (Ch.7), Newton's laws (Ch.5).</p>
+
+
+<div class="problem"><span class="ptag">1</span><span class="ptag applied">Applied</span>
+<p>A solid cylindrical flywheel (mass 12 kg, radius 0.25 m) is connected via a string over a pulley (treat the pulley as massless here) to a hanging 4 kg mass. Find the system's speed after the hanging mass has fallen 1.5 m, using energy conservation that accounts for both translational and rotational kinetic energy.</p>
+<p class="connects">Connects: rotational KE, conservation of energy (Ch.7), moment of inertia formulas</p></div>
+
+<div class="problem"><span class="ptag">2</span><span class="ptag evaluate">Evaluate</span>
+<p>A student solving a falling-mass-and-pulley problem ignores the pulley's own rotational kinetic energy, treating it as "just redirecting the string, not really part of the energy picture." Evaluate why this assumption is only valid for an idealized *massless* pulley, and quantify the error it would introduce for a 2 kg solid-disk pulley (radius 0.1 m) in a system where a 5 kg mass falls, by comparing the resulting speed with and without the pulley's rotational KE included.</p>
+<p class="connects">Connects: rotational KE, conservation of energy, evaluating a common simplifying (and sometimes invalid) assumption</p></div>
+
+<div class="problem"><span class="ptag">3</span><span class="ptag applied">Applied</span>
+<p>A solid sphere and a hollow sphere of identical mass and radius are released from rest at the top of the same 2.5 m tall frictionless incline and allowed to roll down. Find the final speed of each at the bottom, and find the percentage difference between them, connecting the shape-dependent moment of inertia to energy conservation.</p>
+<p class="connects">Connects: rotational KE, moment of inertia by shape, conservation of energy (Ch.7)</p></div>
+
+<div class="problem"><span class="ptag">4</span><span class="ptag evaluate">Evaluate</span>
+<p>A student claims that since a ring (hoop) has a larger moment of inertia than a solid disk of the same mass and radius, the ring "must weigh more." Evaluate this claim, clarifying the distinction between moment of inertia (which depends on mass *distribution*, not just total mass) and actual mass/weight, using the two objects' identical masses as the counterexample.</p>
+<p class="connects">Connects: moment of inertia concept, evaluating a mass-vs-inertia-distribution conflation</p></div>
+
+<div class="problem"><span class="ptag">5</span><span class="ptag applied">Applied</span>
+<p>A bowling ball (solid sphere, mass 6.5 kg, radius 0.11 m) rolls without slipping at 4 m/s down a lane, and is modeled as continuing at that constant speed (frictionless idealization) for this problem. Find its total kinetic energy (translational + rotational), and find what additional height it could climb on a frictionless ramp before momentarily stopping (using energy conservation, forward-connecting the total KE into gravitational PE).</p>
+<p class="connects">Connects: rotational KE, conservation of energy (Ch.7), applied sports-equipment context</p></div>
+
+
+<div class="problem"><span class="ptag">6</span><span class="ptag applied">Applied</span>
+<p>A solid cylindrical flywheel (mass 13 kg, radius 0.27 m) is connected via a string over a pulley to a hanging 4.5 kg mass. Find the system's speed after the mass falls 1.6 m, accounting for both translational and rotational kinetic energy.</p>
+<p class="connects">Connects: rotational KE, conservation of energy (Ch.7), moment of inertia</p></div>
+
+<div class="problem"><span class="ptag">7</span><span class="ptag evaluate">Evaluate</span>
+<p>A student compares two rolling objects (a solid disk and a solid sphere, same mass and radius) released from the same incline height, and concludes "the sphere must be heavier since it wins the race." Evaluate this claim, explaining what property (not mass) actually determines the outcome, and quantify the actual speed difference at the bottom for a 2.5 m drop height.</p>
+<p class="connects">Connects: rotational KE, moment of inertia by shape, evaluating a mass-related misconception</p></div>
+
+<div class="problem"><span class="ptag">8</span><span class="ptag applied">Applied</span>
+<p>A hollow cylinder and a solid cylinder of identical mass and radius are released from rest at the top of the same 2.2 m frictionless incline. Find the final speed of each at the bottom and the percentage difference between them.</p>
+<p class="connects">Connects: rotational KE, moment of inertia, conservation of energy (Ch.7)</p></div>
+
+<div class="problem"><span class="ptag">9</span><span class="ptag evaluate">Evaluate</span>
+<p>An engineer designing a flywheel energy-storage system claims "doubling the flywheel's radius doubles its stored kinetic energy at a given spin rate." Evaluate this claim using the moment of inertia's dependence on radius (\(I\propto R^2\) for common shapes) and the rotational KE formula, determining the actual scaling factor.</p>
+<p class="connects">Connects: rotational KE, moment of inertia scaling, evaluating an engineering design claim</p></div>
+
+<div class="problem"><span class="ptag">10</span><span class="ptag applied">Applied</span>
+<p>A bowling ball (6.8 kg, radius 0.115 m) rolls without slipping at 4.2 m/s. Find its total kinetic energy and the additional height it could climb on a frictionless ramp before stopping.</p>
+<p class="connects">Connects: rotational KE, conservation of energy (Ch.7), applied context</p></div>
+
+
+</div></div>
+<div class="day-anchor-wrap"><h2 id="class-day-24-torque-i">Class Day 24: Torque I</h2>
+<h3 id="why-this-matters-22">Why this matters</h3>
+<p>Torque is the rotational equivalent of force: just as force causes
+(linear) acceleration, torque causes angular acceleration. Today builds
+the definition and intuition; tomorrow connects it to Newton’s second
+law for rotation.</p>
+<h3 id="defining-torque">Defining torque</h3>
+<p><span class="math display">\[\tau = rF\sin\theta\]</span></p>
+<p>where (r) is the distance from the rotation axis to the point where
+the force is applied, (F) is the force’s magnitude, and \(F\) is the angle
+between the position vector (from the axis to the application point) and
+the force vector itself.</p>
+<h3 id="building-intuition-with-the-wrench-example">Building intuition
+with the wrench example</h3>
+<p>Everyone has an intuitive sense that a longer wrench makes it easier
+to loosen a stuck bolt — torque makes this precise. For the same applied
+force, a larger (r) (longer wrench) produces proportionally more torque.
+Equally important: the <em>angle</em> matters just as much as the
+length. A force applied exactly along the wrench’s handle (pushing or
+pulling straight along its length, (°)) produces <strong>zero
+torque</strong>, no matter how large that force is, since (°=0) — all of
+that force is “wasted,” contributing nothing to rotating the bolt.
+Torque is maximized when the force is applied perpendicular to the
+wrench ((°), (°=1)), which is exactly why you push perpendicular to a
+wrench handle, not along it, to loosen a bolt most effectively.</p>
+<p><strong>Worked example:</strong> A mechanic applies 200 N of force at
+the end of a 0.6 m breaker bar, but the force is angled 15° from
+perpendicular to the bar. Find the actual torque generated.</p>
+<p>Since the force is 15° <em>from</em> perpendicular, the angle from
+the bar itself (needed in the formula) is (90°-15°=75°):</p>
+<p><span class="math display">\[\tau = rF\sin\theta = 0.6(200)\sin75° =
+0.6(200)(0.966) = 115.9\text{ N}\cdot\text{m}\]</span></p>
+<p>(Equivalently, you could compute this as (rF(15°)), using the angle
+from perpendicular directly with cosine instead — both give the same
+answer, since ((90°-)=).)</p>
+<h3 id="the-moment-arm-alternative-view">The moment-arm alternative
+view</h3>
+<p>An equivalent and sometimes more intuitive way to compute torque:
+find the <strong>moment arm</strong>, the perpendicular (shortest)
+distance from the rotation axis to the <em>line along which the force
+acts</em> (extended infinitely in both directions if needed), then
+simply multiply (= F()). This gives identical results to the (rF)
+formula, since the moment arm works out to exactly (r).</p>
+<h3 id="common-mistake-to-watch-for-21">Common mistake to watch for</h3>
+<p>Using the full distance (r) in the torque formula while forgetting
+the \(\sin\theta\) factor entirely — this only gives the correct torque when the
+force happens to already be perpendicular to the position vector ((°)).
+For any other angle, skipping the \(\sin\theta\) factor systematically overestimates
+the true torque.</p>
+<h3 id="key-formulas-and-facts-for-this-day-22">Key formulas and facts
+for this day</h3>
+<ul>
+<li>Torque: (=rF), the rotational analog of force.</li>
+<li>A force applied along the position vector ((°)) produces zero
+torque, regardless of magnitude; torque is maximized when force is
+perpendicular to the position vector.</li>
+<li>Equivalent moment-arm view: (= F()).</li>
+</ul>
+<hr />
+<div class="probsets">
+<h3 class="pset-heading">Reading</h3>
+<ol class="rawlist"><li>Torque is given by which formula?</li><li>Torque is maximized when theta equals what value?</li><li>Torque is zero when theta equals what value(s)?</li><li>The "moment arm" is best described as what?</li><li>A longer wrench produces what, compared to a shorter one, for the same applied force and angle?</li><li>Torque is measured in which SI unit?</li><li>If a force is applied directly along the position vector (toward or away from the axis), the torque is what?</li><li>Doubling the applied force (same r and theta) does what to torque?</li><li>Doubling the distance r (same F and theta) does what to torque?</li><li>Torque is the rotational analog of which linear quantity?</li></ol>
+<h3 class="pset-heading">Assignments</h3>
+<h3 class="tier easy"><span class="tier-dot"></span>Easy</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Easy Q1</span>Find the torque from a 10 N force applied perpendicular to a 0.3 m lever arm. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q2</span>Find the torque from a 15 N force applied perpendicular to a 0.2 m lever arm. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q3</span>Find the torque from a 20 N force applied at 90 degrees to a 0.25 m lever arm. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q4</span>Find the torque from a 12 N force applied at 0 degrees to a 0.4 m lever arm. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q5</span>Find the torque from an 8 N force applied perpendicular to a 0.5 m lever arm. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q6</span>Find the torque from a 25 N force applied perpendicular to a 0.15 m lever arm. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q7</span>Find the torque from a 30 N force applied at 90 degrees to a 0.1 m lever arm. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q8</span>Find the torque from an 18 N force at 0 degrees to any lever arm. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q9</span>Find the torque from a 5 N force perpendicular to a 1 m lever arm. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q10</span>Find the torque from a 14 N force perpendicular to a 0.35 m lever arm. (Give your answer in N*m.)</li></ol>
+<h3 class="tier medium"><span class="tier-dot"></span>Medium</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Medium Q1</span>Find the torque from a 25 N force applied at 30 degrees to a 0.4 m lever arm. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q2</span>Find the torque from a 40 N force applied at 45 degrees to a 0.3 m lever arm. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q3</span>A door is pushed with 15 N force perpendicular to the door, 0.7 m from the hinge. Find the torque. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q4</span>The same door: find the torque if the same force is applied 0.3 m from the hinge instead. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q5</span>Find the torque from a 35 N force applied at 60 degrees to a 0.25 m lever arm. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q6</span>A wrench of length 0.3 m has 50 N applied at 40 degrees to it. Find the torque. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q7</span>Find the torque from a 22 N force at 70 degrees to a 0.5 m lever arm. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q8</span>A bolt requires 40 N*m of torque to loosen. Find the force needed if applied perpendicular to a 0.4 m wrench. (Give your answer in N.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q9</span>Find the torque from a 60 N force at 20 degrees to a 0.2 m lever arm. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q10</span>A steering wheel of radius 0.18 m has 30 N applied tangentially (perpendicular to the radius). Find the torque. (Give your answer in N*m.)</li></ol>
+<h3 class="tier hard"><span class="tier-dot"></span>Hard</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Hard Q1</span>A mechanic applies 200 N of force at the end of a 0.6 m breaker bar, angled 15 degrees from perpendicular to the bar. Find the actual torque generated. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q2</span>A rotating door: a 25 N force perpendicular to the door at 0.8 m from the hinge (opening), and a 10 N frictional force perpendicular to the door at 0.05 m from the hinge (opposing). Find the net torque. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q3</span>A torque wrench clicks at 80 N*m. If force is applied perpendicular to a 0.5 m wrench, find the force at which the wrench clicks. (Give your answer in N.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q4</span>A seesaw has a 300 N force applied 2 m from the pivot on one side, and a 400 N force at an unknown distance on the other side needed to balance torques. Find that distance. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q5</span>A force of 50 N is applied to a wrench at an angle such that the torque produced is exactly half of the perpendicular-application torque for the same wrench length. Find the angle. (Give your answer in degrees.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q6</span>A rotating sign is pushed by wind exerting 40 N of force at 25 degrees to the sign's surface, at 1.2 m from the rotation axis (angle from the position vector is 65 degrees). Find the torque about the pole. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q7</span>A bicycle pedal crank (0.17 m long) has a cyclist applying 300 N of force; the crank is at 30 degrees from the direction of the applied force. Find the torque generated. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q8</span>A torque of 60 N*m is required to rotate a valve. If a wrench of unknown length is used with 150 N of force applied perpendicular to it, find the required wrench length. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q9</span>A flagpole experiences a wind force of 80 N at its top, 4 m from its base, applied horizontally (perpendicular to the pole). Find the torque about the base. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q10</span>Two torques act on a rotating platform: one clockwise (45 N*m) and one counterclockwise (30 N*m). Find the magnitude of the net torque. (Give your answer in N*m.)</li></ol>
+<h3 class="tier challenge"><span class="tier-dot"></span>Challenge</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Challenge Q1</span>(Evaluate) A student assumes that a force applied at the very center of a rotating disk (r=0) can still produce significant torque if the force is large enough. Evaluate this claim using the torque formula. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q2</span>(Create) Design a torque scenario (choose force, lever arm length, and angle) such that the resulting torque is exactly 25 N*m, and verify your chosen values. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q3</span>(Evaluate/Create) A tool company wants to design an ergonomic wrench that reduces the force needed to loosen standard bolts, without changing the required torque. Evaluate how wrench length affects required force, then create a design recommendation. Upload your written response.</li></ol>
+<h3 class="pset-heading">Homework</h3>
+<h3 class="tier easy"><span class="tier-dot"></span>Easy</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Easy Q1</span>Find the torque from a 12 N force applied perpendicular to a 0.35 m lever arm. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q2</span>Find the torque from a 17 N force applied perpendicular to a 0.22 m lever arm. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q3</span>Find the torque from a 22 N force applied at 90 degrees to a 0.27 m lever arm. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q4</span>Find the torque from a 14 N force applied at 0 degrees to a 0.45 m lever arm. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q5</span>Find the torque from a 9 N force applied perpendicular to a 0.55 m lever arm. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q6</span>Find the torque from a 27 N force applied perpendicular to a 0.17 m lever arm. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q7</span>Find the torque from a 32 N force applied at 90 degrees to a 0.12 m lever arm. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q8</span>Find the torque from a 20 N force at 0 degrees to any lever arm. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q9</span>Find the torque from a 6 N force perpendicular to a 1.1 m lever arm. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q10</span>Find the torque from a 16 N force perpendicular to a 0.37 m lever arm. (Give your answer in N*m.)</li></ol>
+<h3 class="tier medium"><span class="tier-dot"></span>Medium</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Medium Q1</span>Find the torque from a 27 N force applied at 32 degrees to a 0.42 m lever arm. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q2</span>Find the torque from a 42 N force applied at 48 degrees to a 0.32 m lever arm. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q3</span>A door is pushed with 16 N force perpendicular to the door, 0.75 m from the hinge. Find the torque. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q4</span>The same door: find the torque if applied 0.32 m from the hinge instead. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q5</span>Find the torque from a 37 N force applied at 62 degrees to a 0.27 m lever arm. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q6</span>A wrench of length 0.32 m has 52 N applied at 42 degrees to it. Find the torque. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q7</span>Find the torque from a 24 N force at 72 degrees to a 0.52 m lever arm. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q8</span>A bolt requires 42 N*m of torque to loosen. Find the force needed if applied perpendicular to a 0.42 m wrench. (Give your answer in N.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q9</span>Find the torque from a 62 N force at 22 degrees to a 0.22 m lever arm. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q10</span>A steering wheel of radius 0.19 m has 32 N applied tangentially. Find the torque. (Give your answer in N*m.)</li></ol>
+<h3 class="tier hard"><span class="tier-dot"></span>Hard</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Hard Q1</span>A mechanic applies 210 N of force at the end of a 0.62 m breaker bar, angled 17 degrees from perpendicular. Find the actual torque generated. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q2</span>A rotating door: 27 N force perpendicular to it at 0.82 m from the hinge (opening), and a hinge friction torque of 11 N*m opposing motion. Find the net torque. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q3</span>A torque wrench clicks at 85 N*m. If force is applied perpendicular to a 0.52 m wrench, find the force at which it clicks. (Give your answer in N.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q4</span>A seesaw has a 320 N force applied 2.1 m from the pivot on one side, and a 420 N force at an unknown distance on the other needed to balance torques. Find that distance. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q5</span>A force of 52 N is applied to a wrench such that the torque is exactly half of the perpendicular-application torque for the same wrench length. Find the angle. (Give your answer in degrees.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q6</span>A rotating sign is pushed by wind exerting 42 N at 27 degrees to the surface (63 degrees from the position vector), at 1.3 m from the rotation axis. Find the torque about the axis. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q7</span>A bicycle pedal crank (0.18 m) has a cyclist applying 310 N of force at 32 degrees from the crank direction. Find the torque generated. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q8</span>A torque of 62 N*m is required to rotate a valve. Find the required wrench length if 155 N is applied perpendicular to it. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q9</span>A flagpole experiences an 85 N wind force at its top, 4.2 m from its base, applied horizontally. Find the torque about the base. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q10</span>Two torques act on a rotating platform: one clockwise (48 N*m) and one counterclockwise (32 N*m). Find the magnitude of the net torque. (Give your answer in N*m.)</li></ol>
+<h3 class="tier challenge"><span class="tier-dot"></span>Challenge</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Challenge Q1</span>(Evaluate) A student assumes that a force applied at the very center of a rotating disk (r=0) can still produce significant torque if the force is large enough. Evaluate this claim using the torque formula. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q2</span>(Create) Design a torque scenario (choose force, lever arm length, and angle) such that the resulting torque is exactly 25 N*m, and verify your chosen values. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q3</span>(Evaluate/Create) A tool company wants to design an ergonomic wrench that reduces the force needed to loosen standard bolts, without changing the required torque. Evaluate how wrench length affects required force, then create a design recommendation. Upload your written response.</li></ol>
+<h3 class="pset-heading">Synthesis Problems</h3>
+<p class="dayconnects">Connects: vectors (Ch.3), forces (Ch.5), angular kinematics (Day 22).</p>
+
+
+<div class="problem"><span class="ptag">1</span><span class="ptag applied">Applied</span>
+<p>A mechanic uses a 0.45 m breaker bar at an angle of 20&deg; from perpendicular to the bar, applying 250 N of force, to loosen a stuck bolt requiring 90 N&middot;m of torque. Find the actual torque produced and determine whether it is sufficient to loosen the bolt.</p>
+<p class="connects">Connects: torque formula, vector angle reasoning (Ch.3), applied mechanical-engineering context</p></div>
+
+<div class="problem"><span class="ptag">2</span><span class="ptag evaluate">Evaluate</span>
+<p>A student claims that doubling the force applied to a wrench always doubles the resulting torque, "no matter the angle." Evaluate this claim by considering the specific case where the force is applied exactly along the wrench's handle (0&deg; from the position vector), and discuss why the angle dependence matters in general.</p>
+<p class="connects">Connects: torque formula, evaluating a claim that ignores angle-dependence</p></div>
+
+<div class="problem"><span class="ptag">3</span><span class="ptag applied">Applied</span>
+<p>A see-saw balances two children: one of weight 320 N sitting 1.6 m from the pivot, and another of weight 260 N sitting on the opposite side. Find where the second child must sit for the see-saw to balance (zero net torque), and verify this using the torque-balance condition.</p>
+<p class="connects">Connects: torque balance/equilibrium, applied everyday-physics context</p></div>
+
+<div class="problem"><span class="ptag">4</span><span class="ptag evaluate">Evaluate</span>
+<p>A student computing torque for a force applied at an angle to a lever arm uses the full force magnitude times the full lever-arm length, ignoring the \(\sin\theta\) factor entirely, then wonders why their answer doesn't match a professor's worked solution. Evaluate what specific error this represents and quantify the resulting discrepancy for a 100 N force applied at 40&deg; to a 0.5 m lever arm.</p>
+<p class="connects">Connects: torque formula, evaluating a specific formula-application error and its numeric consequence</p></div>
+
+<div class="problem"><span class="ptag">5</span><span class="ptag applied">Applied</span>
+<p>A flagpole experiences a 60 N horizontal wind force at its very top, 5 m above its base, and additionally a 15 N force from a support cable pulling at 70&deg; below horizontal at a point 3 m up the pole (attached on the opposite side, tending to counter-rotate it). Find the net torque about the base from both forces combined.</p>
+<p class="connects">Connects: torque formula, multiple simultaneous torques, vector direction reasoning (Ch.3)</p></div>
+
+
+<div class="problem"><span class="ptag">6</span><span class="ptag applied">Applied</span>
+<p>A mechanic uses a 0.5 m breaker bar at 18&deg; from perpendicular, applying 260 N of force, to loosen a bolt requiring 100 N&middot;m. Find the actual torque and determine if it's sufficient.</p>
+<p class="connects">Connects: torque formula, vector angle reasoning (Ch.3), applied context</p></div>
+
+<div class="problem"><span class="ptag">7</span><span class="ptag evaluate">Evaluate</span>
+<p>A student assumes torque is maximized whenever the applied force is as large as possible, regardless of where or at what angle it's applied. Evaluate this claim using a specific comparison: a 50 N force applied perpendicular to a wrench 0.1 m from the axis versus a 40 N force applied perpendicular to the same wrench 0.3 m from the axis. Which produces more torque?</p>
+<p class="connects">Connects: torque formula, evaluating a force-magnitude-only misconception</p></div>
+
+<div class="problem"><span class="ptag">8</span><span class="ptag applied">Applied</span>
+<p>A see-saw balances a 340 N child sitting 1.5 m from the pivot against a 280 N child on the opposite side. Find where the second child must sit to balance, and verify using torque balance.</p>
+<p class="connects">Connects: torque balance/equilibrium, applied everyday context</p></div>
+
+<div class="problem"><span class="ptag">9</span><span class="ptag evaluate">Evaluate</span>
+<p>A student computing torque uses the full force and full lever-arm length without the \(\sin\theta\) factor for a 110 N force at 35&deg; to a 0.55 m lever arm. Evaluate the size of this specific error by computing both the (incorrect) simplified value and the correct torque.</p>
+<p class="connects">Connects: torque formula, evaluating a specific numeric consequence of a formula-application error</p></div>
+
+<div class="problem"><span class="ptag">10</span><span class="ptag applied">Applied</span>
+<p>A flagpole experiences a 65 N horizontal wind force at its top, 5.2 m above its base, and a support cable pulling with 16 N at 68&deg; below horizontal at 3.2 m up the pole (opposing side). Find the net torque about the base from both forces.</p>
+<p class="connects">Connects: torque formula, multiple simultaneous torques, vector direction (Ch.3)</p></div>
+
+
+</div></div>
+<div class="day-anchor-wrap"><h2
+id="class-day-25-torque-ii-and-newtons-second-law-for-rotation">Class
+Day 25: Torque II and Newton’s Second Law for Rotation</h2>
+<h3 id="why-this-matters-23">Why this matters</h3>
+<p>Today completes the rotational analogy begun on Day 1: just as net
+force produces linear acceleration via F=ma, net torque produces angular
+acceleration via an exactly parallel equation.</p>
+<h3 id="newtons-second-law-for-rotation">Newton’s second law for
+rotation</h3>
+<p><span class="math display">\[\tau_{net} = I\alpha\]</span></p>
+<p>Moment of inertia (I) plays the same role here that mass played in
+the linear version — a larger (I) means a given torque produces a
+smaller angular acceleration, exactly as a larger mass means a given
+force produces a smaller (linear) acceleration.</p>
+<p>The problem-solving process mirrors Chapter 5 exactly: identify every
+torque acting on the rotating object (being careful about sign — torques
+that would spin the object in opposite rotational directions must be
+given opposite signs), sum them to find the net torque, then divide by
+(I) to get \(\alpha\).</p>
+<p><strong>Worked example:</strong> A wheel (\(I=8\text{ kg}\cdot\text{m}^2\)) has an applied
+torque of 20 N·m and a frictional opposing torque of 4 N·m. Find the net
+angular acceleration.</p>
+<p><span class="math display">\[\tau_{net} = 20-4 = 16\text{
+N}\cdot\text{m} \qquad \alpha = \frac{\tau_{net}}{I} = \frac{16}{8} =
+2\text{ rad/s}^2\]</span></p>
+<h3 id="closing-the-loop-back-to-day-1">Closing the loop back to Day
+1</h3>
+<p>Once \(\alpha\) is known from \(\tau_{net}=I\alpha\), you’re right back in Day 1’s
+territory: the same rotational kinematic equations (\(\omega=\omega_0+\alpha t\), etc.) let
+you find the resulting angular velocity, angular displacement, or time,
+exactly as before. This is worth seeing explicitly as a complete
+pipeline: forces/torques (today) determine acceleration, which
+kinematics (Day 1) then propagates forward in time — the exact same
+two-stage structure as Chapter 5’s incline problems, just in rotational
+form.</p>
+<p><strong>Worked example (full pipeline):</strong> A flywheel
+(\(I=12\text{ kg}\cdot\text{m}^2\)) has a net torque of 24 N·m. Find its angular acceleration,
+and, if starting from rest, its angular velocity after 5 s.</p>
+<p><span class="math display">\[\alpha = \frac{24}{12}=2\text{ rad/s}^2
+\qquad \omega = \omega_0+\alpha t = 0+2(5) = 10\text{
+rad/s}\]</span></p>
+<h3 id="common-mistake-to-watch-for-22">Common mistake to watch for</h3>
+<p>Forgetting to assign consistent signs to torques that act in opposing
+rotational directions (clockwise vs. counterclockwise) — exactly
+analogous to Chapter 5’s warning about signs for opposing linear forces.
+Pick one rotational direction as positive at the start of a problem and
+apply it consistently to every torque, or the net-torque sum will be
+wrong.</p>
+<h3 id="key-formulas-and-facts-for-this-day-23">Key formulas and facts
+for this day</h3>
+<ul>
+<li>Newton’s second law for rotation: (<em>{net}=I), directly
+paralleling (F</em>{net}=ma).</li>
+<li>Sum torques with consistent sign convention (clockwise
+vs. counterclockwise), just as with opposing linear forces.</li>
+<li>Once \(\alpha\) is found, Day 1’s rotational kinematic equations complete
+the problem (find \(\omega\), \(\theta\), or (t)).</li>
+</ul>
+<hr />
+<div class="probsets">
+<h3 class="pset-heading">Reading</h3>
+<ol class="rawlist"><li>Newton's second law for rotation is given by which formula?</li><li>tau_net = I*alpha is the rotational analog of which linear equation?</li><li>For a fixed net torque, a larger moment of inertia results in what, compared to a smaller moment of inertia?</li><li>If two torques act on an object in opposite rotational directions, how are they combined?</li><li>Once angular acceleration is found from tau_net = I*alpha, which set of equations can be used next?</li><li>A wheel with I=4 kg*m^2 and net torque 8 N*m has what angular acceleration?</li><li>If net torque is zero, what is angular acceleration?</li><li>Increasing moment of inertia while keeping torque constant does what to angular acceleration?</li><li>Which quantity in tau_net = I*alpha plays the same role that mass plays in F_net = ma?</li><li>A merry-go-round with people sitting far from the center has what, compared to people close to the center, in terms of required torque to achieve the same angular acceleration?</li></ol>
+<h3 class="pset-heading">Assignments</h3>
+<h3 class="tier easy"><span class="tier-dot"></span>Easy</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Easy Q1</span>Find the angular acceleration of a wheel with I=2 kg*m^2 and net torque 6 N*m. (Give your answer in rad/s^2.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q2</span>Find the angular acceleration of a disk with I=4 kg*m^2 and net torque 8 N*m. (Give your answer in rad/s^2.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q3</span>A wheel with I=1 kg*m^2 experiences 5 N*m of torque. Find its angular acceleration. (Give your answer in rad/s^2.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q4</span>A wheel with I=3 kg*m^2 experiences 9 N*m of torque. Find its angular acceleration. (Give your answer in rad/s^2.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q5</span>Find the net torque needed for a wheel (I=2 kg*m^2) to have angular acceleration 3 rad/s^2. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q6</span>Find the net torque needed for a disk (I=5 kg*m^2) to have angular acceleration 2 rad/s^2. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q7</span>A wheel has zero net torque. Find its angular acceleration. (Give your answer in rad/s^2.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q8</span>Find the moment of inertia of a wheel given net torque 10 N*m and angular acceleration 2 rad/s^2. (Give your answer in kg*m^2.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q9</span>Find the moment of inertia of a disk given net torque 20 N*m and angular acceleration 4 rad/s^2. (Give your answer in kg*m^2.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q10</span>Find the angular acceleration of a flywheel with I=6 kg*m^2 and net torque 12 N*m. (Give your answer in rad/s^2.)</li></ol>
+<h3 class="tier medium"><span class="tier-dot"></span>Medium</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Medium Q1</span>A wheel (I=5 kg*m^2) has two torques: +15 N*m and -5 N*m. Find the net angular acceleration. (Give your answer in rad/s^2.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q2</span>A flywheel starts at rest and reaches 10 rad/s in 4 s under constant torque. Given I=3 kg*m^2, find the required torque. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q3</span>A wheel (I=8 kg*m^2) has an applied torque of 20 N*m and a frictional opposing torque of 4 N*m. Find the net angular acceleration. (Give your answer in rad/s^2.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q4</span>A merry-go-round (I=250 kg*m^2) experiences a net torque of 100 N*m. Find its angular acceleration. (Give your answer in rad/s^2.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q5</span>A rotating door (I=6 kg*m^2) has a push torque of 10 N*m and a hinge friction torque of 2 N*m opposing. Find the angular acceleration. (Give your answer in rad/s^2.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q6</span>A wheel (I=4 kg*m^2) needs to reach 8 rad/s from rest in 4 s. Find the required constant torque. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q7</span>Two opposing torques act on a disk: 30 N*m clockwise and 12 N*m counterclockwise. Given I=6 kg*m^2, find the angular acceleration. (Give your answer in rad/s^2.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q8</span>A flywheel (I=12 kg*m^2) has a net torque of 24 N*m. Find its angular acceleration. (Give your answer in rad/s^2.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q9</span>Same flywheel, starting from rest: find its angular velocity after 5 s. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q10</span>A door with I=10 kg*m^2 experiences a 15 N*m opening torque and 3 N*m friction. Find the angular acceleration. (Give your answer in rad/s^2.)</li></ol>
+<h3 class="tier hard"><span class="tier-dot"></span>Hard</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Hard Q1</span>A wind turbine blade assembly (I=40,000 kg*m^2) experiences a driving torque of 8000 N*m and a generator resistance torque of 3000 N*m. Find the angular acceleration. (Give your answer in rad/s^2.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q2</span>Same turbine, starting from rest: find the angular velocity after 20 s. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q3</span>A rotating platform (I=200 kg*m^2) has a person apply 50 N tangentially at radius 1.5 m, with a friction torque of 20 N*m opposing. Find the net torque. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q4</span>Same platform: find the angular acceleration. (Give your answer in rad/s^2.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q5</span>Same platform, starting from rest: find the angular velocity after 6 s. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q6</span>A flywheel (I=20 kg*m^2) is brought to rest from 30 rad/s by a braking torque over 5 s. Find the braking torque required. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q7</span>A compound pulley system has a rotating wheel (I=2 kg*m^2) driven by a tension of 15 N at radius 0.2 m. Find the resulting angular acceleration. (Give your answer in rad/s^2.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q8</span>A centrifuge (I=0.8 kg*m^2) needs to reach 300 rad/s in 6 s from rest under constant torque, with a constant 2 N*m frictional opposing torque throughout. Find the required applied torque. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q9</span>A merry-go-round (I=300 kg*m^2, at rest) has two children push tangentially with 40 N each at radius 2 m, both in the same direction. Find the net torque. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q10</span>Same merry-go-round: find the resulting angular acceleration. (Give your answer in rad/s^2.)</li></ol>
+<h3 class="tier challenge"><span class="tier-dot"></span>Challenge</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Challenge Q1</span>(Evaluate) A student assumes that if net torque is doubled, angular velocity doubles as well (regardless of time or moment of inertia). Evaluate this claim, clarifying the correct relationship. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q2</span>(Create) Design a rotational dynamics scenario (choose I and net torque) such that a wheel starting from rest reaches exactly 20 rad/s after 5 s. Verify your chosen values. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q3</span>(Evaluate/Create) A washing machine manufacturer wants the spin cycle to reach full speed (300 rad/s) within 8 seconds without exceeding a maximum safe motor torque. Evaluate the moment of inertia and torque tradeoffs, then create a design recommendation. Upload your written response.</li></ol>
+<h3 class="pset-heading">Homework</h3>
+<h3 class="tier easy"><span class="tier-dot"></span>Easy</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Easy Q1</span>Find the angular acceleration of a wheel with I=2.5 kg*m^2 and net torque 7 N*m. (Give your answer in rad/s^2.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q2</span>Find the angular acceleration of a disk with I=4.5 kg*m^2 and net torque 9 N*m. (Give your answer in rad/s^2.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q3</span>A wheel with I=1.5 kg*m^2 experiences 6 N*m of torque. Find its angular acceleration. (Give your answer in rad/s^2.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q4</span>A wheel with I=3.5 kg*m^2 experiences 10 N*m of torque. Find its angular acceleration. (Give your answer in rad/s^2.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q5</span>Find the net torque needed for a wheel (I=2.5 kg*m^2) to have angular acceleration 3.5 rad/s^2. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q6</span>Find the net torque needed for a disk (I=5.5 kg*m^2) to have angular acceleration 2.5 rad/s^2. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q7</span>A wheel has zero net torque. Find its angular acceleration. (Give your answer in rad/s^2.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q8</span>Find the moment of inertia of a wheel given net torque 11 N*m and angular acceleration 2.2 rad/s^2. (Give your answer in kg*m^2.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q9</span>Find the moment of inertia of a disk given net torque 22 N*m and angular acceleration 4.4 rad/s^2. (Give your answer in kg*m^2.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q10</span>Find the angular acceleration of a flywheel with I=6.5 kg*m^2 and net torque 13 N*m. (Give your answer in rad/s^2.)</li></ol>
+<h3 class="tier medium"><span class="tier-dot"></span>Medium</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Medium Q1</span>A wheel (I=5.5 kg*m^2) has two torques: +16 N*m and -5.5 N*m. Find the net angular acceleration. (Give your answer in rad/s^2.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q2</span>A flywheel starts at rest and reaches 11 rad/s in 4.2 s under constant torque. Given I=3.2 kg*m^2, find the required torque. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q3</span>A wheel (I=8.5 kg*m^2) has an applied torque of 21 N*m and a frictional opposing torque of 4.5 N*m. Find the net angular acceleration. (Give your answer in rad/s^2.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q4</span>A merry-go-round (I=260 kg*m^2) experiences a net torque of 105 N*m. Find its angular acceleration. (Give your answer in rad/s^2.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q5</span>A rotating door (I=6.5 kg*m^2) has a push torque of 11 N*m and hinge friction of 2.2 N*m. Find the angular acceleration. (Give your answer in rad/s^2.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q6</span>A wheel (I=4.5 kg*m^2) needs to reach 8.5 rad/s from rest in 4.2 s. Find the required torque. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q7</span>Two opposing torques act on a disk: 32 N*m clockwise and 13 N*m counterclockwise. Given I=6.5 kg*m^2, find the angular acceleration. (Give your answer in rad/s^2.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q8</span>A flywheel (I=12.5 kg*m^2) has a net torque of 25 N*m. Find its angular acceleration. (Give your answer in rad/s^2.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q9</span>Same flywheel, from rest: find its angular velocity after 5.2 s. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q10</span>A door with I=10.5 kg*m^2 experiences 16 N*m opening torque and 3.2 N*m friction. Find the angular acceleration. (Give your answer in rad/s^2.)</li></ol>
+<h3 class="tier hard"><span class="tier-dot"></span>Hard</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Hard Q1</span>A wind turbine blade assembly (I=42,000 kg*m^2) experiences a driving torque of 8200 N*m and generator resistance of 3200 N*m. Find the angular acceleration. (Give your answer in rad/s^2.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q2</span>Same turbine, from rest: find the angular velocity after 21 s. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q3</span>A rotating platform (I=210 kg*m^2) has a person apply 52 N tangentially at radius 1.6 m, with a friction torque of 21 N*m opposing. Find the net torque. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q4</span>Same platform: find the angular acceleration. (Give your answer in rad/s^2.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q5</span>Same platform, from rest: find the angular velocity after 6.2 s. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q6</span>A flywheel (I=21 kg*m^2) is brought to rest from 32 rad/s by a braking torque over 5.2 s. Find the braking torque. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q7</span>A compound pulley system has a wheel (I=2.2 kg*m^2) driven by tension 16 N at radius 0.22 m. Find the resulting angular acceleration. (Give your answer in rad/s^2.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q8</span>A centrifuge (I=0.85 kg*m^2) needs to reach 310 rad/s in 6.2 s from rest, with a constant 2.2 N*m frictional torque throughout. Find the required applied torque. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q9</span>A merry-go-round (I=310 kg*m^2, at rest) has two children push tangentially with 42 N each at radius 2.1 m in the same direction. Find the net torque. (Give your answer in N*m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q10</span>Same merry-go-round: find the angular acceleration. (Give your answer in rad/s^2.)</li></ol>
+<h3 class="tier challenge"><span class="tier-dot"></span>Challenge</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Challenge Q1</span>(Evaluate) A student assumes that if net torque is doubled, angular velocity doubles as well (regardless of time or moment of inertia). Evaluate this claim, clarifying the correct relationship. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q2</span>(Create) Design a rotational dynamics scenario (choose I and net torque) such that a wheel starting from rest reaches exactly 20 rad/s after 5 s. Verify your chosen values. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q3</span>(Evaluate/Create) A washing machine manufacturer wants the spin cycle to reach full speed (300 rad/s) within 8 seconds without exceeding a maximum safe motor torque. Evaluate the moment of inertia and torque tradeoffs, then create a design recommendation. Upload your written response.</li></ol>
+<h3 class="pset-heading">Synthesis Problems</h3>
+<p class="dayconnects">Connects: torque (Day 24), Newton's second law (Ch.5), angular kinematics (Day 22), moment of inertia (Day 23).</p>
+
+
+<div class="problem"><span class="ptag">1</span><span class="ptag applied">Applied</span>
+<p>A merry-go-round (I=280 kg&middot;m&sup2;) at rest is pushed tangentially by two children, each applying 45 N at a radius of 1.8 m in the same rotational direction, while a 15 N&middot;m frictional torque opposes the motion. Find the angular acceleration, then find the angular velocity after 5 s, and convert this to rpm.</p>
+<p class="connects">Connects: rotational Newton's second law, torque (Day 24), angular kinematics (Day 22), unit conversion (Ch.1)</p></div>
+
+<div class="problem"><span class="ptag">2</span><span class="ptag evaluate">Evaluate</span>
+<p>A student assumes that if the net torque on a rotating system is constant, the angular velocity must also be constant, "since the cause (torque) isn't changing." Evaluate this claim, distinguishing between a constant net torque producing constant angular *acceleration* (analogous to Newton's second law for linear motion, Ch.5) versus constant angular *velocity*.</p>
+<p class="connects">Connects: rotational Newton's second law, linear-motion analogy (Ch.5), evaluating a common conflation</p></div>
+
+<div class="problem"><span class="ptag">3</span><span class="ptag applied">Applied</span>
+<p>A flywheel (I=8 kg&middot;m&sup2;) is brought to rest from 40 rad/s by a constant braking torque over 6 s. Find the required braking torque, and (connecting to Day 23) find the rotational kinetic energy dissipated during this braking process.</p>
+<p class="connects">Connects: rotational Newton's second law, rotational kinetic energy (Day 23), energy dissipation</p></div>
+
+<div class="problem"><span class="ptag">4</span><span class="ptag evaluate">Evaluate</span>
+<p>A student solving a rotational dynamics problem with two opposing torques (one driving, one frictional) sets up the net torque calculation but forgets to check whether the resulting angular acceleration should be positive or negative given their chosen rotational sign convention. Evaluate why this sign-convention step matters, using a specific example (driving torque 30 N&middot;m, frictional torque 12 N&middot;m, I=5 kg&middot;m&sup2;) to show both the correct magnitude and correct sign of the resulting angular acceleration.</p>
+<p class="connects">Connects: rotational Newton's second law, sign-convention discipline, evaluating a subtle but consequential omission</p></div>
+
+<div class="problem"><span class="ptag">5</span><span class="ptag applied">Applied</span>
+<p>A wind turbine blade assembly (I=45,000 kg&middot;m&sup2;) experiences a driving torque of 8500 N&middot;m from the wind and a generator resistance torque of 3200 N&middot;m. Find the angular acceleration, and find the time to reach an operational angular velocity of 2.5 rad/s starting from rest.</p>
+<p class="connects">Connects: rotational Newton's second law, angular kinematics (Day 22), applied renewable-energy context</p></div>
+
+
+<div class="problem"><span class="ptag">6</span><span class="ptag applied">Applied</span>
+<p>A merry-go-round (I=290 kg&middot;m&sup2;) is pushed by two children, each applying 48 N at radius 1.9 m in the same direction, with 16 N&middot;m of opposing friction. Find the angular acceleration and the angular velocity after 5.2 s, converted to rpm.</p>
+<p class="connects">Connects: rotational Newton's second law, angular kinematics (Day 22), unit conversion</p></div>
+
+<div class="problem"><span class="ptag">7</span><span class="ptag evaluate">Evaluate</span>
+<p>A student claims that a larger moment of inertia always means a system is "harder to move," regardless of context. Evaluate this claim by distinguishing between resistance to angular *acceleration* (what moment of inertia actually governs, via \(\tau=I\alpha\)) and other possible (incorrect) interpretations of "harder to move," using a specific numeric torque-and-I example.</p>
+<p class="connects">Connects: rotational Newton's second law, evaluating precise physical meaning versus vague intuition</p></div>
+
+<div class="problem"><span class="ptag">8</span><span class="ptag applied">Applied</span>
+<p>A flywheel (I=8.5 kg&middot;m&sup2;) is braked to rest from 42 rad/s over 6.5 s. Find the required braking torque and the rotational kinetic energy dissipated.</p>
+<p class="connects">Connects: rotational Newton's second law, rotational KE (Day 23), energy dissipation</p></div>
+
+<div class="problem"><span class="ptag">9</span><span class="ptag evaluate">Evaluate</span>
+<p>A student sets up a rotational dynamics problem with a 32 N&middot;m driving torque and a 13 N&middot;m opposing torque on a system with I=5.5 kg&middot;m&sup2;, but reports the angular acceleration with the wrong sign relative to their own stated convention. Evaluate why this matters for predicting the system's subsequent motion, and provide the corrected result with proper sign.</p>
+<p class="connects">Connects: rotational Newton's second law, sign convention, evaluating a consequential setup error</p></div>
+
+<div class="problem"><span class="ptag">10</span><span class="ptag applied">Applied</span>
+<p>A wind turbine blade assembly (I=46,000 kg&middot;m&sup2;) experiences 8700 N&middot;m of driving torque and 3300 N&middot;m of resistance. Find the angular acceleration and the time to reach 2.6 rad/s from rest.</p>
+<p class="connects">Connects: rotational Newton's second law, angular kinematics (Day 22), applied context</p></div>
+
+
+</div></div>
+<div class="day-anchor-wrap"><h2 id="class-day-26-angular-momentum-and-its-conservation">Class Day
+26: Angular Momentum and Its Conservation</h2>
+<h3 id="why-this-matters-24">Why this matters</h3>
+<p>Angular momentum is the rotational sibling of linear momentum from
+Chapter 6, and its conservation principle produces one of the most
+visually striking and memorable results in the whole course: the
+spinning figure skater speeding up as they pull their arms in.</p>
+<h3 id="defining-angular-momentum">Defining angular momentum</h3>
+<p><span class="math display">\[L = I\omega\]</span></p>
+<p>directly paralleling (p=mv). Just as linear momentum is conserved in
+an isolated system, <strong>angular momentum is conserved whenever no
+external torque acts on a system</strong> — this follows from Newton’s
+third law for rotation, exactly mirroring Chapter 6’s derivation for
+linear momentum.</p>
+<h3
+id="the-signature-result-spin-rate-changes-when-moment-of-inertia-changes">The
+signature result: spin rate changes when moment of inertia changes</h3>
+<p>Since (L=I) must remain constant (with no external torque), if (I)
+decreases, \(\omega\) must <em>increase</em> to compensate, and vice versa:</p>
+<p><span class="math display">\[I_1\omega_1 = I_2\omega_2\]</span></p>
+<p>This is exactly what happens when a figure skater pulls their arms in
+during a spin: bringing their arms and mass closer to their body’s
+rotation axis <em>decreases</em> their moment of inertia (recall Day 2:
+mass distributed closer to the axis means smaller (I)), and since
+angular momentum must stay the same, their angular velocity shoots up
+dramatically — the skater spins visibly faster, with no additional
+torque needed at all.</p>
+<p><strong>Worked example:</strong> A figure skater’s moment of inertia
+decreases from 5 kg·m² to 2.5 kg·m² while spinning at 3 rad/s. Find the
+new angular velocity.</p>
+<p><span class="math display">\[I_1\omega_1 = I_2\omega_2 \Rightarrow
+5(3) = 2.5\,\omega_2 \Rightarrow \omega_2 = 6\text{ rad/s}\]</span></p>
+<p>Halving the moment of inertia exactly doubles the angular velocity —
+a clean, direct inverse relationship whenever no external torque is
+present.</p>
+<h3 id="worth-noting-kinetic-energy-is-not-conserved-here">Worth noting:
+kinetic energy is <em>not</em> conserved here</h3>
+<p>It’s worth being explicit about a subtlety: while angular momentum is
+conserved in the skater example, rotational kinetic energy is
+<strong>not</strong> — it actually increases as the skater pulls their
+arms in (you can check this: (KE_{rot}=12I^2=(L)), and since (L) is
+fixed but \(\omega\) increases, \(KE_{rot}\) increases too). This extra energy
+comes from the real, physical work the skater’s muscles do pulling their
+arms inward against the outward-pulling effect of their own spin —
+angular momentum conservation doesn’t mean <em>all</em> rotational
+quantities are conserved, only angular momentum itself.</p>
+<h3 id="common-mistake-to-watch-for-23">Common mistake to watch for</h3>
+<p>Assuming that because momentum (linear or angular) is conserved,
+kinetic energy must be too. As the skater example shows directly, this
+is false in general — momentum conservation and energy conservation are
+two separate principles, each requiring their own justification (absence
+of external torque/force for momentum; absence of non-conservative
+forces/energy input for energy) in any given problem.</p>
+<h3 id="key-formulas-and-facts-for-this-day-24">Key formulas and facts
+for this day</h3>
+<ul>
+<li>Angular momentum: (L=I), conserved when no external torque acts on
+the system.</li>
+<li>Decreasing (I) (arms pulled in) increases \(\omega\) proportionally, and
+vice versa, following \(I_1\omega_1=I_2\omega_2\).</li>
+<li>Angular momentum conservation does not imply kinetic energy
+conservation — these are separate principles.</li>
+</ul>
+<hr />
+<div class="probsets">
+<h3 class="pset-heading">Reading</h3>
+<ol class="rawlist"><li>Angular momentum is given by which formula?</li><li>Angular momentum is conserved under what condition?</li><li>If moment of inertia decreases while angular momentum is conserved, what happens to angular velocity?</li><li>A figure skater pulling in their arms experiences what change in moment of inertia?</li><li>The rotational analog of linear momentum conservation is which principle?</li><li>A satellite's moment of inertia decreases due to a retracting arm; if angular momentum is conserved, what happens to its angular velocity?</li><li>Two rotating disks combine (stick together) while conserving angular momentum. What quantity is added together to find the result?</li><li>If external torque acts on a system, what happens to its angular momentum?</li><li>Angular momentum has the same units as which combination of quantities?</li><li>A diver tucking their body mid-air experiences what change in angular velocity, assuming angular momentum is conserved?</li></ol>
+<h3 class="pset-heading">Assignments</h3>
+<h3 class="tier easy"><span class="tier-dot"></span>Easy</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Easy Q1</span>Find the angular momentum of a wheel with I=2 kg*m^2 at 5 rad/s. (Give your answer in kg*m^2/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q2</span>Find the angular momentum of a disk with I=3 kg*m^2 at 4 rad/s. (Give your answer in kg*m^2/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q3</span>A skater with I=5 kg*m^2 at 2 rad/s pulls in to I=2.5 kg*m^2. Find the new angular velocity. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q4</span>A skater with I=6 kg*m^2 at 3 rad/s pulls in to I=3 kg*m^2. Find the new angular velocity. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q5</span>Find the angular momentum of a wheel with I=4 kg*m^2 at 3 rad/s. (Give your answer in kg*m^2/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q6</span>A platform's moment of inertia doubles while conserving angular momentum. Find the factor by which omega changes.</li><li><span class="qtag" style="margin-right:6px;">Easy Q7</span>A platform's moment of inertia is halved while conserving angular momentum. Find the factor by which omega changes.</li><li><span class="qtag" style="margin-right:6px;">Easy Q8</span>Find the angular momentum of a disk with I=1.5 kg*m^2 at 6 rad/s. (Give your answer in kg*m^2/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q9</span>A skater's moment of inertia decreases from 4 kg*m^2 to 2 kg*m^2 while spinning at 2.5 rad/s. Find the new omega. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q10</span>Find the angular momentum of a wheel with I=5 kg*m^2 at 2 rad/s. (Give your answer in kg*m^2/s.)</li></ol>
+<h3 class="tier medium"><span class="tier-dot"></span>Medium</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Medium Q1</span>A diver's moment of inertia changes from 8 kg*m^2 to 2 kg*m^2 while spinning at 2 rad/s. Find the new angular velocity when tucked. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q2</span>A rotating stool with a person (I=5 kg*m^2) spins at 4 rad/s. The person extends their arms, increasing I to 8 kg*m^2. Find the new angular velocity. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q3</span>A satellite's moment of inertia changes from 500 kg*m^2 to 350 kg*m^2 while spinning at 0.5 rad/s. Find the new angular velocity. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q4</span>A rotating disk (I=6 kg*m^2) at 4 rad/s has an identical disk (I=6 kg*m^2) dropped onto it. Find the combined angular velocity. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q5</span>A skater with I=7 kg*m^2 at 1.5 rad/s pulls in to I=3.5 kg*m^2. Find the new angular velocity. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q6</span>A merry-go-round (I=200 kg*m^2) at 1 rad/s has a child (adding 20 kg*m^2) jump on at the edge. Find the new angular velocity. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q7</span>A rotating platform (I=10 kg*m^2) at 3 rad/s has its moment of inertia increased to 15 kg*m^2. Find the new angular velocity. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q8</span>Two disks (I=4 kg*m^2 at 5 rad/s and I=2 kg*m^2 at rest) combine into a single rotating system. Find the resulting angular velocity. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q9</span>A gymnast's moment of inertia changes from 10 kg*m^2 to 4 kg*m^2 while spinning at 1.8 rad/s. Find the new angular velocity. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q10</span>A rotating wheel (I=3 kg*m^2, omega=6 rad/s) has an identical stationary wheel dropped onto it. Find the resulting angular velocity. (Give your answer in rad/s.)</li></ol>
+<h3 class="tier hard"><span class="tier-dot"></span>Hard</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Hard Q1</span>A figure skater begins a spin with arms extended (I=5 kg*m^2) at 1.5 rad/s. Find the angular velocity after pulling in to I=3 kg*m^2. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q2</span>Same skater, pulling in further to I=1.5 kg*m^2: find the angular velocity at that stage. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q3</span>A neutron star forms from a collapsing star with initial radius 700,000 km and angular velocity 1e-6 rad/s, collapsing to radius 10 km. Find the neutron star's angular velocity (I is proportional to R^2). (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q4</span>A rotating platform (I=300 kg*m^2) with a person at the center spins at 1.2 rad/s. The person walks outward, increasing total I to 450 kg*m^2. Find the new angular velocity. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q5</span>Same scenario: find the ratio of final to initial rotational KE.</li><li><span class="qtag" style="margin-right:6px;">Hard Q6</span>A satellite (I=800 kg*m^2) spinning at 0.3 rad/s deploys a solar panel arm, increasing its I to 1200 kg*m^2. Find the new angular velocity. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q7</span>Same satellite: find the change in rotational KE (final minus initial). (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q8</span>Two disks (I1=5 kg*m^2 at 6 rad/s, I2=3 kg*m^2 at -2 rad/s, opposite direction) are brought together and combine. Find the resulting angular velocity. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q9</span>A rotating merry-go-round (I=250 kg*m^2) at 2 rad/s has a 25 kg child jump onto the edge (radius 2 m) tangentially, with no initial angular velocity. Find the new combined angular velocity. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q10</span>A gymnast has I=12 kg*m^2 in layout position spinning at 1 rad/s, tucks to I=4 kg*m^2. Find the angular velocity during the tucked phase. (Give your answer in rad/s.)</li></ol>
+<h3 class="tier challenge"><span class="tier-dot"></span>Challenge</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Challenge Q1</span>(Evaluate) A student assumes that when moment of inertia changes (as in the skater example), kinetic energy is also conserved, just like angular momentum. Evaluate this claim, explaining where the "extra" kinetic energy comes from. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q2</span>(Create) Design a moment-of-inertia-change scenario (choose initial I, initial omega, and final I) such that the final angular velocity is exactly triple the initial angular velocity. Verify your chosen values. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q3</span>(Evaluate/Create) A satellite engineering team wants to use a retractable arm to control a satellite's spin rate. Evaluate how retracting versus extending the arm affects spin rate, then create a design recommendation. Upload your written response.</li></ol>
+<h3 class="pset-heading">Homework</h3>
+<h3 class="tier easy"><span class="tier-dot"></span>Easy</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Easy Q1</span>Find the angular momentum of a wheel with I=2.5 kg*m^2 at 5 rad/s. (Give your answer in kg*m^2/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q2</span>Find the angular momentum of a disk with I=3.5 kg*m^2 at 4 rad/s. (Give your answer in kg*m^2/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q3</span>A skater with I=5.5 kg*m^2 at 2 rad/s pulls in to I=2.75 kg*m^2. Find the new angular velocity. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q4</span>A skater with I=6.5 kg*m^2 at 3 rad/s pulls in to I=3.25 kg*m^2. Find the new angular velocity. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q5</span>Find the angular momentum of a wheel with I=4.5 kg*m^2 at 3 rad/s. (Give your answer in kg*m^2/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q6</span>A platform's moment of inertia doubles while conserving angular momentum. Find the factor by which omega changes.</li><li><span class="qtag" style="margin-right:6px;">Easy Q7</span>A platform's moment of inertia is halved while conserving angular momentum. Find the factor by which omega changes.</li><li><span class="qtag" style="margin-right:6px;">Easy Q8</span>Find the angular momentum of a disk with I=1.7 kg*m^2 at 6 rad/s. (Give your answer in kg*m^2/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q9</span>A skater's moment of inertia decreases from 4.5 kg*m^2 to 2.2 kg*m^2 while spinning at 2.5 rad/s. Find the new omega. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q10</span>Find the angular momentum of a wheel with I=5.5 kg*m^2 at 2 rad/s. (Give your answer in kg*m^2/s.)</li></ol>
+<h3 class="tier medium"><span class="tier-dot"></span>Medium</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Medium Q1</span>A diver's moment of inertia changes from 8.5 kg*m^2 to 2.2 kg*m^2 while spinning at 2.1 rad/s. Find the new angular velocity. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q2</span>A rotating stool with a person (I=5.5 kg*m^2) spins at 4.2 rad/s. The person extends their arms, increasing I to 8.5 kg*m^2. Find the new angular velocity. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q3</span>A satellite's moment of inertia changes from 520 kg*m^2 to 360 kg*m^2 while spinning at 0.55 rad/s. Find the new angular velocity. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q4</span>A rotating disk (I=6.5 kg*m^2) at 4.2 rad/s has an identical disk dropped onto it. Find the combined angular velocity. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q5</span>A skater with I=7.5 kg*m^2 at 1.6 rad/s pulls in to I=3.75 kg*m^2. Find the new angular velocity. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q6</span>A merry-go-round (I=210 kg*m^2) at 1.1 rad/s has a child (adding 21 kg*m^2) jump on at the edge. Find the new angular velocity. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q7</span>A rotating platform (I=11 kg*m^2) at 3.2 rad/s has its moment of inertia increased to 16.5 kg*m^2. Find the new angular velocity. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q8</span>Two disks (I=4.5 kg*m^2 at 5.2 rad/s and I=2.2 kg*m^2 at rest) combine into a single system. Find the resulting angular velocity. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q9</span>A gymnast's moment of inertia changes from 10.5 kg*m^2 to 4.2 kg*m^2 while spinning at 1.9 rad/s. Find the new angular velocity. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q10</span>A rotating wheel (I=3.2 kg*m^2, omega=6.2 rad/s) has an identical stationary wheel dropped onto it. Find the resulting angular velocity. (Give your answer in rad/s.)</li></ol>
+<h3 class="tier hard"><span class="tier-dot"></span>Hard</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Hard Q1</span>A figure skater begins a spin with arms extended (I=5.2 kg*m^2) at 1.6 rad/s, pulling in to I=3.2 kg*m^2. Find the angular velocity at this stage. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q2</span>Same skater, pulling in further to I=1.6 kg*m^2: find the angular velocity. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q3</span>A neutron star forms from a collapsing star (initial radius 720,000 km, angular velocity 1.1e-6 rad/s) collapsing to radius 11 km. Find the resulting angular velocity. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q4</span>A rotating platform (I=310 kg*m^2) with a person at the center spins at 1.25 rad/s. The person walks outward, increasing total I to 460 kg*m^2. Find the new angular velocity. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q5</span>Same scenario: find the ratio of final to initial rotational KE.</li><li><span class="qtag" style="margin-right:6px;">Hard Q6</span>A satellite (I=820 kg*m^2) spinning at 0.32 rad/s deploys an arm, increasing I to 1220 kg*m^2. Find the new angular velocity. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q7</span>Same satellite: find the change in rotational KE. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q8</span>Two disks (I1=5.2 kg*m^2 at 6.2 rad/s, I2=3.2 kg*m^2 at -2.2 rad/s) combine. Find the resulting angular velocity. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q9</span>A rotating merry-go-round (I=260 kg*m^2) at 2.2 rad/s has a 26 kg child jump onto the edge (radius 2.1 m). Find the new combined angular velocity. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q10</span>A gymnast has I=12.5 kg*m^2 in layout position spinning at 1.1 rad/s, tucks to I=4.2 kg*m^2. Find the angular velocity during the tucked phase. (Give your answer in rad/s.)</li></ol>
+<h3 class="tier challenge"><span class="tier-dot"></span>Challenge</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Challenge Q1</span>(Evaluate) A student assumes that when moment of inertia changes (as in the skater example), kinetic energy is also conserved, just like angular momentum. Evaluate this claim, explaining where the "extra" kinetic energy comes from. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q2</span>(Create) Design a moment-of-inertia-change scenario (choose initial I, initial omega, and final I) such that the final angular velocity is exactly triple the initial angular velocity. Verify your chosen values. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q3</span>(Evaluate/Create) A satellite engineering team wants to use a retractable arm to control a satellite's spin rate. Evaluate how retracting versus extending the arm affects spin rate, then create a design recommendation. Upload your written response.</li></ol>
+<h3 class="pset-heading">Synthesis Problems</h3>
+<p class="dayconnects">Connects: linear momentum (Ch.6), moment of inertia (Day 23), rotational dynamics (Day 25).</p>
+
+
+<div class="problem"><span class="ptag">1</span><span class="ptag applied">Applied</span>
+<p>A figure skater with I=5.5 kg&middot;m&sup2; (arms extended) spins at 1.8 rad/s, then pulls in to I=2.2 kg&middot;m&sup2;. Find the new angular velocity, then find the ratio of final to initial rotational kinetic energy, and (connecting to Ch.7 energy ideas) explain physically where the "extra" kinetic energy comes from.</p>
+<p class="connects">Connects: angular momentum conservation, rotational KE (Day 23), energy accounting (Ch.7)</p></div>
+
+<div class="problem"><span class="ptag">2</span><span class="ptag evaluate">Evaluate</span>
+<p>A student claims that since angular momentum is conserved when a skater pulls in their arms, kinetic energy "must be conserved too, just like in the momentum-conservation problems from Chapter 6." Evaluate this claim, contrasting it with the elastic-vs-inelastic-collision distinction from Chapter 6 (where momentum is always conserved but kinetic energy is not always conserved).</p>
+<p class="connects">Connects: angular momentum, linear momentum/energy distinction (Ch.6), evaluating a cross-chapter analogy's limits</p></div>
+
+<div class="problem"><span class="ptag">3</span><span class="ptag applied">Applied</span>
+<p>A rotating platform (I=320 kg&middot;m&sup2;) with a person standing at its center spins at 1.3 rad/s. The person walks outward, increasing the total system's moment of inertia to 480 kg&middot;m&sup2;. Find the new angular velocity, and (forward-connecting to the torque/energy relationship) discuss what must physically supply the increased separation between the "expected constant KE" assumption and the actual (changed) KE, given that no external torque acted on the system.</p>
+<p class="connects">Connects: angular momentum conservation, internal-energy-source reasoning, evaluating conservation-law scope</p></div>
+
+<div class="problem"><span class="ptag">4</span><span class="ptag evaluate">Evaluate</span>
+<p>A student compares a linear-momentum collision problem (two carts colliding and sticking, Ch.6) to an angular-momentum problem (a spinning disk having another disk dropped onto it) and assumes the two must use "totally different" reasoning since one is linear and one is rotational. Evaluate this claim by setting up the angular-momentum problem (disk A: I=5 kg&middot;m&sup2; at 6 rad/s; disk B: I=3 kg&middot;m&sup2; at rest, dropped on top) and showing how closely its structure parallels the linear perfectly-inelastic-collision formula from Chapter 6.</p>
+<p class="connects">Connects: angular momentum conservation, structural parallel to linear collisions (Ch.6), evaluating cross-domain problem-solving transfer</p></div>
+
+<div class="problem"><span class="ptag">5</span><span class="ptag applied">Applied</span>
+<p>A satellite (I=850 kg&middot;m&sup2;) spinning at 0.32 rad/s deploys a solar panel arm, increasing its moment of inertia to 1250 kg&middot;m&sup2;. Find the new angular velocity, and find the change in rotational kinetic energy (noting the sign, and connecting to what this implies about work done during deployment).</p>
+<p class="connects">Connects: angular momentum conservation, rotational KE change, applied aerospace-engineering context</p></div>
+
+
+<div class="problem"><span class="ptag">6</span><span class="ptag applied">Applied</span>
+<p>A figure skater with I=5.8 kg&middot;m&sup2; spins at 2.0 rad/s, then pulls in to I=2.4 kg&middot;m&sup2;. Find the new angular velocity and the ratio of final to initial rotational KE.</p>
+<p class="connects">Connects: angular momentum conservation, rotational KE (Day 23), energy accounting</p></div>
+
+<div class="problem"><span class="ptag">7</span><span class="ptag evaluate">Evaluate</span>
+<p>A student assumes any conserved quantity in physics (momentum, angular momentum, energy) behaves identically in every scenario, "since conservation laws are all the same idea." Evaluate this claim by comparing what stays fixed and what changes across a linear elastic collision, a linear inelastic collision, and a skater pulling in their arms, organizing your evaluation around momentum vs. kinetic energy in each case.</p>
+<p class="connects">Connects: angular momentum, linear momentum/collisions (Ch.6), evaluating the scope of "conservation" as a concept</p></div>
+
+<div class="problem"><span class="ptag">8</span><span class="ptag applied">Applied</span>
+<p>A rotating platform (I=330 kg&middot;m&sup2;) with a person at the center spins at 1.35 rad/s. The person walks outward, increasing I to 490 kg&middot;m&sup2;. Find the new angular velocity and the ratio of final to initial KE.</p>
+<p class="connects">Connects: angular momentum conservation, rotational KE, energy accounting</p></div>
+
+<div class="problem"><span class="ptag">9</span><span class="ptag evaluate">Evaluate</span>
+<p>A student models a spinning-disk-plus-dropped-disk problem (analogous to a perfectly inelastic linear collision) but tries to also assume kinetic energy is conserved in the process, since "it seemed like an elastic-style problem." Evaluate why this combination of assumptions (perfectly-inelastic-style merging, but with KE conservation) is inconsistent, using the specific case of disk A (I=5.5 kg&middot;m&sup2;, 6.5 rad/s) and disk B (I=3.2 kg&middot;m&sup2;, at rest).</p>
+<p class="connects">Connects: angular momentum, structural parallel to Ch.6 collisions, evaluating an internally inconsistent assumption set</p></div>
+
+<div class="problem"><span class="ptag">10</span><span class="ptag applied">Applied</span>
+<p>A satellite (I=870 kg&middot;m&sup2;) spinning at 0.34 rad/s deploys an arm, increasing I to 1270 kg&middot;m&sup2;. Find the new angular velocity and the change in rotational kinetic energy.</p>
+<p class="connects">Connects: angular momentum conservation, rotational KE change, applied context</p></div>
+
+
+</div></div>
+<div class="day-anchor-wrap"><h2 id="class-day-27-rolling-motion-and-gyroscopic-motion">Class Day 27:
+Rolling Motion and Gyroscopic Motion</h2>
+<h3 id="why-this-matters-25">Why this matters</h3>
+<p>Today closes out the rotational motion unit by combining everything
+so far — kinematics, energy, and moment of inertia — into the classic
+“rolling without slipping” scenario, then briefly introduces the
+striking, somewhat mysterious-seeming behavior of spinning
+gyroscopes.</p>
+<h3 id="the-rolling-without-slipping-condition">The
+rolling-without-slipping condition</h3>
+<p>When an object rolls along a surface without sliding, its
+center-of-mass translational speed and its spin rate are locked together
+by:</p>
+<p><span class="math display">\[v = r\omega\]</span></p>
+<p>This connects Day 1’s linear/angular speed relationship directly to a
+real physical constraint, rather than just an abstract
+point-on-a-rotating-object calculation.</p>
+<h3 id="the-famous-race-which-shape-wins">The famous race: which shape
+wins?</h3>
+<p>Combining (v=r) with Day 2’s total kinetic energy formula and Chapter
+7’s energy conservation produces one of the most quotable results in
+introductory physics. Substituting (=v/R) into
+\(KE_{total}=\tfrac12mv^2+\tfrac12I\omega^2\), and using \(I=cmR^2\) (where (c) is a
+shape-dependent constant: \(\tfrac12\) for a disk, \(\tfrac25\) for a sphere, (1) for a
+ring), gives:</p>
+<p><span class="math display">\[mgh = \tfrac12mv^2(1+c) \Rightarrow v =
+\sqrt{\frac{2gh}{1+c}}\]</span></p>
+<p>The smaller (c) is, the <em>larger</em> the final speed — meaning
+objects with mass concentrated closer to their center (lower (c)) win a
+race down an incline. Ranking by (c): sphere ((c=0.4)) beats disk
+((c=0.5)) beats ring ((c=1.0)). Notice this ranking has nothing to do
+with mass or size at all — a small solid sphere and a large solid sphere
+reach the bottom at the exact same speed, since (m) and (R) both cancel
+out of the final formula entirely, leaving only the shape-dependent
+constant (c).</p>
+<h3 id="gyroscopic-motion-a-brief-conceptual-introduction">Gyroscopic
+motion: a brief conceptual introduction</h3>
+<p>A rapidly spinning object carries a large angular momentum vector
+(L=I), pointing along its spin axis. When gravity (or any other torque)
+tries to tip that spin axis over, something initially counterintuitive
+happens: instead of simply toppling over the way a non-spinning object
+would, the spin axis instead sweeps around slowly in a cone-shaped path,
+a behavior called <strong>precession</strong>. This happens because a
+torque changes angular momentum gradually, in the <em>direction</em> the
+torque points, rather than instantaneously toppling the whole object —
+and for a rapidly spinning object with a large (L), that same-sized
+torque produces only a small, slow change in the <em>direction</em> of
+(L), rather than immediately collapsing it. The faster the spin (larger
+(L)), the slower and more resistant to tipping the precession becomes —
+which is precisely why gyroscopes are used for navigation and
+stabilization: a rapidly spinning gyroscope maintains a very stable
+orientation in space over the short term, largely resisting outside
+disturbances.</p>
+<h3 id="common-mistake-to-watch-for-24">Common mistake to watch for</h3>
+<p>Describing a gyroscope as somehow “defying gravity.” It isn’t —
+gravity (or any applied torque) is still fully acting on it the whole
+time; the surprising part is <em>how</em> angular momentum responds to
+that torque (slow precession of direction, rather than the object simply
+falling over), not that gravity has stopped acting.</p>
+<h3 id="key-formulas-and-facts-for-this-day-25">Key formulas and facts
+for this day</h3>
+<ul>
+<li>Rolling without slipping: (v=r).</li>
+<li>Race-down-an-incline ranking (fastest to slowest, same
+mass/radius/height): solid sphere &gt; solid disk &gt; ring/hoop, since
+a smaller shape-constant (c) in \(I=cmR^2\) diverts less energy into
+rotation.</li>
+<li>Gyroscopic precession: a spinning object’s angular momentum vector
+resists rapid changes in direction, causing slow precession rather than
+simply toppling, when a torque (like gravity) acts on it.</li>
+</ul>
+<hr />
+<div class="probsets">
+<h3 class="pset-heading">Reading</h3>
+<ol class="rawlist"><li>The rolling-without-slipping condition is given by which formula?</li><li>Total kinetic energy of a rolling object includes which two components?</li><li>A hollow cylinder rolling down an incline reaches the bottom how, compared to a solid cylinder of the same mass and radius?</li><li>Ranking solid sphere, solid disk, and hollow cylinder/ring (same mass, radius, height) by speed at the bottom of an incline, which is fastest?</li><li>A spinning gyroscope resists changes to what property of its motion?</li><li>Precession refers to what behavior of a spinning object under an applied torque?</li><li>A faster-spinning gyroscope precesses how, compared to a slower-spinning one, under the same torque?</li><li>Gyroscopic stability is used in which types of real-world systems?</li><li>A bicycle is more stable at higher speeds primarily due to what effect involving its spinning wheels?</li><li>Reaction wheels on spacecraft are used for what purpose?</li></ol>
+<h3 class="pset-heading">Assignments</h3>
+<h3 class="tier easy"><span class="tier-dot"></span>Easy</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Easy Q1</span>A wheel rolls at 3 m/s with radius 0.3 m. Find its angular velocity. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q2</span>A ball rolls at 5 m/s with radius 0.1 m. Find its angular velocity. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q3</span>Find the total KE of a rolling solid disk (M=2 kg) moving at 3 m/s (c=1/2). (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q4</span>Find the total KE of a rolling solid sphere (M=2 kg) moving at 3 m/s (c=2/5). (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q5</span>Find the total KE of a rolling ring (M=2 kg) moving at 3 m/s (c=1). (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q6</span>State which of the three shapes (disk, sphere, ring) has the highest total KE at the same speed and mass. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Easy Q7</span>State whether a faster-spinning top is generally more or less stable than a slower-spinning one. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Easy Q8</span>State what physical quantity is conserved that gives a gyroscope its stability (absent external torque). Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Easy Q9</span>State one real-world application of gyroscopic stability. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Easy Q10</span>State what happens to a spinning gyroscope's orientation when no external torque acts on it. Upload your written response.</li></ol>
+<h3 class="tier medium"><span class="tier-dot"></span>Medium</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Medium Q1</span>Find the total kinetic energy of a rolling solid disk (M=3 kg, R=0.2 m) moving at 4 m/s. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q2</span>Find the total KE of a rolling solid sphere (M=3 kg, R=0.2 m) moving at 4 m/s. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q3</span>Find the total KE of a rolling hollow sphere (c=2/3) of the same mass, radius, and speed. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q4</span>A solid cylinder rolls down an incline from height 2 m (frictionless, rolling). Find its speed at the bottom. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q5</span>A solid sphere (M=4 kg, R=0.15 m) rolls at 5 m/s. Find its translational KE. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q6</span>Same sphere: find its rotational KE. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q7</span>Same sphere: find its total KE. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q8</span>A hollow cylinder (M=2 kg, R=0.1 m, c=1) rolls down a frictionless incline from height 1.8 m. Find its speed at the bottom. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q9</span>A bowling ball (M=6 kg, R=0.11 m, solid sphere) rolls at 4 m/s. Find its total kinetic energy. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q10</span>Same bowling ball: find the fraction of total KE that is rotational.</li></ol>
+<h3 class="tier hard"><span class="tier-dot"></span>Hard</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Hard Q1</span>A solid sphere and a hollow sphere of equal mass and radius both roll down the same 3 m tall frictionless incline. Find the solid sphere's final speed. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q2</span>Same setup: find the hollow sphere's final speed. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q3</span>Find the percentage difference between them (relative to the solid sphere's speed). (Give your answer in percent.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q4</span>A bowling ball (solid sphere, M=7 kg, R=0.11 m) rolls without slipping at 4.5 m/s. Find its total KE. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q5</span>Same ball: find the additional height it could climb on a frictionless ramp (preserving rolling). (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q6</span>A solid disk (M=2.5 kg, R=0.12 m) is released from rest at the top of a 2.2 m incline (frictionless, rolling). Find its final speed. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q7</span>A solid sphere of the same mass, radius, and incline height: find its final speed. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q8</span>A rolling ring (M=1.5 kg, R=0.2 m) has a total kinetic energy of 27 J. Find its translational speed (total KE = mv^2 for a ring). (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q9</span>A can of soup (solid cylinder, M=0.4 kg, R=0.04 m) rolls down a 0.8 m tall ramp. Find its final speed using rolling energy conservation. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q10</span>Same ramp: find the speed if it slid frictionlessly instead (no rotation). (Give your answer in m/s.)</li></ol>
+<h3 class="tier challenge"><span class="tier-dot"></span>Challenge</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Challenge Q1</span>(Evaluate) A student claims that a gyroscope "defies gravity" because it doesn't simply fall over when tilted. Evaluate this claim, clarifying what is actually happening physically. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q2</span>(Create) Design a rolling-object race scenario (choose two different shapes, mass, radius, and incline height) such that one object's final speed is exactly 90% of the other's. Verify your chosen values. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q3</span>(Evaluate/Create) A drone manufacturer wants to improve flight stability using gyroscopic principles or electronic sensors. Evaluate the tradeoffs, then create a recommendation for a lightweight consumer drone. Upload your written response.</li></ol>
+<h3 class="pset-heading">Homework</h3>
+<h3 class="tier easy"><span class="tier-dot"></span>Easy</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Easy Q1</span>A wheel rolls at 3.5 m/s with radius 0.32 m. Find its angular velocity. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q2</span>A ball rolls at 5.5 m/s with radius 0.11 m. Find its angular velocity. (Give your answer in rad/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q3</span>Find the total KE of a rolling solid disk (M=2.2 kg) moving at 3.2 m/s. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q4</span>Find the total KE of a rolling solid sphere (M=2.2 kg) moving at 3.2 m/s. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q5</span>Find the total KE of a rolling ring (M=2.2 kg) moving at 3.2 m/s. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q6</span>State which of the three shapes has the highest total KE at the same speed and mass. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Easy Q7</span>State whether a faster-spinning top is generally more or less stable than a slower-spinning one. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Easy Q8</span>State what physical quantity is conserved that gives a gyroscope its stability. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Easy Q9</span>State one real-world application of gyroscopic stability. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Easy Q10</span>State what happens to a spinning gyroscope's orientation when no external torque acts. Upload your written response.</li></ol>
+<h3 class="tier medium"><span class="tier-dot"></span>Medium</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Medium Q1</span>Find the total kinetic energy of a rolling solid disk (M=3.2 kg, R=0.22 m) moving at 4.2 m/s. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q2</span>Find the total KE of a rolling solid sphere (M=3.2 kg, R=0.22 m) moving at 4.2 m/s. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q3</span>Find the total KE of a rolling hollow sphere of the same mass, radius, and speed. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q4</span>A solid cylinder rolls down an incline from height 2.2 m. Find its speed at the bottom. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q5</span>A solid sphere (M=4.2 kg, R=0.17 m) rolls at 5.2 m/s. Find its translational KE. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q6</span>Same sphere: find its rotational KE. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q7</span>Same sphere: find its total KE. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q8</span>A hollow cylinder (M=2.2 kg, R=0.11 m) rolls down a frictionless incline from height 1.9 m. Find its speed at the bottom. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q9</span>A bowling ball (M=6.2 kg, R=0.115 m) rolls at 4.2 m/s. Find its total kinetic energy. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q10</span>Same bowling ball: find the fraction of total KE that is rotational.</li></ol>
+<h3 class="tier hard"><span class="tier-dot"></span>Hard</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Hard Q1</span>A solid sphere and a hollow sphere of equal mass and radius both roll down the same 3.2 m tall frictionless incline. Find the solid sphere's final speed. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q2</span>Same setup: find the hollow sphere's final speed. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q3</span>Find the percentage difference between them. (Give your answer in percent.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q4</span>A bowling ball (M=7.2 kg, R=0.115 m) rolls at 4.7 m/s on a level alley. Find its total KE. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q5</span>Same ball: find the additional height it could climb on a frictionless ramp. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q6</span>A solid disk (M=2.7 kg, R=0.13 m) is released from rest at the top of a 2.4 m incline. Find its final speed. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q7</span>A solid sphere of the same mass, radius, and incline height: find its final speed. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q8</span>A rolling ring (M=1.7 kg, R=0.22 m) has a total KE of 29 J. Find its translational speed. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q9</span>A can of soup (M=0.42 kg, R=0.042 m) rolls down a 0.85 m tall ramp. Find its final speed. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q10</span>Same ramp: find the speed if it slid frictionlessly instead. (Give your answer in m/s.)</li></ol>
+<h3 class="tier challenge"><span class="tier-dot"></span>Challenge</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Challenge Q1</span>(Evaluate) A student claims that a gyroscope "defies gravity" because it doesn't simply fall over when tilted. Evaluate this claim, clarifying what is actually happening physically. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q2</span>(Create) Design a rolling-object race scenario (choose two different shapes, mass, radius, and incline height) such that one object's final speed is exactly 90% of the other's. Verify your chosen values. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q3</span>(Evaluate/Create) A drone manufacturer wants to improve flight stability using gyroscopic principles or electronic sensors. Evaluate the tradeoffs, then create a recommendation for a lightweight consumer drone. Upload your written response.</li></ol>
+<h3 class="pset-heading">Synthesis Problems</h3>
+<p class="dayconnects">Connects: moment of inertia (Day 23), angular momentum (Day 26), energy conservation (Ch.7), linear kinematics (Ch.2).</p>
+
+
+<div class="problem"><span class="ptag">1</span><span class="ptag applied">Applied</span>
+<p>A solid sphere and a hollow sphere (identical mass and radius) both roll without slipping down the same 3.2 m tall frictionless incline. Find each one's final speed at the bottom (using rolling-motion energy conservation), then, using linear kinematics (Ch.2), find how much longer the hollow sphere takes to reach the bottom if the incline length (along the slope) is 8 m for both.</p>
+<p class="connects">Connects: rolling motion, energy conservation (Ch.7), linear kinematic equations (Ch.2), multi-step comparative analysis</p></div>
+
+<div class="problem"><span class="ptag">2</span><span class="ptag evaluate">Evaluate</span>
+<p>A student claims a gyroscope "defies gravity" since it doesn't simply fall over when tilted while spinning. Evaluate this claim by explaining, using the angular momentum concept from Day 26, what is actually happening physically (precession) rather than gravity somehow being "cancelled."</p>
+<p class="connects">Connects: gyroscopic precession, angular momentum (Day 26), evaluating a popular-science misconception</p></div>
+
+<div class="problem"><span class="ptag">3</span><span class="ptag applied">Applied</span>
+<p>A bowling ball (solid sphere, mass 7 kg, radius 0.115 m) rolls without slipping at 4.5 m/s on a level lane, then encounters a frictionless upward ramp. Find its total kinetic energy, and find the maximum height it climbs on the ramp before momentarily stopping (using energy conservation).</p>
+<p class="connects">Connects: rolling motion, energy conservation (Ch.7), moment of inertia (Day 23)</p></div>
+
+<div class="problem"><span class="ptag">4</span><span class="ptag evaluate">Evaluate</span>
+<p>A student ranks the "winner" of a race down an incline among a solid sphere, solid disk, and hollow ring (all same mass and radius) by their weights, assuming "heavier objects have more momentum and win races." Evaluate this claim, explaining that mass actually cancels out of the rolling-race outcome entirely, and identify the actual property (the shape factor \(c\) in \(I=cMR^2\)) that determines the winner.</p>
+<p class="connects">Connects: rolling motion, moment of inertia (Day 23), evaluating a mass-based misconception</p></div>
+
+<div class="problem"><span class="ptag">5</span><span class="ptag applied">Applied</span>
+<p>A reaction wheel aboard a small satellite (I=0.8 kg&middot;m&sup2;) is spun up from rest to 25 rad/s in 4 s to reorient the satellite body. Using conservation of angular momentum for the whole (initially non-rotating) satellite-plus-wheel system, find the resulting angular velocity of the satellite body itself, given the satellite body's own moment of inertia is 400 kg&middot;m&sup2; (and spins in the opposite direction to conserve total angular momentum, which starts at zero).</p>
+<p class="connects">Connects: angular momentum conservation (Day 26), applied aerospace attitude-control context</p></div>
+
+
+<div class="problem"><span class="ptag">6</span><span class="ptag applied">Applied</span>
+<p>A solid sphere and a hollow sphere (identical mass and radius) roll without slipping down the same 3.4 m frictionless incline (8.5 m along the slope). Find each one's final speed, then find how much longer the hollow sphere takes to reach the bottom, using linear kinematics.</p>
+<p class="connects">Connects: rolling motion, energy conservation (Ch.7), linear kinematics (Ch.2)</p></div>
+
+<div class="problem"><span class="ptag">7</span><span class="ptag evaluate">Evaluate</span>
+<p>A student claims that a bicycle stays upright while moving primarily because "the rider's balance is really good," dismissing any role for the spinning wheels. Evaluate this claim by discussing the gyroscopic-stability contribution from the spinning wheels (using the angular momentum concept from Day 26) alongside rider balance, and describe how you'd expect stability to change at very low speed (where wheel spin is slow) versus high speed.</p>
+<p class="connects">Connects: gyroscopic effects, angular momentum (Day 26), evaluating a claim that dismisses a real physical contributor</p></div>
+
+<div class="problem"><span class="ptag">8</span><span class="ptag applied">Applied</span>
+<p>A bowling ball (7.2 kg, radius 0.117 m) rolls without slipping at 4.7 m/s, then encounters a frictionless upward ramp. Find its total KE and the maximum height it climbs.</p>
+<p class="connects">Connects: rolling motion, energy conservation (Ch.7), moment of inertia (Day 23)</p></div>
+
+<div class="problem"><span class="ptag">9</span><span class="ptag evaluate">Evaluate</span>
+<p>A student ranks a solid sphere, solid disk, and ring's race-down-an-incline finishing order by guessing based on which "looks heaviest" in a diagram. Evaluate why this visual-mass-based approach is fundamentally the wrong method, restate the actual determining factor from this chapter, and correctly rank the three shapes by finishing speed.</p>
+<p class="connects">Connects: rolling motion, moment of inertia (Day 23), evaluating a flawed reasoning approach</p></div>
+
+<div class="problem"><span class="ptag">10</span><span class="ptag applied">Applied</span>
+<p>A reaction wheel (I=0.85 kg&middot;m&sup2;) aboard a satellite is spun up from rest to 27 rad/s in 4.2 s. Using angular momentum conservation for the satellite-plus-wheel system (satellite body I=420 kg&middot;m&sup2;), find the resulting angular velocity of the satellite body.</p>
+<p class="connects">Connects: angular momentum conservation (Day 26), applied aerospace context</p></div>
+
+
+</div></div>
+</div></main>
+</div>
+</body>
+</html>

@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 1: Units and Dimensions - PHYS203 Extended Lecture Notes</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]'], ['$$', '$$']] },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="assets/tex-svg.js"></script>
+
+<style>
+:root{
+  --ink:#f3ede0; --ink-dim:#a89f8c; --paper:#171a21; --bg:#0f1115;
+  --line:#2a2e38; --accent:#e8a13a; --easy:#6fae8f; --medium:#e8a13a;
+  --hard:#e2725b; --challenge:#9fb3e0; --tag-bg:#1d212b;
+}
+body { margin:0; background: #1d2230; color:var(--ink); font-family:Georgia,'Times New Roman',serif; }
+.shell { display:flex; min-height:100vh; }
+.sidebar {
+  width:280px; flex-shrink:0; background:#0b0d11; color:var(--ink); padding:22px 0 60px;
+  position:fixed; top:0; left:0; bottom:0; overflow-y:auto; font-family:'Courier New',monospace;
+}
+.sidebar .brand { padding:0 22px 18px; font-family:Georgia,serif; font-weight:800; font-size:1.05rem; color:var(--ink); border-bottom:1px solid var(--line); margin-bottom:14px; }
+.sidebar .brand small { display:block; font-family:'Courier New',monospace; font-weight:400; color:var(--ink-dim); font-size:0.72rem; margin-top:3px; }
+.sidebar a.chap-link { display:block; padding:8px 22px; color:var(--ink); text-decoration:none; font-size:0.88rem; border-left:3px solid transparent; }
+.sidebar a.chap-link:hover { background:#1d212b; }
+.sidebar a.chap-link.active { background:#1d212b; border-left-color:var(--accent); color:var(--accent); font-weight:600; }
+.sidebar a.home-link { display:block; padding:8px 22px; color:var(--ink-dim); text-decoration:none; font-size:0.82rem; margin-bottom:8px; }
+.main { margin-left:280px; flex:1; display:flex; justify-content:center; min-width:0; }
+.content { max-width:880px; width:100%; padding:36px 40px 100px; background:transparent; }
+.content h1 { font-family:Georgia,serif; color:var(--ink); border-bottom:3px solid var(--accent); padding-bottom:12px; }
+.content h1:first-of-type { margin-top: 0; }
+.content h2 { font-family:Georgia,serif; color:var(--accent); margin-top:44px; }
+.content h3 { color:var(--easy); }
+.day-anchor-wrap { border-top: 4px solid var(--line); padding-top: 6px; margin-top: 56px; }
+.day-anchor-wrap:first-of-type { border-top: none; margin-top: 0; padding-top: 0; }
+
+/* Problem-section styling */
+.probsets { margin-top: 28px; background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 20px 24px; }
+.probsets > h3.pset-heading {
+  font-family:'Courier New',monospace; font-size:1rem; text-transform:uppercase; letter-spacing:0.05em;
+  color:var(--ink); border-bottom:2px solid var(--accent); padding-bottom:6px; margin: 26px 0 12px;
+}
+.probsets > h3.pset-heading:first-child { margin-top: 0; }
+h3.tier { font-family:'Courier New',monospace; font-size:0.92rem; margin:18px 0 8px; display:flex; align-items:center; gap:8px; color:var(--ink); }
+.tier-dot { width:9px; height:9px; border-radius:50%; display:inline-block; }
+.tier.easy .tier-dot{background:var(--easy);} .tier.medium .tier-dot{background:var(--medium);}
+.tier.hard .tier-dot{background:var(--hard);} .tier.challenge .tier-dot{background:var(--challenge);}
+details.problem { background:#12141a; border:1px solid var(--line); border-radius:8px; margin-bottom:8px; }
+details.problem summary { cursor:pointer; padding:10px 14px; font-size:0.92rem; display:flex; gap:8px; align-items:baseline; font-family:'Courier New',monospace; color:var(--ink);}
+.qtag { font-family:'Courier New',monospace; font-size:0.68rem; font-weight:700; background:var(--tag-bg); color:var(--ink-dim); padding:2px 7px; border-radius:999px; white-space:nowrap; }
+.solution { padding:2px 16px 12px; border-top:1px dashed var(--line); font-family:Georgia,serif; font-size:0.88rem;}
+.answer { font-family:'Courier New',monospace; font-weight:700; background:#16241d; color:var(--easy); border-left:4px solid var(--easy); padding:6px 10px; border-radius:4px; margin-top:8px !important; }
+.rawlist { font-family:'Courier New',monospace; font-size:1.05rem; line-height:1.6; padding-left: 1.5em; color:var(--ink); }
+.rawlist li { margin-bottom: 10px; }
+.rawlist .qtag { font-size:0.76rem; }
+.pending-note { font-family:Georgia,serif; font-size:0.82rem; color:var(--accent); font-style:italic; background:#2a2416; border:1px solid var(--accent); border-radius:6px; padding:8px 12px; margin-bottom: 12px;}
+</style>
+
+<style>
+  :root{
+    --ink:#f3ede0; --ink-dim:#a89f8c; --paper:#171a21; --bg:transparent;
+    --line:#2a2e38; --accent:#e8a13a; --accent-dark:#8a5a1f; --accent-soft:#2a2416;
+    --ic:#6fae8f; --ic-soft:#16241d; --hw:#e2725b; --hw-soft:#2a1a14;
+  }
+  * { box-sizing: border-box; }
+  /* body background intentionally inherited from the outer wrapper style block above */
+  .wrap { max-width: 900px; margin: 0 auto; padding: 30px 22px 90px; }
+  h1.doctitle {
+    font-family:"Courier New",monospace; font-size: 1.9rem; font-weight:700;
+    color: var(--ink); border-bottom: 4px solid var(--accent); padding-bottom: 14px;
+    margin: 0 0 8px 0;
+  }
+  p.subtitle { font-family:Georgia,serif; color:var(--ink-dim); font-size:0.95rem; margin:0 0 30px 0; font-style:italic; }
+  #TOC {
+    background: var(--paper); border: 1px solid var(--line); border-radius: 8px;
+    padding: 18px 24px; margin: 0 0 34px 0;
+    font-family: "Courier New", monospace; font-size: 0.9rem; columns: 2; column-gap: 30px;
+  }
+  #TOC a { color: var(--accent); text-decoration: none; font-weight: 600; display:block; padding: 3px 0; break-inside: avoid; }
+  #TOC a:hover { text-decoration: underline; }
+  h2.chapter {
+    font-family:"Courier New",monospace; font-size: 1.35rem; font-weight:700;
+    color: #171a21; background: var(--accent);
+    padding: 12px 18px; border-radius: 6px; margin: 50px 0 20px 0;
+  }
+  h3.day {
+    font-family:"Courier New",monospace; font-size: 1.1rem; font-weight:700;
+    color: var(--accent); background: var(--accent-soft);
+    border-left: 5px solid var(--accent); padding: 8px 14px;
+    margin: 34px 0 6px 0; border-radius: 0 4px 4px 0;
+  }
+  p.dayconnects { font-family:Georgia,serif; font-size:0.85rem; color:var(--ink-dim); margin:0 0 16px 0; font-style:italic; }
+  h4.subhead {
+    font-family:"Courier New",monospace; font-size: 0.82rem; font-weight:700;
+    text-transform: uppercase; letter-spacing: 0.06em; margin: 18px 0 10px 0;
+    padding-bottom: 4px; border-bottom: 1px solid var(--line);
+  }
+  h4.subhead.ic { color: var(--ic); }
+  h4.subhead.hw { color: var(--hw); }
+  div.problem {
+    background: #12141a; border: 1px solid var(--line); border-radius: 7px;
+    padding: 12px 16px; margin-bottom: 10px; color:var(--ink);
+  }
+  div.problem { border-left: 4px solid var(--ic); }
+  .ptag {
+    font-family:"Courier New",monospace; font-size:0.68rem; font-weight:700;
+    padding: 2px 8px; border-radius: 999px; margin-right: 8px; white-space:nowrap;
+    text-transform: uppercase; letter-spacing: 0.03em;
+  }
+  .problem .ptag:not(.applied):not(.evaluate) { background: var(--ic-soft); color: var(--ic); }
+  .ptag.applied { background:#16241d; color:#6fae8f; }
+  .ptag.evaluate { background:#2a1a2e; color:#c68fd9; }
+  .connects { font-family:Georgia,serif; font-size:0.72rem; color:var(--ink-dim); margin-top:6px; }
+  p { margin: 8px 0; }
+  strong { color: var(--accent); }
+  footer { margin-top:50px; font-family:Georgia,serif; font-size:0.82rem; color:var(--ink-dim); text-align:center; }
+</style>
+
+</head>
+<body>
+<div class="shell">
+<nav class="sidebar"><div class="brand">PHYS203<small>Extended Lecture Notes</small></div>
+<a class="home-link" href="../index.html" style="border-bottom:1px solid #24354a; padding-bottom:14px; margin-bottom:6px; display:block;">&larr; Course Home</a>
+<a class="home-link" href="index.html">&larr; Back to Chapter Index</a>
+<a class="chap-link active" href="ch1-units-dimensions.html">Ch 1: Units and Dimensions</a>
+<a class="chap-link" href="ch2-kinematics.html">Ch 2: One-Dimensional Kinematics</a>
+<a class="chap-link" href="ch3-vectors.html">Ch 3: Vectors</a>
+<a class="chap-link" href="ch4-2d-motion.html">Ch 4: Two-Dimensional Motion</a>
+<a class="chap-link" href="ch5-newtons-laws.html">Ch 5: Newton's Laws and Applications</a>
+<a class="chap-link" href="ch6-momentum.html">Ch 6: Momentum and Collisions</a>
+<a class="chap-link" href="ch7-work-energy.html">Ch 7: Work and Energy</a>
+<a class="chap-link" href="ch8-rotational-motion.html">Ch 8: Rotational Motion</a>
+<a class="chap-link" href="ch9-oscillations.html">Ch 9: Oscillations</a>
+<a class="chap-link" href="ch10-waves.html">Ch 10: Waves</a>
+<a class="chap-link" href="ch11-sound.html">Ch 11: Sound</a></nav>
+<main class="main"><div class="content">
+<div class="chapter-intro"><h1 id="chapter-1-units-and-dimensions">Chapter 1: Units and
+Dimensions</h1>
+</div>
+<div class="day-anchor-wrap"><h2 id="class-day-2-units">Class Day 2: Units</h2>
+<h3 id="why-this-matters">Why this matters</h3>
+<p>Every measurement in physics is a comparison against some agreed-upon
+standard. When you say a table is “1.5 meters long,” you’re really
+saying “this table is 1.5 times as long as a specific reference length
+called a meter.” Without that shared reference, the number 1.5 means
+nothing at all. This is the entire point of a system of units: it lets a
+measurement made in one place, by one person, mean the same thing to
+everyone else, everywhere.</p>
+<h3 id="si-base-units">SI base units</h3>
+<p>The International System of Units (SI) defines seven base units. For
+this course, three matter constantly:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Quantity</th>
+<th>SI base unit</th>
+<th>Symbol</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Length</td>
+<td>meter</td>
+<td>m</td>
+</tr>
+<tr class="even">
+<td>Mass</td>
+<td>kilogram</td>
+<td>kg</td>
+</tr>
+<tr class="odd">
+<td>Time</td>
+<td>second</td>
+<td>s</td>
+</tr>
+</tbody>
+</table>
+<p>(The other four — ampere, kelvin, mole, candela — cover electric
+current, temperature, amount of substance, and luminous intensity, and
+will matter more in later courses.)</p>
+<p>Everything else you’ll compute in this course — velocity, force,
+energy, momentum — is a <strong>derived unit</strong>, built by
+combining these three (and occasionally the others) through
+multiplication and division. For example: - Velocity: meters per second,
+m/s - Force (the newton): \(1\text{ N} = 1\text{ kg}\cdot\text{m/s}^2\) - Energy (the joule): \(1\text{ J} = 1\text{ kg}\cdot\text{m}^2\text{/s}^2\)</p>
+<p>A newton and a joule <em>look</em> like fundamental things because
+they have their own names, but underneath, they’re just combinations of
+kilograms, meters, and seconds. Keep this in mind — it will matter a
+great deal in Chapter 1, Day 2 (Dimensions), and it’s the reason F = ma
+“generates” the newton as a unit rather than the newton being something
+separate that needs its own conversion rule.</p>
+<h3 id="the-technique-unit-conversion-by-multiplying-by-1">The
+technique: unit conversion by multiplying by 1</h3>
+<p>The single most useful trick in this entire day is this: <strong>any
+true equality can be turned into a fraction equal to 1.</strong> Since
+(1 = 100), it’s also true that:</p>
+<p><span class="math display">\[\frac{100\text{ cm}}{1\text{ m}} = 1
+\qquad \text{and equally} \qquad \frac{1\text{ m}}{100\text{ cm}} =
+1\]</span></p>
+<p>Multiplying any quantity by either of these fractions doesn’t change
+its actual value — it only changes <em>which units it’s expressed
+in</em>, because you’re multiplying by 1. This is the whole secret
+behind unit conversion: you choose the version of the fraction
+(numerator vs. denominator) that makes the unit you want to get rid of
+cancel out, and leaves you with the unit you want.</p>
+<p><strong>Worked example:</strong> Convert 5 km to meters.</p>
+<p>We know (1 = 1000), so ( = 1). Multiply:</p>
+<p><span class="math display">\[5\text{ km} \times \frac{1000\text{
+m}}{1\text{ km}} = 5000\text{ m}\]</span></p>
+<p>Notice the km in the original quantity cancels with the km in the
+denominator of the fraction, leaving only meters. That cancellation is
+not a coincidence — it’s the entire reason the method works, and it’s
+worth narrating out loud (“km cancels with km, leaving m”) every time
+you do this until it becomes automatic.</p>
+<p><strong>Worked example (multi-step):</strong> Convert 60 mph to
+m/s.</p>
+<p>Here we need to change <em>two</em> units at once: miles → meters,
+and hours → seconds. The trick still works — we just chain two
+conversion factors together:</p>
+<p><span class="math display">\[60\ \frac{\text{mi}}{\text{h}} \times
+\frac{1609\text{ m}}{1\text{ mi}} \times \frac{1\text{ h}}{3600\text{
+s}} = 26.8\ \text{m/s}\]</span></p>
+<p>Walk through the cancellation: “mi” in the original numerator cancels
+with “mi” in the second fraction’s denominator; “h” in the original
+denominator cancels with “h” in the third fraction’s numerator. What’s
+left is m in the numerator and s in the denominator — exactly m/s, the
+unit we wanted. The order you multiply the fractions in doesn’t matter;
+what matters is that each fraction is built so that one of its units
+matches (and cancels) something already present.</p>
+<h3 id="common-mistake-to-watch-for">Common mistake to watch for</h3>
+<p>The most common error is writing the conversion factor upside down —
+for instance, multiplying by \(\dfrac{1000\text{ m}}{1\text{ km}}\) when you actually needed \(\dfrac{1\text{ km}}{1000\text{ m}}\). The fix
+isn’t to memorize which way is “correct” — it’s to always check that the
+unit you want to eliminate is the one that appears in the position
+(numerator or denominator) that lets it cancel. If your units don’t
+cancel to leave what you want, the fraction is upside down; flip it.</p>
+<h3 id="key-formulas-and-facts-for-this-day">Key formulas and facts for
+this day</h3>
+<ul>
+<li>(1 = 1000); (1 = 100); (1 = 3600); (1 )</li>
+<li>Any true equality can be written as a fraction equal to 1, and
+multiplying by it never changes a quantity’s actual value — only its
+units.</li>
+</ul>
+<hr />
+<div class="probsets">
+<h3 class="pset-heading">Reading</h3>
+<ol class="rawlist">
+<li><span class="qtag" style="margin-right:6px;">Reading Q1</span>Which of the following is an SI base unit: newton, joule, meter, or watt?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q2</span>The SI base unit of time is which of the following?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q3</span>The SI base unit of mass is which of the following?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q4</span>A conversion factor such as "100 cm/1 m" is valid because it equals what value?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q5</span>Which of the following is a derived unit, not a base unit: meter, second, kilogram, or newton?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q6</span>To convert from km/h to m/s, which two conversion factors are typically chained together?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q7</span>1 kilometer equals how many meters?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q8</span>1 hour equals how many seconds?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q9</span>Which unit system uses feet and pounds as base measures?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q10</span>When converting units, the unwanted units should do what across the calculation?</li>
+</ol>
+<h3 class="pset-heading">Assignments</h3>
+<ol class="rawlist">
+<li><span class="qtag" style="margin-right:6px;">Easy Q1</span>Convert 5 km to meters.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q2</span>Convert 3 hours to seconds.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q3</span>Convert 250 cm to meters.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q4</span>Convert 2 minutes to seconds.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q5</span>Convert 10 m to centimeters.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q6</span>Convert 4 kg to grams.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q7</span>Convert 1500 g to kilograms.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q8</span>Convert 0.5 hours to minutes.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q9</span>Convert 2 km to centimeters.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q10</span>Convert 90 seconds to minutes.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q1</span>Convert 60 mph to m/s.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q2</span>Convert 100 km/h to m/s.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q3</span>Convert 2.5 hours to seconds, then to minutes.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q4</span>Convert a volume of 3 liters to cubic meters.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q5</span>Convert 15 miles to kilometers (1 mile = 1.609 km).</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q6</span>Convert 3.2 days to seconds.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q7</span>A recipe calls for 250 mL of water. Convert this to liters and to cubic meters.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q8</span>Convert 88 km/h to m/s.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q9</span>Convert 5 acres to square meters (1 acre = 4047 m²).</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q10</span>Convert 12 feet to meters (1 foot = 0.3048 m).</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q1</span>A car travels at 72 km/h. Convert this speed to m/s, then find how far it travels (in meters) in 45 seconds.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q2</span>A tank holds 500 gallons of water (1 gallon = 3.785 L). Convert this volume to cubic meters.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q3</span>A runner's pace is 6 minutes per mile. Convert this pace to m/s.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q4</span>A container has dimensions 2 ft × 3 ft × 1.5 ft. Convert its volume to cubic meters.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q5</span>A plane flies at 550 mph. Convert this speed to km/h and to m/s.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q6</span>A recipe requires converting 2.5 cups of flour to milliliters (1 cup ≈ 236.6 mL), then to liters.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q7</span>A pressure is given as 14.7 psi. Using 1 psi ≈ 6895 Pa, convert this to pascals.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q8</span>A wire is 250 feet long. Convert this length to meters, then find how many 1.5 m sections it can be cut into.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q9</span>A car's fuel efficiency is 30 miles per gallon. Convert this to km per liter.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q10</span>A construction project needs 12 cubic yards of concrete (1 yard = 0.9144 m). Convert this volume to cubic meters.</li>
+<li><span class="qtag" style="margin-right:6px;">Challenge Q1 (Evaluate)</span>A recipe website lists an ingredient amount in "cups" without specifying whether it means US cups or metric cups (250 mL), which differ slightly. Evaluate why this ambiguity matters for a scientific measurement context, even though it might not matter much for cooking.</li>
+<li><span class="qtag" style="margin-right:6px;">Challenge Q2 (Create)</span>Design a multi-step unit conversion problem (choosing your own starting unit and target unit) that requires at least three chained conversion factors to solve, and show the full chain.</li>
+<li><span class="qtag" style="margin-right:6px;">Challenge Q3 (Evaluate/Create)</span>A shipping company operates in both the US (using pounds and miles) and most of the rest of the world (using kilograms and kilometers). Evaluate the risks of maintaining two separate unit systems in their logistics software, then create a brief recommendation for how they should standardize internally while still displaying customer-facing units correctly.</li>
+</ol>
+<h3 class="pset-heading">Homework</h3>
+<ol class="rawlist">
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q1</span>Convert 6 km to meters.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q2</span>Convert 4 hours to seconds.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q3</span>Convert 300 cm to meters.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q4</span>Convert 3 minutes to seconds.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q5</span>Convert 12 m to centimeters.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q6</span>Convert 5 kg to grams.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q7</span>Convert 1800 g to kilograms.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q8</span>Convert 0.75 hours to minutes.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q9</span>Convert 3 km to centimeters.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q10</span>Convert 120 seconds to minutes.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q1</span>Convert 65 mph to m/s.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q2</span>Convert 110 km/h to m/s.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q3</span>Convert 3.2 hours to seconds, then to minutes.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q4</span>Convert a volume of 4 liters to cubic meters.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q5</span>Convert 18 miles to kilometers.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q6</span>Convert 2.8 days to seconds.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q7</span>A recipe calls for 300 mL of water. Convert to liters and cubic meters.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q8</span>Convert 95 km/h to m/s.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q9</span>Convert 6 acres to square meters.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q10</span>Convert 15 feet to meters.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q1</span>A car travels at 80 km/h. Convert to m/s, then find the distance traveled in 50 seconds.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q2</span>A tank holds 600 gallons of water. Convert this volume to cubic meters.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q3</span>A runner's pace is 7 minutes per mile. Convert this pace to m/s.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q4</span>A container has dimensions 2.5 ft × 3 ft × 2 ft. Convert its volume to cubic meters.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q5</span>A plane flies at 500 mph. Convert to km/h and m/s.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q6</span>Convert 3 cups of flour to milliliters, then to liters.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q7</span>Using 1 psi ≈ 6895 Pa, convert a pressure of 32 psi to pascals.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q8</span>A wire is 300 feet long. Convert to meters, then find how many 2 m sections it can be cut into.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q9</span>A car's fuel efficiency is 34 miles per gallon. Convert to km per liter.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q10</span>A project needs 15 cubic yards of concrete. Convert this volume to cubic meters.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Challenge Q1 (Evaluate)</span>A student uses an online converter that assumes "ton" means the US short ton (2000 lb), but the source data used the metric tonne (1000 kg). Evaluate the size of the resulting error and why unit ambiguity like this is a common real-world source of mistakes.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Challenge Q2 (Create)</span>Design a multi-step conversion problem requiring at least three chained conversion factors, and show the full chain.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Challenge Q3 (Evaluate/Create)</span>An international research team shares data using mixed unit systems. Evaluate the risks of this practice, then create a brief standardization recommendation for the team.</li>
+</ol>
+<h3 class="pset-heading">Synthesis Problems</h3>
+<p class="dayconnects">Connects: unit conversion chains, compound (derived) units, real-world engineering/science contexts.</p>
+
+
+<div class="problem"><span class="ptag">1</span><span class="ptag applied">Applied</span>
+<p>A pharmaceutical manufacturer ships a drug in vials labeled 250 mg/mL. A hospital pharmacist needs to prepare an IV drip delivering 15 mg per minute to a patient, using a pump that dispenses in mL/hour. Find the required pump rate in mL/hour, showing every conversion factor used explicitly.</p>
+<p class="connects">Connects: multi-step unit-chain conversion, rate quantities (mass/time to volume/time)</p></div>
+
+<div class="problem"><span class="ptag">2</span><span class="ptag evaluate">Evaluate</span>
+<p>Two engineering teams report a bridge cable's tensile strength: Team A says "400 MPa," Team B says "58,000 psi." Evaluate whether these two reports actually agree with each other (1 psi = 6895 Pa), and discuss which unit system is more standard for this kind of specification internationally.</p>
+<p class="connects">Connects: conversion factors, evaluating consistency of reported data</p></div>
+
+<div class="problem"><span class="ptag">3</span><span class="ptag applied">Applied</span>
+<p>A car's fuel efficiency is advertised as 32 miles per gallon (US). Convert this to liters per 100 km (the metric convention used in most of the world), and explain why "liters per 100 km" is actually an inverted-and-rescaled quantity compared to "miles per gallon" &mdash; i.e., a bigger mpg number is good, but a bigger L/100km number is bad.</p>
+<p class="connects">Connects: unit conversion, inverse-quantity reasoning</p></div>
+
+<div class="problem"><span class="ptag">4</span><span class="ptag evaluate">Evaluate</span>
+<p>NASA's Mars Climate Orbiter was lost in 1999 because one engineering team used pound-force-seconds while another used newton-seconds for the same thruster impulse calculations. Evaluate, quantitatively, the size of the resulting error (1 lbf&middot;s = 4.448 N&middot;s) if a required impulse of 5000 N&middot;s was mistakenly treated as 5000 lbf&middot;s, and discuss what process safeguard could have caught this.</p>
+<p class="connects">Connects: unit systems, real-world consequences of unit errors</p></div>
+
+<div class="problem"><span class="ptag">5</span><span class="ptag applied">Applied</span>
+<p>A recipe scaled for a professional kitchen calls for 2.5 kg of flour, but a home cook only has a cup measure (1 cup flour &asymp; 125 g) and a US customary kitchen scale reading in ounces. Design a plan (with all necessary conversions shown) for the home cook to measure out the correct amount using either tool, and identify which method likely carries less cumulative rounding error.</p>
+<p class="connects">Connects: unit conversion, error/precision reasoning</p></div>
+
+
+<div class="problem"><span class="ptag">6</span><span class="ptag applied">Applied</span>
+<p>A shipping company charges by "dimensional weight," computed as (length &times; width &times; height in inches) / 139, in pounds. A box measuring 40 cm &times; 30 cm &times; 25 cm has an actual mass of 8 kg. Find the dimensional weight in pounds, convert the actual mass to pounds, and determine which value the shipping company will charge for (whichever is larger).</p>
+<p class="connects">Connects: unit conversion, volume/mass unit systems, applied decision-making</p></div>
+
+<div class="problem"><span class="ptag">7</span><span class="ptag evaluate">Evaluate</span>
+<p>A weather report states wind speed as "45 km/h" in one source and "28 mph" in another, for the same storm at the same time. Evaluate whether these reports are consistent, and discuss why international weather data exchange standardizes on a single unit system despite most countries' everyday preferences.</p>
+<p class="connects">Connects: conversion factors, data-consistency evaluation</p></div>
+
+<div class="problem"><span class="ptag">8</span><span class="ptag applied">Applied</span>
+<p>A 3D printer's material cost is quoted at $28 per kg of filament, and a print job requires a filament length of 45 m with a filament diameter of 1.75 mm (density of PLA plastic &asymp; 1.24 g/cm&sup3;). Find the mass of filament needed and the resulting cost of the print.</p>
+<p class="connects">Connects: unit conversion, volume from geometry, density-based mass calculation</p></div>
+
+<div class="problem"><span class="ptag">9</span><span class="ptag evaluate">Evaluate</span>
+<p>A construction contract specifies concrete volume in cubic yards, but the batching plant's mixer reports output in cubic meters, and the project manager mistakenly assumes 1 yard = 1 meter for a quick estimate. Evaluate the resulting percentage error in ordered concrete volume for a job requiring 500 cubic yards, and discuss the practical consequences of under- or over-ordering concrete.</p>
+<p class="connects">Connects: unit conversion, percentage error, real-world project consequences</p></div>
+
+<div class="problem"><span class="ptag">10</span><span class="ptag applied">Applied</span>
+<p>A runner wants to convert their marathon pace of 8 minutes 15 seconds per mile into seconds per 400 m (one track lap), to plan interval training. Find the equivalent per-lap pace, showing all unit conversions.</p>
+<p class="connects">Connects: compound rate conversion, real-world athletic application</p></div>
+
+
+</div></div>
+<div class="day-anchor-wrap"><h2 id="class-day-3-dimensions">Class Day 3: Dimensions</h2>
+<h3 id="why-this-matters-1">Why this matters</h3>
+<p>Where Day 1 was about converting between <em>specific</em> units
+(feet vs. meters, hours vs. seconds), today is about something one level
+more abstract: the <em>type</em> of quantity itself, independent of
+which unit system you’re using. This distinction — dimension vs. unit —
+is subtle the first time you see it, so let’s be precise.</p>
+<h3 id="dimension-vs.-unit">Dimension vs. unit</h3>
+<p>A <strong>unit</strong> is a specific, chosen scale for measuring
+something (meters, feet, miles are all units of the same
+<em>dimension</em>: length). A <strong>dimension</strong> is the
+fundamental category a quantity belongs to, written using bracket
+notation:</p>
+<ul>
+<li>Length: ([L])</li>
+<li>Mass: ([M])</li>
+<li>Time: ([T])</li>
+</ul>
+<p>Velocity, no matter whether you measure it in m/s, mph, or furlongs
+per fortnight, always has the <em>dimension</em> \([L][T]^{-1}\) — “length
+divided by time.” The unit changes depending on what scale you pick; the
+dimension never does, because it describes the underlying physical
+nature of the quantity, not the number attached to it.</p>
+<p>You can find the dimension of any quantity by looking at its defining
+equation and substituting dimensions for each symbol. For example, since
+(v = x/t):</p>
+<p><span class="math display">\[[v] = \frac{[L]}{[T]} =
+[L][T]^{-1}\]</span></p>
+<p>And since acceleration is (a = v/t):</p>
+<p><span class="math display">\[[a] = \frac{[L][T]^{-1}}{[T]} =
+[L][T]^{-2}\]</span></p>
+<p>And since force is (F=ma):</p>
+<p><span class="math display">\[[F] = [M]\times[L][T]^{-2} =
+[M][L][T]^{-2}\]</span></p>
+<h3 id="dimensional-analysis-as-a-sanity-check">Dimensional analysis as
+a sanity check</h3>
+<p>The central use of dimensions in this course is as a fast, free
+error-check on any equation: <strong>every term that is added,
+subtracted, or set equal to another term must share the exact same
+dimension.</strong> You cannot add a length to a time any more than you
+can add three apples to five oranges and call the answer “eight” of
+something meaningful.</p>
+<p><strong>Worked example:</strong> Check whether \(x = v_0t + \tfrac12at^2\) is
+dimensionally consistent.</p>
+<p>Break it into three terms and find the dimension of each: - (x):
+dimension ([L]) - \(v_0t\): \([L][T]^{-1}= [L]\) - \(\tfrac12at^2\): the \(\tfrac12\) is a
+pure number with no dimension, so this reduces to
+\([L][T]^{-2}\times[T]^2 = [L]\)</p>
+<p>All three terms reduce to ([L]). Since everything matches, the
+equation passes the dimensional check — it <em>could</em> be correct
+(and it is; this is one of the standard kinematic equations).</p>
+<p><strong>Worked counterexample:</strong> Check whether \(x = v_0t^2\)
+could be a valid equation for position.</p>
+<p><span class="math display">\[[v_0t^2] = [L][T]^{-1}\times[T]^2 =
+[L][T]\]</span></p>
+<p>This is ([L][T]), not ([L]). Since it doesn’t match the dimension of
+(x), this equation is dimensionally <em>inconsistent</em> and therefore
+cannot be correct as written, regardless of what numerical coefficient
+you might try attaching to it.</p>
+<h3 id="the-crucial-limitation-what-dimensional-analysis-cant-catch">The
+crucial limitation: what dimensional analysis <em>can’t</em> catch</h3>
+<p>This is the single most commonly misunderstood point on this topic,
+so it’s worth stating plainly: <strong>dimensional analysis cannot
+detect an error in a pure (dimensionless) numerical factor.</strong> If
+a textbook accidentally printed \(x = v_0t + at^2\) (missing the \(\tfrac12\)),
+dimensional analysis would say this equation is perfectly fine — because
+\(\tfrac12\) has no dimension at all, removing or changing it doesn’t affect the
+dimensional bookkeeping in the slightest. Dimensional analysis is a
+<em>necessary</em> check (an equation that fails it is definitely wrong)
+but not a <em>sufficient</em> one (an equation that passes it isn’t
+guaranteed to be right). Think of it as a spelling-checker for physics
+equations: it catches certain kinds of errors reliably, but it has no
+idea whether the sentence actually makes sense.</p>
+<h3 id="key-formulas-and-facts-for-this-day-1">Key formulas and facts
+for this day</h3>
+<ul>
+<li>Dimension of velocity: \([L][T]^{-1}\). Acceleration: \([L][T]^{-2}\).
+Force: \([M][L][T]^{-2}\). Energy: \([M][L]^2[T]^{-2}\). Momentum:
+\([M][L][T]^{-1}\).</li>
+<li>Every additive term in a valid equation must share the same
+dimension.</li>
+<li>Dimensional consistency is necessary but not sufficient for an
+equation to be correct — it cannot catch errors in dimensionless
+numerical constants.</li>
+</ul>
+<hr />
+<div class="probsets">
+<h3 class="pset-heading">Reading</h3>
+<ol class="rawlist">
+<li><span class="qtag" style="margin-right:6px;">Reading Q1</span>What are the dimensions of velocity?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q2</span>What are the dimensions of acceleration?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q3</span>What are the dimensions of force (from F = ma)?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q4</span>Dimensional analysis can confirm an equation is dimensionally consistent, but cannot catch errors in what?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q5</span>The dimension of mass is represented by which bracket symbol?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q6</span>If two terms are added in an equation, what must be true of their dimensions?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q7</span>Which of the following equations is dimensionally consistent: x = v₀t + ½at² or x = v₀t²?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q8</span>What are the dimensions of energy (from KE = ½mv²)?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q9</span>Dimensional analysis is best described as what kind of check?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q10</span>What are the dimensions of momentum (from p = mv)?</li>
+</ol>
+<h3 class="pset-heading">Assignments</h3>
+<ol class="rawlist">
+<li><span class="qtag" style="margin-right:6px;">Easy Q1</span>Find the dimensions of velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q2</span>Find the dimensions of acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q3</span>Find the dimensions of force.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q4</span>Find the dimensions of momentum.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q5</span>Find the dimensions of energy.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q6</span>Check whether x = v₀t is dimensionally consistent.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q7</span>Check whether v = at is dimensionally consistent.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q8</span>Find the dimensions of area.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q9</span>Find the dimensions of volume.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q10</span>Find the dimensions of density (mass/volume).</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q1</span>Check whether x = v₀t + ½at² is dimensionally consistent.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q2</span>Check whether v² = v₀² + 2ax is dimensionally consistent.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q3</span>Find the dimensions of power (energy/time).</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q4</span>Find the dimensions of pressure (force/area).</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q5</span>A student claims x = ½at³ describes constant-acceleration motion. Use dimensional analysis to evaluate this claim.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q6</span>Check whether T = 2π√(L/g) is dimensionally consistent, given T is a time, L a length, g an acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q7</span>Find the dimensions of the spring constant k, given F = -kx.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q8</span>Check whether KE = ½mv² is dimensionally consistent with the dimensions of energy found from work = force × distance.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q9</span>Find the dimensions of angular velocity (angle/time), noting angle is dimensionless.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q10</span>Check whether the equation for centripetal acceleration, a = v²/r, is dimensionally consistent.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q1</span>A proposed drag force equation is F = kv^n, where F has dimensions of force and v has dimensions of velocity, and k is assumed dimensionless. Use dimensional analysis to find the required value of n.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q2</span>Verify that the rotational kinetic energy formula, KE_rot = ½Iω², has the same dimensions as translational kinetic energy, ½mv², given that I has dimensions [M][L]².</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q3</span>A student proposes that period of oscillation for a pendulum depends on T = 2π√(m/g), using mass m instead of length L. Use dimensional analysis to show this cannot be correct, given T must have dimensions of time.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q4</span>Verify that the formula for gravitational potential energy, PE = mgh, is dimensionally consistent with energy.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q5</span>Find the dimensions required for the constant G in Newton's law of gravitation, F = Gm₁m₂/r², given F has dimensions of force.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q6</span>Check whether the wave equation v = fλ is dimensionally consistent, given f has dimensions of 1/time and λ has dimensions of length.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q7</span>A proposed formula for the speed of sound is v = √(B/ρ), where B is a bulk modulus (dimensions of pressure, [M][L]⁻¹[T]⁻²) and ρ is density ([M][L]⁻³). Verify this gives the correct dimensions for speed.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q8</span>Find the dimensions of torque, given τ = rF sin θ.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q9</span>Verify that angular momentum, L = Iω, has the same dimensions as linear momentum times length, which is its expected dimensional form ([M][L]²[T]⁻¹).</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q10</span>A student derives an expression for orbital period, T² = (4π²/GM)r³. Verify this is dimensionally consistent given G has dimensions [L]³[M]⁻¹[T]⁻².</li>
+<li><span class="qtag" style="margin-right:6px;">Challenge Q1 (Evaluate)</span>A textbook presents an equation with a missing factor of 2, but the equation is otherwise dimensionally consistent. Evaluate why dimensional analysis alone would not catch this specific error, and describe what additional check would be needed.</li>
+<li><span class="qtag" style="margin-right:6px;">Challenge Q2 (Create)</span>Design your own physically plausible but dimensionally invalid equation (mixing at least two different physical quantities incorrectly), and explain specifically which term(s) cause the inconsistency.</li>
+<li><span class="qtag" style="margin-right:6px;">Challenge Q3 (Evaluate/Create)</span>A physics education researcher wants to design an exercise that teaches students to use dimensional analysis as a first-pass error check on their own homework solutions. Evaluate what makes dimensional analysis a good habit to build early, then create a short step-by-step procedure students could apply to any of their own answers before submitting them.</li>
+</ol>
+<h3 class="pset-heading">Homework</h3>
+<ol class="rawlist">
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q1</span>Find the dimensions of velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q2</span>Find the dimensions of acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q3</span>Find the dimensions of force.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q4</span>Find the dimensions of momentum.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q5</span>Find the dimensions of energy.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q6</span>Check whether x = at is dimensionally consistent.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q7</span>Check whether v = v₀ + at is dimensionally consistent.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q8</span>Find the dimensions of area.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q9</span>Find the dimensions of volume.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q10</span>Find the dimensions of density.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q1</span>Check whether x = x₀ + v₀t + ½at² is dimensionally consistent.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q2</span>Check whether v² = v₀² - 2ax is dimensionally consistent.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q3</span>Find the dimensions of power.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q4</span>Find the dimensions of pressure.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q5</span>A student claims x = ½at⁴ describes constant-acceleration motion. Evaluate this claim using dimensional analysis.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q6</span>Check whether T = 2π√(m/k) is dimensionally consistent, given T is time, m is mass, k has dimensions of force/length.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q7</span>Find the dimensions of the spring constant k.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q8</span>Check whether rotational KE = ½Iω² has the same dimensions as translational KE.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q9</span>Find the dimensions of angular acceleration (angular velocity/time).</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q10</span>Check whether a = v²/r is dimensionally consistent.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q1</span>A proposed lift force equation is F = kv^n A^m, where F is force, v is velocity, A is area, and k is dimensionless. Given the known result for one exponent (n = 2), find m using dimensional analysis.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q2</span>Verify that ½Iω² has the same dimensions as ½mv².</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q3</span>A student proposes T = 2π√(g/L) for a pendulum (inverted from the correct form). Use dimensional analysis to show this is inconsistent, given T must have dimensions of time.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q4</span>Verify that PE = mgh is dimensionally consistent with energy.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q5</span>Find the dimensions required for G in F = Gm₁m₂/r².</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q6</span>Check whether v = fλ is dimensionally consistent.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q7</span>Verify the speed of sound formula v = √(B/ρ) gives correct dimensions for speed.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q8</span>Find the dimensions of torque.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q9</span>Verify that L = Iω has the expected dimensions of momentum times length.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q10</span>Verify that T² = (4π²/GM)r³ is dimensionally consistent.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Challenge Q1 (Evaluate)</span>An online reference lists an equation with a unit inconsistency between the numerator and denominator that cancels numerically but not dimensionally in a special case. Evaluate why relying only on numerical agreement in one case is not sufficient to confirm dimensional correctness in general.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Challenge Q2 (Create)</span>Design your own dimensionally invalid equation and explain which term(s) cause the inconsistency.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Challenge Q3 (Evaluate/Create)</span>A tutoring center wants a simple checklist for students to catch dimensional errors before submitting homework. Evaluate what makes this a valuable habit, then create a short step-by-step checklist.</li>
+</ol>
+<h3 class="pset-heading">Synthesis Problems</h3>
+<p class="dayconnects">Connects: dimensional analysis, unit systems (Day 2), evaluating proposed physical formulas.</p>
+
+
+<div class="problem"><span class="ptag">1</span><span class="ptag evaluate">Evaluate</span>
+<p>An online forum post proposes that the period of a swinging pendulum is given by \(T = 2\pi\sqrt{m/g}\) (using mass instead of length). Evaluate this formula using dimensional analysis, identify precisely what is wrong, and propose what physical quantity would need to replace \(m\) to fix the dimensional inconsistency.</p>
+<p class="connects">Connects: dimensional analysis, structure of physics formulas</p></div>
+
+<div class="problem"><span class="ptag">2</span><span class="ptag applied">Applied</span>
+<p>An engineer needs to verify a newly derived formula for drag force, \(F_d = \tfrac12 \rho v^2 C_d A\), where \(\rho\) is density (kg/m&sup3;), \(v\) is speed (m/s), \(C_d\) is a dimensionless drag coefficient, and \(A\) is cross-sectional area (m&sup2;). Using dimensional analysis, verify that this formula produces the correct dimensions for force, showing each quantity's dimensions explicitly.</p>
+<p class="connects">Connects: dimensional analysis, applied engineering formula verification</p></div>
+
+<div class="problem"><span class="ptag">3</span><span class="ptag evaluate">Evaluate</span>
+<p>A student argues that since both sides of the equation \(x = v_0t^2 + \tfrac12at\) "have units of length" after plugging in specific numbers, the equation must be dimensionally correct. Evaluate this reasoning, explaining precisely why checking dimensions symbolically (before substituting numbers) is different from &mdash; and more reliable than &mdash; checking units after plugging in numbers.</p>
+<p class="connects">Connects: dimensional analysis, epistemics of formula verification</p></div>
+
+<div class="problem"><span class="ptag">4</span><span class="ptag applied">Applied</span>
+<p>A physicist is deriving an expression for the escape velocity of a planet and proposes \(v_{esc} = \sqrt{2GM/R}\), where \(G\) has dimensions \([M]^{-1}[L]^3[T]^{-2}\), \(M\) is mass, and \(R\) is radius. Verify, using dimensional analysis, that this expression yields the correct dimensions for velocity.</p>
+<p class="connects">Connects: dimensional analysis, gravitation (forward-looking), unit systems</p></div>
+
+<div class="problem"><span class="ptag">5</span><span class="ptag evaluate">Evaluate</span>
+<p>A textbook footnote claims dimensional analysis alone can be used to derive the exact numerical formula for the period of a pendulum, including the factor of \(2\pi\). Evaluate this claim: explain specifically what dimensional analysis can and cannot determine about such a formula, and what additional information (beyond dimensions) is required to pin down the numerical coefficient.</p>
+<p class="connects">Connects: dimensional analysis, scientific reasoning and its limits</p></div>
+
+
+<div class="problem"><span class="ptag">6</span><span class="ptag evaluate">Evaluate</span>
+<p>A student encounters the proposed formula \(F = \tfrac{kqQ}{r}\) for the electric force between two charges (Coulomb's law), where \(k\) has dimensions \([M][L]^3[T]^{-4}[I]^{-2}\) and \(q,Q\) have dimensions of electric charge \([I][T]\). Evaluate whether this formula (with \(r\), not \(r^2\), in the denominator) can be dimensionally correct for a force, or whether it must be rejected.</p>
+<p class="connects">Connects: dimensional analysis, forward-looking physics formula (electricity)</p></div>
+
+<div class="problem"><span class="ptag">7</span><span class="ptag applied">Applied</span>
+<p>An aerospace engineer needs to confirm the dimensional validity of the Reynolds number formula, \(Re = \rho v L/\mu\), where \(\rho\) is density, \(v\) is speed, \(L\) is a length scale, and \(\mu\) is dynamic viscosity with dimensions \([M][L]^{-1}[T]^{-1}\). Show, using dimensional analysis, that \(Re\) is dimensionless, and explain why a dimensionless quantity is especially useful for comparing fluid flows at different physical scales.</p>
+<p class="connects">Connects: dimensional analysis, applied fluid-engineering context</p></div>
+
+<div class="problem"><span class="ptag">8</span><span class="ptag evaluate">Evaluate</span>
+<p>A colleague claims that because both kinetic energy (\(\tfrac12mv^2\)) and gravitational potential energy (\(mgh\)) have the same dimensions, they must always be numerically equal for any moving object near Earth's surface. Evaluate this claim, distinguishing between "having the same dimensions" and "being numerically equal."</p>
+<p class="connects">Connects: dimensional analysis, energy concepts (forward-looking)</p></div>
+
+<div class="problem"><span class="ptag">9</span><span class="ptag applied">Applied</span>
+<p>A chemistry-physics crossover problem: the ideal gas law is \(PV = nRT\), where \(P\) is pressure \([M][L]^{-1}[T]^{-2}\), \(V\) is volume \([L]^3\), \(n\) is number of moles (dimensionless count), and \(T\) is temperature \([\Theta]\). Find the required dimensions of the gas constant \(R\) for this equation to be dimensionally consistent.</p>
+<p class="connects">Connects: dimensional analysis, cross-disciplinary formula verification</p></div>
+
+<div class="problem"><span class="ptag">10</span><span class="ptag evaluate">Evaluate</span>
+<p>A junior engineer wants to skip unit conversion entirely on a project by "just being careful with dimensional analysis instead." Evaluate this plan: explain why dimensional analysis (checking that \([L]\), \([M]\), \([T]\) balance) is not a substitute for correctly converting between specific units (like feet vs. meters) within a calculation, using a concrete example where a formula could be dimensionally consistent yet still numerically wrong due to a missed unit conversion.</p>
+<p class="connects">Connects: dimensional analysis, unit conversion (Day 2), evaluating engineering practice</p></div>
+
+
+</div></div>
+</div></main>
+</div>
+</body>
+</html>

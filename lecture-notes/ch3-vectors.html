@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 3: Vectors - PHYS203 Extended Lecture Notes</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]'], ['$$', '$$']] },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="assets/tex-svg.js"></script>
+
+<style>
+:root{
+  --ink:#f3ede0; --ink-dim:#a89f8c; --paper:#171a21; --bg:#0f1115;
+  --line:#2a2e38; --accent:#e8a13a; --easy:#6fae8f; --medium:#e8a13a;
+  --hard:#e2725b; --challenge:#9fb3e0; --tag-bg:#1d212b;
+}
+body { margin:0; background: #1d2230; color:var(--ink); font-family:Georgia,'Times New Roman',serif; }
+.shell { display:flex; min-height:100vh; }
+.sidebar {
+  width:280px; flex-shrink:0; background:#0b0d11; color:var(--ink); padding:22px 0 60px;
+  position:fixed; top:0; left:0; bottom:0; overflow-y:auto; font-family:'Courier New',monospace;
+}
+.sidebar .brand { padding:0 22px 18px; font-family:Georgia,serif; font-weight:800; font-size:1.05rem; color:var(--ink); border-bottom:1px solid var(--line); margin-bottom:14px; }
+.sidebar .brand small { display:block; font-family:'Courier New',monospace; font-weight:400; color:var(--ink-dim); font-size:0.72rem; margin-top:3px; }
+.sidebar a.chap-link { display:block; padding:8px 22px; color:var(--ink); text-decoration:none; font-size:0.88rem; border-left:3px solid transparent; }
+.sidebar a.chap-link:hover { background:#1d212b; }
+.sidebar a.chap-link.active { background:#1d212b; border-left-color:var(--accent); color:var(--accent); font-weight:600; }
+.sidebar a.home-link { display:block; padding:8px 22px; color:var(--ink-dim); text-decoration:none; font-size:0.82rem; margin-bottom:8px; }
+.main { margin-left:280px; flex:1; display:flex; justify-content:center; min-width:0; }
+.content { max-width:880px; width:100%; padding:36px 40px 100px; background:transparent; }
+.content h1 { font-family:Georgia,serif; color:var(--ink); border-bottom:3px solid var(--accent); padding-bottom:12px; }
+.content h1:first-of-type { margin-top: 0; }
+.content h2 { font-family:Georgia,serif; color:var(--accent); margin-top:44px; }
+.content h3 { color:var(--easy); }
+.day-anchor-wrap { border-top: 4px solid var(--line); padding-top: 6px; margin-top: 56px; }
+.day-anchor-wrap:first-of-type { border-top: none; margin-top: 0; padding-top: 0; }
+
+/* Problem-section styling */
+.probsets { margin-top: 28px; background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 20px 24px; }
+.probsets > h3.pset-heading {
+  font-family:'Courier New',monospace; font-size:1rem; text-transform:uppercase; letter-spacing:0.05em;
+  color:var(--ink); border-bottom:2px solid var(--accent); padding-bottom:6px; margin: 26px 0 12px;
+}
+.probsets > h3.pset-heading:first-child { margin-top: 0; }
+h3.tier { font-family:'Courier New',monospace; font-size:0.92rem; margin:18px 0 8px; display:flex; align-items:center; gap:8px; color:var(--ink); }
+.tier-dot { width:9px; height:9px; border-radius:50%; display:inline-block; }
+.tier.easy .tier-dot{background:var(--easy);} .tier.medium .tier-dot{background:var(--medium);}
+.tier.hard .tier-dot{background:var(--hard);} .tier.challenge .tier-dot{background:var(--challenge);}
+details.problem { background:#12141a; border:1px solid var(--line); border-radius:8px; margin-bottom:8px; }
+details.problem summary { cursor:pointer; padding:10px 14px; font-size:0.92rem; display:flex; gap:8px; align-items:baseline; font-family:'Courier New',monospace; color:var(--ink);}
+.qtag { font-family:'Courier New',monospace; font-size:0.68rem; font-weight:700; background:var(--tag-bg); color:var(--ink-dim); padding:2px 7px; border-radius:999px; white-space:nowrap; }
+.solution { padding:2px 16px 12px; border-top:1px dashed var(--line); font-family:Georgia,serif; font-size:0.88rem;}
+.answer { font-family:'Courier New',monospace; font-weight:700; background:#16241d; color:var(--easy); border-left:4px solid var(--easy); padding:6px 10px; border-radius:4px; margin-top:8px !important; }
+.rawlist { font-family:'Courier New',monospace; font-size:1.05rem; line-height:1.6; padding-left: 1.5em; color:var(--ink); }
+.rawlist li { margin-bottom: 10px; }
+.rawlist .qtag { font-size:0.76rem; }
+.pending-note { font-family:Georgia,serif; font-size:0.82rem; color:var(--accent); font-style:italic; background:#2a2416; border:1px solid var(--accent); border-radius:6px; padding:8px 12px; margin-bottom: 12px;}
+</style>
+
+<style>
+  :root{
+    --ink:#f3ede0; --ink-dim:#a89f8c; --paper:#171a21; --bg:transparent;
+    --line:#2a2e38; --accent:#e8a13a; --accent-dark:#8a5a1f; --accent-soft:#2a2416;
+    --ic:#6fae8f; --ic-soft:#16241d; --hw:#e2725b; --hw-soft:#2a1a14;
+  }
+  * { box-sizing: border-box; }
+  /* body background intentionally inherited from the outer wrapper style block above */
+  .wrap { max-width: 900px; margin: 0 auto; padding: 30px 22px 90px; }
+  h1.doctitle {
+    font-family:"Courier New",monospace; font-size: 1.9rem; font-weight:700;
+    color: var(--ink); border-bottom: 4px solid var(--accent); padding-bottom: 14px;
+    margin: 0 0 8px 0;
+  }
+  p.subtitle { font-family:Georgia,serif; color:var(--ink-dim); font-size:0.95rem; margin:0 0 30px 0; font-style:italic; }
+  #TOC {
+    background: var(--paper); border: 1px solid var(--line); border-radius: 8px;
+    padding: 18px 24px; margin: 0 0 34px 0;
+    font-family: "Courier New", monospace; font-size: 0.9rem; columns: 2; column-gap: 30px;
+  }
+  #TOC a { color: var(--accent); text-decoration: none; font-weight: 600; display:block; padding: 3px 0; break-inside: avoid; }
+  #TOC a:hover { text-decoration: underline; }
+  h2.chapter {
+    font-family:"Courier New",monospace; font-size: 1.35rem; font-weight:700;
+    color: #171a21; background: var(--accent);
+    padding: 12px 18px; border-radius: 6px; margin: 50px 0 20px 0;
+  }
+  h3.day {
+    font-family:"Courier New",monospace; font-size: 1.1rem; font-weight:700;
+    color: var(--accent); background: var(--accent-soft);
+    border-left: 5px solid var(--accent); padding: 8px 14px;
+    margin: 34px 0 6px 0; border-radius: 0 4px 4px 0;
+  }
+  p.dayconnects { font-family:Georgia,serif; font-size:0.85rem; color:var(--ink-dim); margin:0 0 16px 0; font-style:italic; }
+  h4.subhead {
+    font-family:"Courier New",monospace; font-size: 0.82rem; font-weight:700;
+    text-transform: uppercase; letter-spacing: 0.06em; margin: 18px 0 10px 0;
+    padding-bottom: 4px; border-bottom: 1px solid var(--line);
+  }
+  h4.subhead.ic { color: var(--ic); }
+  h4.subhead.hw { color: var(--hw); }
+  div.problem {
+    background: #12141a; border: 1px solid var(--line); border-radius: 7px;
+    padding: 12px 16px; margin-bottom: 10px; color:var(--ink);
+  }
+  div.problem { border-left: 4px solid var(--ic); }
+  .ptag {
+    font-family:"Courier New",monospace; font-size:0.68rem; font-weight:700;
+    padding: 2px 8px; border-radius: 999px; margin-right: 8px; white-space:nowrap;
+    text-transform: uppercase; letter-spacing: 0.03em;
+  }
+  .problem .ptag:not(.applied):not(.evaluate) { background: var(--ic-soft); color: var(--ic); }
+  .ptag.applied { background:#16241d; color:#6fae8f; }
+  .ptag.evaluate { background:#2a1a2e; color:#c68fd9; }
+  .connects { font-family:Georgia,serif; font-size:0.72rem; color:var(--ink-dim); margin-top:6px; }
+  p { margin: 8px 0; }
+  strong { color: var(--accent); }
+  footer { margin-top:50px; font-family:Georgia,serif; font-size:0.82rem; color:var(--ink-dim); text-align:center; }
+</style>
+
+</head>
+<body>
+<div class="shell">
+<nav class="sidebar"><div class="brand">PHYS203<small>Extended Lecture Notes</small></div>
+<a class="home-link" href="../index.html" style="border-bottom:1px solid #24354a; padding-bottom:14px; margin-bottom:6px; display:block;">&larr; Course Home</a>
+<a class="home-link" href="index.html">&larr; Back to Chapter Index</a>
+<a class="chap-link" href="ch1-units-dimensions.html">Ch 1: Units and Dimensions</a>
+<a class="chap-link" href="ch2-kinematics.html">Ch 2: One-Dimensional Kinematics</a>
+<a class="chap-link active" href="ch3-vectors.html">Ch 3: Vectors</a>
+<a class="chap-link" href="ch4-2d-motion.html">Ch 4: Two-Dimensional Motion</a>
+<a class="chap-link" href="ch5-newtons-laws.html">Ch 5: Newton's Laws and Applications</a>
+<a class="chap-link" href="ch6-momentum.html">Ch 6: Momentum and Collisions</a>
+<a class="chap-link" href="ch7-work-energy.html">Ch 7: Work and Energy</a>
+<a class="chap-link" href="ch8-rotational-motion.html">Ch 8: Rotational Motion</a>
+<a class="chap-link" href="ch9-oscillations.html">Ch 9: Oscillations</a>
+<a class="chap-link" href="ch10-waves.html">Ch 10: Waves</a>
+<a class="chap-link" href="ch11-sound.html">Ch 11: Sound</a></nav>
+<main class="main"><div class="content">
+<div class="chapter-intro"><h1 id="chapter-3-vectors">Chapter 3: Vectors</h1>
+</div>
+<div class="day-anchor-wrap"><h2
+id="class-day-8-vector-representation-components-addition-subtraction-scalar-multiplication">Class
+Day 8: Vector Representation, Components, Addition, Subtraction, Scalar
+Multiplication</h2>
+<h3 id="why-this-matters-6">Why this matters</h3>
+<p>Every quantity you’ve dealt with so far in this course (position,
+velocity, acceleration in 1D) has secretly been a vector, but in one
+dimension a vector only needs a single sign (+ or −) to capture its
+direction. Once we move to two and three dimensions — which is most of
+the physical world — we need a proper mathematical object that carries
+both magnitude <em>and</em> direction simultaneously. That object is a
+vector, and today is about learning to manipulate them.</p>
+<h3 id="scalars-vs.-vectors">Scalars vs. vectors</h3>
+<p>A <strong>scalar</strong> is a quantity fully described by a single
+number and a unit: mass, temperature, time, distance, speed. A
+<strong>vector</strong> additionally requires a direction to be fully
+specified: displacement, velocity, acceleration, force. Saying “the car
+moved 5 km” is incomplete; saying “the car moved 5 km northeast” is a
+vector statement.</p>
+<h3 id="two-equivalent-representations">Two equivalent
+representations</h3>
+<p>A vector can be described in two completely equivalent ways, and
+fluently converting between them is the core skill of this unit.</p>
+<p><strong>Magnitude-angle form:</strong> a length (A) and an angle \(\theta\)
+(measured from some reference direction, usually the positive
+x-axis).</p>
+<p><strong>Component form:</strong> an x-component and a y-component,
+(\(A_x, A_y\)), describing how far the vector reaches along each axis.</p>
+<p>Converting from magnitude-angle to components uses basic
+trigonometry:</p>
+<p><span class="math display">\[A_x = A\cos\theta \qquad A_y =
+A\sin\theta\]</span></p>
+<p>Converting the other way, from components back to magnitude-angle,
+uses the Pythagorean theorem and arctangent:</p>
+<p><span class="math display">\[A = \sqrt{A_x^2+A_y^2} \qquad \theta =
+\tan^{-1}\left(\frac{A_y}{A_x}\right)\]</span></p>
+<p>with a caveat: the plain arctangent function only returns angles in a
+limited range, so you must check which quadrant (\(A_x,A_y\)) actually
+lies in and adjust the angle accordingly if the calculator’s raw output
+doesn’t match.</p>
+<p><strong>Worked example:</strong> A vector has components ((-6, 8)).
+Find its magnitude and direction.</p>
+<p><span class="math display">\[A = \sqrt{(-6)^2+8^2} = \sqrt{100} =
+10\]</span></p>
+<p>For direction, (^{-1}(8/-6)) — but since \(A_x<0\) and \(A_y>0\),
+this vector points into the second quadrant (up and to the left), so the
+raw calculator angle needs 180° added to land in the correct quadrant,
+giving (°).</p>
+<h3 id="adding-and-subtracting-vectors">Adding and subtracting
+vectors</h3>
+<p><strong>Graphically</strong>, vectors add head-to-tail: draw the
+first vector, then start the second vector’s tail exactly where the
+first vector’s head ended. The resultant is the single arrow drawn from
+the very first tail to the very last head.</p>
+<p><strong>Algebraically</strong> (and this is almost always faster and
+less error-prone), adding vectors just means adding their respective
+components separately:</p>
+<p><span class="math display">\[\vec A + \vec B = (A_x+B_x,\ A_y+B_y)\]</span></p>
+<p>Subtraction is addition of the negative: (A - B = A + (-B)), where
+(-B) simply means flipping the sign of every component of (B)
+(equivalent to rotating it 180°).</p>
+<p><strong>Worked example:</strong> Add (A = (5,-3)) and (B=(-2,7)), and
+find the resultant’s magnitude and direction.</p>
+<p><span class="math display">\[\vec A + \vec B = (5+(-2),\ -3+7) =
+(3,4)\]</span> <span class="math display">\[|R| = \sqrt{3^2+4^2}=5,
+\qquad \theta = \tan^{-1}(4/3) = 53.1°\]</span></p>
+<h3 id="scalar-multiplication">Scalar multiplication</h3>
+<p>Multiplying a vector by a scalar (k) scales <em>every component</em>
+by that same number: (kA = \(kA_x, kA_y\)). If (k) is positive, the
+direction is unchanged and the magnitude simply scales by (k). If (k) is
+negative, the direction reverses by exactly 180° in addition to scaling
+the magnitude by (|k|).</p>
+<h3 id="common-mistake-to-watch-for-5">Common mistake to watch for</h3>
+<p>A frequent slip is computing the magnitude of a sum by adding the two
+original magnitudes directly (i.e., assuming (|A+B| = |A|+|B|)). This is
+only true in the special case where both vectors point in exactly the
+same direction; in general, you must add components first, then take the
+magnitude of the <em>result</em> — never add magnitudes directly unless
+the vectors are parallel.</p>
+<h3 id="key-formulas-and-facts-for-this-day-6">Key formulas and facts
+for this day</h3>
+<ul>
+<li>\(A_x=A\), \(A_y=A\); and inversely, (A=), (=^{-1}\(A_y/A_x\)) (checking
+quadrant).</li>
+<li>Vector addition/subtraction: add or subtract components separately,
+never add magnitudes directly (except when parallel).</li>
+<li>Scalar multiplication scales every component by the same factor; a
+negative scalar also reverses direction by 180°.</li>
+</ul>
+<hr />
+<div class="probsets">
+<h3 class="pset-heading">Reading</h3>
+<ol class="rawlist">
+<li><span class="qtag" style="margin-right:6px;">Reading Q1</span>Which of the following is a scalar quantity: velocity, force, mass, or displacement?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q2</span>A vector's magnitude represents which property?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q3</span>The x-component of a vector with magnitude A at angle θ is given by which formula?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q4</span>The y-component of a vector with magnitude A at angle θ is given by which formula?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q5</span>Given components (Aₓ, Ay), the magnitude is calculated using which formula?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q6</span>In the head-to-tail method, where is the resultant vector drawn from and to?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q7</span>To add two vectors algebraically, what operation is performed on their components?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q8</span>Multiplying a vector by a scalar of −1 does what to its direction?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q9</span>If a vector has Aₓ = 0, in what direction does it point?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q10</span>Vector subtraction A − B is equivalent to which operation?</li>
+</ol>
+<h3 class="pset-heading">Assignments</h3>
+<ol class="rawlist">
+<li><span class="qtag" style="margin-right:6px;">Easy Q1</span>Find the x-component of a vector with magnitude 10 at 0°.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q2</span>Find the y-component of a vector with magnitude 10 at 90°.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q3</span>Find the components of a vector with magnitude 5 at 30°.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q4</span>Find the magnitude of a vector with components (3, 4).</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q5</span>Add vectors (2, 3) and (4, 1) using components.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q6</span>Subtract (1, 2) from (5, 6) using components.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q7</span>Multiply vector (3, 4) by a scalar of 2.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q8</span>Find the components of a vector with magnitude 8 at 60°.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q9</span>Find the magnitude of a vector with components (6, 8).</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q10</span>Multiply vector (2, −5) by a scalar of −1.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q1</span>A vector has magnitude 14 at an angle of 40° above the horizontal. Find its x- and y-components.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q2</span>A vector has components (−6, 8). Find its magnitude and direction, expressed relative to the positive x-axis.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q3</span>Add vectors A = (5, −3) and B = (−2, 7), and find the resultant's magnitude and direction.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q4</span>Subtract B = (4, 6) from A = (9, 2), and find the resulting vector's magnitude.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q5</span>A vector (6, 8) is multiplied by −2. Find the new magnitude and direction.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q6</span>A displacement vector has components (120 m, −160 m). Find its magnitude and direction.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q7</span>A force vector has magnitude 25 N directed at 110° from the positive x-axis. Find its components.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q8</span>Two displacement vectors, 6 m at 0° and 8 m at 90°, are added graphically and algebraically. Compare the two results.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q9</span>A wind velocity vector has magnitude 20 km/h at 200° (measured counterclockwise from east). Find its north-south and east-west components.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q10</span>Multiply a velocity vector (4, −3) m/s by a scalar of 1.5, and describe the physical meaning of the result.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q1</span>A vector's x-component is three times its y-component, and its magnitude is 20. Find both components (there may be more than one valid solution; discuss why).</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q2</span>A navigation vector is given as 15 km at a bearing of 065° (measured clockwise from north). Convert this to standard x-y components (east, north).</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q3</span>Three displacement vectors are given as 5 m at 0°, 8 m at 90°, and 6 m at 180°. Add them using components and find the resultant's magnitude and direction.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q4</span>A boat's velocity relative to water is (4, 0) m/s, and the water's current velocity relative to the ground is (0, 2) m/s. Find the boat's velocity relative to the ground.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q5</span>Two forces act on an object: F₁ = 20 N at 30° and F₂ = 15 N at 120°. Find the components of each and the resultant force's magnitude and direction.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q6</span>A vector equation states that A + B = C, where A = (3, 5) and C = (10, 2). Find vector B.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q7</span>Four vectors of equal magnitude 10 point at 0°, 90°, 180°, and 270°. Show, using components, that their sum is the zero vector.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q8</span>A hiker walks vectors (2 km, 0°), (3 km, 90°), and (1 km, 210°). Find the net displacement's magnitude and direction.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q9</span>Given A = (6, −2) and B = (−3, 5), calculate 2A − 3B using components.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q10</span>Three force vectors sum to zero: F₁ = (10, 5), F₂ = (−4, 8), and F₃ is unknown. Find F₃.</li>
+<li><span class="qtag" style="margin-right:6px;">Challenge Q1 (Evaluate)</span>A student claims that any vector can be uniquely determined from its magnitude alone. Evaluate this claim using a specific counterexample involving direction.</li>
+<li><span class="qtag" style="margin-right:6px;">Challenge Q2 (Create)</span>Design a vector problem where the resulting components are both negative integers, and verify your chosen values by working the decomposition.</li>
+<li><span class="qtag" style="margin-right:6px;">Challenge Q3 (Evaluate/Create)</span>A navigation app displays a combined "resultant" direction for multiple legs of a trip. Evaluate what information could be lost if only the resultant vector is shown (not the individual legs), then create a recommendation for how the app should present both.</li>
+</ol>
+<h3 class="pset-heading">Homework</h3>
+<ol class="rawlist">
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q1</span>Find the x-component of a vector with magnitude 12 at 0°.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q2</span>Find the y-component of a vector with magnitude 12 at 90°.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q3</span>Find the components of a vector with magnitude 6 at 45°.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q4</span>Find the magnitude of a vector with components (5, 12).</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q5</span>Add vectors (3, 2) and (1, 4) using components.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q6</span>Subtract (2, 1) from (6, 5) using components.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q7</span>Multiply vector (4, 3) by a scalar of 2.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q8</span>Find the components of a vector with magnitude 9 at 30°.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q9</span>Find the magnitude of a vector with components (9, 12).</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q10</span>Multiply vector (3, −4) by a scalar of −1.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q1</span>A vector has magnitude 16 at an angle of 55° above the horizontal. Find its x- and y-components.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q2</span>A vector has components (−7, 9). Find its magnitude and direction relative to the positive x-axis.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q3</span>Add vectors A = (6, −4) and B = (−3, 8), and find the resultant's magnitude and direction.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q4</span>Subtract B = (5, 7) from A = (10, 3), and find the resulting vector's magnitude.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q5</span>A vector (5, 12) is multiplied by −2. Find the new magnitude and direction.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q6</span>A displacement vector has components (150 m, −200 m). Find its magnitude and direction.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q7</span>A force vector has magnitude 30 N directed at 130° from the positive x-axis. Find its components.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q8</span>Two displacement vectors, 5 m at 0° and 7 m at 90°, are added graphically and algebraically. Compare the two results.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q9</span>A wind velocity vector has magnitude 25 km/h at 220°. Find its north-south and east-west components.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q10</span>Multiply a velocity vector (5, −2) m/s by a scalar of 2, and describe the physical meaning.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q1</span>A vector's x-component is twice its y-component, and its magnitude is 15. Find both components.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q2</span>A navigation vector is given as 12 km at a bearing of 080°. Convert this to standard x-y (east-north) components.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q3</span>Three displacement vectors are given as 4 m at 0°, 6 m at 90°, and 5 m at 180°. Add them using components and find the resultant's magnitude and direction.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q4</span>A boat's velocity relative to water is (5, 0) m/s, and the current's velocity relative to the ground is (0, 1.5) m/s. Find the boat's velocity relative to the ground.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q5</span>Two forces act on an object: F₁ = 18 N at 40° and F₂ = 12 N at 130°. Find the components of each and the resultant force's magnitude and direction.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q6</span>A vector equation states that A + B = C, where A = (4, 6) and C = (12, 1). Find vector B.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q7</span>Four vectors of equal magnitude 8 point at 0°, 90°, 180°, and 270°. Show using components that their sum is zero.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q8</span>A hiker walks vectors (1.5 km, 0°), (2.5 km, 90°), and (1 km, 240°). Find the net displacement's magnitude and direction.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q9</span>Given A = (5, −3) and B = (−2, 6), calculate 3A − 2B using components.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q10</span>Three force vectors sum to zero: F₁ = (8, 4), F₂ = (−5, 6), and F₃ is unknown. Find F₃.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Challenge Q1 (Evaluate)</span>A student claims that scalar multiplication by a fraction (like 0.5) is fundamentally different from multiplication by a whole number and needs a separate rule. Evaluate this claim using components.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Challenge Q2 (Create)</span>Design a set of four vectors of equal magnitude whose sum is the zero vector, but which are not simply arranged at 90° intervals. Verify your answer using components.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Challenge Q3 (Evaluate/Create)</span>A drone flight-planning tool sums a sequence of vector "legs" to get a final resultant path. Evaluate what safety-relevant information is lost by only displaying the resultant, then create a recommendation for what intermediate information the tool should retain and display.</li>
+</ol>
+<h3 class="pset-heading">Synthesis Problems</h3>
+<p class="dayconnects">Connects: unit conversion (Ch.1), kinematics/displacement reasoning (Ch.2), multi-leg navigation.</p>
+
+
+<div class="problem"><span class="ptag">1</span><span class="ptag applied">Applied</span>
+<p>A search-and-rescue helicopter flies three legs: 12 km at 30&deg; north of east, then 8 km due south, then 5 km at 60&deg; west of north. Find the helicopter's net displacement (magnitude and direction) from its starting point, then find its average velocity if the entire trip took 45 minutes (convert to consistent units).</p>
+<p class="connects">Connects: vector addition, unit conversion (Ch.1), average velocity (Ch.2)</p></div>
+
+<div class="problem"><span class="ptag">2</span><span class="ptag evaluate">Evaluate</span>
+<p>A hiking app reports "total distance: 12.4 km" and "displacement from start: 0.3 km" for a looping trail. Evaluate what this pair of numbers tells you about the shape of the hike, and explain why neither number alone (distance or displacement) would let you distinguish a big loop from an out-and-back trail of the same total length.</p>
+<p class="connects">Connects: vectors (displacement) vs. scalars (distance), evaluating real trip data</p></div>
+
+<div class="problem"><span class="ptag">3</span><span class="ptag applied">Applied</span>
+<p>Two tugboats pull a barge with forces (as vectors) of 8000 N at 15&deg; above the barge's forward direction and 6000 N at 20&deg; below the forward direction (on the opposite side). Find the net force vector (magnitude and direction relative to the barge's forward direction).</p>
+<p class="connects">Connects: vector addition/components, forward-looking to force/Newton's-law contexts</p></div>
+
+<div class="problem"><span class="ptag">4</span><span class="ptag evaluate">Evaluate</span>
+<p>A student adds two displacement vectors of magnitude 5 m and 3 m by simply adding the magnitudes to get "8 m total displacement," regardless of their directions. Evaluate this method using a specific counterexample where the two vectors are perpendicular, computing the correct resultant magnitude and comparing it to the student's (incorrect) answer.</p>
+<p class="connects">Connects: vector addition, common misconceptions, Pythagorean combination</p></div>
+
+<div class="problem"><span class="ptag">5</span><span class="ptag applied">Applied</span>
+<p>An aircraft's velocity relative to the air is 220 km/h at 10&deg; east of north, while a crosswind blows at 40 km/h due east. Find the aircraft's velocity relative to the ground (magnitude and direction), then convert this ground speed to m/s.</p>
+<p class="connects">Connects: vector addition, relative-velocity reasoning, unit conversion (Ch.1)</p></div>
+
+
+<div class="problem"><span class="ptag">6</span><span class="ptag applied">Applied</span>
+<p>A delivery drone's flight plan consists of four legs: 2.5 km east, 1.8 km at 40&deg; north of east, 3.0 km north, and 1.2 km at 20&deg; west of north. Find the drone's net displacement (magnitude and direction), and if the trip takes 20 minutes, find its average speed (using total path length) and average velocity (using net displacement) in m/s.</p>
+<p class="connects">Connects: vector addition, average speed vs. velocity (Ch.2), unit conversion</p></div>
+
+<div class="problem"><span class="ptag">7</span><span class="ptag evaluate">Evaluate</span>
+<p>A ship's navigator computes a resultant heading by averaging the angles of two course-correction vectors (e.g., averaging 30&deg; and 90&deg; to get "60&deg;") rather than adding the vectors by components. Evaluate why this angle-averaging shortcut is generally wrong, using a specific counterexample with two vectors of different magnitudes at those two angles.</p>
+<p class="connects">Connects: vector addition via components, evaluating a flawed shortcut method</p></div>
+
+<div class="problem"><span class="ptag">8</span><span class="ptag applied">Applied</span>
+<p>Three forces act on a stalled car being pushed by rescuers: 300 N at 0&deg;, 250 N at 25&deg;, and 200 N at -15&deg; (all measured from the car's forward direction). Find the net force vector's magnitude and direction.</p>
+<p class="connects">Connects: vector addition/components, forward-looking to force-summation contexts</p></div>
+
+<div class="problem"><span class="ptag">9</span><span class="ptag evaluate">Evaluate</span>
+<p>A pilot's flight log shows a planned displacement vector of 500 km at 45&deg;, but the plane's actual GPS-tracked displacement was 480 km at 42&deg; due to wind. Evaluate the vector difference between the planned and actual displacement (i.e., find the "error vector"), and discuss what this error vector represents physically (hint: it is closely related to the wind's own effect over the flight).</p>
+<p class="connects">Connects: vector subtraction, evaluating real navigational data against a plan</p></div>
+
+<div class="problem"><span class="ptag">10</span><span class="ptag applied">Applied</span>
+<p>A river current flows at 2.5 m/s due east. A swimmer, who can swim at 1.8 m/s in still water, wants to swim directly across the river (due north, relative to the ground) as efficiently as possible. Find the direction the swimmer must aim (relative to due north) to achieve a purely northward path over the ground, and find their resulting speed over the ground.</p>
+<p class="connects">Connects: vector addition/subtraction, relative-velocity problem-solving, forward-looking to 2D motion</p></div>
+
+
+</div></div>
+<div class="day-anchor-wrap"><h2 id="class-day-9-vector-decomposition">Class Day 9: Vector
+Decomposition</h2>
+<h3 id="why-this-matters-7">Why this matters</h3>
+<p>Yesterday we decomposed vectors along the standard
+horizontal/vertical axes. Today’s key insight is that <em>nothing forces
+you to use horizontal and vertical</em> — you’re free to choose whatever
+pair of perpendicular axes makes a given problem simplest, and for
+problems involving inclined surfaces, tilting your axes to match the
+incline dramatically simplifies everything that follows (particularly
+once we reach Newton’s laws in Chapter 5).</p>
+<h3 id="why-tilt-the-axes-at-all">Why tilt the axes at all?</h3>
+<p>Picture a block resting on a ramp. If you insist on using standard
+horizontal/vertical axes, the normal force (which always points
+perpendicular to the surface) has <em>both</em> a horizontal and a
+vertical component — messy. But if you instead choose one axis running
+<em>along</em> the incline surface and the other <em>perpendicular</em>
+to it, the normal force becomes purely one-dimensional (entirely along
+your new perpendicular axis), and gravity becomes the vector that needs
+decomposing instead. This trade is almost always a good one, since
+gravity’s direction is fixed and simple (straight down), making it easy
+to decompose onto tilted axes, while the normal force’s direction
+depends on the incline and is awkward to decompose onto standard
+axes.</p>
+<h3 id="decomposing-weight-on-an-incline">Decomposing weight on an
+incline</h3>
+<p>For an incline at angle \(\theta\) (measured from the horizontal), the weight
+vector (mg), which always points straight down, splits into:</p>
+<p><span class="math display">\[W_{\parallel} = mg\sin\theta \qquad
+\text{(component along the incline surface, driving sliding)}\]</span>
+<span class="math display">\[W_{\perp} = mg\cos\theta \qquad
+\text{(component pressing into the incline surface, balanced by the
+normal force)}\]</span></p>
+<p>It’s worth actually deriving this geometrically rather than just
+memorizing it, since the sin/cos assignment is easy to swap by mistake.
+Draw the incline as a right triangle with angle \(\theta\) at the base. The
+weight vector points straight down from the block. The angle between the
+weight vector and the perpendicular-to-incline direction turns out to
+equal \(\theta\) itself (this follows from the fact that the incline surface and
+the ground are related by a rotation of \(\theta\), and the weight vector’s true
+direction — straight down — doesn’t rotate with it). From there, basic
+right-triangle trigonometry gives the perpendicular component as (mg)
+(adjacent side) and the parallel component as (mg) (opposite side).</p>
+<p><strong>Worked example:</strong> A 25 kg crate rests on a 35°
+incline. Find both weight components.</p>
+<p><span class="math display">\[W_{\parallel} = 25(9.8)\sin35° =
+140.5\text{ N} \qquad W_{\perp} = 25(9.8)\cos35° = 200.7\text{
+N}\]</span></p>
+<h3 id="sanity-checks-using-limiting-cases">Sanity checks using limiting
+cases</h3>
+<p>A powerful way to verify you have sin and cos assigned to the right
+component is to check the extremes. At (°) (a flat, horizontal surface),
+there should be <em>no</em> tendency to slide, so \(W_\parallel\) should be zero:
+indeed, (mg°=0). ✓. At (°) (an idealized vertical wall), gravity should
+act <em>entirely</em> along the surface (straight down, parallel to the
+wall) with nothing pressing into it, so \(W_\perp\) should be zero: indeed,
+(mg°=0). ✓. If your formulas don’t pass these two sanity checks, you
+have sin and cos swapped.</p>
+<h3 id="generalizing-beyond-weight">Generalizing beyond weight</h3>
+<p>The same tilted-axis approach works for <em>any</em> vector, not just
+weight — an applied force, a tension, a horizontal push — all can be
+decomposed onto incline-aligned axes the same way, just being careful
+about the actual angle between that specific vector and your chosen axes
+(which may not simply be \(\theta\) or (90°-) if the vector isn’t purely
+vertical or purely along the incline to begin with).</p>
+<h3 id="common-mistake-to-watch-for-6">Common mistake to watch for</h3>
+<p>Forgetting that the normal force is perpendicular to the <em>actual
+surface</em>, not simply “straight up” — on a tilted incline these are
+different directions, and drawing the normal force vertically is a very
+common diagram error that then propagates into every subsequent
+equation.</p>
+<h3 id="key-formulas-and-facts-for-this-day-7">Key formulas and facts
+for this day</h3>
+<ul>
+<li>On an incline at angle \(\theta\): \(W_\parallel=mg\sin\theta\) (down-slope), \(W_\perp= mg\cos\theta\) (into the
+surface, balanced by the normal force).</li>
+<li>Sanity check using (°) and (°) limiting cases to confirm sin/cos are
+assigned correctly.</li>
+<li>Any vector, not just weight, can be decomposed onto conveniently
+chosen tilted axes.</li>
+</ul>
+<hr />
+<div class="probsets">
+<h3 class="pset-heading">Reading</h3>
+<ol class="rawlist">
+<li><span class="qtag" style="margin-right:6px;">Reading Q1</span>On a frictionless incline at angle θ, gravity's component parallel to the incline surface is best expressed as which formula?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q2</span>On the same incline, gravity's component perpendicular to the incline surface is best expressed as which formula?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q3</span>Why might a physicist choose axes aligned with an incline rather than horizontal/vertical?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q4</span>If θ = 0° (flat surface), what is the component of gravity along the surface?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q5</span>If θ = 90° (vertical surface), what is the component of gravity perpendicular to the surface?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q6</span>In incline problems, the normal force typically acts in which direction relative to the chosen tilted axes?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q7</span>Decomposing a vector along tilted axes uses which mathematical tool primarily?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q8</span>As the incline angle increases from 0° to 90°, what happens to the parallel component of gravity?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q9</span>As the incline angle increases from 0° to 90°, what happens to the perpendicular component of gravity?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q10</span>Which of the following is NOT typically true when decomposing forces on an incline?</li>
+</ol>
+<h3 class="pset-heading">Assignments</h3>
+<ol class="rawlist">
+<li><span class="qtag" style="margin-right:6px;">Easy Q1</span>A 10 kg box sits on a 20° incline. Find the component of its weight parallel to the incline.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q2</span>The same box: find the component of its weight perpendicular to the incline.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q3</span>A 5 kg object sits on a 0° (flat) surface. Find the component of weight parallel to the surface.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q4</span>A 20 N weight sits on a 30° incline. Find the parallel component.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q5</span>The same weight: find the perpendicular component.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q6</span>A 15 N force acts along a 10° incline. Find its horizontal component.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q7</span>The same force: find its vertical component.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q8</span>A 12 kg box on a 45° incline: find the parallel weight component.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q9</span>The same box: find the perpendicular weight component.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q10</span>A 5 kg object sits on a 90° (vertical) surface (idealized). Find the component of weight perpendicular to the surface.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q1</span>A 25 kg crate rests on a 35° incline. Find both weight components.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q2</span>A rope pulls a box up a 20° incline with tension 100 N directed 15° above the incline surface. Decompose the tension into components along and perpendicular to the incline.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q3</span>A 40 N force is applied horizontally to a box on a 25° incline. Decompose this horizontal force into components parallel and perpendicular to the incline surface.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q4</span>A 30 kg sled sits on a 15° slope. Find the components of its weight along and perpendicular to the slope, and identify which component would tend to cause sliding.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q5</span>A wind force of 50 N blows at 10° above horizontal onto a sail tilted at 40° from vertical. Decompose the wind force into components along and perpendicular to the sail.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q6</span>A 60 N applied force acts at 20° above a ramp inclined at 15°. Find the components of the applied force along and perpendicular to the ramp.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q7</span>A skateboarder's weight (500 N) acts on a 12° ramp. Find both weight components.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q8</span>A 45° incline supports an 18 kg block. Compare the parallel and perpendicular weight components and explain their relative sizes at this specific angle.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q9</span>A cable pulls a cart up an 18° incline at an angle of 8° above the incline surface with 150 N of tension. Decompose the tension.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q10</span>A ball rolls down a 28° hill. Find the weight component driving it down the slope for a 2 kg ball.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q1</span>A 50 kg skier is on a 32° slope, experiencing gravity, a normal force, and a kinetic friction force with coefficient 0.1. Decompose all forces along axes aligned with the slope, and find the net force component along the slope.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q2</span>A box is pulled up a 22° incline by a rope at an angle of 30° above the incline surface with tension 120 N, while a friction force of 40 N acts down the incline. Decompose all forces along incline-aligned axes and find the net force parallel to the incline.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q3</span>Two ramps of different angles (15° and 35°) each support an identical 20 kg block. Compare the weight components parallel to each incline and explain why a steeper incline requires more friction or restraint to prevent sliding.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q4</span>A 35 kg cart on a 20° incline is held stationary by a horizontal force (not along the incline). Decompose both the horizontal applied force and gravity into incline-aligned components, and determine what condition must hold for the cart to remain in equilibrium along the incline direction.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q5</span>A 10 N force is applied to a block on an incline at an angle such that its component along the incline exactly equals its component perpendicular to the incline. Find the required application angle relative to the incline surface.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q6</span>A ramp's angle is doubled from 15° to 30°. Compare the change in the parallel weight component to the change in the perpendicular weight component for the same 25 kg object, and explain why they do not change proportionally in the same way.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q7</span>A conveyor belt inclined at 25° carries a 5 kg package. Decompose the package's weight and determine the minimum coefficient of static friction needed (conceptually, in terms of the components) to prevent sliding, without solving the final numeric value.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q8</span>A force of unknown magnitude and direction produces incline-aligned components of 30 N (parallel) and 40 N (perpendicular) on a 20° incline. Find the original force's magnitude and its angle relative to the incline surface.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q9</span>A 22 kg object on a 40° incline experiences an additional applied force of 80 N directed straight up (vertically). Decompose this vertical applied force into incline-aligned components.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q10</span>Explain and demonstrate with components why, for very small incline angles, the parallel weight component is much smaller than the perpendicular component, and why this reverses as the incline approaches 90°.</li>
+<li><span class="qtag" style="margin-right:6px;">Challenge Q1 (Evaluate)</span>A textbook diagram shows the normal force as always vertical, even on an incline. Evaluate this claim, explaining under what interpretation it is wrong and how the normal force should actually be drawn relative to the incline surface.</li>
+<li><span class="qtag" style="margin-right:6px;">Challenge Q2 (Create)</span>Design an incline scenario (choose mass, angle, and an additional applied force) such that the net force component along the incline is exactly zero.</li>
+<li><span class="qtag" style="margin-right:6px;">Challenge Q3 (Evaluate/Create)</span>A ramp designer wants to choose an incline angle that keeps the parallel weight component below a specified safety threshold for wheelchair users. Evaluate how the parallel component changes with angle, then create a recommended maximum angle given a stated safety threshold as a fraction of total weight.</li>
+</ol>
+<h3 class="pset-heading">Homework</h3>
+<ol class="rawlist">
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q1</span>A 12 kg box sits on a 25° incline. Find the component of its weight parallel to the incline.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q2</span>The same box: find the component of its weight perpendicular to the incline.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q3</span>A 6 kg object sits on a 0° (flat) surface. Find the parallel weight component.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q4</span>A 18 N weight sits on a 35° incline. Find the parallel component.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q5</span>The same weight: find the perpendicular component.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q6</span>A 20 N force acts along a 12° incline. Find its horizontal component.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q7</span>The same force: find its vertical component.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q8</span>A 10 kg box on a 40° incline: find the parallel weight component.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q9</span>The same box: find the perpendicular weight component.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q10</span>A 6 kg object sits on a 90° (vertical) surface. Find the perpendicular weight component.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q1</span>A 30 kg crate rests on a 30° incline. Find both weight components.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q2</span>A rope pulls a box up a 25° incline with tension 90 N directed 12° above the incline surface. Decompose the tension.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q3</span>A 35 N force is applied horizontally to a box on a 20° incline. Decompose this force into incline-aligned components.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q4</span>A 25 kg sled sits on a 18° slope. Find the weight components and identify which drives sliding.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q5</span>A wind force of 45 N blows at 8° above horizontal onto a sail tilted at 35° from vertical. Decompose the wind force.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q6</span>A 55 N applied force acts at 18° above a ramp inclined at 12°. Find the components along and perpendicular to the ramp.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q7</span>A skateboarder's weight (450 N) acts on a 10° ramp. Find both weight components.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q8</span>A 50° incline supports a 20 kg block. Compare the parallel and perpendicular weight components.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q9</span>A cable pulls a cart up a 20° incline at an angle of 10° above the incline surface with 140 N tension. Decompose the tension.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q10</span>A ball rolls down a 24° hill. Find the weight component driving it down the slope for a 3 kg ball.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q1</span>A 45 kg skier is on a 30° slope, experiencing gravity, a normal force, and kinetic friction with coefficient 0.12. Decompose all forces along the slope's axes and find the net parallel force.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q2</span>A box is pulled up a 20° incline by a rope at 28° above the incline surface with tension 110 N, while friction of 35 N acts down the incline. Decompose all forces and find the net parallel force.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q3</span>Two ramps (12° and 30°) each support an identical 18 kg block. Compare the parallel weight components and explain the implications for required friction.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q4</span>A 30 kg cart on an 18° incline is held stationary by a horizontal force. Decompose both forces into incline-aligned components and state the equilibrium condition along the incline.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q5</span>A 12 N force is applied to a block on an incline such that its parallel and perpendicular components are equal. Find the required application angle relative to the incline.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q6</span>A ramp's angle is doubled from 12° to 24° for a 22 kg object. Compare the changes in parallel and perpendicular weight components.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q7</span>A conveyor belt inclined at 22° carries a 4 kg package. Decompose the weight and describe, conceptually, the minimum friction coefficient needed to prevent sliding.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q8</span>A force of unknown magnitude and direction produces incline-aligned components of 25 N (parallel) and 35 N (perpendicular) on an 18° incline. Find the force's magnitude and angle relative to the incline.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q9</span>A 20 kg object on a 38° incline experiences an additional applied vertical force of 70 N. Decompose this force into incline-aligned components.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q10</span>Explain, with components, why for small incline angles the parallel weight component is much smaller than the perpendicular component, and how this changes near 90°.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Challenge Q1 (Evaluate)</span>A student assumes friction always acts along the incline surface but never considers its direction (up-slope vs. down-slope) can change depending on motion. Evaluate this oversight using a specific scenario where the direction matters.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Challenge Q2 (Create)</span>Design an incline scenario where the parallel weight component exactly equals a stated applied force, resulting in equilibrium along the incline. Show your decomposition.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Challenge Q3 (Evaluate/Create)</span>A playground slide designer wants the parallel weight component for a child's weight to stay below a safety threshold. Evaluate how this component changes with slide angle, then create a maximum recommended slide angle given a stated safety threshold.</li>
+</ol>
+<h3 class="pset-heading">Synthesis Problems</h3>
+<p class="dayconnects">Connects: vector addition (Day 8), kinematics (Ch.2), incline-based force reasoning (forward-looking).</p>
+
+
+<div class="problem"><span class="ptag">1</span><span class="ptag applied">Applied</span>
+<p>A wheelchair ramp rises 0.9 m over a horizontal run of 10.8 m. Find the incline angle, then find the parallel and perpendicular components of the weight of a 90 kg (combined chair + rider) system on this ramp (g=9.8 m/s&sup2;).</p>
+<p class="connects">Connects: vector decomposition, trigonometry, applied accessibility-design context</p></div>
+
+<div class="problem"><span class="ptag">2</span><span class="ptag evaluate">Evaluate</span>
+<p>A student decomposes a horizontal 50 N pushing force applied to a block on a 25&deg; incline by using \(F\sin(25\degree)\) for the along-incline component and \(F\cos(25\degree)\) for the perpendicular component. Evaluate whether this assignment of sine and cosine is correct for a horizontal (not along-incline) applied force, using the 0&deg; and 90&deg; limiting-case sanity checks from this chapter to justify your answer.</p>
+<p class="connects">Connects: vector decomposition, limiting-case reasoning, common component-assignment errors</p></div>
+
+<div class="problem"><span class="ptag">3</span><span class="ptag applied">Applied</span>
+<p>A zipline descends at 32&deg; below horizontal. A 70 kg rider hangs from it. Find the component of the rider's weight acting along the zipline cable (the component that would accelerate them down the line if unopposed) and the component acting perpendicular to the cable (which the cable's tension must support).</p>
+<p class="connects">Connects: vector decomposition, incline-angle weight decomposition applied to a zipline</p></div>
+
+<div class="problem"><span class="ptag">4</span><span class="ptag evaluate">Evaluate</span>
+<p>A physics problem states a 40 N force is applied to an object on an incline "at 20&deg; from the incline surface," while a nearly identical problem states a 40 N force is applied "at 20&deg; from the horizontal," with the incline itself at 25&deg;. Evaluate why these two problems require different decomposition setups even though both mention "20&deg;," and find the actual angle between the force and the incline surface in each case.</p>
+<p class="connects">Connects: vector decomposition, careful angle-reference interpretation</p></div>
+
+<div class="problem"><span class="ptag">5</span><span class="ptag applied">Applied</span>
+<p>A conveyor belt inclined at 18&deg; carries a package up the slope. A safety strap applies an additional 60 N force directed 10&deg; above the incline surface (helping push the package up). Find the strap force's component along the incline and its component perpendicular to the incline.</p>
+<p class="connects">Connects: vector decomposition, multi-force incline scenario, applied industrial context</p></div>
+
+
+<div class="problem"><span class="ptag">6</span><span class="ptag applied">Applied</span>
+<p>A ski jump's takeoff ramp is inclined at 38&deg;. A 75 kg skier (including equipment) is momentarily at rest at the top of the ramp before beginning to move. Find the parallel and perpendicular components of the skier's weight on the ramp, and convert the parallel component's equivalent acceleration (parallel component / mass) to a multiple of \(g\).</p>
+<p class="connects">Connects: vector decomposition, forward-looking to incline acceleration, unit/ratio reasoning</p></div>
+
+<div class="problem"><span class="ptag">7</span><span class="ptag evaluate">Evaluate</span>
+<p>A worker claims that on any incline, "the steeper the ramp, the more the normal force has to work, so normal force should increase with angle." Evaluate this claim using the actual formula \(N=mg\cos\theta\), checking what happens to \(N\) as \(\theta\) increases from 0&deg; to 90&deg;, and explain the (likely) source of the worker's misconception.</p>
+<p class="connects">Connects: vector decomposition, evaluating an intuitive-but-incorrect claim using limiting cases</p></div>
+
+<div class="problem"><span class="ptag">8</span><span class="ptag applied">Applied</span>
+<p>A loading ramp for trucks is inclined at 12&deg;. A hand truck plus cargo has a combined weight of 1200 N. A worker also applies an additional horizontal push of 150 N to help move it up the ramp. Find the components of both the weight and the push force along and perpendicular to the ramp, and find the total along-ramp force from both sources combined (taking care with signs).</p>
+<p class="connects">Connects: vector decomposition, multi-force superposition on an incline, sign conventions</p></div>
+
+<div class="problem"><span class="ptag">9</span><span class="ptag evaluate">Evaluate</span>
+<p>A textbook diagram shows a normal force vector drawn perfectly vertical on an object resting on a 30&deg; incline. Evaluate why this diagram is physically incorrect, explaining specifically what direction the normal force should point instead, and how this error would propagate into an incorrect force decomposition if used in a calculation.</p>
+<p class="connects">Connects: vector decomposition, incline geometry, evaluating a common diagramming error</p></div>
+
+<div class="problem"><span class="ptag">10</span><span class="ptag applied">Applied</span>
+<p>A solar panel is mounted at a tilt angle of 35&deg; from horizontal to optimize sun exposure. Wind exerts a force of 400 N directly horizontally against the panel's face. Find the components of this wind force along the panel's surface (which the mounting brackets must resist as a shearing force) and perpendicular to the panel's surface (which the brackets must resist as a pulling/pushing force).</p>
+<p class="connects">Connects: vector decomposition, applied structural-engineering context</p></div>
+
+
+</div></div>
+</div></main>
+</div>
+</body>
+</html>

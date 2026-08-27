@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 10: Waves - PHYS203 Extended Lecture Notes</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]'], ['$$', '$$']] },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="assets/tex-svg.js"></script>
+
+<style>
+:root{
+  --ink:#f3ede0; --ink-dim:#a89f8c; --paper:#171a21; --bg:#0f1115;
+  --line:#2a2e38; --accent:#e8a13a; --easy:#6fae8f; --medium:#e8a13a;
+  --hard:#e2725b; --challenge:#9fb3e0; --tag-bg:#1d212b;
+}
+body { margin:0; background: #1d2230; color:var(--ink); font-family:Georgia,'Times New Roman',serif; }
+.shell { display:flex; min-height:100vh; }
+.sidebar {
+  width:280px; flex-shrink:0; background:#0b0d11; color:var(--ink); padding:22px 0 60px;
+  position:fixed; top:0; left:0; bottom:0; overflow-y:auto; font-family:'Courier New',monospace;
+}
+.sidebar .brand { padding:0 22px 18px; font-family:Georgia,serif; font-weight:800; font-size:1.05rem; color:var(--ink); border-bottom:1px solid var(--line); margin-bottom:14px; }
+.sidebar .brand small { display:block; font-family:'Courier New',monospace; font-weight:400; color:var(--ink-dim); font-size:0.72rem; margin-top:3px; }
+.sidebar a.chap-link { display:block; padding:8px 22px; color:var(--ink); text-decoration:none; font-size:0.88rem; border-left:3px solid transparent; }
+.sidebar a.chap-link:hover { background:#1d212b; }
+.sidebar a.chap-link.active { background:#1d212b; border-left-color:var(--accent); color:var(--accent); font-weight:600; }
+.sidebar a.home-link { display:block; padding:8px 22px; color:var(--ink-dim); text-decoration:none; font-size:0.82rem; margin-bottom:8px; }
+.main { margin-left:280px; flex:1; display:flex; justify-content:center; min-width:0; }
+.content { max-width:880px; width:100%; padding:36px 40px 100px; background:transparent; }
+.content h1 { font-family:Georgia,serif; color:var(--ink); border-bottom:3px solid var(--accent); padding-bottom:12px; }
+.content h1:first-of-type { margin-top: 0; }
+.content h2 { font-family:Georgia,serif; color:var(--accent); margin-top:44px; }
+.content h3 { color:var(--easy); }
+.day-anchor-wrap { border-top: 4px solid var(--line); padding-top: 6px; margin-top: 56px; }
+.day-anchor-wrap:first-of-type { border-top: none; margin-top: 0; padding-top: 0; }
+
+/* Problem-section styling */
+.probsets { margin-top: 28px; background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 20px 24px; }
+.probsets > h3.pset-heading {
+  font-family:'Courier New',monospace; font-size:1rem; text-transform:uppercase; letter-spacing:0.05em;
+  color:var(--ink); border-bottom:2px solid var(--accent); padding-bottom:6px; margin: 26px 0 12px;
+}
+.probsets > h3.pset-heading:first-child { margin-top: 0; }
+h3.tier { font-family:'Courier New',monospace; font-size:0.92rem; margin:18px 0 8px; display:flex; align-items:center; gap:8px; color:var(--ink); }
+.tier-dot { width:9px; height:9px; border-radius:50%; display:inline-block; }
+.tier.easy .tier-dot{background:var(--easy);} .tier.medium .tier-dot{background:var(--medium);}
+.tier.hard .tier-dot{background:var(--hard);} .tier.challenge .tier-dot{background:var(--challenge);}
+details.problem { background:#12141a; border:1px solid var(--line); border-radius:8px; margin-bottom:8px; }
+details.problem summary { cursor:pointer; padding:10px 14px; font-size:0.92rem; display:flex; gap:8px; align-items:baseline; font-family:'Courier New',monospace; color:var(--ink);}
+.qtag { font-family:'Courier New',monospace; font-size:0.68rem; font-weight:700; background:var(--tag-bg); color:var(--ink-dim); padding:2px 7px; border-radius:999px; white-space:nowrap; }
+.solution { padding:2px 16px 12px; border-top:1px dashed var(--line); font-family:Georgia,serif; font-size:0.88rem;}
+.answer { font-family:'Courier New',monospace; font-weight:700; background:#16241d; color:var(--easy); border-left:4px solid var(--easy); padding:6px 10px; border-radius:4px; margin-top:8px !important; }
+.rawlist { font-family:'Courier New',monospace; font-size:1.05rem; line-height:1.6; padding-left: 1.5em; color:var(--ink); }
+.rawlist li { margin-bottom: 10px; }
+.rawlist .qtag { font-size:0.76rem; }
+.pending-note { font-family:Georgia,serif; font-size:0.82rem; color:var(--accent); font-style:italic; background:#2a2416; border:1px solid var(--accent); border-radius:6px; padding:8px 12px; margin-bottom: 12px;}
+</style>
+
+<style>
+  :root{
+    --ink:#f3ede0; --ink-dim:#a89f8c; --paper:#171a21; --bg:transparent;
+    --line:#2a2e38; --accent:#e8a13a; --accent-dark:#8a5a1f; --accent-soft:#2a2416;
+    --ic:#6fae8f; --ic-soft:#16241d; --hw:#e2725b; --hw-soft:#2a1a14;
+  }
+  * { box-sizing: border-box; }
+  /* body background intentionally inherited from the outer wrapper style block above */
+  .wrap { max-width: 900px; margin: 0 auto; padding: 30px 22px 90px; }
+  h1.doctitle {
+    font-family:"Courier New",monospace; font-size: 1.9rem; font-weight:700;
+    color: var(--ink); border-bottom: 4px solid var(--accent); padding-bottom: 14px;
+    margin: 0 0 8px 0;
+  }
+  p.subtitle { font-family:Georgia,serif; color:var(--ink-dim); font-size:0.95rem; margin:0 0 30px 0; font-style:italic; }
+  #TOC {
+    background: var(--paper); border: 1px solid var(--line); border-radius: 8px;
+    padding: 18px 24px; margin: 0 0 34px 0;
+    font-family: "Courier New", monospace; font-size: 0.9rem; columns: 2; column-gap: 30px;
+  }
+  #TOC a { color: var(--accent); text-decoration: none; font-weight: 600; display:block; padding: 3px 0; break-inside: avoid; }
+  #TOC a:hover { text-decoration: underline; }
+  h2.chapter {
+    font-family:"Courier New",monospace; font-size: 1.35rem; font-weight:700;
+    color: #171a21; background: var(--accent);
+    padding: 12px 18px; border-radius: 6px; margin: 50px 0 20px 0;
+  }
+  h3.day {
+    font-family:"Courier New",monospace; font-size: 1.1rem; font-weight:700;
+    color: var(--accent); background: var(--accent-soft);
+    border-left: 5px solid var(--accent); padding: 8px 14px;
+    margin: 34px 0 6px 0; border-radius: 0 4px 4px 0;
+  }
+  p.dayconnects { font-family:Georgia,serif; font-size:0.85rem; color:var(--ink-dim); margin:0 0 16px 0; font-style:italic; }
+  h4.subhead {
+    font-family:"Courier New",monospace; font-size: 0.82rem; font-weight:700;
+    text-transform: uppercase; letter-spacing: 0.06em; margin: 18px 0 10px 0;
+    padding-bottom: 4px; border-bottom: 1px solid var(--line);
+  }
+  h4.subhead.ic { color: var(--ic); }
+  h4.subhead.hw { color: var(--hw); }
+  div.problem {
+    background: #12141a; border: 1px solid var(--line); border-radius: 7px;
+    padding: 12px 16px; margin-bottom: 10px; color:var(--ink);
+  }
+  div.problem { border-left: 4px solid var(--ic); }
+  .ptag {
+    font-family:"Courier New",monospace; font-size:0.68rem; font-weight:700;
+    padding: 2px 8px; border-radius: 999px; margin-right: 8px; white-space:nowrap;
+    text-transform: uppercase; letter-spacing: 0.03em;
+  }
+  .problem .ptag:not(.applied):not(.evaluate) { background: var(--ic-soft); color: var(--ic); }
+  .ptag.applied { background:#16241d; color:#6fae8f; }
+  .ptag.evaluate { background:#2a1a2e; color:#c68fd9; }
+  .connects { font-family:Georgia,serif; font-size:0.72rem; color:var(--ink-dim); margin-top:6px; }
+  p { margin: 8px 0; }
+  strong { color: var(--accent); }
+  footer { margin-top:50px; font-family:Georgia,serif; font-size:0.82rem; color:var(--ink-dim); text-align:center; }
+</style>
+
+</head>
+<body>
+<div class="shell">
+<nav class="sidebar"><div class="brand">PHYS203<small>Extended Lecture Notes</small></div>
+<a class="home-link" href="../index.html" style="border-bottom:1px solid #24354a; padding-bottom:14px; margin-bottom:6px; display:block;">&larr; Course Home</a>
+<a class="home-link" href="index.html">&larr; Back to Chapter Index</a>
+<a class="chap-link" href="ch1-units-dimensions.html">Ch 1: Units and Dimensions</a>
+<a class="chap-link" href="ch2-kinematics.html">Ch 2: One-Dimensional Kinematics</a>
+<a class="chap-link" href="ch3-vectors.html">Ch 3: Vectors</a>
+<a class="chap-link" href="ch4-2d-motion.html">Ch 4: Two-Dimensional Motion</a>
+<a class="chap-link" href="ch5-newtons-laws.html">Ch 5: Newton's Laws and Applications</a>
+<a class="chap-link" href="ch6-momentum.html">Ch 6: Momentum and Collisions</a>
+<a class="chap-link" href="ch7-work-energy.html">Ch 7: Work and Energy</a>
+<a class="chap-link" href="ch8-rotational-motion.html">Ch 8: Rotational Motion</a>
+<a class="chap-link" href="ch9-oscillations.html">Ch 9: Oscillations</a>
+<a class="chap-link active" href="ch10-waves.html">Ch 10: Waves</a>
+<a class="chap-link" href="ch11-sound.html">Ch 11: Sound</a></nav>
+<main class="main"><div class="content">
+<div class="chapter-intro"><h1 id="chapter-10-waves">Chapter 10: Waves</h1>
+</div>
+<div class="day-anchor-wrap"><h2 id="class-day-30-wave-properties">Class Day 30: Wave Properties</h2>
+<h3 id="why-this-matters-28">Why this matters</h3>
+<p>A wave is a way of transporting energy from one place to another
+<em>without</em> transporting matter along with it — ripples on a pond
+move outward, but a floating leaf mostly just bobs up and down in place,
+rather than being carried along. Today establishes the core vocabulary
+and the single equation that ties wave properties together.</p>
+<h3 id="core-vocabulary-1">Core vocabulary</h3>
+<ul>
+<li><strong>Wavelength</strong> (\(\lambda\)): the spatial distance between two
+consecutive identical points on the wave (crest to crest, for
+instance).</li>
+<li><strong>Frequency</strong> ((f)): how many wave cycles pass a fixed
+point per second.</li>
+<li><strong>Amplitude</strong>: the maximum displacement from
+equilibrium at any point on the wave — this determines how much energy
+the wave carries, but (importantly) not its speed.</li>
+<li><strong>Wave speed</strong> ((v)): how fast the wave pattern itself
+propagates through the medium.</li>
+</ul>
+<h3 id="the-wave-equation">The wave equation</h3>
+<p><span class="math display">\[v = f\lambda\]</span></p>
+<p>This single equation connects all the core wave properties. A crucial
+and often-missed point: <strong>wave speed is generally set by
+properties of the medium</strong> (its stiffness, density, tension, etc.
+— not by the source that created the wave). If a source vibrates faster
+(increasing (f)) while the wave travels through the <em>same</em> medium
+(so (v) stays fixed), the wave equation tells us wavelength must
+correspondingly <em>decrease</em>, since (v=f) must still hold with (v)
+unchanged.</p>
+<p><strong>Worked example:</strong> A wave has frequency 12 Hz and
+wavelength 2.5 m. Find its speed.</p>
+<p><span class="math display">\[v = f\lambda = 12(2.5) = 30\text{
+m/s}\]</span></p>
+<h3 id="common-mistake-to-watch-for-27">Common mistake to watch for</h3>
+<p>Assuming a louder or larger-amplitude wave necessarily travels
+faster. Amplitude relates to the <em>energy</em> a wave carries, not its
+<em>speed</em> — wave speed is a property of the medium the wave is
+passing through (and, for some media, the wave’s frequency, in cases of
+dispersion), essentially independent of the wave’s amplitude for the
+situations covered in this course.</p>
+<h3 id="key-formulas-and-facts-for-this-day-28">Key formulas and facts
+for this day</h3>
+<ul>
+<li>Wavelength (spatial repeat distance), frequency (cycles per second),
+amplitude (max displacement, related to energy carried), wave speed (how
+fast the pattern moves).</li>
+<li>Wave equation: (v=f).</li>
+<li>Wave speed is generally determined by the medium, not by the
+source’s frequency; changing frequency (same medium) changes wavelength
+instead, keeping (v) fixed.</li>
+</ul>
+<hr />
+<div class="probsets">
+<h3 class="pset-heading">Reading</h3>
+<ol class="rawlist"><li>The wave equation relating speed, frequency, and wavelength is which formula?</li><li>Wavelength is defined as what?</li><li>Frequency of a wave is defined as what, measured at a fixed point?</li><li>Wave speed is generally determined by what?</li><li>If frequency increases while speed stays constant, what happens to wavelength?</li><li>A wave transports what through a medium, without transporting the medium itself?</li><li>Amplitude of a wave represents what physical quantity?</li><li>If a source's frequency changes but wave speed (set by the medium) stays constant, what changes?</li><li>The SI unit of frequency is what?</li><li>The SI unit of wavelength is what?</li></ol>
+<h3 class="pset-heading">Assignments</h3>
+<h3 class="tier easy"><span class="tier-dot"></span>Easy</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Easy Q1</span>Find the speed of a wave with frequency 5 Hz and wavelength 1 m. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q2</span>Find the speed of a wave with frequency 10 Hz and wavelength 0.5 m. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q3</span>Find the wavelength of a wave with speed 100 m/s and frequency 20 Hz. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q4</span>Find the frequency of a wave with speed 200 m/s and wavelength 4 m. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q5</span>Find the speed of a wave with frequency 8 Hz and wavelength 2 m. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q6</span>Find the wavelength of a wave with speed 340 m/s and frequency 100 Hz. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q7</span>Find the frequency of a wave with speed 300 m/s and wavelength 10 m. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q8</span>Find the speed of a wave with frequency 15 Hz and wavelength 0.2 m. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q9</span>Find the wavelength of a wave with speed 50 m/s and frequency 25 Hz. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q10</span>Find the frequency of a wave with speed 340 m/s and wavelength 1.7 m. (Give your answer in Hz.)</li></ol>
+<h3 class="tier medium"><span class="tier-dot"></span>Medium</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Medium Q1</span>A wave has frequency 12 Hz and wavelength 2.5 m. Find its speed. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q2</span>A wave travels at 320 m/s with wavelength 4 m. Find its frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q3</span>A wave has speed 340 m/s and frequency 680 Hz. Find its wavelength. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q4</span>A wave's wavelength doubles while its speed stays constant. Find the factor by which frequency changes.</li><li><span class="qtag" style="margin-right:6px;">Medium Q5</span>Two waves have the same speed (340 m/s) but frequencies 200 Hz and 400 Hz. Find the wavelength at 200 Hz. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q6</span>Find the wavelength at 400 Hz. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q7</span>A wave has wavelength 0.75 m and frequency 450 Hz. Find its speed. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q8</span>A rope wave travels at 15 m/s with wavelength 0.5 m. Find its frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q9</span>A radio wave (speed=3e8 m/s) has frequency 100 MHz. Find its wavelength. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q10</span>A sound wave has wavelength 1.5 m and travels at 340 m/s. Find its frequency. (Give your answer in Hz.)</li></ol>
+<h3 class="tier hard"><span class="tier-dot"></span>Hard</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Hard Q1</span>Two media support wave speeds of 340 m/s and 1500 m/s. A wave with frequency 500 Hz exists in both. Find the wavelength in the 340 m/s medium. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q2</span>Same wave: find the wavelength in the 1500 m/s medium. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q3</span>A guitar string vibrates to produce sound at 440 Hz, traveling through air (340 m/s). Find the sound wavelength in air. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q4</span>P-waves travel at 6 km/s and S-waves at 3.5 km/s from an earthquake 90 km away. Find the arrival time difference. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q5</span>A wave pool generates waves with wavelength 3 m and observed period 2 s. Find the wave speed. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q6</span>Same wave: find the frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q7</span>A radio station broadcasts at 101.5 MHz. Find the wavelength using the speed of light (3e8 m/s). (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q8</span>A sound wave's frequency is 20,000 Hz at a speed of 343 m/s. Find its wavelength. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q9</span>Find the wavelength of a 20 Hz wave at the same speed. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q10</span>A water wave has wavelength 4 m and period 2.5 s. Find its speed. (Give your answer in m/s.)</li></ol>
+<h3 class="tier challenge"><span class="tier-dot"></span>Challenge</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Challenge Q1</span>(Evaluate) A student claims that increasing a wave's amplitude increases its speed. Evaluate this claim, clarifying what actually determines wave speed for most simple wave types. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q2</span>(Create) Design a wave scenario (choose frequency and wavelength) such that the resulting speed is exactly 500 m/s, and verify your chosen values. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q3</span>(Evaluate/Create) A sound engineer wants to explain to a non-technical audience why the same musical note sounds different in air versus underwater in terms of its wavelength. Evaluate the physics involved, then create a simple, accurate explanation. Upload your written response.</li></ol>
+<h3 class="pset-heading">Homework</h3>
+<h3 class="tier easy"><span class="tier-dot"></span>Easy</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Easy Q1</span>Find the speed of a wave with frequency 6 Hz and wavelength 1.2 m. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q2</span>Find the speed of a wave with frequency 11 Hz and wavelength 0.55 m. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q3</span>Find the wavelength of a wave with speed 110 m/s and frequency 22 Hz. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q4</span>Find the frequency of a wave with speed 220 m/s and wavelength 4.4 m. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q5</span>Find the speed of a wave with frequency 9 Hz and wavelength 2.2 m. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q6</span>Find the wavelength of a wave with speed 340 m/s and frequency 110 Hz. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q7</span>Find the frequency of a wave with speed 320 m/s and wavelength 10.5 m. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q8</span>Find the speed of a wave with frequency 16 Hz and wavelength 0.22 m. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q9</span>Find the wavelength of a wave with speed 55 m/s and frequency 27.5 Hz. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q10</span>Find the frequency of a wave with speed 340 m/s and wavelength 1.9 m. (Give your answer in Hz.)</li></ol>
+<h3 class="tier medium"><span class="tier-dot"></span>Medium</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Medium Q1</span>A wave has frequency 13 Hz and wavelength 2.7 m. Find its speed. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q2</span>A wave travels at 330 m/s with wavelength 4.2 m. Find its frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q3</span>A wave has speed 340 m/s and frequency 700 Hz. Find its wavelength. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q4</span>A wave's wavelength triples while its speed stays constant. Find the factor by which frequency changes.</li><li><span class="qtag" style="margin-right:6px;">Medium Q5</span>Two waves have the same speed (340 m/s) but frequencies 220 Hz and 440 Hz. Find the wavelength at 220 Hz. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q6</span>Find the wavelength at 440 Hz. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q7</span>A wave has wavelength 0.8 m and frequency 460 Hz. Find its speed. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q8</span>A rope wave travels at 16 m/s with wavelength 0.55 m. Find its frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q9</span>A radio wave (speed 3e8 m/s) has frequency 105 MHz. Find its wavelength. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q10</span>A sound wave has wavelength 1.6 m and travels at 340 m/s. Find its frequency. (Give your answer in Hz.)</li></ol>
+<h3 class="tier hard"><span class="tier-dot"></span>Hard</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Hard Q1</span>Two media support wave speeds of 340 m/s and 1450 m/s. A wave of frequency 520 Hz exists in both. Find the wavelength in the 340 m/s medium. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q2</span>Same wave: find the wavelength in the 1450 m/s medium. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q3</span>A guitar string vibrates at 440 Hz producing sound traveling through air (340 m/s). Find the sound wavelength in air. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q4</span>P-waves travel at 6.2 km/s and S-waves at 3.6 km/s. A seismograph 95 km away detects the arrival time difference. Find that difference. (Give your answer in s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q5</span>A wave pool generates waves with wavelength 3.2 m and period 2.1 s. Find the wave speed. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q6</span>Same wave: find the frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q7</span>A radio station broadcasts at 102.3 MHz. Find the wavelength using the speed of light. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q8</span>A sound wave at 20,000 Hz travels at 343 m/s. Find its wavelength. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q9</span>Find the wavelength of a 20 Hz wave at the same speed. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q10</span>A water wave has wavelength 4.2 m, period 2.6 s. Find its speed. (Give your answer in m/s.)</li></ol>
+<h3 class="tier challenge"><span class="tier-dot"></span>Challenge</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Challenge Q1</span>(Evaluate) A student claims that increasing a wave's amplitude increases its speed. Evaluate this claim, clarifying what actually determines wave speed for most simple wave types. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q2</span>(Create) Design a wave scenario (choose frequency and wavelength) such that the resulting speed is exactly 500 m/s, and verify your chosen values. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q3</span>(Evaluate/Create) A sound engineer wants to explain to a non-technical audience why the same musical note sounds different in air versus underwater in terms of its wavelength. Evaluate the physics involved, then create a simple, accurate explanation. Upload your written response.</li></ol>
+<h3 class="pset-heading">Synthesis Problems</h3>
+<p class="dayconnects">Connects: SHM (Ch.9), unit conversion (Ch.1), circular-motion period analogy (Ch.4/9).</p>
+
+
+<div class="problem"><span class="ptag">1</span><span class="ptag applied">Applied</span>
+<p>A wave source vibrates as SHM with period 0.02 s (connecting to Chapter 9), generating a wave that travels through a medium at 340 m/s. Find the wave's frequency (using the SHM-period relationship) and its wavelength.</p>
+<p class="connects">Connects: wave equation, SHM period-frequency relationship (Ch.9)</p></div>
+
+<div class="problem"><span class="ptag">2</span><span class="ptag evaluate">Evaluate</span>
+<p>A student claims that a wave's speed must increase if its source vibrates faster (higher frequency), "since faster vibration should mean faster wave." Evaluate this claim using the wave equation \(v=f\lambda\), explaining that wave speed is set by the medium and that increasing frequency (medium unchanged) instead changes wavelength.</p>
+<p class="connects">Connects: wave equation, evaluating a common source-frequency-vs-speed misconception</p></div>
+
+<div class="problem"><span class="ptag">3</span><span class="ptag applied">Applied</span>
+<p>A radio wave (speed \(3\times10^8\) m/s) has the same frequency as a mechanical oscillator that completes 100 MHz worth of cycles per second (i.e., matching frequencies). Find the radio wave's wavelength, and compare it (as a ratio) to the wavelength of a sound wave at the same frequency traveling at 340 m/s.</p>
+<p class="connects">Connects: wave equation, unit conversion (Ch.1), comparative ratio reasoning across wave types</p></div>
+
+<div class="problem"><span class="ptag">4</span><span class="ptag evaluate">Evaluate</span>
+<p>A geologist measures the time delay between P-waves (6.1 km/s) and S-waves (3.6 km/s) from an earthquake as 42 s at a seismograph station. Evaluate how this single time-delay measurement, combined with the two known wave speeds, allows the distance to the epicenter to be determined without needing to know the exact time the earthquake occurred.</p>
+<p class="connects">Connects: wave speed, evaluating an inference method using relative-arrival-time data</p></div>
+
+<div class="problem"><span class="ptag">5</span><span class="ptag applied">Applied</span>
+<p>A wave pool generates waves with wavelength 3.2 m and observed period 2.1 s (connecting the period concept from SHM, Ch.9, to a traveling wave's period). Find the wave speed and frequency.</p>
+<p class="connects">Connects: wave equation, period-frequency relationship (Ch.9)</p></div>
+
+
+<div class="problem"><span class="ptag">6</span><span class="ptag applied">Applied</span>
+<p>A wave source vibrates with period 0.025 s, generating a wave traveling at 320 m/s through its medium. Find the frequency and wavelength.</p>
+<p class="connects">Connects: wave equation, SHM period-frequency relationship (Ch.9)</p></div>
+
+<div class="problem"><span class="ptag">7</span><span class="ptag evaluate">Evaluate</span>
+<p>A student claims that two different media (say, water and air) supporting waves of the same frequency must also produce the same wavelength, "since frequency determines wavelength." Evaluate this claim using the wave equation, explaining what actually stays the same and what changes between media for waves of matched frequency.</p>
+<p class="connects">Connects: wave equation, evaluating a frequency-wavelength relationship misconception</p></div>
+
+<div class="problem"><span class="ptag">8</span><span class="ptag applied">Applied</span>
+<p>A radio wave matches the frequency of a mechanical oscillator vibrating at 105 MHz. Find the radio wave's wavelength (speed \(3\times10^8\) m/s), and compare it to a sound wave's wavelength at the same frequency (340 m/s).</p>
+<p class="connects">Connects: wave equation, unit conversion (Ch.1), comparative reasoning</p></div>
+
+<div class="problem"><span class="ptag">9</span><span class="ptag evaluate">Evaluate</span>
+<p>A geologist measures a 47 s delay between P-waves (6.2 km/s) and S-waves (3.6 km/s). Evaluate how this measurement alone (without knowing the earthquake's start time) determines the distance to the epicenter, and carry out that calculation.</p>
+<p class="connects">Connects: wave speed, evaluating an inference method using differential arrival times</p></div>
+
+<div class="problem"><span class="ptag">10</span><span class="ptag applied">Applied</span>
+<p>A wave pool generates waves with wavelength 3.4 m and period 2.2 s. Find the wave speed and frequency.</p>
+<p class="connects">Connects: wave equation, period-frequency relationship (Ch.9)</p></div>
+
+
+</div></div>
+<div class="day-anchor-wrap"><h2 id="class-day-31-superposition-interference-and-wave-types">Class
+Day 31: Superposition, Interference, and Wave Types</h2>
+<h3 id="why-this-matters-29">Why this matters</h3>
+<p>When two or more waves occupy the same space at the same time,
+something remarkably simple happens: their effects just add together.
+This single idea, the principle of superposition, explains everything
+from noise-canceling headphones to the complex tone of a musical
+chord.</p>
+<h3 id="the-principle-of-superposition">The principle of
+superposition</h3>
+<p>When waves overlap, the total displacement at any point and any
+instant is simply the <em>sum</em> of the individual displacements each
+wave would have produced on its own, as if the other waves weren’t there
+at all. Two special cases are worth naming:</p>
+<ul>
+<li><strong>Constructive interference</strong>: waves arrive <em>in
+phase</em> (crests aligning with crests), and their amplitudes add,
+producing a larger combined wave.</li>
+<li><strong>Destructive interference</strong>: waves arrive <em>out of
+phase</em> (crest aligning with trough), and their amplitudes subtract,
+potentially canceling out almost entirely if the amplitudes are
+equal.</li>
+</ul>
+<p><strong>Worked example:</strong> Two waves of amplitude 6 cm and 4 cm
+interfere constructively. Find the resulting amplitude.</p>
+<p>Constructive interference simply adds the amplitudes directly (when
+perfectly in phase): (6+4=10) cm.</p>
+<h3 id="real-world-application-noise-canceling-headphones">Real-world
+application: noise-canceling headphones</h3>
+<p>This technology is a direct, practical application of destructive
+interference: a microphone detects incoming ambient noise, and the
+headphones generate a new sound wave that is the <em>same</em> amplitude
+but precisely <em>out of phase</em> with that noise. When the two waves
+superpose at your ear, they very nearly cancel out, leaving near-silence
+where the ambient noise used to be — this is engineering built entirely
+on the superposition principle.</p>
+<h3 id="transverse-vs.-longitudinal-waves">Transverse vs. longitudinal
+waves</h3>
+<p>This is a classification based on the relationship between the
+<em>oscillation direction</em> and the <em>direction the wave
+travels</em>:</p>
+<ul>
+<li><strong>Transverse waves</strong>: the medium oscillates
+<em>perpendicular</em> to the direction of wave travel (waves on a
+string; light).</li>
+<li><strong>Longitudinal waves</strong>: the medium oscillates
+<em>parallel</em> to (along) the direction of wave travel (sound; a
+Slinky pushed and pulled along its length).</li>
+</ul>
+<p>A Slinky is a great physical demonstration of both: shake one end
+side-to-side, and a transverse wave travels down it; instead
+push-and-pull one end along its length, and a longitudinal (compression)
+wave travels down it instead.</p>
+<h3 id="common-mistake-to-watch-for-28">Common mistake to watch for</h3>
+<p>Assuming destructive interference “destroys” the energy carried by
+the interfering waves. It doesn’t — energy is still conserved overall;
+destructive interference at one specific location is typically
+accompanied by <em>extra</em> constructive interference somewhere else
+nearby (energy is redistributed in space, not annihilated).</p>
+<h3 id="key-formulas-and-facts-for-this-day-29">Key formulas and facts
+for this day</h3>
+<ul>
+<li>Superposition: overlapping waves simply add their displacements at
+every point.</li>
+<li>Constructive interference (in phase) increases amplitude;
+destructive interference (out of phase) decreases or cancels it.</li>
+<li>Transverse waves oscillate perpendicular to travel direction
+(string, light); longitudinal waves oscillate parallel to travel
+direction (sound).</li>
+</ul>
+<hr />
+<div class="probsets">
+<h3 class="pset-heading">Reading</h3>
+<ol class="rawlist"><li>The principle of superposition states what about overlapping waves?</li><li>Constructive interference occurs when waves are in what relative phase?</li><li>Destructive interference occurs when waves are in what relative phase?</li><li>Transverse waves oscillate in what direction relative to propagation?</li><li>Longitudinal waves oscillate in what direction relative to propagation?</li><li>Sound waves are classified as which wave type?</li><li>Waves on a string are classified as which wave type?</li><li>Noise-canceling headphones use which interference type to reduce sound?</li><li>Two waves of equal amplitude interfering perfectly destructively produce what resulting amplitude?</li><li>A Slinky can demonstrate both wave types depending on how it is shaken. Which motion produces a longitudinal wave?</li></ol>
+<h3 class="pset-heading">Assignments</h3>
+<h3 class="tier easy"><span class="tier-dot"></span>Easy</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Easy Q1</span>Two waves of amplitude 3 cm interfere constructively. Find the resulting amplitude. (Give your answer in cm.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q2</span>Two waves of amplitude 3 cm interfere destructively (equal, opposite). Find the resulting amplitude. (Give your answer in cm.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q3</span>Two waves of amplitude 5 cm interfere constructively. Find the resulting amplitude. (Give your answer in cm.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q4</span>Two waves of amplitude 4 cm and 4 cm interfere destructively. Find the resulting amplitude. (Give your answer in cm.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q5</span>Two waves of amplitude 2 cm interfere constructively. Find the resulting amplitude. (Give your answer in cm.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q6</span>Classify sound waves as transverse or longitudinal.</li><li><span class="qtag" style="margin-right:6px;">Easy Q7</span>Classify waves on a string as transverse or longitudinal.</li><li><span class="qtag" style="margin-right:6px;">Easy Q8</span>Classify water waves as transverse or longitudinal.</li><li><span class="qtag" style="margin-right:6px;">Easy Q9</span>Classify a Slinky's push-pull compressional wave as transverse or longitudinal.</li><li><span class="qtag" style="margin-right:6px;">Easy Q10</span>State what "superposition" means for overlapping waves in one sentence. Upload your written response.</li></ol>
+<h3 class="tier medium"><span class="tier-dot"></span>Medium</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Medium Q1</span>Two waves of amplitude 6 cm and 4 cm interfere constructively. Find the resulting amplitude. (Give your answer in cm.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q2</span>Two waves of amplitude 7 cm and 7 cm interfere destructively. Find the resulting amplitude. (Give your answer in cm.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q3</span>Two identical waves of amplitude 8 cm arrive exactly out of phase at a point. Find the resulting amplitude. (Give your answer in cm.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q4</span>Classify a P-wave (primary seismic wave, compressional) as transverse or longitudinal.</li><li><span class="qtag" style="margin-right:6px;">Medium Q5</span>Classify an S-wave (secondary seismic wave, shear) as transverse or longitudinal.</li><li><span class="qtag" style="margin-right:6px;">Medium Q6</span>Explain, using superposition, why two speakers playing the same tone in phase produce a louder sound at a listener's location than one speaker alone. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Medium Q7</span>Two waves of amplitude 5 cm and 2 cm overlap partially out of phase. Discuss qualitatively what range of resulting amplitudes is possible. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Medium Q8</span>Explain why noise-canceling headphones must generate a sound wave that is precisely out of phase with incoming noise to be effective. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Medium Q9</span>Explain the physical meaning of "no wave" at the point of exactly-out-of-phase interference (from Q8). Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Medium Q10</span>Explain why a guitar string vibrating with the third harmonic superimposed on the fundamental produces a more complex sound than either alone. Upload your written response.</li></ol>
+<h3 class="tier hard"><span class="tier-dot"></span>Hard</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Hard Q1</span>A noise-canceling headphone system generates a canceling wave with the same phase (opposite) but only 90% of the ambient noise's amplitude. Find the resulting residual sound's amplitude, expressed as a fraction (0 to 1) of the original noise amplitude.</li><li><span class="qtag" style="margin-right:6px;">Hard Q2</span>Two speakers, playing identical tones in phase, are positioned such that a listener at one point receives sound waves that have traveled slightly different path lengths, arriving exactly out of phase due to the path difference. Explain, conceptually, why this specific listener location experiences a quiet spot even though both speakers are actively playing. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Hard Q3</span>Two identical waves overlap with a phase difference corresponding to exactly one-quarter wavelength path difference. Describe qualitatively whether the resulting amplitude is closer to the fully constructive or fully destructive extreme, or roughly in between. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Hard Q4</span>A double-slit-like setup has two wave sources emitting in phase. At a point equidistant from both sources, explain why constructive interference always occurs there, regardless of wavelength. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Hard Q5</span>Explain, using superposition, why a piano chord sounds different from any single note alone, even though each string's individual wave is unchanged by the others' presence. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Hard Q6</span>A shear wave (S-wave, transverse) and a compressional wave (P-wave, longitudinal) from the same earthquake both pass through a rock formation. Explain why the P-wave typically arrives first. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Hard Q7</span>Two sound waves of slightly different frequencies (440 Hz and 442 Hz) overlap, producing a phenomenon called "beats." Discuss, conceptually, why this occurs, connecting it to superposition. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Hard Q8</span>Explain why ocean waves approaching a harbor entrance from two different directions can create both unusually large waves and unusually calm patches at different points near the entrance. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Hard Q9</span>A physics demonstration shows two identical tuning forks, one slightly detuned from the other, producing an audible "wah-wah" beating sound. Explain this phenomenon using superposition. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Hard Q10</span>Discuss why active noise-canceling technology is generally more effective at canceling low-frequency noise than high-frequency noise. Upload your written response.</li></ol>
+<h3 class="tier challenge"><span class="tier-dot"></span>Challenge</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Challenge Q1</span>(Evaluate) A student claims that destructive interference "destroys" the energy of the interfering waves. Evaluate this claim, clarifying what actually happens to the energy in a region of destructive interference. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q2</span>(Create) Design a two-wave interference scenario (choose amplitudes and phase relationship) such that the resulting amplitude is exactly 50% of what perfect constructive interference would produce. Verify your chosen values. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q3</span>(Evaluate/Create) A concert hall acoustics consultant is asked to identify and fix a "dead spot" in a specific seating area. Evaluate what physical changes could address this issue, then create a recommendation. Upload your written response.</li></ol>
+<h3 class="pset-heading">Homework</h3>
+<h3 class="tier easy"><span class="tier-dot"></span>Easy</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Easy Q1</span>Two waves of amplitude 3.5 cm interfere constructively. Find the resulting amplitude. (Give your answer in cm.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q2</span>Two waves of amplitude 3.5 cm interfere destructively. Find the resulting amplitude. (Give your answer in cm.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q3</span>Two waves of amplitude 5.5 cm interfere constructively. Find the resulting amplitude. (Give your answer in cm.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q4</span>Two waves of amplitude 4.5 cm and 4.5 cm interfere destructively. Find the resulting amplitude. (Give your answer in cm.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q5</span>Two waves of amplitude 2.5 cm interfere constructively. Find the resulting amplitude. (Give your answer in cm.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q6</span>Classify sound waves as transverse or longitudinal.</li><li><span class="qtag" style="margin-right:6px;">Easy Q7</span>Classify waves on a string as transverse or longitudinal.</li><li><span class="qtag" style="margin-right:6px;">Easy Q8</span>Classify water waves as transverse or longitudinal.</li><li><span class="qtag" style="margin-right:6px;">Easy Q9</span>Classify a Slinky's push-pull wave as transverse or longitudinal.</li><li><span class="qtag" style="margin-right:6px;">Easy Q10</span>State what "superposition" means in one sentence. Upload your written response.</li></ol>
+<h3 class="tier medium"><span class="tier-dot"></span>Medium</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Medium Q1</span>Two waves of amplitude 6.5 cm and 4.5 cm interfere constructively. Find the resulting amplitude. (Give your answer in cm.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q2</span>Two waves of amplitude 7.5 cm and 7.5 cm interfere destructively. Find the resulting amplitude. (Give your answer in cm.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q3</span>Two identical waves of amplitude 8.5 cm arrive exactly out of phase. Find the resulting amplitude. (Give your answer in cm.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q4</span>Classify a P-wave as transverse or longitudinal.</li><li><span class="qtag" style="margin-right:6px;">Medium Q5</span>Classify an S-wave as transverse or longitudinal.</li><li><span class="qtag" style="margin-right:6px;">Medium Q6</span>Explain why two speakers playing the same tone in phase produce louder sound than one alone. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Medium Q7</span>Two waves of amplitude 5.5 cm and 2.5 cm overlap partially out of phase. Discuss the possible resulting amplitude range. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Medium Q8</span>Explain why noise-canceling headphones must generate a wave precisely out of phase with incoming noise. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Medium Q9</span>Explain the physical meaning of the zero-amplitude result from Q8. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Medium Q10</span>Explain why a guitar string's third harmonic superimposed on the fundamental produces a more complex sound. Upload your written response.</li></ol>
+<h3 class="tier hard"><span class="tier-dot"></span>Hard</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Hard Q1</span>A noise-canceling system generates a canceling wave at 92% of the noise's amplitude (opposite phase). Find the resulting residual amplitude as a fraction (0 to 1) of the original.</li><li><span class="qtag" style="margin-right:6px;">Hard Q2</span>Two speakers playing identical in-phase tones create a quiet spot at a listener location due to path-length-induced destructive interference. Explain why this occurs. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Hard Q3</span>Two identical waves overlap with a phase difference of one-quarter wavelength. Describe whether the resulting amplitude is closer to constructive or destructive, or in between. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Hard Q4</span>Two in-phase wave sources create constructive interference at a point equidistant from both. Explain why this always occurs there regardless of wavelength. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Hard Q5</span>Explain why a piano chord sounds different from any single note, using superposition. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Hard Q6</span>An S-wave and P-wave from the same earthquake pass through rock. Explain why the P-wave typically arrives first. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Hard Q7</span>Two sound waves of 438 Hz and 440 Hz overlap, producing beats. Discuss why this occurs using superposition. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Hard Q8</span>Explain why ocean waves from two directions create both large waves and calm patches near a harbor entrance. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Hard Q9</span>Two slightly detuned tuning forks produce an audible beating sound. Explain this using superposition. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Hard Q10</span>Discuss why active noise-canceling is more effective at low frequencies than high frequencies. Upload your written response.</li></ol>
+<h3 class="tier challenge"><span class="tier-dot"></span>Challenge</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Challenge Q1</span>(Evaluate) A student claims that destructive interference "destroys" the energy of the interfering waves. Evaluate this claim, clarifying what actually happens to the energy in a region of destructive interference. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q2</span>(Create) Design a two-wave interference scenario (choose amplitudes and phase relationship) such that the resulting amplitude is exactly 50% of what perfect constructive interference would produce. Verify your chosen values. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q3</span>(Evaluate/Create) A concert hall acoustics consultant is asked to identify and fix a "dead spot" in a specific seating area. Evaluate what physical changes could address this issue, then create a recommendation. Upload your written response.</li></ol>
+<h3 class="pset-heading">Synthesis Problems</h3>
+<p class="dayconnects">Connects: wave properties (Day 30), SHM (Ch.9), energy conservation ideas (Ch.7).</p>
+
+
+<div class="problem"><span class="ptag">1</span><span class="ptag applied">Applied</span>
+<p>A noise-canceling headphone system detects ambient noise (amplitude \(A\)) and generates a canceling wave with the same frequency but only 92% of the amplitude, precisely out of phase. Find the resulting residual sound's amplitude as a fraction of the original noise amplitude, and (connecting to Day 34's decibel concept, previewed here) discuss qualitatively whether an 8% amplitude residual corresponds to an 8% reduction in perceived loudness.</p>
+<p class="connects">Connects: interference/superposition, forward-looking to decibels (Day 34), evaluating amplitude-vs-perception</p></div>
+
+<div class="problem"><span class="ptag">2</span><span class="ptag evaluate">Evaluate</span>
+<p>A student claims destructive interference "destroys" the energy carried by the two interfering waves at the point where they cancel. Evaluate this claim using conservation of energy (Ch.7), explaining where that energy actually goes in a real interference pattern (hint: consider the full spatial pattern, not just the single canceling point).</p>
+<p class="connects">Connects: interference, conservation of energy (Ch.7), evaluating a common misconception</p></div>
+
+<div class="problem"><span class="ptag">3</span><span class="ptag applied">Applied</span>
+<p>Two sound waves of slightly different frequencies (440 Hz and 443 Hz) overlap, producing "beats." Find the beat frequency (the difference between the two source frequencies), and find the corresponding beat period, connecting this periodic loudness variation to the period concept from SHM (Ch.9).</p>
+<p class="connects">Connects: superposition/beats, frequency-period relationship (Ch.9)</p></div>
+
+<div class="problem"><span class="ptag">4</span><span class="ptag evaluate">Evaluate</span>
+<p>A concert hall acoustics consultant is asked to fix a "dead spot" (a location with unusually quiet sound) in a specific seating area, caused by destructive interference between direct and reflected sound. Evaluate at least two distinct physical approaches (e.g., altering path-length differences, or adding absorptive material to reduce the reflected wave's amplitude) that could address this issue, and briefly discuss their respective mechanisms in terms of interference conditions.</p>
+<p class="connects">Connects: interference, evaluating applied acoustic-engineering solutions</p></div>
+
+<div class="problem"><span class="ptag">5</span><span class="ptag applied">Applied</span>
+<p>A shear wave (S-wave, transverse) and a compressional wave (P-wave, longitudinal) are both generated by the same earthquake and pass through the same rock formation. Given typical speeds of 3.6 km/s and 6.1 km/s respectively, find which arrives first at a station 180 km away and by how much time, connecting this back to the wave-speed concepts from Day 30.</p>
+<p class="connects">Connects: wave types (transverse/longitudinal), wave speed (Day 30), applied seismology context</p></div>
+
+
+<div class="problem"><span class="ptag">6</span><span class="ptag applied">Applied</span>
+<p>A noise-canceling system generates a canceling wave at 94% of the noise's amplitude, opposite phase. Find the resulting residual amplitude as a fraction of the original, and discuss (qualitatively) the difference between "94% amplitude match" and "94% noise reduction perceived."</p>
+<p class="connects">Connects: interference, forward-looking to decibels (Day 34), evaluating amplitude-vs-perception distinction</p></div>
+
+<div class="problem"><span class="ptag">7</span><span class="ptag evaluate">Evaluate</span>
+<p>A student claims that destructive interference between two waves of different amplitudes (say, 3 cm and 5 cm) can produce a perfectly silent (zero amplitude) point, "just like with equal amplitudes." Evaluate this claim, explaining what condition on the two amplitudes is actually required for perfect cancellation, and identify the minimum possible resultant amplitude for these specific two waves.</p>
+<p class="connects">Connects: interference/superposition, evaluating the precise conditions for perfect cancellation</p></div>
+
+<div class="problem"><span class="ptag">8</span><span class="ptag applied">Applied</span>
+<p>Two sound waves of 438 Hz and 441 Hz overlap, producing beats. Find the beat frequency and beat period.</p>
+<p class="connects">Connects: superposition/beats, frequency-period relationship (Ch.9)</p></div>
+
+<div class="problem"><span class="ptag">9</span><span class="ptag evaluate">Evaluate</span>
+<p>A concert hall consultant must address a dead spot caused by destructive interference. Evaluate the tradeoffs between fixing it via geometric changes (moving a reflecting surface to change path-length differences) versus acoustic treatment (absorptive panels), considering practicality and cost in a real venue.</p>
+<p class="connects">Connects: interference, evaluating practical engineering tradeoffs</p></div>
+
+<div class="problem"><span class="ptag">10</span><span class="ptag applied">Applied</span>
+<p>An S-wave (3.55 km/s) and P-wave (6.2 km/s) from the same earthquake travel to a station 190 km away. Find which arrives first and by how much time.</p>
+<p class="connects">Connects: wave types, wave speed (Day 30), applied seismology context</p></div>
+
+
+</div></div>
+<div class="day-anchor-wrap"><h2 id="class-day-32-traveling-and-standing-waves">Class Day 32:
+Traveling and Standing Waves</h2>
+<h3 id="why-this-matters-30">Why this matters</h3>
+<p>Most waves you can directly picture (ripples spreading outward, a
+wave on a rope you shake) are traveling waves — they carry a moving
+pattern from one place to another. But when a wave reflects and overlaps
+with itself, something quite different can emerge: a standing wave,
+which appears to oscillate in place rather than travel anywhere.</p>
+<h3 id="how-standing-waves-arise">How standing waves arise</h3>
+<p>A standing wave is the direct result of superposition (Day 2) applied
+to two identical waves traveling in <em>opposite</em> directions —
+commonly, a wave traveling one direction and its own reflection
+traveling back the other way, along the same medium (like a string fixed
+at both ends). Where these two oppositely-traveling waves consistently
+cancel, you get a fixed point of zero motion, called a
+<strong>node</strong>; where they consistently reinforce, you get a
+point of maximum oscillation, called an <strong>antinode</strong>.
+Unlike a traveling wave, the overall pattern of nodes and antinodes
+stays fixed in place, even as the medium at each antinode continues
+oscillating up and down.</p>
+<h3 id="normal-modes-on-a-fixed-string">Normal modes on a fixed
+string</h3>
+<p>A string fixed at both ends (like a guitar string) must have a node
+at each fixed end (since those points genuinely cannot move). This
+constraint means only specific, discrete wavelengths can “fit” on the
+string — not just any wavelength will do. The lowest-frequency mode that
+fits, called the <strong>fundamental</strong> (or first harmonic), has
+the <em>longest</em> possible wavelength consistent with nodes at both
+ends: exactly twice the string’s length, \(\lambda_1=2L\). Higher modes (second
+harmonic, third harmonic, etc.) fit progressively shorter wavelengths,
+each an integer fraction of that fundamental wavelength.</p>
+<p><strong>Worked example:</strong> A guitar string of length 0.65 m is
+tuned so its fundamental frequency is 330 Hz. Find the wave speed on the
+string.</p>
+<p>Fundamental wavelength: (_1=2L=2(0.65)=1.3) m. Using the wave
+equation from Day 1:</p>
+<p><span class="math display">\[v = f\lambda = 330(1.3) = 429\text{
+m/s}\]</span></p>
+<h3 id="common-mistake-to-watch-for-29">Common mistake to watch for</h3>
+<p>Thinking a standing wave transports no energy at all, anywhere. In
+the idealized (lossless) case, energy doesn’t travel <em>net</em> from
+one end of the standing wave pattern to the other, but energy is still
+actively oscillating back and forth locally between kinetic and
+potential forms at each antinode — “standing” describes the fixed
+spatial pattern, not a complete absence of motion or energy within the
+system.</p>
+<h3 id="key-formulas-and-facts-for-this-day-30">Key formulas and facts
+for this day</h3>
+<ul>
+<li>A standing wave arises from superposition of two identical waves
+traveling in opposite directions (commonly, a wave and its own
+reflection).</li>
+<li>Nodes (fixed, zero-motion points) and antinodes (maximum-oscillation
+points) define the standing wave pattern, which does not itself
+travel.</li>
+<li>A string fixed at both ends supports discrete normal modes; the
+fundamental has wavelength \(\lambda_1=2L\), the longest wavelength consistent
+with nodes at both ends.</li>
+</ul>
+<hr />
+<div class="probsets">
+<h3 class="pset-heading">Reading</h3>
+<ol class="rawlist"><li>A standing wave arises from the superposition of which two types of traveling waves?</li><li>A node on a standing wave is a point that does what?</li><li>An antinode on a standing wave is a point that does what?</li><li>A string fixed at both ends must have what at each end?</li><li>The fundamental (first harmonic) has how many antinodes for a string fixed at both ends?</li><li>A traveling wave, unlike a standing wave, does what?</li><li>An air column closed at one end supports which type of harmonics?</li><li>An air column open at both ends supports which type of harmonics?</li><li>The fundamental wavelength for a string of length L fixed at both ends is given by which formula?</li><li>A standing wave, in the idealized (lossless) case, transports what along the medium?</li></ol>
+<h3 class="pset-heading">Assignments</h3>
+<h3 class="tier easy"><span class="tier-dot"></span>Easy</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Easy Q1</span>Find the fundamental wavelength for a string of length 1 m fixed at both ends. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q2</span>Find the fundamental wavelength for a string of length 2 m fixed at both ends. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q3</span>Find the fundamental frequency for a string of length 1 m with wave speed 100 m/s. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q4</span>Find the fundamental frequency for a string of length 0.5 m with wave speed 200 m/s. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q5</span>State the number of nodes for the fundamental mode of a string fixed at both ends (including the fixed ends).</li><li><span class="qtag" style="margin-right:6px;">Easy Q6</span>State the number of antinodes for the fundamental mode.</li><li><span class="qtag" style="margin-right:6px;">Easy Q7</span>Find the fundamental wavelength for a string of length 1.5 m fixed at both ends. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q8</span>Find the fundamental frequency for a string of length 2 m with wave speed 300 m/s. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q9</span>State whether a standing wave transports energy from one point to another (in the idealized, lossless sense). Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Easy Q10</span>State the relationship between a standing wave and two traveling waves. Upload your written response.</li></ol>
+<h3 class="tier medium"><span class="tier-dot"></span>Medium</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Medium Q1</span>Find the fundamental wavelength for a string of length 1.8 m fixed at both ends. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q2</span>Find the fundamental frequency for a string of length 1.2 m with wave speed 180 m/s. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q3</span>Find the wavelength of the second harmonic for a string of length 1 m fixed at both ends. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q4</span>Find the wavelength of the third harmonic for a string of length 1.5 m fixed at both ends. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q5</span>An air column closed at one end has length 0.5 m. Find its fundamental wavelength (4L for closed-open pipe). (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q6</span>An air column open at both ends has length 1 m. Find its fundamental wavelength (2L for open-open pipe). (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q7</span>A guitar string of length 0.65 m has fundamental frequency 330 Hz. Find the wave speed. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q8</span>Find the second harmonic frequency for a string of length 1 m with wave speed 200 m/s. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q9</span>A string fixed at both ends has fundamental frequency 100 Hz. Find the frequency of the third harmonic. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q10</span>An air column closed at one end has fundamental frequency 170 Hz. Find the frequency of the next (third) harmonic. (Give your answer in Hz.)</li></ol>
+<h3 class="tier hard"><span class="tier-dot"></span>Hard</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Hard Q1</span>A string of length 0.8 m fixed at both ends is tuned so that its second harmonic frequency is 440 Hz. Find the fundamental frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q2</span>Same string: find the wave speed. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q3</span>An air column closed at one end has a fundamental frequency of 150 Hz. Find the length of the air column, given the speed of sound is 340 m/s. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q4</span>A string's third harmonic has frequency 900 Hz. Find the fundamental frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q5</span>If the string length is 1 m, find the wave speed. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q6</span>An open-open air column has a fundamental frequency of 200 Hz with the speed of sound at 340 m/s. Find the length of the column. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q7</span>A guitar string is shortened (by pressing a fret) from 0.65 m to 0.5 m, keeping wave speed constant. Find the new fundamental frequency, given the original was 330 Hz. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q8</span>A string of unknown length fixed at both ends has a fundamental frequency of 220 Hz and wave speed 275 m/s. Find the string's length. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q9</span>A closed-open air column's fundamental frequency is measured at 128 Hz (speed of sound 340 m/s). Find its length. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q10</span>Same air column: find the frequency of its next harmonic. (Give your answer in Hz.)</li></ol>
+<h3 class="tier challenge"><span class="tier-dot"></span>Challenge</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Challenge Q1</span>(Evaluate) A student claims that a standing wave "doesn't move at all," implying it carries no energy anywhere. Evaluate this claim, clarifying what physically happens at nodes and antinodes. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q2</span>(Create) Design a string standing-wave scenario (choose string length and wave speed) such that the third harmonic frequency is exactly 600 Hz. Verify your chosen values. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q3</span>(Evaluate/Create) A musical instrument designer wants a wind instrument (modeled as a closed-open air column) to produce a fundamental note of exactly 440 Hz. Evaluate the required air column length given the speed of sound (343 m/s), then create a design specification including the next two harmonics. Upload your written response.</li></ol>
+<h3 class="pset-heading">Homework</h3>
+<h3 class="tier easy"><span class="tier-dot"></span>Easy</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Easy Q1</span>Find the fundamental wavelength for a string of length 1.2 m fixed at both ends. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q2</span>Find the fundamental wavelength for a string of length 2.2 m fixed at both ends. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q3</span>Find the fundamental frequency for a string of length 1.1 m with wave speed 110 m/s. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q4</span>Find the fundamental frequency for a string of length 0.55 m with wave speed 220 m/s. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q5</span>State the number of nodes for the fundamental mode (including fixed ends).</li><li><span class="qtag" style="margin-right:6px;">Easy Q6</span>State the number of antinodes for the fundamental mode.</li><li><span class="qtag" style="margin-right:6px;">Easy Q7</span>Find the fundamental wavelength for a string of length 1.7 m fixed at both ends. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q8</span>Find the fundamental frequency for a string of length 2.2 m with wave speed 320 m/s. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q9</span>State whether an idealized standing wave transports energy from point to point. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Easy Q10</span>State the relationship between a standing wave and two traveling waves. Upload your written response.</li></ol>
+<h3 class="tier medium"><span class="tier-dot"></span>Medium</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Medium Q1</span>Find the fundamental wavelength for a string of length 1.9 m fixed at both ends. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q2</span>Find the fundamental frequency for a string of length 1.3 m with wave speed 185 m/s. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q3</span>Find the wavelength of the second harmonic for a string of length 1.1 m fixed at both ends. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q4</span>Find the wavelength of the third harmonic for a string of length 1.6 m fixed at both ends. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q5</span>An air column closed at one end has length 0.55 m. Find its fundamental wavelength. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q6</span>An air column open at both ends has length 1.1 m. Find its fundamental wavelength. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q7</span>A guitar string of length 0.67 m has fundamental frequency 335 Hz. Find the wave speed. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q8</span>Find the second harmonic frequency for a string of length 1.1 m with wave speed 210 m/s. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q9</span>A string fixed at both ends has fundamental frequency 105 Hz. Find the third harmonic frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q10</span>An air column closed at one end has fundamental frequency 172 Hz. Find the next (third) harmonic frequency. (Give your answer in Hz.)</li></ol>
+<h3 class="tier hard"><span class="tier-dot"></span>Hard</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Hard Q1</span>A string of length 0.85 m fixed at both ends has second harmonic frequency 445 Hz. Find the fundamental frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q2</span>Same string: find the wave speed. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q3</span>An air column closed at one end has fundamental frequency 155 Hz. Find its length (speed of sound 340 m/s). (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q4</span>A string's third harmonic has frequency 910 Hz. Find the fundamental frequency. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q5</span>If the string is 1.05 m, find the wave speed. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q6</span>An open-open air column has fundamental frequency 205 Hz (speed of sound 340 m/s). Find the length. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q7</span>A guitar string is shortened from 0.67 m to 0.52 m at constant wave speed. Find the new fundamental frequency, given the original was 335 Hz. (Give your answer in Hz.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q8</span>A string fixed at both ends has fundamental frequency 225 Hz and wave speed 280 m/s. Find the string's length. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q9</span>A closed-open air column's fundamental frequency is 132 Hz (speed of sound 340 m/s). Find its length. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q10</span>Same air column: find the next harmonic frequency. (Give your answer in Hz.)</li></ol>
+<h3 class="tier challenge"><span class="tier-dot"></span>Challenge</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Challenge Q1</span>(Evaluate) A student claims that a standing wave "doesn't move at all," implying it carries no energy anywhere. Evaluate this claim, clarifying what physically happens at nodes and antinodes. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q2</span>(Create) Design a string standing-wave scenario (choose string length and wave speed) such that the third harmonic frequency is exactly 600 Hz. Verify your chosen values. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q3</span>(Evaluate/Create) A musical instrument designer wants a wind instrument (modeled as a closed-open air column) to produce a fundamental note of exactly 440 Hz. Evaluate the required air column length given the speed of sound (343 m/s), then create a design specification including the next two harmonics. Upload your written response.</li></ol>
+<h3 class="pset-heading">Synthesis Problems</h3>
+<p class="dayconnects">Connects: superposition (Day 31), wave properties (Day 30), SHM/period concepts (Ch.9).</p>
+
+
+<div class="problem"><span class="ptag">1</span><span class="ptag applied">Applied</span>
+<p>A guitar string of length 0.66 m is tuned so its fundamental frequency is 329.6 Hz (the note E). Find the wave speed on the string, and find the frequency of the string's third harmonic, connecting to the harmonic-series concept.</p>
+<p class="connects">Connects: standing waves, wave equation (Day 30), harmonic-series structure</p></div>
+
+<div class="problem"><span class="ptag">2</span><span class="ptag evaluate">Evaluate</span>
+<p>A student claims a standing wave "doesn't move at all, so it can't carry energy anywhere, ever." Evaluate this claim carefully, distinguishing between "no net energy transport along the medium" (true in the idealized lossless case) and "no motion or energy anywhere in the wave" (false, since antinodes actively oscillate with real kinetic and potential energy).</p>
+<p class="connects">Connects: standing waves, energy conservation (Ch.7), evaluating a subtle misconception</p></div>
+
+<div class="problem"><span class="ptag">3</span><span class="ptag applied">Applied</span>
+<p>A closed-open air column (like an organ pipe closed at one end) has a fundamental frequency of 132 Hz, using a speed of sound of 340 m/s. Find the column's length, then find the frequency of its next available harmonic (recall only odd harmonics exist for a closed-open pipe), connecting to the harmonic-series restriction discussed in this chapter.</p>
+<p class="connects">Connects: standing waves in air columns, wave speed (Day 30), harmonic-series structure</p></div>
+
+<div class="problem"><span class="ptag">4</span><span class="ptag evaluate">Evaluate</span>
+<p>A musical instrument designer wants a closed-open air column instrument to produce a fundamental note of exactly 440 Hz (concert A). Evaluate the required air column length (speed of sound 343 m/s), then create a design specification including the length and the frequencies of the next two available harmonics, explaining why a closed-open pipe skips every other harmonic compared to an open-open pipe of similar design.</p>
+<p class="connects">Connects: standing waves, harmonic-series design, evaluating and creating a design specification</p></div>
+
+<div class="problem"><span class="ptag">5</span><span class="ptag applied">Applied</span>
+<p>A guitar string is shortened (by pressing a fret) from 0.65 m to 0.49 m, keeping wave speed constant at 429 m/s (from an original fundamental frequency of 330 Hz). Find the new fundamental frequency, and (connecting to the beat-frequency idea from Day 31) find the beat frequency if this shortened string is played simultaneously with an unfretted, identical string still at 330 Hz.</p>
+<p class="connects">Connects: standing waves, superposition/beats (Day 31), applied musical-instrument context</p></div>
+
+
+<div class="problem"><span class="ptag">6</span><span class="ptag applied">Applied</span>
+<p>A guitar string of length 0.68 m has a fundamental frequency of 246.9 Hz (the note B). Find the wave speed on the string and the frequency of its third harmonic.</p>
+<p class="connects">Connects: standing waves, wave equation (Day 30), harmonic-series structure</p></div>
+
+<div class="problem"><span class="ptag">7</span><span class="ptag evaluate">Evaluate</span>
+<p>A student claims a standing wave pattern with many nodes "has less energy than one with fewer nodes," assuming more nodes automatically means less overall vibration. Evaluate this claim, clarifying that the total energy of a standing wave actually depends on amplitude and frequency (harmonic number), not simply the number of nodes, using a specific comparison between the 2nd and 4th harmonics of the same string at matched amplitude.</p>
+<p class="connects">Connects: standing waves, evaluating a node-count-vs-energy misconception</p></div>
+
+<div class="problem"><span class="ptag">8</span><span class="ptag applied">Applied</span>
+<p>A closed-open air column has a fundamental frequency of 128 Hz (speed of sound 340 m/s). Find the column's length and the frequency of its next available harmonic.</p>
+<p class="connects">Connects: standing waves in air columns, wave speed (Day 30), harmonic-series structure</p></div>
+
+<div class="problem"><span class="ptag">9</span><span class="ptag evaluate">Evaluate</span>
+<p>A musical instrument designer wants an open-open air column instrument (open at both ends) producing a fundamental of 440 Hz. Evaluate the required length (speed of sound 343 m/s), create a design specification including the next two harmonics, and explain why an open-open pipe's harmonic series differs from the closed-open case from the in-class problems.</p>
+<p class="connects">Connects: standing waves, harmonic-series design, evaluating/creating with a contrasting boundary condition</p></div>
+
+<div class="problem"><span class="ptag">10</span><span class="ptag applied">Applied</span>
+<p>A guitar string is shortened from 0.67 m to 0.52 m at constant wave speed (from an original fundamental frequency of 335 Hz at 448.9 m/s). Find the new fundamental frequency, and the beat frequency if played alongside the unfretted string.</p>
+<p class="connects">Connects: standing waves, superposition/beats (Day 31), applied musical context</p></div>
+
+
+</div></div>
+</div></main>
+</div>
+</body>
+</html>

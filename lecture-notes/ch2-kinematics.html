@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 2: One-Dimensional Kinematics - PHYS203 Extended Lecture Notes</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]'], ['$$', '$$']] },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="assets/tex-svg.js"></script>
+
+<style>
+:root{
+  --ink:#f3ede0; --ink-dim:#a89f8c; --paper:#171a21; --bg:#0f1115;
+  --line:#2a2e38; --accent:#e8a13a; --easy:#6fae8f; --medium:#e8a13a;
+  --hard:#e2725b; --challenge:#9fb3e0; --tag-bg:#1d212b;
+}
+body { margin:0; background: #1d2230; color:var(--ink); font-family:Georgia,'Times New Roman',serif; }
+.shell { display:flex; min-height:100vh; }
+.sidebar {
+  width:280px; flex-shrink:0; background:#0b0d11; color:var(--ink); padding:22px 0 60px;
+  position:fixed; top:0; left:0; bottom:0; overflow-y:auto; font-family:'Courier New',monospace;
+}
+.sidebar .brand { padding:0 22px 18px; font-family:Georgia,serif; font-weight:800; font-size:1.05rem; color:var(--ink); border-bottom:1px solid var(--line); margin-bottom:14px; }
+.sidebar .brand small { display:block; font-family:'Courier New',monospace; font-weight:400; color:var(--ink-dim); font-size:0.72rem; margin-top:3px; }
+.sidebar a.chap-link { display:block; padding:8px 22px; color:var(--ink); text-decoration:none; font-size:0.88rem; border-left:3px solid transparent; }
+.sidebar a.chap-link:hover { background:#1d212b; }
+.sidebar a.chap-link.active { background:#1d212b; border-left-color:var(--accent); color:var(--accent); font-weight:600; }
+.sidebar a.home-link { display:block; padding:8px 22px; color:var(--ink-dim); text-decoration:none; font-size:0.82rem; margin-bottom:8px; }
+.main { margin-left:280px; flex:1; display:flex; justify-content:center; min-width:0; }
+.content { max-width:880px; width:100%; padding:36px 40px 100px; background:transparent; }
+.content h1 { font-family:Georgia,serif; color:var(--ink); border-bottom:3px solid var(--accent); padding-bottom:12px; }
+.content h1:first-of-type { margin-top: 0; }
+.content h2 { font-family:Georgia,serif; color:var(--accent); margin-top:44px; }
+.content h3 { color:var(--easy); }
+.day-anchor-wrap { border-top: 4px solid var(--line); padding-top: 6px; margin-top: 56px; }
+.day-anchor-wrap:first-of-type { border-top: none; margin-top: 0; padding-top: 0; }
+
+/* Problem-section styling */
+.probsets { margin-top: 28px; background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 20px 24px; }
+.probsets > h3.pset-heading {
+  font-family:'Courier New',monospace; font-size:1rem; text-transform:uppercase; letter-spacing:0.05em;
+  color:var(--ink); border-bottom:2px solid var(--accent); padding-bottom:6px; margin: 26px 0 12px;
+}
+.probsets > h3.pset-heading:first-child { margin-top: 0; }
+h3.tier { font-family:'Courier New',monospace; font-size:0.92rem; margin:18px 0 8px; display:flex; align-items:center; gap:8px; color:var(--ink); }
+.tier-dot { width:9px; height:9px; border-radius:50%; display:inline-block; }
+.tier.easy .tier-dot{background:var(--easy);} .tier.medium .tier-dot{background:var(--medium);}
+.tier.hard .tier-dot{background:var(--hard);} .tier.challenge .tier-dot{background:var(--challenge);}
+details.problem { background:#12141a; border:1px solid var(--line); border-radius:8px; margin-bottom:8px; }
+details.problem summary { cursor:pointer; padding:10px 14px; font-size:0.92rem; display:flex; gap:8px; align-items:baseline; font-family:'Courier New',monospace; color:var(--ink);}
+.qtag { font-family:'Courier New',monospace; font-size:0.68rem; font-weight:700; background:var(--tag-bg); color:var(--ink-dim); padding:2px 7px; border-radius:999px; white-space:nowrap; }
+.solution { padding:2px 16px 12px; border-top:1px dashed var(--line); font-family:Georgia,serif; font-size:0.88rem;}
+.answer { font-family:'Courier New',monospace; font-weight:700; background:#16241d; color:var(--easy); border-left:4px solid var(--easy); padding:6px 10px; border-radius:4px; margin-top:8px !important; }
+.rawlist { font-family:'Courier New',monospace; font-size:1.05rem; line-height:1.6; padding-left: 1.5em; color:var(--ink); }
+.rawlist li { margin-bottom: 10px; }
+.rawlist .qtag { font-size:0.76rem; }
+.pending-note { font-family:Georgia,serif; font-size:0.82rem; color:var(--accent); font-style:italic; background:#2a2416; border:1px solid var(--accent); border-radius:6px; padding:8px 12px; margin-bottom: 12px;}
+</style>
+
+<style>
+  :root{
+    --ink:#f3ede0; --ink-dim:#a89f8c; --paper:#171a21; --bg:transparent;
+    --line:#2a2e38; --accent:#e8a13a; --accent-dark:#8a5a1f; --accent-soft:#2a2416;
+    --ic:#6fae8f; --ic-soft:#16241d; --hw:#e2725b; --hw-soft:#2a1a14;
+  }
+  * { box-sizing: border-box; }
+  /* body background intentionally inherited from the outer wrapper style block above */
+  .wrap { max-width: 900px; margin: 0 auto; padding: 30px 22px 90px; }
+  h1.doctitle {
+    font-family:"Courier New",monospace; font-size: 1.9rem; font-weight:700;
+    color: var(--ink); border-bottom: 4px solid var(--accent); padding-bottom: 14px;
+    margin: 0 0 8px 0;
+  }
+  p.subtitle { font-family:Georgia,serif; color:var(--ink-dim); font-size:0.95rem; margin:0 0 30px 0; font-style:italic; }
+  #TOC {
+    background: var(--paper); border: 1px solid var(--line); border-radius: 8px;
+    padding: 18px 24px; margin: 0 0 34px 0;
+    font-family: "Courier New", monospace; font-size: 0.9rem; columns: 2; column-gap: 30px;
+  }
+  #TOC a { color: var(--accent); text-decoration: none; font-weight: 600; display:block; padding: 3px 0; break-inside: avoid; }
+  #TOC a:hover { text-decoration: underline; }
+  h2.chapter {
+    font-family:"Courier New",monospace; font-size: 1.35rem; font-weight:700;
+    color: #171a21; background: var(--accent);
+    padding: 12px 18px; border-radius: 6px; margin: 50px 0 20px 0;
+  }
+  h3.day {
+    font-family:"Courier New",monospace; font-size: 1.1rem; font-weight:700;
+    color: var(--accent); background: var(--accent-soft);
+    border-left: 5px solid var(--accent); padding: 8px 14px;
+    margin: 34px 0 6px 0; border-radius: 0 4px 4px 0;
+  }
+  p.dayconnects { font-family:Georgia,serif; font-size:0.85rem; color:var(--ink-dim); margin:0 0 16px 0; font-style:italic; }
+  h4.subhead {
+    font-family:"Courier New",monospace; font-size: 0.82rem; font-weight:700;
+    text-transform: uppercase; letter-spacing: 0.06em; margin: 18px 0 10px 0;
+    padding-bottom: 4px; border-bottom: 1px solid var(--line);
+  }
+  h4.subhead.ic { color: var(--ic); }
+  h4.subhead.hw { color: var(--hw); }
+  div.problem {
+    background: #12141a; border: 1px solid var(--line); border-radius: 7px;
+    padding: 12px 16px; margin-bottom: 10px; color:var(--ink);
+  }
+  div.problem { border-left: 4px solid var(--ic); }
+  .ptag {
+    font-family:"Courier New",monospace; font-size:0.68rem; font-weight:700;
+    padding: 2px 8px; border-radius: 999px; margin-right: 8px; white-space:nowrap;
+    text-transform: uppercase; letter-spacing: 0.03em;
+  }
+  .problem .ptag:not(.applied):not(.evaluate) { background: var(--ic-soft); color: var(--ic); }
+  .ptag.applied { background:#16241d; color:#6fae8f; }
+  .ptag.evaluate { background:#2a1a2e; color:#c68fd9; }
+  .connects { font-family:Georgia,serif; font-size:0.72rem; color:var(--ink-dim); margin-top:6px; }
+  p { margin: 8px 0; }
+  strong { color: var(--accent); }
+  footer { margin-top:50px; font-family:Georgia,serif; font-size:0.82rem; color:var(--ink-dim); text-align:center; }
+</style>
+
+</head>
+<body>
+<div class="shell">
+<nav class="sidebar"><div class="brand">PHYS203<small>Extended Lecture Notes</small></div>
+<a class="home-link" href="../index.html" style="border-bottom:1px solid #24354a; padding-bottom:14px; margin-bottom:6px; display:block;">&larr; Course Home</a>
+<a class="home-link" href="index.html">&larr; Back to Chapter Index</a>
+<a class="chap-link" href="ch1-units-dimensions.html">Ch 1: Units and Dimensions</a>
+<a class="chap-link active" href="ch2-kinematics.html">Ch 2: One-Dimensional Kinematics</a>
+<a class="chap-link" href="ch3-vectors.html">Ch 3: Vectors</a>
+<a class="chap-link" href="ch4-2d-motion.html">Ch 4: Two-Dimensional Motion</a>
+<a class="chap-link" href="ch5-newtons-laws.html">Ch 5: Newton's Laws and Applications</a>
+<a class="chap-link" href="ch6-momentum.html">Ch 6: Momentum and Collisions</a>
+<a class="chap-link" href="ch7-work-energy.html">Ch 7: Work and Energy</a>
+<a class="chap-link" href="ch8-rotational-motion.html">Ch 8: Rotational Motion</a>
+<a class="chap-link" href="ch9-oscillations.html">Ch 9: Oscillations</a>
+<a class="chap-link" href="ch10-waves.html">Ch 10: Waves</a>
+<a class="chap-link" href="ch11-sound.html">Ch 11: Sound</a></nav>
+<main class="main"><div class="content">
+<div class="chapter-intro"><h1 id="chapter-2-one-dimensional-kinematics">Chapter 2: One-Dimensional
+Kinematics</h1>
+</div>
+<div class="day-anchor-wrap"><h2
+id="class-day-4-position-velocity-and-acceleration-average-graphical-analysis">Class
+Day 4: Position, Velocity, and Acceleration (Average); Graphical
+Analysis</h2>
+<h3 id="why-this-matters-2">Why this matters</h3>
+<p>Kinematics is the language we use to describe motion precisely,
+before we ever ask <em>why</em> something moves the way it does (that’s
+Chapter 5’s job). Everything in this chapter builds toward one goal:
+being able to look at a graph of an object’s motion and read off exactly
+what’s happening at any moment, or conversely, being able to sketch a
+graph from a verbal description. Today’s job is to nail down the
+vocabulary and connect it to graphs.</p>
+<h3 id="distance-vs.-displacement-the-first-fork-in-the-road">Distance
+vs. displacement — the first fork in the road</h3>
+<p><strong>Distance</strong> is how much ground was covered, total,
+regardless of direction — it only ever adds up, never subtracts.
+<strong>Displacement</strong> is the straight-line change in position,
+from start to end, and it’s a vector: it can be positive, negative, or
+zero.</p>
+<p>If you walk 5 meters east and then 5 meters back west, your distance
+traveled is 10 meters, but your displacement is exactly zero — you’re
+back where you started. This isn’t a technicality; it’s the reason two
+different, equally valid quantities exist: <strong>average
+speed</strong> (total distance / total time) and <strong>average
+velocity</strong> (displacement / total time) can give wildly different
+answers for the same trip.</p>
+<p><span class="math display">\[\bar v = \frac{\Delta x}{\Delta t} =
+\frac{x_f - x_i}{t_f-t_i} \qquad\qquad \bar{\text{speed}} =
+\frac{\text{total distance}}{\text{total time}}\]</span></p>
+<p><strong>Worked example:</strong> A hiker walks 4 km east in 50
+minutes, then 4 km west in 70 minutes. Find the average velocity and
+average speed for the round trip.</p>
+<p>Net displacement is (4 - 4 = 0) km, so (v = 0) — no matter how long
+the trip took, if you end up back at the start, your average velocity is
+zero. But average speed uses total distance: (4+4=8) km over (50+70=120)
+min = 2 h, giving ({} = 8/2 = 4) km/h. Same trip, two completely
+different (and equally correct) numbers, because they’re answering
+different questions.</p>
+<h3 id="average-acceleration">Average acceleration</h3>
+<p>The same logic extends one level up: average acceleration is the
+change in velocity over the change in time,</p>
+<p><span class="math display">\[\bar a = \frac{\Delta v}{\Delta t} =
+\frac{v_f - v_i}{t_f - t_i}\]</span></p>
+<p>A subtlety worth sitting with: average acceleration only depends on
+the <em>starting and ending</em> velocities, not on anything that
+happens in between. An elevator that goes from rest, up to speed,
+cruises, then decelerates back to rest over its whole trip has an
+<em>average</em> acceleration of exactly zero over the full ride — even
+though it clearly accelerated and decelerated along the way. Average
+acceleration smooths all of that out; it only sees the endpoints.</p>
+<h3 id="the-graphical-connection-secant-lines">The graphical connection:
+secant lines</h3>
+<p>This is the idea that the entire rest of the chapter builds on, so
+it’s worth being very deliberate about it. On a position-time graph,
+pick any two points. Draw the straight line connecting them (this is
+called a <strong>secant line</strong>). The slope of that secant line
+is:</p>
+<p><span class="math display">\[\text{slope} = \frac{\Delta x}{\Delta
+t}\]</span></p>
+<p>— which is exactly the definition of average velocity. This isn’t an
+analogy or a coincidence; average velocity <em>is</em> the slope of the
+secant line connecting the start and end points on a position-time
+graph, by definition. The same logic applies one level up: the slope of
+a secant line on a <strong>velocity</strong>-time graph is average
+<strong>acceleration</strong>.</p>
+<p>This graphical picture is the seed that Day 2 will grow into
+instantaneous velocity (by shrinking the secant line down until it
+becomes a tangent line) — so it’s worth getting comfortable with secant
+slopes now, since tomorrow’s entire lesson depends on this picture
+already making sense.</p>
+<h3 id="common-mistake-to-watch-for-1">Common mistake to watch for</h3>
+<p>Students often report a negative “distance” or a negative “speed”
+when an object moves backward — but distance and speed are never
+negative; they’re magnitudes. It’s <em>displacement</em> and
+<em>velocity</em> that carry the sign, because they’re vectors
+indicating direction. If your answer to a distance or speed question
+comes out negative, that’s a signal something went wrong upstream
+(likely you calculated displacement/velocity and mislabeled it).</p>
+<h3 id="key-formulas-and-facts-for-this-day-2">Key formulas and facts
+for this day</h3>
+<ul>
+<li>Average velocity: (v = x/t) (can be negative). Average speed: total
+distance/total time (never negative).</li>
+<li>Average acceleration: (a = v/t) — depends only on initial and final
+velocity, not the path taken in between.</li>
+<li>Average velocity = slope of the secant line on a position-time
+graph; average acceleration = slope of the secant line on a
+velocity-time graph.</li>
+</ul>
+<hr />
+<div class="probsets">
+<h3 class="pset-heading">Reading</h3>
+<ol class="rawlist">
+<li><span class="qtag" style="margin-right:6px;">Reading Q1</span>Average velocity is defined as which ratio?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q2</span>Which of the following can be zero even when an object has traveled a nonzero distance?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q3</span>Average speed differs from average velocity because average speed uses which quantity?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q4</span>The slope of a secant line on a position-time graph represents which physical quantity?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q5</span>Average acceleration is defined as which ratio?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q6</span>If an object returns to its starting point, what is its displacement?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q7</span>Which graph's secant slope gives average acceleration?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q8</span>A negative average velocity indicates what about the direction of net displacement?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q9</span>Which of the following requires knowing only the endpoints of a motion, not the path: displacement or distance?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q10</span>Average velocity over an interval equals which of the following?</li>
+</ol>
+<h3 class="pset-heading">Assignments</h3>
+<ol class="rawlist">
+<li><span class="qtag" style="margin-right:6px;">Easy Q1</span>A car travels 100 m east in 20 s. Find its average velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q2</span>A jogger runs 5 km in 30 minutes. Find the average speed in m/s.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q3</span>An object's velocity changes from 0 to 10 m/s in 5 s. Find the average acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q4</span>A cyclist covers 2 km in 10 minutes. Find average velocity in m/s.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q5</span>A car goes from 20 m/s to 0 m/s in 4 s. Find the average acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q6</span>An object moves 50 m north then 20 m south in 10 s total. Find the average velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q7</span>A walker covers 3 km in 45 minutes. Find average speed in m/s.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q8</span>A ball's speed increases from 2 m/s to 6 m/s in 2 s. Find average acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q9</span>A train moves 300 m in 15 s. Find average velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q10</span>An object at rest for 5 s has what average velocity and average acceleration?</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q1</span>A car travels 150 km north in 2 hours, then 50 km south in 1 hour. Find its average velocity for the trip.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q2</span>A sprinter's velocity increases from 0 to 9 m/s in 1.5 s, then stays constant for 8 s. Find the average acceleration over the first 1.5 s.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q3</span>A hiker walks 4 km east in 50 minutes, then 4 km west in 70 minutes. Find the average velocity and average speed for the round trip.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q4</span>A car's velocity changes from 15 m/s to 25 m/s over 4 s, then decreases to 10 m/s over the next 3 s. Find the average acceleration over the entire 7 s.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q5</span>A cyclist rides 10 km east in 30 minutes, rests 10 minutes, then rides 4 km west in 15 minutes. Find the average velocity for the whole outing.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q6</span>An elevator moves from rest to 3 m/s in 2 s, remains constant for 8 s, then decelerates to rest in 2 s. Find the average acceleration for the entire trip.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q7</span>A delivery drone flies 2 km north in 4 minutes, then 1 km south in 3 minutes. Find its average velocity in m/s.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q8</span>A swimmer's velocity data show 1.2 m/s at t = 0 and 0.8 m/s at t = 6 s. Find the average acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q9</span>A car travels the first half of a 100 km trip at 50 km/h and the second half at 100 km/h. Find the average speed for the entire trip.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q10</span>A ball rolls 8 m in the first 2 s and an additional 12 m in the next 3 s. Find the average velocity over the entire 5 s.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q1</span>A boat travels upstream 20 km against a current in 4 hours, then returns downstream in 2 hours. Find the boat's average velocity and average speed for the round trip, treating upstream as negative.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q2</span>An object's velocity is given at three times: 2 m/s at t=0, 8 m/s at t=3 s, and 5 m/s at t=6 s. Estimate the average acceleration over the full interval and compare it to the average acceleration over each half separately.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q3</span>A relay team's runners each cover 100 m, with individual times of 11.2 s, 10.8 s, 11.5 s, and 10.5 s. Find the team's average velocity for the full 400 m.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q4</span>A car accelerates uniformly from rest, covering 20 m in the first 2 s. Using only average velocity reasoning (not the kinematic equations), estimate its velocity at t = 2 s.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q5</span>Two runners start at the same point; one runs at a constant 4 m/s, the other alternates between 6 m/s for 5 s and rest for 5 s. Compare their average velocities over a 20 s interval.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q6</span>A migrating bird flies 300 km north over 6 hours, then 100 km south over 3 hours due to wind. Find its average velocity and average speed for the entire flight.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q7</span>A car's odometer and GPS displacement readings are compared over a mountain drive: odometer shows 85 km traveled, GPS shows a net displacement of 40 km. Explain what additional information you would need to find the average velocity, and compute the average speed given a total time of 1.5 hours.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q8</span>Describe how you would use four unevenly spaced position readings to estimate the average velocity over three different sub-intervals, and explain why the results might differ.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q9</span>A cyclist's average velocity for a round trip is exactly zero. Given that the outbound leg took 40 minutes at 15 km/h, find the time and average speed for the return leg if the total average speed for the round trip is 12 km/h.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q10</span>A rocket's velocity increases from 0 to 200 m/s in 8 s during launch, then remains roughly constant. Estimate the average acceleration during launch and discuss why this differs from the instantaneous acceleration at t = 8 s.</li>
+<li><span class="qtag" style="margin-right:6px;">Challenge Q1 (Evaluate)</span>A GPS-based fitness app reports a runner's "average speed" using total distance and total time, including rest stops. Evaluate whether this reported value accurately represents the runner's average velocity during active running, and justify your answer with a specific scenario.</li>
+<li><span class="qtag" style="margin-right:6px;">Challenge Q2 (Create)</span>Design a short multi-leg trip (at least three legs, with different speeds and directions) for which the average velocity is exactly zero but the average speed is nonzero.</li>
+<li><span class="qtag" style="margin-right:6px;">Challenge Q3 (Evaluate/Create)</span>A city traffic engineer wants a single number to represent typical commute conditions. Evaluate whether average velocity or average speed is more useful for this purpose, then create a simple data-collection plan.</li>
+</ol>
+<h3 class="pset-heading">Homework</h3>
+<ol class="rawlist">
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q1</span>A car travels 80 m west in 16 s. Find its average velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q2</span>A runner covers 3 km in 18 minutes. Find the average speed in m/s.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q3</span>An object's velocity changes from 0 to 8 m/s in 4 s. Find the average acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q4</span>A cyclist covers 1.5 km in 6 minutes. Find average velocity in m/s.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q5</span>A car goes from 15 m/s to 0 m/s in 3 s. Find the average acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q6</span>An object moves 40 m east then 15 m west in 8 s total. Find the average velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q7</span>A walker covers 2 km in 25 minutes. Find average speed in m/s.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q8</span>A ball's speed increases from 1 m/s to 5 m/s in 2 s. Find average acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q9</span>A train moves 250 m in 10 s. Find average velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q10</span>An object at constant velocity for 6 s has what average acceleration?</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q1</span>A car travels 120 km east in 1.5 hours, then 40 km west in 1 hour. Find its average velocity for the trip.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q2</span>A sprinter's velocity increases from 0 to 8 m/s in 1.2 s, then stays constant for 6 s. Find the average acceleration over the first 1.2 s.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q3</span>A hiker walks 3 km north in 40 minutes, then 3 km south in 60 minutes. Find the average velocity and average speed for the round trip.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q4</span>A car's velocity changes from 10 m/s to 22 m/s over 3 s, then decreases to 8 m/s over the next 4 s. Find the average acceleration over the entire 7 s.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q5</span>A cyclist rides 8 km north in 25 minutes, rests 5 minutes, then rides 3 km south in 12 minutes. Find the average velocity for the whole outing.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q6</span>An elevator moves from rest to 2.5 m/s in 2 s, remains constant for 6 s, then decelerates to rest in 3 s. Find the average acceleration for the entire trip.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q7</span>A delivery drone flies 1.5 km east in 3 minutes, then 0.5 km west in 2 minutes. Find its average velocity in m/s.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q8</span>A swimmer's velocity data show 1.0 m/s at t = 0 and 0.6 m/s at t = 5 s. Find the average acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q9</span>A car travels the first half of an 80 km trip at 40 km/h and the second half at 80 km/h. Find the average speed for the entire trip.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q10</span>A ball rolls 6 m in the first 2 s and an additional 9 m in the next 3 s. Find the average velocity over the entire 5 s.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q1</span>A boat travels upstream 15 km against a current in 3 hours, then returns downstream in 1.5 hours. Find the boat's average velocity and average speed for the round trip.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q2</span>An object's velocity is given at three times: 1 m/s at t=0, 7 m/s at t=4 s, and 4 m/s at t=8 s. Estimate the average acceleration over the full interval and compare it to the average acceleration over each half separately.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q3</span>A relay team's runners each cover 100 m, with individual times of 10.9 s, 11.1 s, 10.6 s, and 11.3 s. Find the team's average velocity for the full 400 m.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q4</span>A car accelerates uniformly from rest, covering 18 m in the first 2 s. Using average velocity reasoning, estimate its velocity at t = 2 s.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q5</span>Two runners start at the same point; one runs at a constant 5 m/s, the other alternates between 7 m/s for 4 s and rest for 4 s. Compare their average velocities over a 16 s interval.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q6</span>A migrating bird flies 240 km south over 5 hours, then 80 km north over 2 hours due to wind. Find its average velocity and average speed for the entire flight.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q7</span>A hiking group's pedometer shows 12 km traveled over a looping trail, while their net displacement from the trailhead is 0.5 km. Compute the average speed given a total time of 4 hours, and explain why average velocity is a poor descriptor here.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q8</span>Describe how you would estimate the average velocity over three different sub-intervals from four unevenly spaced position readings, and why the results could differ noticeably.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q9</span>A cyclist's average velocity for a round trip is exactly zero. The outbound leg took 30 minutes at 12 km/h; find the time and average speed for the return leg if the total average speed for the round trip is 10 km/h.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q10</span>A rocket's velocity increases from 0 to 180 m/s in 6 s during launch, and discuss how it compares to the instantaneous acceleration near the end of that interval.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Challenge Q1 (Evaluate)</span>A ride-sharing app reports "average speed" for a trip using total distance and total time, including time stopped at lights. Evaluate whether this is a fair representation of how fast the car was actually moving while in motion, and justify with a specific numeric example.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Challenge Q2 (Create)</span>Design a two-leg trip where the average speed is exactly double the magnitude of the average velocity. Specify distances, directions, and times.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Challenge Q3 (Evaluate/Create)</span>A school wants a single metric to describe how "fast" its bus routes are. Evaluate whether average velocity or average speed better serves this purpose, then create a simple data-collection method.</li>
+</ol>
+<h3 class="pset-heading">Synthesis Problems</h3>
+<p class="dayconnects">Connects: unit conversion (Ch.1), dimensional consistency, multi-leg average-velocity/speed reasoning.</p>
+
+
+<div class="problem"><span class="ptag">1</span><span class="ptag applied">Applied</span>
+<p>A delivery drone flies 3.2 km north at a reported speed of "45 km/h," then 1.8 km south at "60 mph." Convert both speeds to consistent SI units, find the time for each leg, and compute the drone's average velocity (magnitude and direction) for the entire trip.</p>
+<p class="connects">Connects: unit conversion (Ch.1), average velocity with mixed units</p></div>
+
+<div class="problem"><span class="ptag">2</span><span class="ptag evaluate">Evaluate</span>
+<p>A ride-sharing app reports "average speed: 42 km/h" for a trip, computed from total distance and total time including a 6-minute stop at a red light. Evaluate whether this reported number is dimensionally and conceptually a valid "average speed," and discuss what additional number (not currently reported) would better describe how fast the car moved while actually driving.</p>
+<p class="connects">Connects: average speed vs. velocity, evaluating real-world reported data</p></div>
+
+<div class="problem"><span class="ptag">3</span><span class="ptag applied">Applied</span>
+<p>A cyclist's GPS watch logs position every 30 seconds. Over one hilly 5-minute segment, it reports distances of 0.35, 0.30, 0.15, 0.20, and 0.32 km for five consecutive 1-minute intervals (net displacement equals the sum, since the path was a straight road). Find the average velocity in m/s for the whole segment, and the average velocity for just the middle three intervals.</p>
+<p class="connects">Connects: average velocity from segmented data, unit conversion</p></div>
+
+<div class="problem"><span class="ptag">4</span><span class="ptag evaluate">Evaluate</span>
+<p>A physics textbook problem gives an object's average acceleration as "3 m/s per second squared." Evaluate whether this unit phrasing is dimensionally sound, and rewrite it in at least two other dimensionally-equivalent but differently-phrased ways.</p>
+<p class="connects">Connects: dimensional analysis (Ch.1), acceleration units</p></div>
+
+<div class="problem"><span class="ptag">5</span><span class="ptag applied">Applied</span>
+<p>A high-speed train accelerates from rest, and its speed (reported by the onboard computer) increases from 0 to 300 km/h in 4 minutes. Convert both quantities to SI units, and find the train's average acceleration in m/s&sup2;, then compare this value to \(g=9.8\) m/s&sup2; as a fraction.</p>
+<p class="connects">Connects: unit conversion, average acceleration, comparison to a known reference constant</p></div>
+
+
+<div class="problem"><span class="ptag">6</span><span class="ptag applied">Applied</span>
+<p>A cargo ship travels 240 nautical miles (1 nautical mile = 1.852 km) in 18 hours on its outbound leg, then returns the same distance in 22 hours against a current. Convert to SI units and find the ship's average speed for the round trip and its average velocity for the round trip.</p>
+<p class="connects">Connects: unit conversion (nautical miles), average speed vs. velocity for round trips</p></div>
+
+<div class="problem"><span class="ptag">7</span><span class="ptag evaluate">Evaluate</span>
+<p>A marathon's official results list a runner's "average pace" as a single number for the whole 42.195 km race, even though the runner's split times show they ran significantly faster in the second half than the first. Evaluate what information is lost by reporting only the single race-average pace, and describe what additional data (already implicitly available from split times) would better characterize the runner's performance.</p>
+<p class="connects">Connects: average velocity/speed limitations, evaluating summary statistics</p></div>
+
+<div class="problem"><span class="ptag">8</span><span class="ptag applied">Applied</span>
+<p>An elevator's motion is logged as: 0 to 8 m/s in 3 s (accelerating), constant 8 m/s for 12 s, then 8 m/s to 0 in 4 s (decelerating). Find the total distance traveled and the average velocity over the entire trip, and verify your total-distance answer is dimensionally consistent with a length.</p>
+<p class="connects">Connects: average velocity over multiple phases, dimensional consistency check (Ch.1)</p></div>
+
+<div class="problem"><span class="ptag">9</span><span class="ptag evaluate">Evaluate</span>
+<p>A weather balloon's ascent rate is reported as "5 m/s average" over a 40-minute flight to 12 km altitude. Evaluate whether this reported average rate is consistent with the given total time and altitude (convert units as needed), and discuss what a mismatch would imply about the reported numbers.</p>
+<p class="connects">Connects: unit conversion, evaluating consistency of average-rate claims</p></div>
+
+<div class="problem"><span class="ptag">10</span><span class="ptag applied">Applied</span>
+<p>A commercial jet cruises at a reported "Mach 0.85" at an altitude where the local speed of sound is 295 m/s. Find the jet's speed in m/s, then in km/h, and finally find how long (in hours) it would take to complete a 4800 km flight at this constant speed.</p>
+<p class="connects">Connects: unit conversion, average speed / time-distance reasoning, forward-looking Mach-number context</p></div>
+
+
+</div></div>
+<div class="day-anchor-wrap"><h2
+id="class-day-5-instantaneous-velocityacceleration-connecting-graphs-to-calculus">Class
+Day 5: Instantaneous Velocity/Acceleration; Connecting Graphs to
+Calculus</h2>
+<h3 id="why-this-matters-3">Why this matters</h3>
+<p>Yesterday’s average velocity answers “how fast, overall, across this
+whole interval?” But often we want to know the answer to a sharper
+question: how fast is the object moving <em>right now</em>, at this
+exact instant? That’s instantaneous velocity, and getting there requires
+one of the most important ideas in all of calculus: the limit.</p>
+<h3 id="from-secant-to-tangent">From secant to tangent</h3>
+<p>Take the secant line from yesterday, connecting two points on a
+position-time curve. Now imagine sliding the second point closer and
+closer to the first, shrinking the time interval (t) smaller and
+smaller. As (t ), the secant line rotates and settles into a single,
+specific line that just barely grazes the curve at that one point
+without crossing it — the <strong>tangent line</strong>. Its slope is
+the instantaneous velocity at that exact instant:</p>
+<p><span class="math display">\[v(t) = \lim_{\Delta t \to 0}
+\frac{\Delta x}{\Delta t} = \frac{dx}{dt}\]</span></p>
+<p>That’s it — that’s a derivative. If you’ve taken (or are taking)
+calculus, this is exactly the limit definition of the derivative, just
+wearing a physics costume. If calculus is still new to you, the
+tangent-line picture is the important part to hold onto: instantaneous
+velocity is “the slope of the curve at a single point,” found by zooming
+in until the curve looks straight.</p>
+<p>The same logic, one level up, defines instantaneous acceleration as
+the derivative of velocity: (a(t) = dv/dt).</p>
+<h3 id="working-with-derivatives-directly">Working with derivatives
+directly</h3>
+<p>For polynomial position functions (which cover the vast majority of
+what you’ll see in this course), there’s a simple mechanical rule: if
+(x(t) = ct^n), then (v(t) = dx/dt = nct^{n-1}). Apply the same rule
+again to get acceleration from velocity.</p>
+<p><strong>Worked example:</strong> Given (x(t) = 2t^2+3t), find (v(t))
+and (a(t)), and evaluate both at (t=2)s.</p>
+<p><span class="math display">\[v(t) = \frac{d}{dt}(2t^2+3t) = 4t+3
+\qquad a(t) = \frac{d}{dt}(4t+3) = 4\]</span></p>
+<p>At (t=2): (v(2)=4(2)+3=11) m/s, and (a(2)=4) m/s² (constant, since it
+doesn’t depend on (t) at all).</p>
+<h3 id="reading-graphs-as-a-connected-set">Reading graphs as a connected
+set</h3>
+<p>Once you can find derivatives, you can read three related graphs —
+position, velocity, acceleration — as a single connected story, where
+each is the <em>slope</em> of the one above it:</p>
+<ul>
+<li>Where the position graph is flat (zero slope), velocity is
+zero.</li>
+<li>Where the position graph is steepest, velocity is at its largest
+magnitude.</li>
+<li>Where the velocity graph crosses zero, the object is momentarily at
+rest (this doesn’t mean acceleration is zero there — often it’s the
+opposite, as with a ball at the peak of its flight).</li>
+<li>Where the velocity graph is flat, acceleration is zero.</li>
+</ul>
+<p>There’s also a reverse relationship worth knowing now (it’ll matter
+more later): the <strong>area under a velocity-time graph</strong> over
+some interval equals the displacement over that interval. This previews
+integration, the reverse operation of differentiation, without needing
+the formal machinery yet.</p>
+<h3 id="common-mistake-to-watch-for-2">Common mistake to watch for</h3>
+<p>A very common error is assuming a curved position-time graph always
+means the object is accelerating everywhere along it. That’s not quite
+right — what matters is whether the <em>slope of the velocity graph</em>
+(not the position graph) is changing. In fact, a cubic like (x(t)=t^3)
+has an acceleration that is exactly zero at (t=0), even though the curve
+is clearly bending on both sides of that point. Curvature in position
+doesn’t automatically mean nonzero acceleration at every single point
+within it.</p>
+<h3 id="key-formulas-and-facts-for-this-day-3">Key formulas and facts
+for this day</h3>
+<ul>
+<li>Instantaneous velocity: (v(t) = dx/dt), the slope of the tangent
+line to the position graph.</li>
+<li>Instantaneous acceleration: (a(t) = dv/dt), the slope of the tangent
+line to the velocity graph.</li>
+<li>Power rule: if (x(t)=ct^n), then \(dx/dt = nct^{n-1}\).</li>
+<li>Area under a velocity-time graph = displacement over that
+interval.</li>
+</ul>
+<hr />
+<div class="probsets">
+<h3 class="pset-heading">Reading</h3>
+<ol class="rawlist">
+<li><span class="qtag" style="margin-right:6px;">Reading Q1</span>Instantaneous velocity is defined as the limit of average velocity as which quantity approaches zero?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q2</span>On a position-time graph, instantaneous velocity at a point equals the slope of which line?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q3</span>A horizontal segment on a velocity-time graph indicates what about acceleration?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q4</span>The area under a velocity-time graph over an interval represents which quantity?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q5</span>If a position-time graph is a straight line, what is true about the velocity?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q6</span>A velocity-time graph with constant positive slope indicates what kind of acceleration?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q7</span>If an acceleration-time graph shows a value of zero, what does this say about the velocity-time graph?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q8</span>Which of the following best describes instantaneous acceleration?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q9</span>A curved position-time graph that becomes steeper over time indicates what about velocity?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q10</span>Which calculus operation connects position to instantaneous velocity?</li>
+</ol>
+<h3 class="pset-heading">Assignments</h3>
+<ol class="rawlist">
+<li><span class="qtag" style="margin-right:6px;">Easy Q1</span>Given x(t) = 4t, find the instantaneous velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q2</span>Given v(t) = 6, find the instantaneous acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q3</span>Sketch a velocity-time graph for an object moving at constant velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q4</span>Sketch an acceleration-time graph for an object at constant velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q5</span>On a position-time graph with a straight-line segment, identify the velocity as constant or changing.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q6</span>Given x(t) = 2t², find the instantaneous velocity as a function of t.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q7</span>Identify whether a velocity-time graph with positive slope indicates speeding up or slowing down (assume positive velocity).</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q8</span>Sketch the position-time graph for an object with zero velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q9</span>Given v(t) = 3t, find the instantaneous acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q10</span>On a velocity-time graph, identify the area under the curve between two times as which physical quantity.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q1</span>Given x(t) = 2t² + 3t, find the instantaneous velocity and acceleration at t = 2 s.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q2</span>A velocity-time graph is a straight line from (0 s, 4 m/s) to (5 s, 14 m/s). Find the acceleration and the displacement over the interval.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q3</span>Sketch the velocity-time graph corresponding to a position-time graph that is a parabola opening upward.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q4</span>Given x(t) = t³ - 2t, find the instantaneous velocity at t = 1 s and t = 3 s, and compare.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q5</span>A velocity-time graph shows velocity decreasing linearly from 10 m/s to 0 over 5 s. Find the acceleration and the total displacement.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q6</span>Given v(t) = 4t - 2, find the acceleration and determine the time at which velocity is zero.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q7</span>Sketch the acceleration-time graph corresponding to a velocity-time graph that increases linearly then stays constant.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q8</span>A position-time graph shows an object moving forward, momentarily stopping, then moving backward. Sketch the corresponding velocity-time graph.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q9</span>Estimate the instantaneous velocity graphically at a specified time using the tangent-line concept from a smoothly curving position graph.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q10</span>From a velocity-time graph with a triangular shape (velocity rising then falling to zero), calculate the total displacement using the area.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q1</span>Given x(t) = t³ - 6t² + 9t, find the times at which the instantaneous velocity is zero, and describe the object's motion around those times.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q2</span>A velocity-time graph consists of three linear segments with different slopes. Calculate the total displacement using the area under each segment, and identify the time of maximum speed.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q3</span>Given v(t) = 3t² - 12t + 9, find the times at which the acceleration is zero and describe what is happening to the velocity at that time.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q4</span>A position-time graph shows an S-shaped curve. Describe qualitatively how velocity and acceleration change throughout the motion, identifying where acceleration is zero.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q5</span>Given x(t) = 2t² for 0 ≤ t ≤ 3 s and x(t) = 18 - 3(t-3) for t > 3 s, find the velocity in each interval and describe the motion at t = 3 s.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q6</span>A velocity-time graph shows velocity oscillating between +5 m/s and -5 m/s in a repeating triangular pattern. Describe the resulting acceleration-time graph.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q7</span>Given x(t) = 4t² - 2t³, find the instantaneous velocity and acceleration as functions of time, and identify when the velocity is maximum.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q8</span>A car's velocity-time graph shows a curve (not a straight line) rising steeply then leveling off. Estimate the instantaneous acceleration at two different times using tangent-line slopes read from the graph.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q9</span>Given a table of position values at 0.5 s intervals, estimate the instantaneous velocity at the middle time using a central-difference calculation, and compare it to the average velocity over the full interval.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q10</span>A position-time graph has a cusp (a sudden change in slope direction) at one point. Discuss what this implies about the instantaneous velocity at that point.</li>
+<li><span class="qtag" style="margin-right:6px;">Challenge Q1 (Evaluate)</span>A student claims that a curved position-time graph always means the object is accelerating throughout. Evaluate this claim using a specific counterexample where curvature exists but acceleration is momentarily zero.</li>
+<li><span class="qtag" style="margin-right:6px;">Challenge Q2 (Create)</span>Design a position-time function x(t) whose instantaneous velocity is zero at exactly two distinct positive times, and verify your function by calculating its derivative.</li>
+<li><span class="qtag" style="margin-right:6px;">Challenge Q3 (Evaluate/Create)</span>A fitness tracker estimates instantaneous speed using GPS position samples taken once per second. Evaluate the limitations of this approach for capturing true instantaneous velocity, then create an improved sampling or calculation strategy.</li>
+</ol>
+<h3 class="pset-heading">Homework</h3>
+<ol class="rawlist">
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q1</span>Given x(t) = 5t, find the instantaneous velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q2</span>Given v(t) = 8, find the instantaneous acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q3</span>Sketch a velocity-time graph for an object moving at constant negative velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q4</span>Sketch an acceleration-time graph for an object moving at constant acceleration of 2 m/s².</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q5</span>On a position-time graph with a straight-line segment of negative slope, identify the velocity as positive, negative, or zero.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q6</span>Given x(t) = 3t², find the instantaneous velocity as a function of t.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q7</span>Identify whether a velocity-time graph with negative slope and positive velocity indicates speeding up or slowing down.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q8</span>Sketch the position-time graph for an object moving at constant velocity starting from a nonzero position.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q9</span>Given v(t) = 5t, find the instantaneous acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q10</span>On a velocity-time graph, identify what a triangular area under the curve represents physically.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q1</span>Given x(t) = 3t² + 2t, find the instantaneous velocity and acceleration at t = 3 s.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q2</span>A velocity-time graph is a straight line from (0 s, 2 m/s) to (6 s, 20 m/s). Find the acceleration and the displacement over the interval.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q3</span>Sketch the velocity-time graph corresponding to a position-time graph that is a parabola opening downward (then flattening).</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q4</span>Given x(t) = t³ - 3t, find the instantaneous velocity at t = 1 s and t = 2 s, and compare.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q5</span>A velocity-time graph shows velocity decreasing linearly from 12 m/s to 0 over 6 s. Find the acceleration and the total displacement.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q6</span>Given v(t) = 6t - 3, find the acceleration and determine the time at which velocity is zero.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q7</span>Sketch the acceleration-time graph corresponding to a velocity-time graph that decreases linearly then stays constant at zero.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q8</span>A position-time graph shows an object moving backward, momentarily stopping, then moving forward. Sketch the corresponding velocity-time graph.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q9</span>Estimate the instantaneous velocity graphically at a specified time from a smoothly curving position-time graph using the tangent-line concept.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q10</span>From a velocity-time graph with a trapezoidal shape, calculate the total displacement using the area.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q1</span>Given x(t) = t³ - 9t² + 15t, find the times at which the instantaneous velocity is zero, and describe the object's motion around those times.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q2</span>A velocity-time graph consists of four linear segments with different slopes. Calculate the total displacement using the area under each segment, and identify the time of maximum speed.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q3</span>Given v(t) = 3t² - 18t + 15, find the times at which the acceleration is zero and describe what is happening to the velocity at that time.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q4</span>A position-time graph shows a reversed S-shaped curve. Describe qualitatively how velocity and acceleration change throughout the motion, identifying where acceleration is zero.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q5</span>Given x(t) = 3t² for 0 ≤ t ≤ 2 s and x(t) = 12 - 2(t-2) for t > 2 s, find the velocity in each interval and describe the motion at t = 2 s.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q6</span>A velocity-time graph shows velocity oscillating between +4 m/s and -4 m/s in a repeating triangular pattern with a longer period than a comparison graph. Describe the resulting acceleration-time graph and compare its magnitude to the comparison case.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q7</span>Given x(t) = 3t² - t³, find the instantaneous velocity and acceleration as functions of time, and identify when the velocity is maximum.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q8</span>A car's velocity-time graph shows a curve dipping down then rising steeply. Estimate the instantaneous acceleration at two different times using tangent-line slopes read from the graph.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q9</span>Given a table of position values at 0.25 s intervals, estimate the instantaneous velocity at the middle time using a central-difference calculation, and compare it to the average velocity over the full interval.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q10</span>A position-time graph has a sharp corner (sudden slope change) at one point during otherwise smooth motion. Discuss what this implies physically about the object's velocity at that instant.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Challenge Q1 (Evaluate)</span>A student claims that if velocity is momentarily zero, the object must be at rest for some duration. Evaluate this claim using the free-fall or thrown-ball scenario as a counterexample.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Challenge Q2 (Create)</span>Design a position-time function x(t) whose instantaneous acceleration is zero at exactly one positive time, and verify using derivatives.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Challenge Q3 (Evaluate/Create)</span>A video-analysis app estimates instantaneous velocity by measuring displacement between consecutive video frames. Evaluate the limitations of this method at low frame rates, then create an improved method.</li>
+</ol>
+<h3 class="pset-heading">Synthesis Problems</h3>
+<p class="dayconnects">Connects: average vs. instantaneous quantities (Day 4), graphical reasoning, derivative interpretation.</p>
+
+
+<div class="problem"><span class="ptag">1</span><span class="ptag evaluate">Evaluate</span>
+<p>A student computes an object's "instantaneous velocity" at t=2 s by finding the average velocity between t=0 s and t=4 s (a 4 s window centered on t=2 s), arguing this is "close enough." Evaluate this method, using the position function \(x(t)=t^3\) as a specific test case: compute the true instantaneous velocity at t=2 s via differentiation, then compute the student's average-velocity approximation, and discuss the size and cause of the discrepancy.</p>
+<p class="connects">Connects: average vs. instantaneous velocity, derivatives, error analysis</p></div>
+
+<div class="problem"><span class="ptag">2</span><span class="ptag applied">Applied</span>
+<p>A robotic arm's joint position is modeled as \(\theta(t) = 3t^2 - 0.5t^3\) (in radians, for \(0 \le t \le 6\) s). Find the instantaneous angular velocity as a function of time, determine the time at which the arm's angular velocity is maximum, and find that maximum value.</p>
+<p class="connects">Connects: derivatives of motion functions, optimization via calculus (forward-looking to rotational motion)</p></div>
+
+<div class="problem"><span class="ptag">3</span><span class="ptag evaluate">Evaluate</span>
+<p>A position-time graph for a car shows a smooth curve that is concave up for the first 5 s then concave down for the next 5 s. A student claims the car is "speeding up the whole time since the graph keeps going up." Evaluate this claim using the concept of the slope of the tangent line (velocity) and its own rate of change (acceleration), explaining what is actually happening to the car's speed throughout the 10 s.</p>
+<p class="connects">Connects: graphical interpretation of velocity/acceleration, concavity and calculus</p></div>
+
+<div class="problem"><span class="ptag">4</span><span class="ptag applied">Applied</span>
+<p>A car's velocity is given by \(v(t) = 20 - 2t^2\) m/s for \(0 \le t \le 3\) s. Find the car's position as a function of time (assume \(x(0)=0\)) by recognizing this requires the reverse operation of differentiation, find the total displacement over the 3 s, and find the instantaneous acceleration at \(t=1.5\) s.</p>
+<p class="connects">Connects: derivatives and their inverse operation, displacement calculation, instantaneous acceleration</p></div>
+
+<div class="problem"><span class="ptag">5</span><span class="ptag evaluate">Evaluate</span>
+<p>A GPS-based speedometer app updates the displayed speed once per second by computing the average velocity over the previous 1-second window. Evaluate whether this design choice would cause the displayed speed to lag behind or overestimate a driver's true instantaneous speed during hard acceleration, and suggest (without needing exact calculation) a design change that would reduce this lag.</p>
+<p class="connects">Connects: average vs. instantaneous velocity, real-world sensor/measurement design</p></div>
+
+
+<div class="problem"><span class="ptag">6</span><span class="ptag applied">Applied</span>
+<p>A cheetah's position while chasing prey is modeled as \(x(t) = 25t - 0.8t^3\) (meters, valid for \(0 \le t \le 3.5\) s before it gives up). Find the cheetah's velocity function, find the time at which its velocity is maximum, and find that maximum speed. Convert the maximum speed to km/h and comment on whether it is physically realistic for a cheetah (real cheetahs can reach roughly 100-120 km/h).</p>
+<p class="connects">Connects: derivatives/optimization, unit conversion (Ch.1), evaluating physical plausibility</p></div>
+
+<div class="problem"><span class="ptag">7</span><span class="ptag evaluate">Evaluate</span>
+<p>Two students compute the acceleration of an object with velocity function \(v(t)=6t-t^2\) at \(t=2\) s. Student A differentiates symbolically first, then substitutes \(t=2\). Student B substitutes \(t=2\) into \(v(t)\) first, then tries to "estimate a derivative" from that single number alone. Evaluate why Student B's approach is fundamentally impossible (not just less accurate), and carry out Student A's correct calculation.</p>
+<p class="connects">Connects: derivatives, common misconceptions about instantaneous rates</p></div>
+
+<div class="problem"><span class="ptag">8</span><span class="ptag applied">Applied</span>
+<p>A pitching machine's ball-release mechanism has an arm whose position is \(x(t) = 0.5t^4 - 2t^3\) (meters) during the 0 to 2 s wind-up-and-release cycle. Find the velocity and acceleration functions, and determine the exact time within this cycle at which the acceleration is zero (a potential design point for release timing).</p>
+<p class="connects">Connects: derivatives, root-finding, applied mechanical-design context</p></div>
+
+<div class="problem"><span class="ptag">9</span><span class="ptag evaluate">Evaluate</span>
+<p>A rocket's onboard telemetry only records position (altitude) once every 10 seconds during ascent. Evaluate the limitations this creates for estimating the rocket's instantaneous acceleration at any specific moment, and propose (in terms of the central-difference idea from this chapter) how a ground engineer could get the best possible acceleration estimate from this sparse data.</p>
+<p class="connects">Connects: numerical differentiation, central-difference reasoning, real-world instrumentation limits</p></div>
+
+<div class="problem"><span class="ptag">10</span><span class="ptag applied">Applied</span>
+<p>An elevator's position is \(y(t) = 2t^3 - 0.3t^4\) (meters) for \(0 \le t \le 5\) s. Find the velocity function, evaluate the velocity and acceleration at \(t=3\) s, and state (with justification from the sign of your answers) whether the elevator is speeding up or slowing down at that instant.</p>
+<p class="connects">Connects: derivatives, sign analysis of velocity/acceleration relationship</p></div>
+
+
+</div></div>
+<div class="day-anchor-wrap"><h2 id="class-day-6-kinematic-equations-for-constant-acceleration">Class
+Day 6: Kinematic Equations for Constant Acceleration</h2>
+<h3 id="why-this-matters-4">Why this matters</h3>
+<p>So far we’ve talked about velocity and acceleration in fairly general
+terms. Today we specialize to the single most common and useful case in
+this course: motion where acceleration is <em>constant</em> — not
+changing at all over the interval in question. Under that one
+assumption, four algebraic equations let you solve almost any 1D motion
+problem without any calculus at all.</p>
+<h3 id="the-four-equations">The four equations</h3>
+<p>Each of the four kinematic equations connects a different subset of
+five key variables: initial velocity \(v_0\), final velocity (v),
+acceleration (a), time (t), and displacement (x) (measured from some
+starting position \(x_0\)). Crucially, each equation is missing exactly
+one of these five variables — which is precisely why you have four
+different tools to pick from, depending on what you’re given and what
+you’re asked to find.</p>
+<p><span class="math display">\[v = v_0 + at \qquad\qquad (\text{missing
+} x)\]</span> <span class="math display">\[x = x_0 + v_0t + \tfrac12at^2
+\qquad\qquad (\text{missing } v)\]</span> <span
+class="math display">\[v^2 = v_0^2 + 2a(x-x_0) \qquad\qquad
+(\text{missing } t)\]</span> <span class="math display">\[x = x_0 +
+\tfrac12(v_0+v)t \qquad\qquad (\text{missing } a)\]</span></p>
+<h3 id="the-real-skill-choosing-the-right-equation">The real skill:
+choosing the right equation</h3>
+<p>The formulas themselves are simple to write down; the actual skill
+this unit is testing is a bookkeeping habit. Before touching any
+algebra, make a habit of listing out, explicitly:</p>
+<ol type="1">
+<li>What variables am I given?</li>
+<li>What variable am I asked to find?</li>
+<li>Which of the five variables (v₀, v, a, t, x) is <em>not</em>
+mentioned at all?</li>
+</ol>
+<p>Whichever equation omits that missing variable is the one to use —
+you’ll never need a variable you don’t have, and you won’t be missing
+anything you need.</p>
+<p><strong>Worked example:</strong> A car traveling at 18 m/s brakes at
+a constant deceleration and stops after 60 m. Find the deceleration and
+the stopping time.</p>
+<p>Known: \(v_0=18\), (v=0) (stops), \(x-x_0=60\). Missing: (t). So use the
+equation that omits (t):</p>
+<p><span class="math display">\[v^2=v_0^2+2a(x-x_0) \Rightarrow 0 =
+18^2+2a(60) \Rightarrow a = \frac{-324}{120} = -2.7\text{
+m/s}^2\]</span></p>
+<p>Now that we have (a), find (t) from the simplest remaining equation,
+\(v=v_0+at\):</p>
+<p><span class="math display">\[0 = 18+(-2.7)t \Rightarrow t =
+6.67\text{ s}\]</span></p>
+<p>Notice the two-step structure: often you’ll need one equation to find
+an intermediate unknown (here, (a)), then a second equation to reach the
+final answer. This is completely normal and not a sign you picked the
+wrong approach.</p>
+<h3 id="the-constant-acceleration-assumption-is-not-optional">The
+constant-acceleration assumption is not optional</h3>
+<p>All four equations are built on the assumption that acceleration
+doesn’t change during the interval in question. If a problem describes
+acceleration that changes partway through (a car that speeds up, then
+cruises, then brakes), you cannot apply one of these equations across
+the <em>entire</em> trip — you must break the motion into separate
+constant-acceleration segments and analyze each one, using the final
+conditions of one segment as the starting conditions of the next.</p>
+<h3 id="common-mistake-to-watch-for-3">Common mistake to watch for</h3>
+<p>A frequent error is quietly assuming an object “must” still be moving
+(or must have already stopped) without checking. If a quadratic equation
+from these formulas gives you two mathematical solutions, always ask
+which one is physically consistent with the situation described — for
+instance, checking whether the implied stopping time is actually
+reachable within the given time window, since one algebraic root
+sometimes describes a scenario that contradicts the problem’s own
+setup.</p>
+<h3 id="key-formulas-and-facts-for-this-day-4">Key formulas and facts
+for this day</h3>
+<ul>
+<li>\(v=v_0+at\) (no x); \(x=x_0+v_0t+\tfrac12at^2\) (no v);
+\(v^2=v_0^2+2a(x-x_0)\) (no t); \(x=x_0+(v_0+v)t\) (no a).</li>
+<li>Identify the missing variable first, then pick the matching
+equation.</li>
+<li>These equations require constant acceleration; segment the motion if
+acceleration changes.</li>
+</ul>
+<hr />
+<div class="probsets">
+<h3 class="pset-heading">Reading</h3>
+<ol class="rawlist">
+<li><span class="qtag" style="margin-right:6px;">Reading Q1</span>Which of the four kinematic equations omits displacement?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q2</span>Which of the four kinematic equations omits final velocity?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q3</span>Which of the four kinematic equations omits time?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q4</span>Which of the four kinematic equations omits acceleration?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q5</span>The kinematic equations are valid only under which condition?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q6</span>In the equation v = v₀ + at, which variable represents elapsed time?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q7</span>Which equation would you use if given v₀, a, and x, and asked to find v?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q8</span>Which equation would you use if given v₀, v, and a, and asked to find t?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q9</span>What happens to the kinematic equations if acceleration changes during the motion?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q10</span>Which of the following is a correct rearrangement of x = x₀ + v₀t + ½at² to solve for a?</li>
+</ol>
+<h3 class="pset-heading">Assignments</h3>
+<ol class="rawlist">
+<li><span class="qtag" style="margin-right:6px;">Easy Q1</span>A car accelerates from rest at 2 m/s² for 5 s. Find its final velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q2</span>An object with initial velocity 4 m/s accelerates at 3 m/s² for 2 s. Find its displacement.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q3</span>A car decelerates from 10 m/s to rest at 2 m/s². Find the time taken.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q4</span>An object accelerates from 5 m/s to 15 m/s over 4 s. Find its acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q5</span>A car travels 40 m while accelerating from rest at 2 m/s². Find the time taken.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q6</span>An object decelerates from 20 m/s to 5 m/s over 3 s. Find the distance traveled.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q7</span>A ball starts at rest and reaches 8 m/s after 4 s. Find the acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q8</span>A car accelerates at 1.5 m/s² for 6 s from rest. Find the final velocity and displacement.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q9</span>An object with acceleration 4 m/s² covers 32 m from rest. Find the final velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q10</span>A car needs 5 s to stop from 25 m/s. Find the deceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q1</span>A car traveling at 18 m/s brakes at a constant deceleration and stops after 60 m. Find the deceleration and the stopping time.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q2</span>A cyclist accelerates from 3 m/s to 9 m/s while covering 36 m. Find the acceleration and the time taken.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q3</span>A train decelerates from 30 m/s to 12 m/s over 150 m. Find the deceleration and the time taken.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q4</span>An object starts at 6 m/s and accelerates at 2 m/s² for 5 s. Find both the final velocity and the total displacement.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q5</span>A car accelerates from rest to 24 m/s over a distance of 144 m. Find the acceleration and the time.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q6</span>Two cars start at the same location; one moves at constant 15 m/s, the other starts from rest with 3 m/s² acceleration. Find when their velocities are equal, and their positions at that time.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q7</span>A plane accelerates down a runway from rest at 4 m/s² and needs to reach 60 m/s to take off. Find the runway length required.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q8</span>A ball rolling at 12 m/s decelerates at 1.5 m/s² due to friction. Find how far it travels before stopping.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q9</span>A rocket sled starts at 10 m/s and accelerates at 8 m/s² for 6 s. Find the final velocity and total displacement.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q10</span>A car decelerating at 3 m/s² comes to rest after traveling 27 m. Find its initial velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q1</span>A car traveling at 30 m/s begins braking with constant deceleration and needs 80 m to stop. A second car traveling behind at 25 m/s begins braking 1 s later at the same deceleration rate. Determine whether a collision occurs, given an initial following distance of 40 m.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q2</span>Two trains 500 m apart approach each other on the same track, one at constant 20 m/s and the other decelerating from 25 m/s at 2 m/s². Determine whether and when they would meet, assuming they do not stop or turn.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q3</span>A ball is thrown up an incline with constant deceleration (analogous to 1D kinematics along the incline) starting at 12 m/s and decelerating at 3 m/s². Find the maximum distance up the incline and the time to return to the starting point.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q4</span>A car accelerates uniformly from rest for 5 s, covering 50 m, then continues at constant velocity for 10 s. Find the total distance covered in the full 15 s.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q5</span>A cyclist decelerating at a constant rate covers 20 m in the first second of braking and comes to rest after a total of 4 s. Find the initial velocity and the deceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q6</span>A car covers 100 m in the first 5 s of constant acceleration from rest. Find how much additional distance it covers in the next 5 s at the same acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q7</span>A subway train accelerates from rest at 1.2 m/s² for 15 s, cruises at constant velocity for 40 s, then decelerates at 1.5 m/s² to a stop. Find the total distance traveled.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q8</span>An object decelerating uniformly covers 45 m in the first 3 s of braking and a total of 60 m before stopping. Find the initial velocity and the deceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q9</span>A drag racer accelerates from rest at a constant rate and covers 400 m in 8 s. Find its acceleration and its velocity at the finish line.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q10</span>Two objects start from the same point at the same time; one has initial velocity 0 and acceleration 6 m/s², the other has initial velocity 10 m/s and zero acceleration. Find when and where the accelerating object catches up.</li>
+<li><span class="qtag" style="margin-right:6px;">Challenge Q1 (Evaluate)</span>A car manufacturer claims a car can go from 0 to 100 km/h in 5 s using constant acceleration. Evaluate whether this is physically reasonable by calculating the required acceleration and comparing it to typical friction-limited values, and discuss what "constant acceleration" assumption might not hold in practice.</li>
+<li><span class="qtag" style="margin-right:6px;">Challenge Q2 (Create)</span>Design a two-phase motion scenario (acceleration phase followed by constant-velocity or deceleration phase) for a train trip between two stations 2 km apart, specifying phase durations and accelerations, such that the total trip takes exactly 3 minutes.</li>
+<li><span class="qtag" style="margin-right:6px;">Challenge Q3 (Evaluate/Create)</span>A student solves a kinematics problem correctly but selects the "wrong" equation compared to the textbook's suggested approach, arriving at the same answer through more steps. Evaluate whether this matters pedagogically, then create a rubric criterion that fairly credits multiple valid problem-solving paths.</li>
+</ol>
+<h3 class="pset-heading">Homework</h3>
+<ol class="rawlist">
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q1</span>A car accelerates from rest at 3 m/s² for 4 s. Find its final velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q2</span>An object with initial velocity 5 m/s accelerates at 2 m/s² for 3 s. Find its displacement.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q3</span>A car decelerates from 12 m/s to rest at 3 m/s². Find the time taken.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q4</span>An object accelerates from 4 m/s to 16 m/s over 4 s. Find its acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q5</span>A car travels 50 m while accelerating from rest at 2.5 m/s². Find the time taken.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q6</span>An object decelerates from 18 m/s to 6 m/s over 4 s. Find the distance traveled.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q7</span>A ball starts at rest and reaches 10 m/s after 5 s. Find the acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q8</span>A car accelerates at 2 m/s² for 5 s from rest. Find the final velocity and displacement.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q9</span>An object with acceleration 3 m/s² covers 24 m from rest. Find the final velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q10</span>A car needs 4 s to stop from 20 m/s. Find the deceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q1</span>A car traveling at 20 m/s brakes at a constant deceleration and stops after 50 m. Find the deceleration and the stopping time.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q2</span>A cyclist accelerates from 2 m/s to 10 m/s while covering 30 m. Find the acceleration and the time taken.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q3</span>A train decelerates from 28 m/s to 10 m/s over 135 m. Find the deceleration and the time taken.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q4</span>An object starts at 5 m/s and accelerates at 3 m/s² for 4 s. Find both the final velocity and the total displacement.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q5</span>A car accelerates from rest to 30 m/s over a distance of 225 m. Find the acceleration and the time.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q6</span>Two cars start at the same location; one moves at constant 12 m/s, the other starts from rest with 2 m/s² acceleration. Find when their velocities are equal, and their positions at that time.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q7</span>A plane accelerates down a runway from rest at 3.5 m/s² and needs to reach 55 m/s to take off. Find the runway length required.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q8</span>A ball rolling at 10 m/s decelerates at 2 m/s² due to friction. Find how far it travels before stopping.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q9</span>A rocket sled starts at 8 m/s and accelerates at 6 m/s² for 5 s. Find the final velocity and total displacement.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q10</span>A car decelerating at 4 m/s² comes to rest after traveling 32 m. Find its initial velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q1</span>A car traveling at 28 m/s begins braking with constant deceleration and needs 70 m to stop. A second car traveling behind at 22 m/s begins braking 1 s later at the same deceleration rate. Determine whether a collision occurs, given an initial following distance of 35 m.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q2</span>Two trains 450 m apart approach each other on the same track, one at constant 18 m/s and the other decelerating from 22 m/s at 2.5 m/s². Determine whether and when they would meet.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q3</span>A cart rolls up an incline with constant deceleration, starting at 10 m/s and decelerating at 2.5 m/s². Find the maximum distance up the incline and the time to return to the starting point.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q4</span>A car accelerates uniformly from rest for 4 s, covering 32 m, then continues at constant velocity for 12 s. Find the total distance covered in the full 16 s.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q5</span>A cyclist decelerating at a constant rate covers 18 m in the first second of braking and comes to rest after a total of 4 s. Find the initial velocity and the deceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q6</span>A car covers 80 m in the first 4 s of constant acceleration from rest. Find how much additional distance it covers in the next 4 s at the same acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q7</span>A subway train accelerates from rest at 1.0 m/s² for 20 s, cruises at constant velocity for 35 s, then decelerates at 1.2 m/s² to a stop. Find the total distance traveled.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q8</span>An object decelerating uniformly covers 40 m in the first 3 s of braking and a total of 55 m before stopping. Find the initial velocity and the deceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q9</span>A drag racer accelerates from rest at a constant rate and covers 350 m in 7 s. Find its acceleration and its velocity at the finish line.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q10</span>Two objects start from the same point at the same time; one has initial velocity 0 and acceleration 5 m/s², the other has initial velocity 8 m/s and zero acceleration. Find when and where the accelerating object catches up.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Challenge Q1 (Evaluate)</span>An advertisement claims a train can go from rest to 200 km/h in 60 s using constant acceleration. Evaluate whether this is physically reasonable by calculating the required acceleration and comparing it to typical values for rail transport.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Challenge Q2 (Create)</span>Design a two-phase motion scenario for a bus trip between two stops 1.5 km apart, specifying acceleration, cruising, and deceleration phases, such that the total trip takes exactly 2 minutes.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Challenge Q3 (Evaluate/Create)</span>A student uses a graphical (area-under-curve) method instead of the standard kinematic formula to solve a constant-acceleration problem, arriving at the same correct answer. Evaluate whether this approach demonstrates equivalent understanding, then create a grading criterion that credits this alternate method fairly.</li>
+</ol>
+<h3 class="pset-heading">Synthesis Problems</h3>
+<p class="dayconnects">Connects: unit conversion, average/instantaneous quantities (Days 4-5), multi-object relative-motion reasoning.</p>
+
+
+<div class="problem"><span class="ptag">1</span><span class="ptag applied">Applied</span>
+<p>Two trains 850 m apart on the same track approach each other: Train A at a constant 72 km/h, Train B decelerating from 90 km/h at 1.5 m/s&sup2;. Convert all speeds to SI units, then determine whether and when the trains meet, given emergency braking begins simultaneously on both at t=0 (assume they can pass safely if they never occupy the same position).</p>
+<p class="connects">Connects: unit conversion, kinematic equations, multi-object relative motion</p></div>
+
+<div class="problem"><span class="ptag">2</span><span class="ptag evaluate">Evaluate</span>
+<p>A car manufacturer claims their vehicle "stops from 100 km/h in 40 meters." Evaluate whether this claim implies a physically reasonable deceleration by computing the required deceleration in m/s&sup2; and comparing it (as a multiple of \(g\)) to the typical maximum achievable by a car's tires on dry pavement (roughly 0.8-1.0 g).</p>
+<p class="connects">Connects: unit conversion, kinematic equations, evaluating a manufacturer's claim against physical limits</p></div>
+
+<div class="problem"><span class="ptag">3</span><span class="ptag applied">Applied</span>
+<p>A subway train accelerates uniformly from rest to 60 km/h over 25 s, then must decelerate to a stop over the final 100 m before the next station, using whatever constant deceleration is required. Find the acceleration for both phases and the total distance covered during the acceleration phase.</p>
+<p class="connects">Connects: kinematic equations, unit conversion, two-phase motion design</p></div>
+
+<div class="problem"><span class="ptag">4</span><span class="ptag evaluate">Evaluate</span>
+<p>A student solves a stopping-distance problem and gets two mathematically valid roots from a quadratic kinematic equation, one positive and one negative. Evaluate how to determine which root (if either) is physically meaningful in the context of a car braking from a given speed, using a specific example where \(v_0=20\) m/s and \(a=-4\) m/s&sup2;, solving for the time to travel 40 m.</p>
+<p class="connects">Connects: kinematic equations, evaluating physical validity of algebraic solutions</p></div>
+
+<div class="problem"><span class="ptag">5</span><span class="ptag applied">Applied</span>
+<p>A delivery robot must merge into a bike lane: it starts 15 m behind a cyclist moving at a constant 4 m/s, and the robot accelerates from rest at 1.2 m/s&sup2;. Determine whether and when the robot catches up to the cyclist, and find their relative speed at that moment.</p>
+<p class="connects">Connects: kinematic equations, relative-motion/catch-up problems</p></div>
+
+
+<div class="problem"><span class="ptag">6</span><span class="ptag applied">Applied</span>
+<p>An aircraft carrier's catapult must accelerate a 15,000 kg jet from rest to a minimum takeoff speed of 150 knots (1 knot = 0.514 m/s) over a 90 m track. Convert the takeoff speed to m/s, find the required constant acceleration, and find the time the catapult stroke takes.</p>
+<p class="connects">Connects: unit conversion (knots), kinematic equations, applied engineering constraint</p></div>
+
+<div class="problem"><span class="ptag">7</span><span class="ptag evaluate">Evaluate</span>
+<p>A driver's education pamphlet states "your stopping distance quadruples if your speed doubles." Evaluate this claim using the kinematic relationship between speed and stopping distance (for constant deceleration), and verify it algebraically for two arbitrary starting speeds \(v_0\) and \(2v_0\).</p>
+<p class="connects">Connects: kinematic equations, algebraic generalization, evaluating a public-safety claim</p></div>
+
+<div class="problem"><span class="ptag">8</span><span class="ptag applied">Applied</span>
+<p>Two cyclists start 200 m apart on a straight bike path, moving toward each other: Cyclist A at a constant 6 m/s, Cyclist B starting from rest and accelerating at 0.8 m/s&sup2;. Find the time and position at which they meet.</p>
+<p class="connects">Connects: kinematic equations, two-object motion, quadratic equation solving</p></div>
+
+<div class="problem"><span class="ptag">9</span><span class="ptag evaluate">Evaluate</span>
+<p>A go-kart track's safety rules assume a maximum deceleration of 5 m/s&sup2; when braking. Evaluate whether a kart traveling at 45 km/h can safely stop within a marked 18 m runoff zone before a wall, showing your reasoning and final numeric comparison clearly.</p>
+<p class="connects">Connects: unit conversion, kinematic equations, evaluating a real safety scenario</p></div>
+
+<div class="problem"><span class="ptag">10</span><span class="ptag applied">Applied</span>
+<p>A ball launcher on an assembly line accelerates a ball from rest over a 0.8 m barrel in 0.15 s. Find the ball's exit speed and the acceleration it experienced, then convert the acceleration to units of \(g\) (i.e., as a multiple of 9.8 m/s&sup2;) to assess whether this would be safe for a payload sensitive to a maximum of 50 g.</p>
+<p class="connects">Connects: kinematic equations, unit conversion, evaluating against an engineering tolerance</p></div>
+
+
+</div></div>
+<div class="day-anchor-wrap"><h2 id="class-day-7-free-fall">Class Day 7: Free Fall</h2>
+<h3 id="why-this-matters-5">Why this matters</h3>
+<p>Free fall is not a new topic — it’s the kinematic equations from
+yesterday, applied to the single most common constant acceleration in
+everyday life: gravity. Once you accept that acceleration due to gravity
+is constant (approximately \(9.8\text{ m/s}^2\) near Earth’s surface, ignoring air
+resistance), everything from Day 3 applies directly.</p>
+<h3 id="setting-up-the-sign-convention">Setting up the sign
+convention</h3>
+<p>The one new wrinkle in free-fall problems is that you must choose a
+sign convention for “up” and “down” before writing any equation, and
+then stick with it rigidly. The most common choice: up is positive.
+Under that choice, the acceleration due to gravity is:</p>
+<p><span class="math display">\[a = -g = -9.8\text{ m/s}^2\]</span></p>
+<p>— always negative, because gravity always pulls downward, regardless
+of whether the object is moving up, down, or momentarily still. This
+single decision, applied consistently, resolves the overwhelming
+majority of sign errors students make in this unit. If you instead
+choose down as positive, gravity becomes (+9.8), but every other
+velocity and position value in the problem must also flip sign
+accordingly — the important thing is internal consistency, not which
+convention you pick.</p>
+<h3 id="the-three-canonical-scenarios">The three canonical
+scenarios</h3>
+<p><strong>Dropped from rest</strong> (\(v_0=0\)): the object simply
+falls, gaining speed at a constant rate. (v = -gt), \(y = y_0 - \tfrac12gt^2\)
+(taking up as positive, so (y) decreases).</p>
+<p><strong>Thrown downward</strong> (\(v_0 < 0\), moving down from the
+start): same equations, just with a nonzero negative starting
+velocity.</p>
+<p><strong>Thrown upward</strong> (\(v_0 > 0\)): this is the richest
+case, and the one most worth dwelling on. The object decelerates on the
+way up (gravity opposes the upward motion), momentarily has zero
+velocity at the peak, then accelerates back downward — but the
+acceleration is (-g) the <em>entire time</em>, never changing, never
+pausing, not even at the exact instant velocity is zero.</p>
+<p><strong>Worked example:</strong> A ball is thrown straight up at 18
+m/s. Find the maximum height and the total time in the air (until it
+returns to the launch height).</p>
+<p>At maximum height, (v=0). Using \(v^2=v_0^2+2a(y-y_0)\):</p>
+<p><span class="math display">\[0 = 18^2 + 2(-9.8)(h) \Rightarrow h =
+\frac{324}{19.6} = 16.5\text{ m}\]</span></p>
+<p>For total time in the air, use the symmetry of the motion: the time
+to go up equals the time to come back down (as long as launch and
+landing heights are the same), so find the time to reach the peak using
+\(v=v_0+at\):</p>
+<p><span class="math display">\[0 = 18+(-9.8)t_{up} \Rightarrow
+t_{up}=1.84\text{ s} \Rightarrow t_{total}=2\times1.84=3.67\text{
+s}\]</span></p>
+<h3 id="the-most-important-conceptual-point-of-the-whole-day">The most
+important conceptual point of the whole day</h3>
+<p>At the very peak of an upward throw, velocity is exactly zero — but
+acceleration is not. This is the detail students most often get wrong,
+usually by assuming “zero velocity” implies “zero everything.” Gravity
+never stops acting on the ball, even for that single instant; if it did,
+the ball would simply hover there forever, which obviously doesn’t
+happen. The velocity is zero at that instant precisely <em>because</em>
+a constant downward acceleration has been continuously eating away at
+the initial upward velocity the whole time, and is about to keep going
+and push the velocity negative.</p>
+<h3 id="common-mistake-to-watch-for-4">Common mistake to watch for</h3>
+<p>Forgetting to double-check whether a problem intends “height above
+the ground” or “height above the launch point” — these are different
+reference points whenever the object is thrown from an elevated platform
+rather than ground level, and mixing them up is one of the most common
+sources of an answer that’s off by exactly the platform height.</p>
+<h3 id="key-formulas-and-facts-for-this-day-5">Key formulas and facts
+for this day</h3>
+<ul>
+<li>\(g\approx9.8\text{ m/s}^2\), directed downward; with up as positive, (a=-g).</li>
+<li>All four kinematic equations from Day 3 apply directly, with
+(a=-g).</li>
+<li>At the peak of upward motion, (v=0) but (a=-g) still, since gravity
+never stops acting.</li>
+<li>Time up equals time down when launch and landing heights match (by
+symmetry).</li>
+</ul>
+<hr />
+<div class="probsets">
+<h3 class="pset-heading">Reading</h3>
+<ol class="rawlist">
+<li><span class="qtag" style="margin-right:6px;">Reading Q1</span>Near Earth's surface, the acceleration due to gravity is approximately what value?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q2</span>If up is chosen as the positive direction, the acceleration due to gravity in free fall is represented as what?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q3</span>At the highest point of an object thrown straight up, what is true about its velocity?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q4</span>At the highest point of an object thrown straight up, what is true about its acceleration?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q5</span>An object dropped from rest has what initial velocity?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q6</span>Which kinematic equation is most convenient for finding the time to fall a known height from rest?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q7</span>An object thrown downward has an initial velocity in what direction relative to the chosen positive axis?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q8</span>Ignoring air resistance, two objects of different mass dropped from the same height will hit the ground at what relative time?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q9</span>Which of the following remains constant throughout free-fall motion (neglecting air resistance)?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q10</span>A ball thrown straight up returns to its starting height with what speed, compared to its launch speed (neglecting air resistance)?</li>
+</ol>
+<h3 class="pset-heading">Assignments</h3>
+<ol class="rawlist">
+<li><span class="qtag" style="margin-right:6px;">Easy Q1</span>A ball is dropped from rest and falls for 2 s. Find its velocity just before landing.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q2</span>An object falls from rest for 3 s. Find the distance fallen.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q3</span>A ball is thrown straight up at 10 m/s. Find the time to reach maximum height.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q4</span>An object is dropped from a height of 20 m. Find the time to reach the ground.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q5</span>A ball is thrown downward at 5 m/s. Find its velocity after 2 s.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q6</span>A ball thrown straight up at 12 m/s reaches what maximum height?</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q7</span>An object dropped from rest falls for 4 s. Find its final velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q8</span>A ball is thrown straight up at 8 m/s. Find its velocity after 1 s.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q9</span>An object falls from a height of 45 m starting from rest. Find its velocity upon landing.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q10</span>A ball thrown downward at 4 m/s falls for 3 s. Find the total distance fallen.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q1</span>A stone is dropped from a 50 m cliff. Find the time to reach the ground and the velocity at impact.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q2</span>A ball is thrown straight up at 18 m/s. Find the maximum height and the total time in the air.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q3</span>A ball is thrown downward from a height of 40 m at 6 m/s. Find the time to reach the ground.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q4</span>An object is thrown straight up at 20 m/s from the edge of a 15 m tall building. Find the time to reach the ground below the launch point.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q5</span>A ball dropped from a window takes 2.5 s to reach the ground. Find the height of the window.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q6</span>A rocket-assisted ball is launched straight up at 25 m/s from ground level. Find its height at t = 2 s.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q7</span>A stone thrown straight down from a bridge at 3 m/s lands in the water after 2 s. Find the height of the bridge above the water.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q8</span>A ball thrown straight up returns to its starting point after 4 s. Find its initial velocity and maximum height.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q9</span>An object dropped from a hovering drone at 30 m takes how long to hit the ground?</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q10</span>A ball is thrown upward at 14 m/s from a 10 m platform. Find the maximum height above the ground.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q1</span>A rock is dropped from a bridge 70 m above a river. Simultaneously, a second rock is thrown downward from the same height at 8 m/s. Find the time difference between when each rock hits the water.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q2</span>A ball is thrown straight up with an initial velocity of 24 m/s from a rooftop 20 m above the ground. Find the maximum height above the ground and the total flight time until it lands on the ground below.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q3</span>An object is thrown downward at 10 m/s from a 120 m tall building. Calculate its velocity when it lands and compare to the velocity it would have if simply dropped from rest.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q4</span>A juggler tosses a ball straight up so it takes 3.5 s to return to the launch point. Calculate its initial velocity and maximum height, and find its velocity at t = 1 s.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q5</span>Two balls are dropped from the same height, one 2 s after the other. Calculate the distance between them 4 s after the first ball is dropped.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q6</span>A ball is thrown straight up at 16 m/s from ground level at the same instant a second ball is dropped from a height of 20 m directly above. Determine if and when they collide.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q7</span>A window washer drops a squeegee from a platform 60 m up. At the same moment, someone below throws a ball straight up at 22 m/s from the ground. Determine whether and when the two objects pass each other.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q8</span>A ball thrown straight up passes a window 15 m above the launch point twice: once on the way up and once on the way down. Given a launch speed of 20 m/s, find the two times at which it passes the window.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q9</span>An object is thrown straight down from a height with an unknown initial speed, and it is known to take 3 s to fall 60 m. Find the initial velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q10</span>A ball dropped from a height h reaches the ground with the same speed as a second ball thrown downward from height h/2 with some initial speed v₀. Express v₀ in terms of g and h.</li>
+<li><span class="qtag" style="margin-right:6px;">Challenge Q1 (Evaluate)</span>A viral video claims a feather and a bowling ball dropped together in ordinary room air hit the ground at the same time, "just like on the Moon." Evaluate this claim, explaining what role air resistance plays that the Moon experiment did not have to contend with.</li>
+<li><span class="qtag" style="margin-right:6px;">Challenge Q2 (Create)</span>Design a two-object free-fall scenario (one dropped, one thrown, from different heights and/or times) such that both objects hit the ground at exactly the same instant. Specify all initial conditions.</li>
+<li><span class="qtag" style="margin-right:6px;">Challenge Q3 (Evaluate/Create)</span>A theme park is designing a drop-tower ride and wants riders to experience close to 3 seconds of free fall. Evaluate the minimum tower height required (ignoring air resistance) and create a basic safety margin recommendation accounting for deceleration distance at the bottom.</li>
+</ol>
+<h3 class="pset-heading">Homework</h3>
+<ol class="rawlist">
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q1</span>A ball is dropped from rest and falls for 2.5 s. Find its velocity just before landing.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q2</span>An object falls from rest for 2 s. Find the distance fallen.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q3</span>A ball is thrown straight up at 9 m/s. Find the time to reach maximum height.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q4</span>An object is dropped from a height of 25 m. Find the time to reach the ground.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q5</span>A ball is thrown downward at 4 m/s. Find its velocity after 2 s.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q6</span>A ball thrown straight up at 10 m/s reaches what maximum height?</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q7</span>An object dropped from rest falls for 3.5 s. Find its final velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q8</span>A ball is thrown straight up at 6 m/s. Find its velocity after 1 s.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q9</span>An object falls from a height of 30 m starting from rest. Find its velocity upon landing.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q10</span>A ball thrown downward at 3 m/s falls for 2 s. Find the total distance fallen.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q1</span>A stone is dropped from a 40 m cliff. Find the time to reach the ground and the velocity at impact.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q2</span>A ball is thrown straight up at 16 m/s. Find the maximum height and the total time in the air.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q3</span>A ball is thrown downward from a height of 35 m at 5 m/s. Find the time to reach the ground.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q4</span>An object is thrown straight up at 18 m/s from the edge of a 12 m tall building. Find the time to reach the ground below the launch point.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q5</span>A ball dropped from a window takes 2 s to reach the ground. Find the height of the window.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q6</span>A rocket-assisted ball is launched straight up at 22 m/s from ground level. Find its height at t = 2 s.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q7</span>A stone thrown straight down from a bridge at 2 m/s lands in the water after 2.5 s. Find the height of the bridge above the water.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q8</span>A ball thrown straight up returns to its starting point after 3.5 s. Find its initial velocity and maximum height.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q9</span>An object dropped from a hovering drone at 25 m takes how long to hit the ground?</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q10</span>A ball is thrown upward at 12 m/s from an 8 m platform. Find the maximum height above the ground.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q1</span>A rock is dropped from a bridge 55 m above a river. Simultaneously, a second rock is thrown downward from the same height at 6 m/s. Find the time difference between when each rock hits the water.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q2</span>A ball is thrown straight up with an initial velocity of 20 m/s from a rooftop 18 m above the ground. Find the maximum height above the ground and the total flight time until it lands on the ground below.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q3</span>An object is thrown downward at 8 m/s from a 100 m tall building. Calculate its velocity when it lands and compare to the velocity it would have if simply dropped from rest.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q4</span>A juggler tosses a ball straight up so it takes 3 s to return to the launch point. Calculate its initial velocity and maximum height, and find its velocity at t = 1 s.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q5</span>Two balls are dropped from the same height, one 1 s after the other. Calculate the distance between them 4 s after the first ball is dropped.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q6</span>A ball is thrown straight up at 14 m/s from ground level at the same instant a second ball is dropped from a height of 18 m directly above. Determine if and when they collide.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q7</span>A window washer drops a squeegee from a platform 50 m up. At the same moment, someone below throws a ball straight up at 20 m/s from the ground. Determine whether and when the two objects pass each other.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q8</span>A ball thrown straight up passes a window 12 m above the launch point twice: once on the way up and once on the way down. Given a launch speed of 18 m/s, find the two times at which it passes the window.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q9</span>An object is thrown straight down from a height with an unknown initial speed, and it is known to take 2.5 s to fall 45 m. Find the initial velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q10</span>A ball dropped from a height h reaches the ground with the same speed as a second ball thrown downward from height h/3 with some initial speed v₀. Express v₀ in terms of g and h.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Challenge Q1 (Evaluate)</span>A popular claim states that "everything falls at the same rate regardless of mass, always." Evaluate the conditions under which this is true and where it breaks down in everyday (non-vacuum) situations.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Challenge Q2 (Create)</span>Design a two-object free-fall scenario (one dropped, one thrown) such that both objects have exactly the same speed at the moment the first one lands, though they land at different times.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Challenge Q3 (Evaluate/Create)</span>An amusement park's free-fall ride advertises "true weightlessness" for 2.5 seconds. Evaluate the tower height required to achieve this and create a basic recommendation for the deceleration zone needed at the bottom.</li>
+</ol>
+<h3 class="pset-heading">Synthesis Problems</h3>
+<p class="dayconnects">Connects: kinematic equations (Day 6), sign conventions, multi-object drop/throw scenarios, unit conversion.</p>
+
+
+<div class="problem"><span class="ptag">1</span><span class="ptag applied">Applied</span>
+<p>A construction worker drops a bolt from a scaffold 45 m above the ground at the same instant a coworker on the ground throws a safety cone straight up at 12 m/s from directly below. Determine whether and when the bolt and the cone collide, and find the height at which this occurs.</p>
+<p class="connects">Connects: free-fall kinematics, two-object simultaneous motion, sign conventions</p></div>
+
+<div class="problem"><span class="ptag">2</span><span class="ptag evaluate">Evaluate</span>
+<p>A skydiving safety manual claims "a jumper in free fall for 10 seconds reaches about 98 m/s." Evaluate this claim using ideal free-fall kinematics (ignoring air resistance) and discuss why real skydivers actually reach a much lower "terminal velocity" (about 55 m/s) well before 10 seconds, identifying what physical effect the ideal free-fall model omits.</p>
+<p class="connects">Connects: free-fall kinematics, evaluating idealized models against real-world physics</p></div>
+
+<div class="problem"><span class="ptag">3</span><span class="ptag applied">Applied</span>
+<p>A window washer's safety harness fails, and they fall freely for 1.2 s before an emergency arrestor engages, converting their entire remaining approach speed to zero over an additional 0.4 m of controlled deceleration. Find the washer's speed just before the arrestor engages and the average deceleration the arrestor must provide.</p>
+<p class="connects">Connects: free-fall kinematics, kinematic equations for deceleration, applied safety-engineering context</p></div>
+
+<div class="problem"><span class="ptag">4</span><span class="ptag evaluate">Evaluate</span>
+<p>A student solves a "ball thrown upward from a cliff" problem and obtains a negative time as one algebraic root of the quadratic position equation. Evaluate what this negative root actually represents physically (hint: consider extending the parabolic trajectory backward in time before the ball was actually launched), using the specific case \(v_0=15\) m/s upward from a 20 m cliff, landing height \(y=-20\) m.</p>
+<p class="connects">Connects: free-fall kinematics, evaluating extraneous/backward-extrapolated algebraic roots</p></div>
+
+<div class="problem"><span class="ptag">5</span><span class="ptag applied">Applied</span>
+<p>A hail stone falls from a cloud at 2000 m and, due to air resistance (which we'll approximate here as making it fall at a reduced constant effective acceleration of 6 m/s&sup2; instead of \(g\)), reaches the ground. Find its impact speed under this approximation, and compare it (as a ratio) to what ideal free fall (using \(g\)) would have predicted for the same 2000 m drop.</p>
+<p class="connects">Connects: free-fall kinematics, comparing an approximate model to the ideal case</p></div>
+
+
+<div class="problem"><span class="ptag">6</span><span class="ptag applied">Applied</span>
+<p>A cliff diver jumps from a platform 24 m above the water with an initial upward velocity of 3 m/s. Find the diver's total time in the air and their speed at impact, then convert the impact speed to km/h to compare against a diving-safety guideline stating entry speeds above 80 km/h significantly increase injury risk.</p>
+<p class="connects">Connects: free-fall kinematics, unit conversion, evaluating against a safety threshold</p></div>
+
+<div class="problem"><span class="ptag">7</span><span class="ptag evaluate">Evaluate</span>
+<p>A student claims that "since gravity is the same for all objects, a bowling ball and a feather dropped together will always land at exactly the same time, no matter what." Evaluate this claim, distinguishing between the idealized free-fall model used in this course and real-world conditions where it would (and would not) hold.</p>
+<p class="connects">Connects: free-fall kinematics, evaluating scope/limits of an idealized model</p></div>
+
+<div class="problem"><span class="ptag">8</span><span class="ptag applied">Applied</span>
+<p>A rescue drone hovers at 60 m and drops a supply package at the same instant a person on the ground below throws a rope bag straight up at 8 m/s to try to intercept it. Determine whether and when the package and rope bag meet, and find that meeting height.</p>
+<p class="connects">Connects: free-fall kinematics, two-object simultaneous motion, applied rescue-scenario context</p></div>
+
+<div class="problem"><span class="ptag">9</span><span class="ptag evaluate">Evaluate</span>
+<p>A quality-control engineer proposes testing product durability by "dropping every unit from exactly 1.5 m and timing the fall with a stopwatch to make sure it's really 1.5 m, rejecting any unit where the fall time is off by more than 5%." Evaluate the practicality of this proposal by computing the expected fall time from 1.5 m and discussing whether ordinary stopwatch reaction-time precision (roughly &plusmn;0.2 s for a human) is adequate to enforce a 5% tolerance on that time.</p>
+<p class="connects">Connects: free-fall kinematics, evaluating measurement precision against a real QC procedure</p></div>
+
+<div class="problem"><span class="ptag">10</span><span class="ptag applied">Applied</span>
+<p>A model rocket's engine burns out at an altitude of 80 m while still moving upward at 35 m/s. Ignoring air resistance after burnout, find the additional height the rocket coasts to, its total (from-ground) time of flight until it returns to the launch pad's height, and its speed at that moment.</p>
+<p class="connects">Connects: free-fall kinematics, multi-phase motion (powered ascent + coasting), forward-looking to projectile motion</p></div>
+
+
+</div></div>
+</div></main>
+</div>
+</body>
+</html>

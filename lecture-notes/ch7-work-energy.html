@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 7: Work and Energy - PHYS203 Extended Lecture Notes</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]'], ['$$', '$$']] },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="assets/tex-svg.js"></script>
+
+<style>
+:root{
+  --ink:#f3ede0; --ink-dim:#a89f8c; --paper:#171a21; --bg:#0f1115;
+  --line:#2a2e38; --accent:#e8a13a; --easy:#6fae8f; --medium:#e8a13a;
+  --hard:#e2725b; --challenge:#9fb3e0; --tag-bg:#1d212b;
+}
+body { margin:0; background: #1d2230; color:var(--ink); font-family:Georgia,'Times New Roman',serif; }
+.shell { display:flex; min-height:100vh; }
+.sidebar {
+  width:280px; flex-shrink:0; background:#0b0d11; color:var(--ink); padding:22px 0 60px;
+  position:fixed; top:0; left:0; bottom:0; overflow-y:auto; font-family:'Courier New',monospace;
+}
+.sidebar .brand { padding:0 22px 18px; font-family:Georgia,serif; font-weight:800; font-size:1.05rem; color:var(--ink); border-bottom:1px solid var(--line); margin-bottom:14px; }
+.sidebar .brand small { display:block; font-family:'Courier New',monospace; font-weight:400; color:var(--ink-dim); font-size:0.72rem; margin-top:3px; }
+.sidebar a.chap-link { display:block; padding:8px 22px; color:var(--ink); text-decoration:none; font-size:0.88rem; border-left:3px solid transparent; }
+.sidebar a.chap-link:hover { background:#1d212b; }
+.sidebar a.chap-link.active { background:#1d212b; border-left-color:var(--accent); color:var(--accent); font-weight:600; }
+.sidebar a.home-link { display:block; padding:8px 22px; color:var(--ink-dim); text-decoration:none; font-size:0.82rem; margin-bottom:8px; }
+.main { margin-left:280px; flex:1; display:flex; justify-content:center; min-width:0; }
+.content { max-width:880px; width:100%; padding:36px 40px 100px; background:transparent; }
+.content h1 { font-family:Georgia,serif; color:var(--ink); border-bottom:3px solid var(--accent); padding-bottom:12px; }
+.content h1:first-of-type { margin-top: 0; }
+.content h2 { font-family:Georgia,serif; color:var(--accent); margin-top:44px; }
+.content h3 { color:var(--easy); }
+.day-anchor-wrap { border-top: 4px solid var(--line); padding-top: 6px; margin-top: 56px; }
+.day-anchor-wrap:first-of-type { border-top: none; margin-top: 0; padding-top: 0; }
+
+/* Problem-section styling */
+.probsets { margin-top: 28px; background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 20px 24px; }
+.probsets > h3.pset-heading {
+  font-family:'Courier New',monospace; font-size:1rem; text-transform:uppercase; letter-spacing:0.05em;
+  color:var(--ink); border-bottom:2px solid var(--accent); padding-bottom:6px; margin: 26px 0 12px;
+}
+.probsets > h3.pset-heading:first-child { margin-top: 0; }
+h3.tier { font-family:'Courier New',monospace; font-size:0.92rem; margin:18px 0 8px; display:flex; align-items:center; gap:8px; color:var(--ink); }
+.tier-dot { width:9px; height:9px; border-radius:50%; display:inline-block; }
+.tier.easy .tier-dot{background:var(--easy);} .tier.medium .tier-dot{background:var(--medium);}
+.tier.hard .tier-dot{background:var(--hard);} .tier.challenge .tier-dot{background:var(--challenge);}
+details.problem { background:#12141a; border:1px solid var(--line); border-radius:8px; margin-bottom:8px; }
+details.problem summary { cursor:pointer; padding:10px 14px; font-size:0.92rem; display:flex; gap:8px; align-items:baseline; font-family:'Courier New',monospace; color:var(--ink);}
+.qtag { font-family:'Courier New',monospace; font-size:0.68rem; font-weight:700; background:var(--tag-bg); color:var(--ink-dim); padding:2px 7px; border-radius:999px; white-space:nowrap; }
+.solution { padding:2px 16px 12px; border-top:1px dashed var(--line); font-family:Georgia,serif; font-size:0.88rem;}
+.answer { font-family:'Courier New',monospace; font-weight:700; background:#16241d; color:var(--easy); border-left:4px solid var(--easy); padding:6px 10px; border-radius:4px; margin-top:8px !important; }
+.rawlist { font-family:'Courier New',monospace; font-size:1.05rem; line-height:1.6; padding-left: 1.5em; color:var(--ink); }
+.rawlist li { margin-bottom: 10px; }
+.rawlist .qtag { font-size:0.76rem; }
+.pending-note { font-family:Georgia,serif; font-size:0.82rem; color:var(--accent); font-style:italic; background:#2a2416; border:1px solid var(--accent); border-radius:6px; padding:8px 12px; margin-bottom: 12px;}
+</style>
+
+<style>
+  :root{
+    --ink:#f3ede0; --ink-dim:#a89f8c; --paper:#171a21; --bg:transparent;
+    --line:#2a2e38; --accent:#e8a13a; --accent-dark:#8a5a1f; --accent-soft:#2a2416;
+    --ic:#6fae8f; --ic-soft:#16241d; --hw:#e2725b; --hw-soft:#2a1a14;
+  }
+  * { box-sizing: border-box; }
+  /* body background intentionally inherited from the outer wrapper style block above */
+  .wrap { max-width: 900px; margin: 0 auto; padding: 30px 22px 90px; }
+  h1.doctitle {
+    font-family:"Courier New",monospace; font-size: 1.9rem; font-weight:700;
+    color: var(--ink); border-bottom: 4px solid var(--accent); padding-bottom: 14px;
+    margin: 0 0 8px 0;
+  }
+  p.subtitle { font-family:Georgia,serif; color:var(--ink-dim); font-size:0.95rem; margin:0 0 30px 0; font-style:italic; }
+  #TOC {
+    background: var(--paper); border: 1px solid var(--line); border-radius: 8px;
+    padding: 18px 24px; margin: 0 0 34px 0;
+    font-family: "Courier New", monospace; font-size: 0.9rem; columns: 2; column-gap: 30px;
+  }
+  #TOC a { color: var(--accent); text-decoration: none; font-weight: 600; display:block; padding: 3px 0; break-inside: avoid; }
+  #TOC a:hover { text-decoration: underline; }
+  h2.chapter {
+    font-family:"Courier New",monospace; font-size: 1.35rem; font-weight:700;
+    color: #171a21; background: var(--accent);
+    padding: 12px 18px; border-radius: 6px; margin: 50px 0 20px 0;
+  }
+  h3.day {
+    font-family:"Courier New",monospace; font-size: 1.1rem; font-weight:700;
+    color: var(--accent); background: var(--accent-soft);
+    border-left: 5px solid var(--accent); padding: 8px 14px;
+    margin: 34px 0 6px 0; border-radius: 0 4px 4px 0;
+  }
+  p.dayconnects { font-family:Georgia,serif; font-size:0.85rem; color:var(--ink-dim); margin:0 0 16px 0; font-style:italic; }
+  h4.subhead {
+    font-family:"Courier New",monospace; font-size: 0.82rem; font-weight:700;
+    text-transform: uppercase; letter-spacing: 0.06em; margin: 18px 0 10px 0;
+    padding-bottom: 4px; border-bottom: 1px solid var(--line);
+  }
+  h4.subhead.ic { color: var(--ic); }
+  h4.subhead.hw { color: var(--hw); }
+  div.problem {
+    background: #12141a; border: 1px solid var(--line); border-radius: 7px;
+    padding: 12px 16px; margin-bottom: 10px; color:var(--ink);
+  }
+  div.problem { border-left: 4px solid var(--ic); }
+  .ptag {
+    font-family:"Courier New",monospace; font-size:0.68rem; font-weight:700;
+    padding: 2px 8px; border-radius: 999px; margin-right: 8px; white-space:nowrap;
+    text-transform: uppercase; letter-spacing: 0.03em;
+  }
+  .problem .ptag:not(.applied):not(.evaluate) { background: var(--ic-soft); color: var(--ic); }
+  .ptag.applied { background:#16241d; color:#6fae8f; }
+  .ptag.evaluate { background:#2a1a2e; color:#c68fd9; }
+  .connects { font-family:Georgia,serif; font-size:0.72rem; color:var(--ink-dim); margin-top:6px; }
+  p { margin: 8px 0; }
+  strong { color: var(--accent); }
+  footer { margin-top:50px; font-family:Georgia,serif; font-size:0.82rem; color:var(--ink-dim); text-align:center; }
+</style>
+
+</head>
+<body>
+<div class="shell">
+<nav class="sidebar"><div class="brand">PHYS203<small>Extended Lecture Notes</small></div>
+<a class="home-link" href="../index.html" style="border-bottom:1px solid #24354a; padding-bottom:14px; margin-bottom:6px; display:block;">&larr; Course Home</a>
+<a class="home-link" href="index.html">&larr; Back to Chapter Index</a>
+<a class="chap-link" href="ch1-units-dimensions.html">Ch 1: Units and Dimensions</a>
+<a class="chap-link" href="ch2-kinematics.html">Ch 2: One-Dimensional Kinematics</a>
+<a class="chap-link" href="ch3-vectors.html">Ch 3: Vectors</a>
+<a class="chap-link" href="ch4-2d-motion.html">Ch 4: Two-Dimensional Motion</a>
+<a class="chap-link" href="ch5-newtons-laws.html">Ch 5: Newton's Laws and Applications</a>
+<a class="chap-link" href="ch6-momentum.html">Ch 6: Momentum and Collisions</a>
+<a class="chap-link active" href="ch7-work-energy.html">Ch 7: Work and Energy</a>
+<a class="chap-link" href="ch8-rotational-motion.html">Ch 8: Rotational Motion</a>
+<a class="chap-link" href="ch9-oscillations.html">Ch 9: Oscillations</a>
+<a class="chap-link" href="ch10-waves.html">Ch 10: Waves</a>
+<a class="chap-link" href="ch11-sound.html">Ch 11: Sound</a></nav>
+<main class="main"><div class="content">
+<div class="chapter-intro"><h1 id="chapter-7-work-and-energy">Chapter 7: Work and Energy</h1>
+</div>
+<div class="day-anchor-wrap"><h2 id="class-day-19-work-and-the-work-energy-theorem">Class Day 19:
+Work and the Work-Energy Theorem</h2>
+<h3 id="why-this-matters-17">Why this matters</h3>
+<p>Energy methods offer yet another powerful alternative to F=ma,
+especially useful when forces vary over a distance or when you care
+about speed at a location rather than the full time-history of the
+motion. Today builds the foundational definitions: work and kinetic
+energy.</p>
+<h3 id="defining-work">Defining work</h3>
+<p>Work done by a constant force is:</p>
+<p><span class="math display">\[W = Fd\cos\theta\]</span></p>
+<p>where \(\theta\) is the angle between the force direction and the direction
+of displacement. The \(\cos\theta\) factor captures an important and often
+counterintuitive idea: <strong>only the component of force
+<em>along</em> the direction of motion does any work at all.</strong> A
+force applied exactly perpendicular to an object’s displacement ((°), so
+\(\cos\theta\)) does <em>zero</em> work, no matter how large that force is. This is
+why, technically, carrying a heavy bag at constant height across a flat
+floor involves no work being done <em>against gravity</em> by your arm —
+your upward-supporting force is perpendicular to your horizontal
+motion.</p>
+<p>Work can also be negative: if the force has a component
+<em>opposing</em> the direction of motion ((&gt;90°)), \(\cos\theta\) is negative,
+and the work done is negative — this happens whenever a force is slowing
+something down, like friction or air resistance acting against a moving
+object.</p>
+<p>For a <strong>variable</strong> force (one that changes over the
+distance traveled), work is found as the area under a
+force-vs-displacement graph — this generalizes the constant-force
+formula (which is just the area of a simple rectangle, (Fd)) to any
+shape of force curve.</p>
+<h3 id="kinetic-energy-and-the-work-energy-theorem">Kinetic energy and
+the work-energy theorem</h3>
+<p>Kinetic energy is defined as:</p>
+<p><span class="math display">\[KE = \tfrac12mv^2\]</span></p>
+<p>The <strong>work-energy theorem</strong> connects work directly to a
+change in kinetic energy:</p>
+<p><span class="math display">\[W_{net} = \Delta KE = KE_f -
+KE_i\]</span></p>
+<p>This is often dramatically faster than a kinematics-based approach
+when you only care about speed at a certain point, not the full time
+history of the motion.</p>
+<p><strong>Worked example:</strong> A 1200 kg car accelerates from rest
+to 25 m/s. Find its final kinetic energy and the net work done on
+it.</p>
+<p><span class="math display">\[KE_f = \tfrac12(1200)(25)^2 =
+375{,}000\text{ J}\]</span></p>
+<p>Since \(KE_i=0\) (starts from rest), the work-energy theorem gives
+\(W_{net}=\Delta KE = 375{,}000-0=375{,}000\) J directly — no need to know the
+acceleration, the distance, or the time separately; the net work is just
+the final kinetic energy.</p>
+<h3 id="common-mistake-to-watch-for-16">Common mistake to watch for</h3>
+<p>Using the work done by only <em>one</em> force (say, an applied push)
+in the work-energy theorem, while ignoring other forces (like friction)
+also acting on the object. The theorem requires the <em>net</em> work —
+the work done by the combination of every force acting on the object —
+not the work done by any single force in isolation, unless that force
+genuinely is the only one present.</p>
+<h3 id="key-formulas-and-facts-for-this-day-17">Key formulas and facts
+for this day</h3>
+<ul>
+<li>Work by a constant force: (W=Fd); a force perpendicular to
+displacement does zero work; a force opposing motion does negative
+work.</li>
+<li>Variable-force work = area under a force-vs-displacement graph.</li>
+<li>Kinetic energy: \(KE=\tfrac12mv^2\). Work-energy theorem: \(W_{net}=\Delta KE\).</li>
+</ul>
+<hr />
+<div class="probsets">
+<h3 class="pset-heading">Reading</h3>
+<ol class="rawlist"><li>Work done by a constant force is given by which formula?</li><li>A force perpendicular to displacement does how much work?</li><li>Work done by a variable force is represented graphically by what?</li><li>Kinetic energy is defined by which formula?</li><li>The work-energy theorem states that net work equals the change in which quantity?</li><li>Kinetic energy is always what sign (assuming real, positive mass and any nonzero speed)?</li><li>If net work done on an object is positive, what happens to its kinetic energy?</li><li>If net work done on an object is zero, what happens to its kinetic energy?</li><li>Doubling an object's speed does what to its kinetic energy (mass constant)?</li><li>Which of the following correctly uses the work-energy theorem?</li></ol>
+<h3 class="pset-heading">Assignments</h3>
+<h3 class="tier easy"><span class="tier-dot"></span>Easy</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Easy Q1</span>Find the work done by a 10 N force acting parallel to a 3 m displacement. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q2</span>Find the work done by a 20 N force acting parallel to a 5 m displacement. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q3</span>Find the work done by a 15 N force perpendicular to displacement. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q4</span>Find the kinetic energy of a 5 kg object moving at 4 m/s. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q5</span>Find the kinetic energy of a 3 kg object moving at 6 m/s. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q6</span>A net force does 50 J of work on a 2 kg object at rest. Find its final speed. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q7</span>A net force does 80 J of work on a 4 kg object at rest. Find its final speed. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q8</span>Find the work done by a 25 N force at 60 degrees to a 4 m displacement. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q9</span>Find the kinetic energy of an 8 kg object moving at 3 m/s. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q10</span>A 6 kg object's kinetic energy changes from 100 J to 150 J. Find the net work done. (Give your answer in J.)</li></ol>
+<h3 class="tier medium"><span class="tier-dot"></span>Medium</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Medium Q1</span>A 35 N force is applied at 20 degrees to the direction of an 8 m displacement. Find the work done. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q2</span>A person carries a 45 N bag horizontally for 15 m at constant height. Find the work done against gravity. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q3</span>A variable force increases linearly from 0 N to 25 N over a 4 m displacement. Find the work done (area under the graph). (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q4</span>A 1300 kg car accelerates from rest to 22 m/s. Find its final kinetic energy. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q5</span>Same car: find the net work done on it. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q6</span>A 4 kg object experiences 70 J of net work while at rest initially. Find its final speed. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q7</span>A 550 kg roller coaster car's speed decreases from 18 m/s to 10 m/s due to friction. Find the work done by friction. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q8</span>A 50 N force is applied at 35 degrees above horizontal over a 6 m displacement. Find the work done. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q9</span>A box is pushed 6 m by a 40 N force directed 50 degrees above horizontal. Find the work done. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q10</span>A 1500 kg car's kinetic energy changes from 60,000 J to 30,000 J due to braking. Find the net work done. (Give your answer in J.)</li></ol>
+<h3 class="tier hard"><span class="tier-dot"></span>Hard</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Hard Q1</span>A force varies as F(x) = 3x (N, x in m) from x=0 to x=4 m. Find the work done using the area under this linear force-displacement graph. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q2</span>A box (8 kg) is pushed up a 20 degree incline for 5 m by a force of 60 N along the incline. Find the work done by the applied force. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q3</span>Same box: find the work done by gravity (negative, opposing motion). (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q4</span>A 1400 kg car accelerates from 10 m/s to 25 m/s over 100 m. Find the net work done. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q5</span>Same car: find the average net force. (Give your answer in N.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q6</span>A 0.6 kg ball's kinetic energy increases from 5 J to 45 J over a displacement of 2 m. Find the average net force. (Give your answer in N.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q7</span>A 25 kg sled decelerates from 8 m/s to 3 m/s over 10 m due to friction. Find the work done by friction. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q8</span>Same sled: find the average friction force. (Give your answer in N.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q9</span>A 1600 kg car's brakes do -200,000 J of work over a stopping distance of 40 m. Find the average braking force. (Give your answer in N.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q10</span>Same car: find its initial speed (assuming it comes to rest). (Give your answer in m/s.)</li></ol>
+<h3 class="tier challenge"><span class="tier-dot"></span>Challenge</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Challenge Q1</span>(Evaluate) A student claims that if a force is very large but acts over zero displacement, it does a large amount of work because "a lot of effort was expended." Evaluate this claim using the definition of work. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q2</span>(Create) Design a variable-force scenario (a force-displacement profile of your choosing) such that the total work done is exactly 100 J. Show the area calculation. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q3</span>(Evaluate/Create) A vehicle safety engineer wants to estimate the average crash force experienced by a car's structure using only speed change and crumple-zone distance. Evaluate how the work-energy theorem could be applied, then create a step-by-step method. Upload your written response.</li></ol>
+<h3 class="pset-heading">Homework</h3>
+<h3 class="tier easy"><span class="tier-dot"></span>Easy</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Easy Q1</span>Find the work done by a 12 N force acting parallel to a 4 m displacement. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q2</span>Find the work done by a 22 N force acting parallel to a 5 m displacement. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q3</span>Find the work done by a 16 N force perpendicular to displacement. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q4</span>Find the kinetic energy of a 6 kg object moving at 4 m/s. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q5</span>Find the kinetic energy of a 3.5 kg object moving at 6 m/s. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q6</span>A net force does 55 J of work on a 2.5 kg object at rest. Find its final speed. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q7</span>A net force does 85 J of work on a 4.5 kg object at rest. Find its final speed. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q8</span>Find the work done by a 27 N force at 65 degrees to a 4.5 m displacement. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q9</span>Find the kinetic energy of a 9 kg object moving at 3 m/s. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q10</span>A 6.5 kg object's kinetic energy changes from 105 J to 155 J. Find the net work done. (Give your answer in J.)</li></ol>
+<h3 class="tier medium"><span class="tier-dot"></span>Medium</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Medium Q1</span>A 38 N force is applied at 22 degrees to the direction of a 9 m displacement. Find the work done. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q2</span>A person carries a 48 N bag horizontally for 18 m at constant height. Find the work done against gravity. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q3</span>A variable force increases linearly from 0 N to 28 N over a 4.5 m displacement. Find the work done. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q4</span>A 1350 kg car accelerates from rest to 24 m/s. Find its final kinetic energy. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q5</span>Same car: find the net work done. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q6</span>A 4.5 kg object experiences 75 J of net work while at rest initially. Find its final speed. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q7</span>A 570 kg roller coaster car's speed decreases from 19 m/s to 11 m/s due to friction. Find the work done by friction. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q8</span>A 55 N force is applied at 38 degrees above horizontal over a 7 m displacement. Find the work done. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q9</span>A box is pushed 7 m by a 42 N force directed 48 degrees above horizontal. Find the work done. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q10</span>A 1550 kg car's kinetic energy changes from 62,000 J to 32,000 J due to braking. Find the net work done. (Give your answer in J.)</li></ol>
+<h3 class="tier hard"><span class="tier-dot"></span>Hard</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Hard Q1</span>A force varies as F(x) = 4x over a displacement from x=0 to x=3.5 m. Find the work done. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q2</span>A box (8.5 kg) is pushed up a 22 degree incline for 5.5 m by a force of 65 N along the incline. Find the work done by the applied force. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q3</span>Same box: find the work done by gravity. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q4</span>A 1450 kg car accelerates from 11 m/s to 26 m/s over 105 m. Find the net work done. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q5</span>Same car: find the average net force. (Give your answer in N.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q6</span>A 0.62 kg ball's kinetic energy increases from 5.5 J to 47 J over a displacement of 2.2 m. Find the average net force. (Give your answer in N.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q7</span>A 27 kg sled decelerates from 8.5 m/s to 3.5 m/s over 11 m due to friction. Find the work done by friction. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q8</span>Same sled: find the average friction force. (Give your answer in N.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q9</span>A 1650 kg car's brakes do -210,000 J of work over 42 m. Find the average braking force. (Give your answer in N.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q10</span>Same car: find its initial speed. (Give your answer in m/s.)</li></ol>
+<h3 class="tier challenge"><span class="tier-dot"></span>Challenge</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Challenge Q1</span>(Evaluate) A student claims that if a force is very large but acts over zero displacement, it does a large amount of work because "a lot of effort was expended." Evaluate this claim using the definition of work. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q2</span>(Create) Design a variable-force scenario (a force-displacement profile of your choosing) such that the total work done is exactly 100 J. Show the area calculation. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q3</span>(Evaluate/Create) A vehicle safety engineer wants to estimate the average crash force experienced by a car's structure using only speed change and crumple-zone distance. Evaluate how the work-energy theorem could be applied, then create a step-by-step method. Upload your written response.</li></ol>
+<h3 class="pset-heading">Synthesis Problems</h3>
+<p class="dayconnects">Connects: Newton's laws (Ch.5), friction (Ch.5), kinematics (Ch.2), vectors (Ch.3).</p>
+
+
+<div class="problem"><span class="ptag">1</span><span class="ptag applied">Applied</span>
+<p>A 1200 kg car accelerates from 10 m/s to 28 m/s over 120 m on a level road while overcoming 900 N of combined friction/air resistance. Find the net work done, the work done by friction, and the total (larger) applied engine force work required, using the work-energy theorem together with Newton's second law ideas from Chapter 5.</p>
+<p class="connects">Connects: work-energy theorem, friction/resistive forces (Ch.5), multi-force work accounting</p></div>
+
+<div class="problem"><span class="ptag">2</span><span class="ptag evaluate">Evaluate</span>
+<p>A student claims that "if a force acts on an object the entire time it's moving, that force must be doing positive work the entire time." Evaluate this claim using the example of a ball thrown straight up: gravity acts continuously, yet does the sign of its work change during the flight? Explain using the \(W=Fd\cos\theta\) formula and the changing relationship between force and displacement direction.</p>
+<p class="connects">Connects: work-energy theorem, free fall (Ch.2), evaluating a plausible-but-flawed generalization</p></div>
+
+<div class="problem"><span class="ptag">3</span><span class="ptag applied">Applied</span>
+<p>A 60 kg skater pushes off a wall with a constant 200 N force over a 0.4 m push-off distance, then glides at constant velocity across frictionless ice before decelerating on a rough patch (\(\mu_k=0.05\)) for 6 m. Find the skater's speed right after push-off (via the work-energy theorem), then find their final speed after crossing the rough patch.</p>
+<p class="connects">Connects: work-energy theorem, friction (Ch.5), multi-stage applied motion analysis</p></div>
+
+<div class="problem"><span class="ptag">4</span><span class="ptag evaluate">Evaluate</span>
+<p>A physics student computes the work done by gravity on a ball thrown at an angle (projectile motion) by using the ball's full 2D displacement magnitude in \(W=Fd\cos\theta\), rather than only the vertical displacement component. Evaluate why this approach requires extra care (specifically identifying \(\theta\) as the angle between the (vertical) gravity force and the *displacement vector*, not simply "the whole path"), and set up the correct calculation for a ball landing 2 m below its launch height after traveling 30 m horizontally.</p>
+<p class="connects">Connects: work-energy theorem, projectile motion (Ch.4), vector angle reasoning (Ch.3)</p></div>
+
+<div class="problem"><span class="ptag">5</span><span class="ptag applied">Applied</span>
+<p>A 1400 kg elevator's motor does 250,000 J of work lifting it from rest to a final speed of 4 m/s over a vertical rise of 12 m. Using the work-energy theorem together with the (separately calculable, forward-referencing Day 20) work done against gravity, find how much of the motor's work went into kinetic energy versus how much went into raising the elevator's gravitational potential energy.</p>
+<p class="connects">Connects: work-energy theorem, forward-looking gravitational PE (Day 20), applied engineering energy-budget analysis</p></div>
+
+
+<div class="problem"><span class="ptag">6</span><span class="ptag applied">Applied</span>
+<p>A 1350 kg car accelerates from 12 m/s to 30 m/s over 140 m while overcoming 950 N of resistance. Find the net work done and the required engine force work, and convert the net work to kilowatt-hours (a common energy billing unit) to comment on the scale of energy involved compared to household electricity use.</p>
+<p class="connects">Connects: work-energy theorem, unit conversion (Ch.1), applied energy-scale evaluation</p></div>
+
+<div class="problem"><span class="ptag">7</span><span class="ptag evaluate">Evaluate</span>
+<p>A student solving a work problem for an object moving in a circle at constant speed (uniform circular motion, Ch.4) concludes that the centripetal force "must be doing a lot of work since it's a large force acting continuously." Evaluate this claim using the work-energy theorem and the geometric relationship between centripetal force and velocity direction in circular motion.</p>
+<p class="connects">Connects: work-energy theorem, centripetal force (Ch.4), evaluating a force-magnitude-vs-work conflation</p></div>
+
+<div class="problem"><span class="ptag">8</span><span class="ptag applied">Applied</span>
+<p>A 65 kg skater pushes off a rail with 180 N over 0.35 m, glides frictionlessly, then crosses a rough patch (\(\mu_k=0.06\)) for 8 m. Find their speed after push-off and their final speed after the rough patch.</p>
+<p class="connects">Connects: work-energy theorem, friction (Ch.5), multi-stage motion</p></div>
+
+<div class="problem"><span class="ptag">9</span><span class="ptag evaluate">Evaluate</span>
+<p>An engineer computing the work done by an applied force on a block sliding up a frictionless incline uses \(W=Fd\), ignoring the angle between the force and the incline surface. Evaluate why this is incomplete for a force not applied purely along the incline, and set up the correct expression for a case where a 60 N force is applied at 15&deg; above a 22&deg; incline surface, over a 3 m displacement along the incline.</p>
+<p class="connects">Connects: work-energy theorem, incline force decomposition (Ch.5), evaluating an incomplete formula application</p></div>
+
+<div class="problem"><span class="ptag">10</span><span class="ptag applied">Applied</span>
+<p>A 1450 kg elevator's motor does 270,000 J of work lifting it from rest to 4.2 m/s over a 13 m rise. Find the kinetic energy gained, and (forward-connecting to gravitational PE) find how much of the motor's work must have gone into raising the elevator's height rather than speeding it up.</p>
+<p class="connects">Connects: work-energy theorem, forward-looking PE (Day 20), applied energy-budget analysis</p></div>
+
+
+</div></div>
+<div class="day-anchor-wrap"><h2 id="class-day-20-potential-energy-and-conservation-of-energy">Class
+Day 20: Potential Energy and Conservation of Energy</h2>
+<h3 id="why-this-matters-18">Why this matters</h3>
+<p>Potential energy captures “stored” energy tied to an object’s
+position or configuration, and today’s conservation-of-energy principle
+becomes one of the single most powerful problem-solving tools in the
+entire course — often replacing several steps of kinematics with one
+clean equation.</p>
+<h3 id="two-kinds-of-potential-energy-for-this-course">Two kinds of
+potential energy for this course</h3>
+<p><strong>Gravitational potential energy</strong>, \(PE_{grav}=mgh\),
+where (h) is height measured relative to some chosen reference level.
+The choice of reference level is arbitrary — what actually matters
+physically is always the <em>change</em> in height (and therefore the
+<em>change</em> in PE), never some absolute value tied to an arbitrarily
+chosen “zero” point.</p>
+<p><strong>Elastic potential energy</strong>, stored in a stretched or
+compressed spring: \(PE_{elastic}=\tfrac12kx^2\), where (k) is the spring
+constant and (x) is the displacement from the spring’s natural
+(unstretched) length. This connects back to yesterday’s
+area-under-the-curve idea: a spring’s restoring force grows linearly
+with stretch ((F=kx), Hooke’s law), so the work needed to stretch it is
+the area of a triangle under that linearly rising force-vs-displacement
+graph, which works out to exactly \(\tfrac12kx^2\).</p>
+<h3 id="conservation-of-mechanical-energy">Conservation of mechanical
+energy</h3>
+<p>In the absence of non-conservative forces (like friction or air
+resistance), the total mechanical energy — kinetic plus potential —
+remains constant throughout a motion:</p>
+<p><span class="math display">\[KE_i + PE_i = KE_f + PE_f\]</span></p>
+<p><strong>Worked example:</strong> A 5 kg object slides down a
+frictionless 15 m tall hill, starting from rest. Find its speed at the
+bottom.</p>
+<p>Taking the bottom of the hill as the reference height (\(PE_f=0\)):</p>
+<p><span class="math display">\[0 + mgh = \tfrac12mv_f^2 + 0 \Rightarrow
+v_f = \sqrt{2gh} = \sqrt{2(9.8)(15)} = 17.1\text{ m/s}\]</span></p>
+<p>Notice mass cancels out entirely — just as with the frictionless
+incline in Chapter 5, the final speed at the bottom of a frictionless
+hill doesn’t depend on how heavy the object is, only on the height
+dropped. This is really the same underlying physics as free fall and
+frictionless inclines, viewed through a different (and often more
+convenient) lens.</p>
+<h3 id="common-mistake-to-watch-for-17">Common mistake to watch for</h3>
+<p>Forgetting to account for <em>all</em> forms of energy present in a
+given problem — a common one is a spring launching a ball vertically,
+where both elastic PE (at the start) and gravitational PE (at the peak)
+matter, and skipping either term breaks the conservation equation.
+Before writing the energy equation, explicitly list every energy type
+present at the initial state and every energy type present at the final
+state.</p>
+<h3 id="key-formulas-and-facts-for-this-day-18">Key formulas and facts
+for this day</h3>
+<ul>
+<li>Gravitational PE: (mgh) (only changes in height matter physically).
+Elastic PE: \(\tfrac12kx^2\).</li>
+<li>Conservation of mechanical energy: \(KE_i+PE_i = KE_f+PE_f\), valid
+when only conservative forces act.</li>
+<li>Before applying the energy equation, list every energy type present
+at both the initial and final states.</li>
+</ul>
+<hr />
+<div class="probsets">
+<h3 class="pset-heading">Reading</h3>
+<ol class="rawlist"><li>Gravitational potential energy is given by which formula?</li><li>Elastic potential energy is given by which formula?</li><li>Gravitational PE is defined relative to what?</li><li>Conservation of mechanical energy states that KE + PE remains constant under what condition?</li><li>For an object falling from height h (starting from rest, no air resistance), which formula gives its speed just before landing?</li><li>As an object falls, gravitational PE converts into which form of energy (frictionless case)?</li><li>Mass cancels out of speed calculations in gravitational free-fall/energy problems because both PE and KE depend on mass in what way?</li><li>What does the spring constant k represent in the elastic PE formula?</li><li>A conservative force is best described as one for which work done is what?</li><li>Which is the correct general energy conservation equation with friction present?</li></ol>
+<h3 class="pset-heading">Assignments</h3>
+<h3 class="tier easy"><span class="tier-dot"></span>Easy</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Easy Q1</span>Find the gravitational PE of a 5 kg object at 4 m height (g=9.8 m/s^2). (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q2</span>Find the gravitational PE of a 10 kg object at 2 m height. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q3</span>Find the elastic PE of a spring with k=100 N/m stretched 0.1 m. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q4</span>Find the elastic PE of a spring with k=200 N/m compressed 0.05 m. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q5</span>A 2 kg ball is dropped from 5 m. Find its speed just before impact. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q6</span>A 3 kg ball is dropped from 8 m. Find its speed just before impact. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q7</span>A pendulum bob swings from 0.2 m above its lowest point. Find its speed at the lowest point. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q8</span>A 4 kg object slides down a frictionless 3 m tall hill from rest. Find its speed at the bottom. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q9</span>Find the gravitational PE of a 3 kg object at 6 m height. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q10</span>Find the elastic PE of a spring with k=150 N/m stretched 0.04 m. (Give your answer in J.)</li></ol>
+<h3 class="tier medium"><span class="tier-dot"></span>Medium</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Medium Q1</span>A 12 kg object is raised from 3 m to 9 m. Find the change in gravitational PE. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q2</span>A spring with k=280 N/m is compressed 0.09 m. Find the elastic PE stored. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q3</span>A 600 kg roller coaster car is at the top of a 25 m hill. Find its gravitational PE relative to the bottom. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q4</span>A 6 kg object slides down a frictionless 12 m tall hill, starting from rest. Find its speed at the bottom. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q5</span>A spring (k=260 N/m) launches a 0.4 kg ball vertically after being compressed 0.09 m. Find the launch speed. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q6</span>Same launch: find the maximum height reached. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q7</span>A pendulum bob swings from a height of 0.35 m above its lowest point. Find its speed at the lowest point. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q8</span>A skier (55 kg) starts from rest at the top of a frictionless 35 m slope. Find their speed at the bottom. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q9</span>A roller coaster car (420 kg) at the top of a 22 m hill (frictionless, from rest). Find its speed at the bottom. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q10</span>A spring-loaded toy stores 5 J of elastic PE when compressed 0.06 m. Find the spring constant. (Give your answer in N/m.)</li></ol>
+<h3 class="tier hard"><span class="tier-dot"></span>Hard</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Hard Q1</span>A 45 kg hiker climbs from an elevation of 1200 m to 1850 m. Find the gravitational PE gained. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q2</span>A spring (k=450 N/m) is compressed by 0.12 m to launch a toy. Find the elastic PE stored. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q3</span>If this converts entirely to gravitational PE for a 0.05 kg toy, find the maximum height reached. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q4</span>A pendulum bob (2 kg) is raised to a height where its gravitational PE relative to the lowest point is 15.68 J. Find the height. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q5</span>A 1200 kg elevator rises 40 m. Find the gravitational PE gained. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q6</span>Compare this numerically to the kinetic energy the elevator would have at 5 m/s. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q7</span>A spring launcher stores 12 J of elastic PE and launches a 0.3 kg ball straight up. Find the maximum height reached. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q8</span>A diving board (modeled as a spring with k=5000 N/m) is deflected 0.25 m by a diver. Find the elastic PE stored at maximum deflection. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q9</span>A roller coaster's first hill is 35 m tall; find the gravitational PE of a 500 kg car at the top relative to the bottom. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q10</span>Find the height of a second, smaller hill such that the car's PE there is exactly half of the first hill's PE. (Give your answer in m.)</li></ol>
+<h3 class="tier challenge"><span class="tier-dot"></span>Challenge</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Challenge Q1</span>(Evaluate) A student claims that an object at a lower height always has less "total energy" than one at a higher height, regardless of its speed. Evaluate this claim using a specific counterexample involving kinetic energy. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q2</span>(Create) Design a gravitational PE scenario (mass and height of your choosing) where the PE equals exactly 500 J, and verify your chosen values. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q3</span>(Evaluate/Create) A renewable energy company is evaluating a pumped-hydro storage system. Evaluate what factors determine the system's total energy storage capacity, then create a basic sizing recommendation. Upload your written response.</li></ol>
+<h3 class="pset-heading">Homework</h3>
+<h3 class="tier easy"><span class="tier-dot"></span>Easy</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Easy Q1</span>Find the gravitational PE of a 6 kg object at 3 m height. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q2</span>Find the gravitational PE of an 11 kg object at 2.5 m height. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q3</span>Find the elastic PE of a spring with k=110 N/m stretched 0.09 m. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q4</span>Find the elastic PE of a spring with k=210 N/m compressed 0.045 m. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q5</span>A 2.5 kg ball is dropped from 5.5 m. Find its speed just before impact. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q6</span>A 3.5 kg ball is dropped from 8.5 m. Find its speed just before impact. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q7</span>A pendulum bob swings from 0.22 m above its lowest point. Find its speed at the lowest point. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q8</span>A 4.5 kg object slides down a frictionless 3.5 m tall hill from rest. Find its speed at the bottom. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q9</span>Find the gravitational PE of a 3.5 kg object at 6.5 m height. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q10</span>Find the elastic PE of a spring with k=160 N/m stretched 0.045 m. (Give your answer in J.)</li></ol>
+<h3 class="tier medium"><span class="tier-dot"></span>Medium</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Medium Q1</span>A 13 kg object is raised from 3.5 m to 9.5 m. Find the change in gravitational PE. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q2</span>A spring with k=290 N/m is compressed 0.095 m. Find the elastic PE stored. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q3</span>A 620 kg roller coaster car is at the top of a 27 m hill. Find its gravitational PE relative to the bottom. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q4</span>A 6.5 kg object slides down a frictionless 13 m tall hill, starting from rest. Find its speed at the bottom. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q5</span>A spring (k=270 N/m) launches a 0.45 kg ball vertically after being compressed 0.095 m. Find the launch speed. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q6</span>Same launch: find the maximum height reached. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q7</span>A pendulum bob swings from a height of 0.38 m above its lowest point. Find its speed at the lowest point. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q8</span>A skier (57 kg) starts from rest at the top of a frictionless 37 m slope. Find their speed at the bottom. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q9</span>A roller coaster car (440 kg) at the top of a 24 m hill. Find its speed at the bottom. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q10</span>A spring-loaded toy stores 5.5 J of elastic PE when compressed 0.065 m. Find the spring constant. (Give your answer in N/m.)</li></ol>
+<h3 class="tier hard"><span class="tier-dot"></span>Hard</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Hard Q1</span>A 47 kg hiker climbs from 1250 m to 1900 m elevation. Find the gravitational PE gained. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q2</span>A spring (k=460 N/m) is compressed 0.125 m to launch a toy. Find the elastic PE stored. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q3</span>Find the maximum height reached by a 0.055 kg toy. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q4</span>A pendulum bob (2.2 kg) has gravitational PE of 16.17 J relative to its lowest point. Find the height. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q5</span>A 1250 kg elevator rises 42 m. Find the gravitational PE gained. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q6</span>Compare this to the kinetic energy at 5.2 m/s. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q7</span>A spring launcher stores 13 J of elastic PE and launches a 0.32 kg ball straight up. Find the maximum height reached. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q8</span>A diving board (k=5200 N/m) is deflected 0.27 m by a diver. Find the elastic PE stored. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q9</span>A roller coaster's first hill is 37 m tall for a 520 kg car. Find the gravitational PE at the top. (Give your answer in J.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q10</span>Find the height of a second hill with half that PE. (Give your answer in m.)</li></ol>
+<h3 class="tier challenge"><span class="tier-dot"></span>Challenge</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Challenge Q1</span>(Evaluate) A student claims that an object at a lower height always has less "total energy" than one at a higher height, regardless of its speed. Evaluate this claim using a specific counterexample involving kinetic energy. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q2</span>(Create) Design a gravitational PE scenario (mass and height of your choosing) where the PE equals exactly 500 J, and verify your chosen values. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q3</span>(Evaluate/Create) A renewable energy company is evaluating a pumped-hydro storage system. Evaluate what factors determine the system's total energy storage capacity, then create a basic sizing recommendation. Upload your written response.</li></ol>
+<h3 class="pset-heading">Synthesis Problems</h3>
+<p class="dayconnects">Connects: work-energy theorem (Day 19), free fall (Ch.2), springs/Hooke's law (forward-looking Ch.9).</p>
+
+
+<div class="problem"><span class="ptag">1</span><span class="ptag applied">Applied</span>
+<p>A 0.4 kg ball is launched vertically by a spring (k=350 N/m) compressed 0.1 m, then continues upward under gravity alone after leaving the spring. Find the ball's speed as it leaves the spring, and find the total maximum height it reaches above the spring's natural (uncompressed) position.</p>
+<p class="connects">Connects: elastic PE, gravitational PE, conservation of energy, forward-looking springs (Ch.9)</p></div>
+
+<div class="problem"><span class="ptag">2</span><span class="ptag evaluate">Evaluate</span>
+<p>A student computes the speed of a ball at the bottom of a frictionless hill using \(v=\sqrt{2gh}\) and separately, for the same scenario, using free-fall kinematics with the incline's actual along-slope distance and angle (Chapter 2/5 methods). Evaluate whether these two entirely different-looking methods should give the same final answer, and verify this using a specific example (drop height 8 m, incline angle 30&deg;).</p>
+<p class="connects">Connects: conservation of energy, incline kinematics (Ch.2/5), evaluating consistency between two independent methods</p></div>
+
+<div class="problem"><span class="ptag">3</span><span class="ptag applied">Applied</span>
+<p>A pendulum bob (1.2 kg) is released from a height of 0.4 m above its lowest point. Find its speed at the lowest point using energy conservation, then (forward-connecting to circular motion, Ch.4) find the tension in the string at that lowest point, given a string length of 0.9 m.</p>
+<p class="connects">Connects: conservation of energy, centripetal force at the bottom of a circular arc (Ch.4), Newton's second law (Ch.5)</p></div>
+
+<div class="problem"><span class="ptag">4</span><span class="ptag evaluate">Evaluate</span>
+<p>A roller coaster designer claims a car will "definitely complete a 12 m radius loop safely" as long as the hill before it is taller than the loop's diameter. Evaluate this claim using the combined energy-conservation and minimum-speed-at-the-top-of-a-loop (centripetal, Ch.4) requirements, checking whether "taller than the diameter" is actually sufficient or whether a taller hill is required.</p>
+<p class="connects">Connects: conservation of energy, centripetal minimum-speed condition (Ch.4), evaluating a design rule of thumb</p></div>
+
+<div class="problem"><span class="ptag">5</span><span class="ptag applied">Applied</span>
+<p>A spring-loaded toy car (0.3 kg) stores 4 J of elastic PE, launching it up a frictionless 15&deg; ramp. Find the car's speed at the bottom of the ramp (as it leaves the spring) and the maximum distance it travels up the ramp before momentarily stopping.</p>
+<p class="connects">Connects: elastic PE, gravitational PE on an incline, conservation of energy (multi-form synthesis)</p></div>
+
+
+<div class="problem"><span class="ptag">6</span><span class="ptag applied">Applied</span>
+<p>A 0.45 kg ball is launched vertically by a spring (k=370 N/m) compressed 0.095 m. Find the ball's speed leaving the spring and its maximum height above the spring's natural length.</p>
+<p class="connects">Connects: elastic PE, gravitational PE, conservation of energy</p></div>
+
+<div class="problem"><span class="ptag">7</span><span class="ptag evaluate">Evaluate</span>
+<p>A student computes a frictionless hill's bottom-speed two ways &mdash; once via \(v=\sqrt{2gh}\) and once via incline kinematics with a specific angle and along-slope distance &mdash; and gets slightly different numbers due to a rounding error partway through. Evaluate the likely source of such a discrepancy and describe a strategy (e.g., carrying extra significant figures, or checking dimensional/limiting-case consistency) for catching this kind of error before finalizing an answer.</p>
+<p class="connects">Connects: conservation of energy, incline kinematics (Ch.2/5), evaluating numerical-method consistency</p></div>
+
+<div class="problem"><span class="ptag">8</span><span class="ptag applied">Applied</span>
+<p>A pendulum bob (1.4 kg, string length 1.0 m) is released from 0.45 m above its lowest point. Find its speed at the bottom and the string tension there.</p>
+<p class="connects">Connects: conservation of energy, centripetal force (Ch.4), Newton's second law (Ch.5)</p></div>
+
+<div class="problem"><span class="ptag">9</span><span class="ptag evaluate">Evaluate</span>
+<p>A theme park's marketing claims a new drop tower "converts 100% of gravitational PE into kinetic energy" at the bottom of the drop. Evaluate this claim, discussing what real-world energy losses (not present in the idealized conservation-of-energy model used in this course) would make a literal 100% conversion physically impossible, even if a very good approximation.</p>
+<p class="connects">Connects: conservation of energy, evaluating an idealized-model claim against real-world losses</p></div>
+
+<div class="problem"><span class="ptag">10</span><span class="ptag applied">Applied</span>
+<p>A spring-loaded launcher (0.35 kg projectile) stores 4.5 J of elastic PE, launching the projectile up a frictionless 18&deg; ramp. Find the projectile's speed leaving the spring and the maximum distance it travels up the ramp.</p>
+<p class="connects">Connects: elastic PE, incline gravitational PE, conservation of energy</p></div>
+
+
+</div></div>
+<div class="day-anchor-wrap"><h2 id="class-day-21-applications-of-conservation-of-energy">Class Day
+21: Applications of Conservation of Energy</h2>
+<h3 id="why-this-matters-19">Why this matters</h3>
+<p>Today is a fluency day: taking yesterday’s conservation principle and
+applying it to richer, multi-stage, real-world-style scenarios —
+including situations where friction or other non-conservative forces are
+also present.</p>
+<h3 id="extending-the-equation-to-include-energy-losses">Extending the
+equation to include energy losses</h3>
+<p>When friction or another non-conservative force is present,
+mechanical energy is no longer perfectly conserved — some is lost to
+that other process (usually converted to heat). The conservation
+equation is extended to explicitly account for this:</p>
+<p><span class="math display">\[KE_i + PE_i = KE_f + PE_f +
+|E_{lost}|\]</span></p>
+<p>The lost energy term is simply added to whichever side represents
+“later” in the process, since that energy has left the mechanical (KE +
+PE) system entirely.</p>
+<p><strong>Worked example:</strong> A roller coaster car (480 kg) at the
+top of a 30 m hill (starting from rest) encounters friction doing
+−20,000 J of work by the bottom. Find its speed at the bottom.</p>
+<p><span class="math display">\[mgh = \tfrac12mv_f^2 +
+|E_{lost}|\]</span> <span class="math display">\[480(9.8)(30) =
+\tfrac12(480)v_f^2 + 20{,}000\]</span> <span
+class="math display">\[141{,}120 = 240v_f^2 + 20{,}000 \Rightarrow v_f^2
+= \frac{121{,}120}{240} = 504.7 \Rightarrow v_f = 22.5\text{
+m/s}\]</span></p>
+<h3 id="segmenting-multi-stage-problems">Segmenting multi-stage
+problems</h3>
+<p>A common and important problem type: an object slides down a
+frictionless section, then continues onto a section <em>with</em>
+friction. The clean way to handle this is to treat it in two stages:
+first, apply pure conservation of energy across the frictionless section
+to find the speed entering the second section; then, apply the
+work-energy theorem (or the extended energy equation with a loss term)
+across the frictional section separately, using that speed as the new
+starting point.</p>
+<p><strong>Worked example (segmented problem):</strong> A 60 kg skier
+starts from rest at the top of a 45 m frictionless slope, then continues
+onto a horizontal section with friction (\(\mu_k=0.1\)). Find the skier’s
+speed at the bottom of the slope, then find how far they travel on the
+horizontal section before stopping.</p>
+<p>Stage 1 (frictionless slope): (v = = = 29.7) m/s.</p>
+<p>Stage 2 (horizontal, with friction): all of the kinetic energy at the
+bottom must be dissipated by friction to bring the skier to rest. Using
+the work-energy theorem, (-fd = 0 - KE), where \(f=\mu_kmg\):</p>
+<p><span class="math display">\[\mu_kmg\cdot d = \tfrac12mv^2
+\Rightarrow d = \frac{v^2}{2\mu_kg} = \frac{29.7^2}{2(0.1)(9.8)} =
+450\text{ m}\]</span></p>
+<h3 id="common-mistake-to-watch-for-18">Common mistake to watch for</h3>
+<p>Trying to apply a single conservation-of-energy equation across an
+entire multi-stage journey that mixes frictionless and frictional
+sections, without separating them. The energy-loss term only applies
+where friction (or another non-conservative force) is actually acting —
+bundling everything into one equation without correctly bookkeeping
+<em>where</em> the loss occurs is a common source of error in these
+richer problems.</p>
+<h3 id="key-formulas-and-facts-for-this-day-19">Key formulas and facts
+for this day</h3>
+<ul>
+<li>With non-conservative losses: \(KE_i+PE_i =\ KE_f+PE_f+|E_{lost}|\).</li>
+<li>Multi-stage problems (frictionless section followed by a frictional
+section) are best solved by treating each section separately, using the
+end-of-stage-one speed as the start of stage two.</li>
+<li>Segment any problem at the exact point where the physical situation
+(friction on/off, spring engaged/released, etc.) changes.</li>
+</ul>
+<hr />
+<div class="probsets">
+<h3 class="pset-heading">Reading</h3>
+<ol class="rawlist"><li>With friction present, energy conservation is written as KE_i + PE_i = KE_f + PE_f + what additional term?</li><li>A roller coaster car (starting from rest at the top of a hill, frictionless) has what kinetic energy at the top?</li><li>For a multi-stage problem (e.g., slope into horizontal friction), what is the recommended problem-solving approach?</li><li>A spring launching a ball up a frictionless ramp converts elastic PE into which two forms of energy by the time the ball momentarily stops going up the ramp?</li><li>In a roller-coaster-loop minimum-speed problem, what condition defines the "minimum" speed at the top of the loop?</li><li>If air resistance does negative work on a swinging pendulum, how is this incorporated into the energy equation?</li><li>For a cart sliding down a frictionless incline then onto a horizontal surface with friction, at what point does the energy-loss term first appear in the bookkeeping?</li><li>Which is generally true when comparing a frictionless energy-conservation solution to the same scenario with friction added: the final speed with friction is what, compared to without?</li><li>A pendulum's kinetic energy at the lowest point equals what, in the absence of air resistance?</li><li>Why is conservation of energy often preferred over kinematics for multi-stage problems with changing forces?</li></ol>
+<h3 class="pset-heading">Assignments</h3>
+<h3 class="tier easy"><span class="tier-dot"></span>Easy</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Easy Q1</span>A 2 kg mass falls, connected to a massless pulley (ignore rotational KE). Using only translational energy conservation, find its speed after falling 3 m (g=9.8). (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q2</span>A 3 kg mass falls 2 m connected to a massless pulley. Using only translational energy conservation, find its speed. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q3</span>State whether a rolling object or a frictionless sliding object (non-rotating) reaches the bottom of the same incline faster (conceptual). Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Easy Q4</span>Write the general energy conservation equation including a friction/energy-loss term. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Easy Q5</span>State what happens to a falling object's final speed if additional energy is lost to air resistance (same fall height). Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Easy Q6</span>A pendulum bob loses some energy to air resistance. State whether its speed at the bottom is higher or lower than the frictionless prediction. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Easy Q7</span>A skier goes down a frictionless slope then onto a horizontal section with friction. State which section of the problem needs the energy-loss term. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Easy Q8</span>State the general two-stage approach for solving a slope-into-friction energy problem. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Easy Q9</span>A spring launches a ball up a frictionless ramp. State which energy forms are present at the ball's highest point on the ramp. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Easy Q10</span>State why energy conservation is often faster than kinematics for problems combining several stages. Upload your written response.</li></ol>
+<h3 class="tier medium"><span class="tier-dot"></span>Medium</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Medium Q1</span>A 6 kg object slides down a frictionless 12 m tall hill, then continues onto a horizontal section with friction (mu_k=0.2). Find the speed at the bottom of the hill. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q2</span>Same object: find the stopping distance on the horizontal section. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q3</span>A spring (k=260 N/m) launches a 0.4 kg ball vertically after being compressed 0.09 m, with 0.5 J lost to air resistance by the top. Find the actual maximum height reached. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q4</span>A pendulum bob (1.5 kg) swings from 0.35 m above its lowest point, losing 0.3 J to air resistance by the bottom. Find its actual speed at the lowest point. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q5</span>A skier (55 kg) starts from rest at the top of a frictionless 35 m slope, then a horizontal section with friction (mu_k=0.08). Find the speed at the bottom of the slope. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q6</span>Same skier: find the stopping distance on the horizontal section. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q7</span>A roller coaster car (420 kg) at the top of a 22 m hill (from rest) loses 5000 J to friction by the bottom. Find its actual speed at the bottom. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q8</span>A 3 kg ball rolls down a frictionless 8 m hill from rest, continuing onto a rough horizontal section (mu_k=0.15). Find the stopping distance. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q9</span>A spring launcher stores 12 J of elastic PE and launches a 0.3 kg ball straight up, with 1 J lost to air resistance. Find the actual maximum height reached. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q10</span>A 500 kg cart starts from rest at the top of a 15 m frictionless hill, then a horizontal section with friction (mu_k=0.1). Find its speed at the bottom of the hill. (Give your answer in m/s.)</li></ol>
+<h3 class="tier hard"><span class="tier-dot"></span>Hard</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Hard Q1</span>A roller coaster car (480 kg) at the top of a 30 m hill (from rest) encounters friction doing -20,000 J of work by the bottom. Find its speed at the bottom. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q2</span>A 60 kg skier starts from rest at the top of a 45 m frictionless slope, then a horizontal section with friction (mu_k=0.1). Find the skier's speed at the bottom of the slope. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q3</span>Same skier: find how far they travel on the horizontal section before stopping. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q4</span>A spring (k=500 N/m) compressed 0.15 m launches a 0.6 kg ball up a frictionless ramp. Find the ball's speed at the bottom of the ramp. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q5</span>Same ball: find its maximum height up the ramp (ignoring air resistance). (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q6</span>A pendulum (2.5 kg bob) is released from 0.6 m above its lowest point. Air resistance does -2 J of work by the lowest point. Find the bob's actual speed at the lowest point. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q7</span>A 40 kg child on a frictionless slide starts from rest at the top of a 6 m slide. Find their speed at the bottom. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q8</span>Same slide: find the additional height needed (beyond 6 m) to double that speed. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q9</span>A roller coaster's loop (radius 10 m) requires minimum speed at the top for cars to maintain contact. Find the minimum hill height needed (frictionless, from rest). (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q10</span>A 0.15 kg ball is launched by a spring (k=350 N/m compressed 0.1 m) up a frictionless ramp inclined at 30 degrees. Find how far up the ramp (along the incline) the ball travels before momentarily stopping. (Give your answer in m.)</li></ol>
+<h3 class="tier challenge"><span class="tier-dot"></span>Challenge</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Challenge Q1</span>(Evaluate) A perpetual motion machine inventor claims a design where a ball rolls down a ramp, around a loop, and back up to its exact starting height, then continues to a second, taller hill using only its own momentum. Evaluate why this design violates conservation of energy, identifying where the claimed energy would have to come from. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q2</span>(Create) Design a frictionless energy-conservation scenario (choose masses, heights, and/or spring constants) where an object's final speed is exactly 8 m/s, and verify your chosen values. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q3</span>(Evaluate/Create) An amusement park designer wants an energy-efficient roller coaster using a single initial hill's PE to power the entire ride, with a stated 15% energy loss to friction throughout. Evaluate the minimum initial hill height required, then create a basic sizing recommendation. Upload your written response.</li></ol>
+<h3 class="pset-heading">Homework</h3>
+<h3 class="tier easy"><span class="tier-dot"></span>Easy</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Easy Q1</span>A 2.5 kg mass falls, connected to a massless pulley. Using only translational energy conservation, find its speed after falling 3.5 m. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q2</span>A 3.5 kg mass falls 2.2 m connected to a massless pulley. Find its speed. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Easy Q3</span>State whether a rolling object or frictionless sliding object reaches the bottom faster. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Easy Q4</span>Write the general energy conservation equation including an energy-loss term. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Easy Q5</span>State what happens to a falling object's final speed if additional energy is lost to air resistance. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Easy Q6</span>A pendulum bob loses energy to air resistance. State whether its bottom speed is higher or lower than the frictionless prediction. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Easy Q7</span>A skier goes down a frictionless slope then a horizontal section with friction. State which section needs the energy-loss term. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Easy Q8</span>State the general two-stage approach for solving a slope-into-friction problem. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Easy Q9</span>A spring launches a ball up a frictionless ramp. State which energy forms are present at the ball's highest point. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Easy Q10</span>State why energy conservation is often faster than kinematics for multi-stage problems. Upload your written response.</li></ol>
+<h3 class="tier medium"><span class="tier-dot"></span>Medium</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Medium Q1</span>A 6.5 kg object slides down a frictionless 13 m tall hill, then a horizontal section with friction (mu_k=0.22). Find the speed at the bottom. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q2</span>Same object: find the stopping distance. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q3</span>A spring (k=270 N/m) launches a 0.45 kg ball vertically after being compressed 0.095 m, with 0.55 J lost to air resistance. Find the actual maximum height. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q4</span>A pendulum bob (1.7 kg) swings from 0.38 m above its lowest point, losing 0.32 J to air resistance. Find its actual speed at the bottom. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q5</span>A skier (57 kg) starts from rest at the top of a frictionless 37 m slope, then a horizontal section with friction (mu_k=0.085). Find the speed at the bottom. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q6</span>Same skier: find the stopping distance. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q7</span>A roller coaster car (440 kg) at the top of a 24 m hill loses 5200 J to friction by the bottom. Find its actual speed. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q8</span>A 3.5 kg ball rolls down a frictionless 8.5 m hill, continuing onto a rough horizontal section (mu_k=0.16). Find the stopping distance. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q9</span>A spring launcher stores 13 J of elastic PE and launches a 0.32 kg ball straight up, with 1.1 J lost to air resistance. Find the actual maximum height. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Medium Q10</span>A 520 kg cart starts from rest at the top of a 16 m frictionless hill, then a horizontal section with friction (mu_k=0.11). Find its speed at the bottom. (Give your answer in m/s.)</li></ol>
+<h3 class="tier hard"><span class="tier-dot"></span>Hard</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Hard Q1</span>A roller coaster car (500 kg) at the top of a 32 m hill encounters friction doing -22,000 J of work by the bottom. Find its speed at the bottom. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q2</span>A 62 kg skier starts from rest at the top of a 47 m frictionless slope, then a horizontal section with friction (mu_k=0.11). Find the speed at the bottom. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q3</span>Same skier: find the stopping distance. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q4</span>A spring (k=520 N/m) compressed 0.16 m launches a 0.62 kg ball up a frictionless ramp. Find the ball's speed at the bottom. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q5</span>Same ball: find its maximum height up the ramp. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q6</span>A pendulum (2.7 kg bob) is released from 0.65 m above its lowest point. Air resistance does -2.2 J of work by the lowest point. Find the actual speed at the lowest point. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q7</span>A 42 kg child on a frictionless slide starts from rest at the top of a 6.5 m slide. Find their speed at the bottom. (Give your answer in m/s.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q8</span>Same slide: find the additional height needed to double that speed. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q9</span>A roller coaster loop (radius 11 m) requires minimum speed at the top. Find the minimum hill height needed. (Give your answer in m.)</li><li><span class="qtag" style="margin-right:6px;">Hard Q10</span>A 0.17 kg ball is launched by a spring (k=370 N/m compressed 0.11 m) up a frictionless ramp inclined at 32 degrees. Find how far up the ramp the ball travels before momentarily stopping. (Give your answer in m.)</li></ol>
+<h3 class="tier challenge"><span class="tier-dot"></span>Challenge</h3>
+<ol class="rawlist" style="list-style:none; margin-left:0; padding-left:0;"><li><span class="qtag" style="margin-right:6px;">Challenge Q1</span>(Evaluate) A perpetual motion machine inventor claims a design where a ball rolls down a ramp, around a loop, and back up to its exact starting height, then continues to a second, taller hill using only its own momentum. Evaluate why this design violates conservation of energy, identifying where the claimed energy would have to come from. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q2</span>(Create) Design a frictionless energy-conservation scenario (choose masses, heights, and/or spring constants) where an object's final speed is exactly 8 m/s, and verify your chosen values. Upload your written response.</li><li><span class="qtag" style="margin-right:6px;">Challenge Q3</span>(Evaluate/Create) An amusement park designer wants an energy-efficient roller coaster using a single initial hill's PE to power the entire ride, with a stated 15% energy loss to friction throughout. Evaluate the minimum initial hill height required, then create a basic sizing recommendation. Upload your written response.</li></ol>
+<h3 class="pset-heading">Synthesis Problems</h3>
+<p class="dayconnects">Connects: energy conservation (Day 20), friction (Ch.5), rotational motion (forward-looking Ch.8), multi-stage systems.</p>
+
+
+<div class="problem"><span class="ptag">1</span><span class="ptag applied">Applied</span>
+<p>A 60 kg skier starts from rest at the top of a 40 m frictionless slope, then crosses a horizontal section with friction (\(\mu_k=0.09\)) before reaching a second, frictionless 15 m uphill slope. Find the skier's speed at the bottom of the first slope, the distance they travel on the horizontal section before needing to check whether they still have any speed left to start up the second slope, and (if they do) their speed at the top of the second slope, assuming a given horizontal-section length of 80 m.</p>
+<p class="connects">Connects: multi-stage energy conservation with friction losses, incline dynamics (Ch.5)</p></div>
+
+<div class="problem"><span class="ptag">2</span><span class="ptag evaluate">Evaluate</span>
+<p>A roller-coaster engineer proposes a design where the "energy budget" simply requires the first hill to be taller than every subsequent hill, ignoring any friction along the track. Evaluate why this simplified rule is insufficient in practice, referencing the energy-loss term \(|E_{lost}|\) introduced in this chapter, and discuss what a real design would need to additionally account for.</p>
+<p class="connects">Connects: energy conservation with losses, evaluating a common oversimplified design heuristic</p></div>
+
+<div class="problem"><span class="ptag">3</span><span class="ptag applied">Applied</span>
+<p>A 500 kg roller coaster car crests a 30 m hill at rest, then must safely complete a 10 m radius loop later on the track, losing 8000 J to friction along the way between the hill and the loop's bottom. Find the car's speed at the bottom of the loop, and determine whether it has enough speed there to satisfy the minimum-speed condition at the loop's *top* (forward-connecting to circular motion, Ch.4), given the loop's diameter and additional energy conservation from bottom to top of the loop (treat the loop itself as frictionless).</p>
+<p class="connects">Connects: energy conservation with losses, centripetal minimum-speed condition (Ch.4), multi-stage system design</p></div>
+
+<div class="problem"><span class="ptag">4</span><span class="ptag evaluate">Evaluate</span>
+<p>A student solving a spring-launches-a-ball-up-a-frictional-ramp problem forgets to include the friction energy-loss term, instead using plain conservation of energy (as if the ramp were frictionless). Evaluate the direction of the resulting error (would the student's answer overestimate or underestimate the ball's final height?) and justify your reasoning physically.</p>
+<p class="connects">Connects: energy conservation with losses, evaluating the direction/sign of a common omission error</p></div>
+
+<div class="problem"><span class="ptag">5</span><span class="ptag applied">Applied</span>
+<p>A 1500 kg car's regenerative braking system converts some of its kinetic energy back into stored (battery) energy instead of losing it entirely to heat. If the car decelerates from 25 m/s to rest and the system recovers 65% of the kinetic energy as usable electrical energy, find the total kinetic energy at 25 m/s and the amount of energy recovered, then convert that recovered energy to kWh.</p>
+<p class="connects">Connects: energy conservation/loss accounting, unit conversion (Ch.1), applied modern-vehicle-technology context</p></div>
+
+
+<div class="problem"><span class="ptag">6</span><span class="ptag applied">Applied</span>
+<p>A 62 kg skier starts from rest at the top of a 42 m frictionless slope, crosses a horizontal section with friction (\(\mu_k=0.085\)) for 85 m, then reaches a second frictionless 16 m uphill slope. Find the skier's speed at the bottom of the first slope, their speed at the end of the horizontal section, and their speed at the top of the second slope (if they still have enough energy to reach it).</p>
+<p class="connects">Connects: multi-stage energy conservation, friction losses, incline dynamics (Ch.5)</p></div>
+
+<div class="problem"><span class="ptag">7</span><span class="ptag evaluate">Evaluate</span>
+<p>A theme park engineer claims that adding a friction-based magnetic brake at the bottom of a drop tower "wastes energy that could otherwise be reused." Evaluate this claim by discussing what conservation of energy actually says happens to the "lost" kinetic energy at a friction brake (i.e., where does it go, and could it, in principle, be captured, connecting to the regenerative-braking idea from class).</p>
+<p class="connects">Connects: energy conservation with losses, evaluating an engineering claim about energy "waste"</p></div>
+
+<div class="problem"><span class="ptag">8</span><span class="ptag applied">Applied</span>
+<p>A 520 kg roller coaster car crests a 32 m hill at rest, loses 8500 J to friction before a 11 m radius loop, and must satisfy the minimum-speed condition at the top of that loop. Find the car's speed at the bottom of the loop and determine (using energy conservation through the frictionless loop plus the Chapter 4 minimum-speed condition) whether the design is safe.</p>
+<p class="connects">Connects: energy conservation with losses, centripetal minimum-speed condition (Ch.4), multi-stage safety verification</p></div>
+
+<div class="problem"><span class="ptag">9</span><span class="ptag evaluate">Evaluate</span>
+<p>A student solving a multi-stage energy problem (frictionless incline followed by a frictional horizontal section) tries to write one single conservation-of-energy equation spanning the entire path, including the energy-loss term for the whole trip. Evaluate why this single-equation approach is more error-prone than the two-stage approach taught in this chapter, using a specific worked example to illustrate where a single-equation approach could go wrong if the loss term is misapplied to the wrong stage.</p>
+<p class="connects">Connects: energy conservation with losses, evaluating problem-solving strategy choices</p></div>
+
+<div class="problem"><span class="ptag">10</span><span class="ptag applied">Applied</span>
+<p>A 1550 kg car's regenerative braking recovers 60% of its kinetic energy as usable electrical energy while decelerating from 27 m/s to rest. Find the total kinetic energy at 27 m/s, the energy recovered, and convert that recovered energy to kWh.</p>
+<p class="connects">Connects: energy conservation/loss accounting, unit conversion (Ch.1), applied technology context</p></div>
+
+
+</div></div>
+</div></main>
+</div>
+</body>
+</html>

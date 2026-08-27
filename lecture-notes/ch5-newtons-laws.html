@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 5: Newton's Laws and Applications - PHYS203 Extended Lecture Notes</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]'], ['$$', '$$']] },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="assets/tex-svg.js"></script>
+
+<style>
+:root{
+  --ink:#f3ede0; --ink-dim:#a89f8c; --paper:#171a21; --bg:#0f1115;
+  --line:#2a2e38; --accent:#e8a13a; --easy:#6fae8f; --medium:#e8a13a;
+  --hard:#e2725b; --challenge:#9fb3e0; --tag-bg:#1d212b;
+}
+body { margin:0; background: #1d2230; color:var(--ink); font-family:Georgia,'Times New Roman',serif; }
+.shell { display:flex; min-height:100vh; }
+.sidebar {
+  width:280px; flex-shrink:0; background:#0b0d11; color:var(--ink); padding:22px 0 60px;
+  position:fixed; top:0; left:0; bottom:0; overflow-y:auto; font-family:'Courier New',monospace;
+}
+.sidebar .brand { padding:0 22px 18px; font-family:Georgia,serif; font-weight:800; font-size:1.05rem; color:var(--ink); border-bottom:1px solid var(--line); margin-bottom:14px; }
+.sidebar .brand small { display:block; font-family:'Courier New',monospace; font-weight:400; color:var(--ink-dim); font-size:0.72rem; margin-top:3px; }
+.sidebar a.chap-link { display:block; padding:8px 22px; color:var(--ink); text-decoration:none; font-size:0.88rem; border-left:3px solid transparent; }
+.sidebar a.chap-link:hover { background:#1d212b; }
+.sidebar a.chap-link.active { background:#1d212b; border-left-color:var(--accent); color:var(--accent); font-weight:600; }
+.sidebar a.home-link { display:block; padding:8px 22px; color:var(--ink-dim); text-decoration:none; font-size:0.82rem; margin-bottom:8px; }
+.main { margin-left:280px; flex:1; display:flex; justify-content:center; min-width:0; }
+.content { max-width:880px; width:100%; padding:36px 40px 100px; background:transparent; }
+.content h1 { font-family:Georgia,serif; color:var(--ink); border-bottom:3px solid var(--accent); padding-bottom:12px; }
+.content h1:first-of-type { margin-top: 0; }
+.content h2 { font-family:Georgia,serif; color:var(--accent); margin-top:44px; }
+.content h3 { color:var(--easy); }
+.day-anchor-wrap { border-top: 4px solid var(--line); padding-top: 6px; margin-top: 56px; }
+.day-anchor-wrap:first-of-type { border-top: none; margin-top: 0; padding-top: 0; }
+
+/* Problem-section styling */
+.probsets { margin-top: 28px; background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 20px 24px; }
+.probsets > h3.pset-heading {
+  font-family:'Courier New',monospace; font-size:1rem; text-transform:uppercase; letter-spacing:0.05em;
+  color:var(--ink); border-bottom:2px solid var(--accent); padding-bottom:6px; margin: 26px 0 12px;
+}
+.probsets > h3.pset-heading:first-child { margin-top: 0; }
+h3.tier { font-family:'Courier New',monospace; font-size:0.92rem; margin:18px 0 8px; display:flex; align-items:center; gap:8px; color:var(--ink); }
+.tier-dot { width:9px; height:9px; border-radius:50%; display:inline-block; }
+.tier.easy .tier-dot{background:var(--easy);} .tier.medium .tier-dot{background:var(--medium);}
+.tier.hard .tier-dot{background:var(--hard);} .tier.challenge .tier-dot{background:var(--challenge);}
+details.problem { background:#12141a; border:1px solid var(--line); border-radius:8px; margin-bottom:8px; }
+details.problem summary { cursor:pointer; padding:10px 14px; font-size:0.92rem; display:flex; gap:8px; align-items:baseline; font-family:'Courier New',monospace; color:var(--ink);}
+.qtag { font-family:'Courier New',monospace; font-size:0.68rem; font-weight:700; background:var(--tag-bg); color:var(--ink-dim); padding:2px 7px; border-radius:999px; white-space:nowrap; }
+.solution { padding:2px 16px 12px; border-top:1px dashed var(--line); font-family:Georgia,serif; font-size:0.88rem;}
+.answer { font-family:'Courier New',monospace; font-weight:700; background:#16241d; color:var(--easy); border-left:4px solid var(--easy); padding:6px 10px; border-radius:4px; margin-top:8px !important; }
+.rawlist { font-family:'Courier New',monospace; font-size:1.05rem; line-height:1.6; padding-left: 1.5em; color:var(--ink); }
+.rawlist li { margin-bottom: 10px; }
+.rawlist .qtag { font-size:0.76rem; }
+.pending-note { font-family:Georgia,serif; font-size:0.82rem; color:var(--accent); font-style:italic; background:#2a2416; border:1px solid var(--accent); border-radius:6px; padding:8px 12px; margin-bottom: 12px;}
+</style>
+
+<style>
+  :root{
+    --ink:#f3ede0; --ink-dim:#a89f8c; --paper:#171a21; --bg:transparent;
+    --line:#2a2e38; --accent:#e8a13a; --accent-dark:#8a5a1f; --accent-soft:#2a2416;
+    --ic:#6fae8f; --ic-soft:#16241d; --hw:#e2725b; --hw-soft:#2a1a14;
+  }
+  * { box-sizing: border-box; }
+  /* body background intentionally inherited from the outer wrapper style block above */
+  .wrap { max-width: 900px; margin: 0 auto; padding: 30px 22px 90px; }
+  h1.doctitle {
+    font-family:"Courier New",monospace; font-size: 1.9rem; font-weight:700;
+    color: var(--ink); border-bottom: 4px solid var(--accent); padding-bottom: 14px;
+    margin: 0 0 8px 0;
+  }
+  p.subtitle { font-family:Georgia,serif; color:var(--ink-dim); font-size:0.95rem; margin:0 0 30px 0; font-style:italic; }
+  #TOC {
+    background: var(--paper); border: 1px solid var(--line); border-radius: 8px;
+    padding: 18px 24px; margin: 0 0 34px 0;
+    font-family: "Courier New", monospace; font-size: 0.9rem; columns: 2; column-gap: 30px;
+  }
+  #TOC a { color: var(--accent); text-decoration: none; font-weight: 600; display:block; padding: 3px 0; break-inside: avoid; }
+  #TOC a:hover { text-decoration: underline; }
+  h2.chapter {
+    font-family:"Courier New",monospace; font-size: 1.35rem; font-weight:700;
+    color: #171a21; background: var(--accent);
+    padding: 12px 18px; border-radius: 6px; margin: 50px 0 20px 0;
+  }
+  h3.day {
+    font-family:"Courier New",monospace; font-size: 1.1rem; font-weight:700;
+    color: var(--accent); background: var(--accent-soft);
+    border-left: 5px solid var(--accent); padding: 8px 14px;
+    margin: 34px 0 6px 0; border-radius: 0 4px 4px 0;
+  }
+  p.dayconnects { font-family:Georgia,serif; font-size:0.85rem; color:var(--ink-dim); margin:0 0 16px 0; font-style:italic; }
+  h4.subhead {
+    font-family:"Courier New",monospace; font-size: 0.82rem; font-weight:700;
+    text-transform: uppercase; letter-spacing: 0.06em; margin: 18px 0 10px 0;
+    padding-bottom: 4px; border-bottom: 1px solid var(--line);
+  }
+  h4.subhead.ic { color: var(--ic); }
+  h4.subhead.hw { color: var(--hw); }
+  div.problem {
+    background: #12141a; border: 1px solid var(--line); border-radius: 7px;
+    padding: 12px 16px; margin-bottom: 10px; color:var(--ink);
+  }
+  div.problem { border-left: 4px solid var(--ic); }
+  .ptag {
+    font-family:"Courier New",monospace; font-size:0.68rem; font-weight:700;
+    padding: 2px 8px; border-radius: 999px; margin-right: 8px; white-space:nowrap;
+    text-transform: uppercase; letter-spacing: 0.03em;
+  }
+  .problem .ptag:not(.applied):not(.evaluate) { background: var(--ic-soft); color: var(--ic); }
+  .ptag.applied { background:#16241d; color:#6fae8f; }
+  .ptag.evaluate { background:#2a1a2e; color:#c68fd9; }
+  .connects { font-family:Georgia,serif; font-size:0.72rem; color:var(--ink-dim); margin-top:6px; }
+  p { margin: 8px 0; }
+  strong { color: var(--accent); }
+  footer { margin-top:50px; font-family:Georgia,serif; font-size:0.82rem; color:var(--ink-dim); text-align:center; }
+</style>
+
+</head>
+<body>
+<div class="shell">
+<nav class="sidebar"><div class="brand">PHYS203<small>Extended Lecture Notes</small></div>
+<a class="home-link" href="../index.html" style="border-bottom:1px solid #24354a; padding-bottom:14px; margin-bottom:6px; display:block;">&larr; Course Home</a>
+<a class="home-link" href="index.html">&larr; Back to Chapter Index</a>
+<a class="chap-link" href="ch1-units-dimensions.html">Ch 1: Units and Dimensions</a>
+<a class="chap-link" href="ch2-kinematics.html">Ch 2: One-Dimensional Kinematics</a>
+<a class="chap-link" href="ch3-vectors.html">Ch 3: Vectors</a>
+<a class="chap-link" href="ch4-2d-motion.html">Ch 4: Two-Dimensional Motion</a>
+<a class="chap-link active" href="ch5-newtons-laws.html">Ch 5: Newton's Laws and Applications</a>
+<a class="chap-link" href="ch6-momentum.html">Ch 6: Momentum and Collisions</a>
+<a class="chap-link" href="ch7-work-energy.html">Ch 7: Work and Energy</a>
+<a class="chap-link" href="ch8-rotational-motion.html">Ch 8: Rotational Motion</a>
+<a class="chap-link" href="ch9-oscillations.html">Ch 9: Oscillations</a>
+<a class="chap-link" href="ch10-waves.html">Ch 10: Waves</a>
+<a class="chap-link" href="ch11-sound.html">Ch 11: Sound</a></nav>
+<main class="main"><div class="content">
+<div class="chapter-intro"><h1 id="chapter-5-newtons-laws-and-applications">Chapter 5: Newton’s
+Laws and Applications</h1>
+</div>
+<div class="day-anchor-wrap"><h2 id="class-day-13-newtons-laws-and-different-forces">Class Day 13:
+Newton’s Laws and Different Forces</h2>
+<h3 id="why-this-matters-11">Why this matters</h3>
+<p>Everything up to this point has been about <em>describing</em>
+motion. Starting today, we ask the deeper question: <em>why</em> does an
+object move the way it does? Newton’s three laws are the answer, and F =
+ma (the second law) becomes the single most-used equation for the rest
+of the course.</p>
+<h3 id="the-first-law-inertia">The first law: inertia</h3>
+<p>An object remains at rest, or moving at constant velocity in a
+straight line, unless acted on by a net (unbalanced) force. The word
+“net” is doing a lot of work here — an object can have several forces
+acting on it simultaneously and still not accelerate at all, as long as
+those forces perfectly balance. A book sitting on a table has both
+gravity and the table’s normal force acting on it; since these are equal
+and opposite, the net force is zero, and the book stays put, consistent
+with the first law.</p>
+<p>The counterintuitive part for most students is the “moving at
+constant velocity” half of the law. Everyday experience (friction, air
+resistance) makes it seem like objects naturally slow down and require
+continuous force just to keep moving — but that’s the effect of
+friction, an actual force, not a natural tendency of motion itself. On a
+genuinely frictionless surface, a puck given a single push would
+continue gliding forever at that same constant velocity, needing no
+ongoing force at all.</p>
+<h3 id="the-second-law-f-ma">The second law: F = ma</h3>
+<p>The net force on an object equals its mass times its
+acceleration:</p>
+<p><span class="math display">\[\vec F_{net} = m\vec a\]</span></p>
+<p>This is the central computational engine of the rest of the course.
+The practical workflow is always the same: identify every force acting
+on an object, draw a free-body diagram (a simple sketch showing the
+object as a point or box with an arrow for each force acting on it), sum
+the forces (as vectors — this is why Chapter 3 mattered), and set that
+sum equal to (ma).</p>
+<p><strong>Worked example:</strong> A 5 kg object experiences a net
+force of 15 N. Find its acceleration.</p>
+<p><span class="math display">\[a = \frac{F_{net}}{m} = \frac{15}{5} =
+3\text{ m/s}^2\]</span></p>
+<h3 id="the-third-law-action-reaction-pairs">The third law:
+action-reaction pairs</h3>
+<p>For every force one object exerts on a second object, the second
+object exerts an equal and opposite force back on the first. The single
+most commonly missed detail: <strong>these two forces act on two
+different objects</strong>, never on the same one. When you push on a
+wall, the wall pushes back on <em>you</em> with equal force — these two
+forces don’t cancel each other out in any calculation involving just
+you, or just the wall, because they act on different objects entirely;
+they only “cancel” in the sense of being equal and opposite as a
+pair.</p>
+<h3 id="the-everyday-force-catalog">The everyday force catalog</h3>
+<ul>
+<li><strong>Weight</strong> ((W=mg)): the force of gravity on an
+object’s mass; always points straight down.</li>
+<li><strong>Normal force</strong> ((N)): the perpendicular push a
+surface exerts on an object resting against it — a <em>reaction</em>
+force that adjusts itself to whatever is needed to prevent the object
+from passing through the surface. Critically, normal force is
+<strong>not always equal to weight</strong> — it depends on
+context.</li>
+</ul>
+<p><strong>Worked example (why normal force isn’t always
+weight):</strong> An elevator accelerates upward at 1.5 m/s². Find the
+normal force on a 60 kg passenger.</p>
+<p>Two forces act on the passenger: weight (down) and the normal force
+from the floor (up). Newton’s second law, taking up as positive:</p>
+<p><span class="math display">\[N - mg = ma \Rightarrow N = m(g+a) =
+60(9.8+1.5) = 678\text{ N}\]</span></p>
+<p>Compare this to the passenger’s actual weight, (mg=60(9.8)=588) N —
+the normal force is <em>larger</em> than weight here, which matches the
+familiar sensation of feeling heavier as an elevator accelerates
+upward.</p>
+<ul>
+<li><strong>Tension</strong> ((T)): the pulling force transmitted along
+a rope, string, or cable, always directed away from the object, along
+the line of the rope.</li>
+</ul>
+<h3 id="common-mistake-to-watch-for-10">Common mistake to watch for</h3>
+<p>Assuming normal force always equals (mg). This shortcut only works
+for an object on a flat, horizontal, non-accelerating surface with no
+other vertical forces present. The moment there’s a vertical
+acceleration (elevator), an additional applied force, or a tilted
+surface, normal force must be solved for using Newton’s second law
+directly — never simply assumed equal to weight.</p>
+<h3 id="key-formulas-and-facts-for-this-day-11">Key formulas and facts
+for this day</h3>
+<ul>
+<li>First law: zero net force means zero acceleration (constant
+velocity, possibly zero).</li>
+<li>Second law: \(F_{net}=ma\) — the central tool going forward.</li>
+<li>Third law: action-reaction pairs are equal and opposite, but act on
+two <em>different</em> objects.</li>
+<li>Normal force is a reaction force determined by context — it is not
+automatically equal to weight.</li>
+</ul>
+<hr />
+<div class="probsets">
+<h3 class="pset-heading">Reading</h3>
+<ol class="rawlist">
+<li><span class="qtag" style="margin-right:6px;">Reading Q1</span>Newton's first law states that an object's velocity remains unchanged unless acted on by what?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q2</span>Newton's second law relates net force, mass, and which quantity?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q3</span>Newton's third law states that for every action force there is a reaction force that is what, relative to the action?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q4</span>Action-reaction pairs act on how many objects?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q5</span>If the net force on an object is zero, according to the first law, the object does what?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q6</span>Weight is calculated using which formula?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q7</span>Normal force is best described as which of the following?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q8</span>In an elevator accelerating upward, the normal force on a passenger is what, compared to their weight?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q9</span>Tension in a rope acts in which direction relative to the object it's attached to?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q10</span>Which of the following is an example of an action-reaction pair?</li>
+</ol>
+<h3 class="pset-heading">Assignments</h3>
+<ol class="rawlist">
+<li><span class="qtag" style="margin-right:6px;">Easy Q1</span>A 4 kg object experiences a net force of 12 N. Find its acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q2</span>A 6 kg object accelerates at 3 m/s^2. Find the net force acting on it.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q3</span>Find the weight of an 8 kg object (g=9.8 m/s^2).</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q4</span>Find the normal force on a 15 kg box resting on a horizontal floor (no other vertical forces).</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q5</span>Find the tension in a rope holding a stationary 5 kg mass.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q6</span>A 5 kg mass accelerates at 2 m/s^2. Find the net force.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q7</span>An 8 N net force acts on an object, producing 2 m/s^2 acceleration. Find the mass.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q8</span>Find the weight of a 20 kg object.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q9</span>Identify the reaction force to "Earth pulls on a ball" (gravity).</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q10</span>A stationary object on a table has zero net force. List the two forces that must balance.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q1</span>A 12 kg sled is pushed with 30 N of force while experiencing 6 N of friction. Find the net force.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q2</span>Same sled: find the resulting acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q3</span>An elevator accelerates upward at 1.5 m/s^2. Find the normal force on a 60 kg passenger.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q4</span>An elevator accelerates downward at 2 m/s^2. Find the normal force on a 65 kg passenger.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q5</span>A rope supports an 18 kg mass hanging at rest. Find the tension.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q6</span>Two skaters push off each other; Skater A (50 kg) experiences a force of 200 N. Find Skater B's acceleration if B has mass 60 kg.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q7</span>A 4 kg cart experiences a 20 N applied force and an 8 N friction force opposing it. Find the net force.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q8</span>Same cart: find the acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q9</span>A person of mass 70 kg stands on a scale in an elevator accelerating upward at 1.5 m/s^2. Find the normal force (scale reading).</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q10</span>A rocket of mass 500 kg experiences a thrust force of 6000 N and a weight of 4900 N (opposing thrust). Find the net force.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q1</span>A 1000 kg rocket sled accelerates at 15 m/s^2 using thrust, while experiencing 2000 N of friction and air resistance. Find the required thrust force.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q2</span>A 60 kg astronaut pushes off a 500 kg spacecraft with a force of 300 N for 0.5 s. Find the astronaut's resulting velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q3</span>Same push: find the spacecraft's resulting velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q4</span>A 1200 kg car's engine provides 4000 N of forward force while experiencing 800 N rolling resistance and 400 N air resistance. Find the net force.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q5</span>Same car: find the resulting acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q6</span>An elevator of mass 800 kg accelerates downward at 2 m/s^2. Find the tension in the supporting cable.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q7</span>A 0.5 kg ball is caught, decelerating from 20 m/s to 0 in 0.1 s. Find the average force exerted by the hand on the ball.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q8</span>A tug-of-war involves teams pulling with 800 N and 750 N on a rope of negligible mass. Find the net force on the rope.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q9</span>A 2 kg block sits atop a 3 kg block on a frictionless floor. A horizontal force of 20 N is applied to the bottom block. Find the acceleration of the system (both blocks move together).</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q10</span>A 1500 kg truck and an 1100 kg car collide head-on, each initially moving at 15 m/s toward each other. Using Newton's third law, explain why the force each vehicle exerts on the other is equal in magnitude, even though their masses differ.</li>
+<li><span class="qtag" style="margin-right:6px;">Challenge Q1 (Evaluate)</span>A common misconception holds that a heavier object "pushes back harder" in a collision than a lighter one. Evaluate this misconception using Newton's third law.</li>
+<li><span class="qtag" style="margin-right:6px;">Challenge Q2 (Create)</span>Design a two-object scenario illustrating Newton's second and third laws together, such that both objects have calculable, non-trivial accelerations, and work through the full solution.</li>
+<li><span class="qtag" style="margin-right:6px;">Challenge Q3 (Evaluate/Create)</span>A driver's education course wants to explain why seatbelts are necessary using Newton's first law. Evaluate how to correctly frame the explanation, then create a clear explanation for new drivers.</li>
+</ol>
+<h3 class="pset-heading">Homework</h3>
+<ol class="rawlist">
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q1</span>A 5 kg object experiences a net force of 15 N. Find its acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q2</span>A 7 kg object accelerates at 2 m/s^2. Find the net force acting on it.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q3</span>Find the weight of a 10 kg object.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q4</span>Find the normal force on an 18 kg box resting on a horizontal floor.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q5</span>Find the tension in a rope holding a stationary 6 kg mass.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q6</span>A 6 kg mass accelerates at 1.5 m/s^2. Find the net force.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q7</span>A 10 N net force acts on an object, producing 2.5 m/s^2 acceleration. Find the mass.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q8</span>Find the weight of a 25 kg object.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q9</span>Identify the reaction force to "a foot kicks a ball."</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q10</span>A stationary object hangs from a rope with zero net force. List the two forces that must balance.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q1</span>A 14 kg sled is pushed with 35 N of force while experiencing 7 N of friction. Find the net force.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q2</span>Same sled: find the resulting acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q3</span>An elevator accelerates upward at 1.8 m/s^2. Find the normal force on a 62 kg passenger.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q4</span>An elevator accelerates downward at 2.2 m/s^2. Find the normal force on a 68 kg passenger.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q5</span>A rope supports a 20 kg mass hanging at rest. Find the tension.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q6</span>Two skaters push off; Skater A (55 kg) experiences a force of 220 N. Find Skater B's acceleration (mass 65 kg).</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q7</span>A 5 kg cart experiences a 22 N applied force and a 9 N friction force opposing it. Find the net force.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q8</span>Same cart: find the acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q9</span>A person of mass 75 kg stands on a scale in an elevator accelerating upward at 1.2 m/s^2. Find the normal force.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q10</span>A rocket of mass 550 kg experiences a thrust of 6500 N and weight of 5390 N opposing it. Find the net force.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q1</span>A 1100 kg rocket sled accelerates at 14 m/s^2 using thrust, while experiencing 2200 N of friction and air resistance. Find the required thrust force.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q2</span>A 65 kg astronaut pushes off a 550 kg spacecraft with a force of 320 N for 0.4 s. Find the astronaut's resulting velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q3</span>Same push: find the spacecraft's resulting velocity.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q4</span>A 1300 kg car's engine provides 4200 N of forward force while experiencing 850 N rolling resistance and 420 N air resistance. Find the net force.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q5</span>Same car: find the resulting acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q6</span>An elevator of mass 850 kg accelerates downward at 1.8 m/s^2. Find the tension in the supporting cable.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q7</span>A 0.6 kg ball is caught, decelerating from 22 m/s to 0 in 0.12 s. Find the average force exerted by the hand.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q8</span>A tug-of-war involves teams pulling with 850 N and 800 N on a rope. Find the net force on the rope.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q9</span>A 2.5 kg block sits atop a 3.5 kg block on a frictionless floor. A horizontal force of 24 N is applied to the bottom block. Find the acceleration of the system.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q10</span>A 1600 kg truck and a 1150 kg car collide head-on, each moving at 14 m/s toward each other. Explain why the force each exerts on the other is equal in magnitude despite different masses.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Challenge Q1 (Evaluate)</span>A common misconception holds that a heavier object "pushes back harder" in a collision than a lighter one. Evaluate this misconception using Newton's third law.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Challenge Q2 (Create)</span>Design a two-object scenario illustrating Newton's second and third laws together, such that both objects have calculable, non-trivial accelerations, and work through the full solution.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Challenge Q3 (Evaluate/Create)</span>A driver's education course wants to explain why seatbelts are necessary using Newton's first law. Evaluate how to correctly frame the explanation, then create a clear explanation for new drivers.</li>
+</ol>
+<h3 class="pset-heading">Synthesis Problems</h3>
+<p class="dayconnects">Connects: kinematics (Ch.2), vectors (Ch.3), circular motion (Ch.4), unit conversion.</p>
+
+
+<div class="problem"><span class="ptag">1</span><span class="ptag applied">Applied</span>
+<p>An elevator (mass 900 kg, including passengers) accelerates upward at 1.8 m/s&sup2; for the first 2 s of its trip, then travels at constant velocity for 6 s, then decelerates to a stop over the final 1.5 s. Find the tension in the supporting cable during each of the three phases, and find the passenger's apparent weight (normal force from the floor) during the acceleration phase for a 70 kg passenger.</p>
+<p class="connects">Connects: Newton's second law, kinematics phases (Ch.2), applied everyday scenario</p></div>
+
+<div class="problem"><span class="ptag">2</span><span class="ptag evaluate">Evaluate</span>
+<p>A student claims that "since the net force determines acceleration, an object with zero net force must be at rest." Evaluate this claim using Newton's first law, and construct a specific counterexample using a car at constant velocity on a level road with balanced forces.</p>
+<p class="connects">Connects: Newton's first law, kinematics (constant velocity, Ch.2), evaluating a common misconception</p></div>
+
+<div class="problem"><span class="ptag">3</span><span class="ptag applied">Applied</span>
+<p>A 1200 kg car rounds an unbanked curve of radius 80 m at 18 m/s. Find the required centripetal force, identify what real force supplies it, and find the minimum coefficient of static friction between tires and road needed for the car not to skid.</p>
+<p class="connects">Connects: Newton's second law, centripetal force (Ch.4), friction (forward-looking)</p></div>
+
+<div class="problem"><span class="ptag">4</span><span class="ptag evaluate">Evaluate</span>
+<p>Two students collide during a soccer match: Student A (50 kg) exerts a force on Student B (65 kg) during the collision. A bystander assumes "the heavier student must have exerted the larger force since they're bigger." Evaluate this claim using Newton's third law, and separately discuss why the two students might still experience different accelerations despite equal force magnitudes.</p>
+<p class="connects">Connects: Newton's third law, Newton's second law (different resulting accelerations), evaluating an intuitive misconception</p></div>
+
+<div class="problem"><span class="ptag">5</span><span class="ptag applied">Applied</span>
+<p>A tow truck pulls a stalled 1500 kg car using a cable angled at 15&deg; above horizontal, providing 3000 N of tension, while a 400 N resistive force (rolling friction) opposes the car's forward motion. Find the car's horizontal acceleration and the vertical component of the cable's force (which slightly reduces the normal force from the road).</p>
+<p class="connects">Connects: Newton's second law, vector decomposition (Ch.3), applied towing scenario</p></div>
+
+
+<div class="problem"><span class="ptag">6</span><span class="ptag applied">Applied</span>
+<p>A 60 kg astronaut on a spacewalk pushes off a 400 kg piece of equipment with 250 N of force for 0.6 s (both initially at rest, in the absence of gravity/friction). Find the resulting velocity of both the astronaut and the equipment, and verify that total momentum is conserved (i.e., that the two final momenta are equal and opposite).</p>
+<p class="connects">Connects: Newton's second/third laws, forward-looking to momentum conservation (Ch.6)</p></div>
+
+<div class="problem"><span class="ptag">7</span><span class="ptag evaluate">Evaluate</span>
+<p>A student measures the weight of an object on a bathroom scale while standing in a stationary elevator, then again while the elevator is moving at a constant (nonzero) velocity, and finds the same reading both times. Evaluate why this is consistent with Newton's first and second laws, referencing the object's acceleration in each case.</p>
+<p class="connects">Connects: Newton's first/second laws, normal force reasoning, evaluating an everyday observation</p></div>
+
+<div class="problem"><span class="ptag">8</span><span class="ptag applied">Applied</span>
+<p>A 1300 kg car navigates a banked curve (radius 100 m, banking angle 12&deg;) at a speed such that friction is not needed for the turn (an "ideal" banked speed). Find that ideal speed, then find the actual centripetal force required if the car instead travels at 25 m/s on the same curve, and determine whether additional friction (inward or outward) would be needed at that higher speed.</p>
+<p class="connects">Connects: Newton's second law, banked-curve circular motion (Ch.4), vector decomposition (Ch.3)</p></div>
+
+<div class="problem"><span class="ptag">9</span><span class="ptag evaluate">Evaluate</span>
+<p>A rope-pulling contest has two teams pulling with 4000 N and 3800 N respectively on opposite ends of a rope. A spectator claims "the rope must break or slip since the forces aren't balanced." Evaluate this claim, distinguishing between the net force on the rope (as an object) and the fact that a small net force can still produce a large but finite acceleration on a massive system (the combined teams + rope), rather than instant catastrophic failure.</p>
+<p class="connects">Connects: Newton's second law, net force reasoning, evaluating an everyday physical intuition</p></div>
+
+<div class="problem"><span class="ptag">10</span><span class="ptag applied">Applied</span>
+<p>A drone (2.5 kg) hovers, then accelerates horizontally at 3 m/s&sup2; while its four rotors together must still support its full weight vertically. Find the total (vector) thrust force the rotors must produce (magnitude and angle from vertical) to achieve this combined horizontal acceleration and vertical equilibrium.</p>
+<p class="connects">Connects: Newton's second law, vector decomposition (Ch.3), applied robotics/UAV context</p></div>
+
+
+</div></div>
+<div class="day-anchor-wrap"><h2 id="class-day-14-f-ma-in-multiple-contexts">Class Day 14: F = ma in
+Multiple Contexts</h2>
+<h3 id="why-this-matters-12">Why this matters</h3>
+<p>Real systems often involve more than one object linked together — two
+blocks connected by a string, for instance. Today extends F = ma from
+single isolated objects to connected systems, where the key new insight
+is that connected objects share a common acceleration.</p>
+<h3 id="the-shared-acceleration-trick">The shared-acceleration
+trick</h3>
+<p>If two objects are connected by an inextensible (non-stretching)
+string over an ideal (massless, frictionless) pulley, they must have the
+<em>same magnitude</em> of acceleration at every instant — if one speeds
+up, the string forces the other to speed up by exactly the same amount,
+since the string itself can’t stretch or go slack. This
+shared-acceleration condition is what lets you solve two-object systems:
+write Newton’s second law separately for each object, then combine the
+two equations using the fact that both accelerations are equal (in
+magnitude).</p>
+<h3 id="the-classic-setup-two-hanging-masses-atwood-machine">The classic
+setup: two hanging masses (Atwood machine)</h3>
+<p>Two masses, \(m_1\) and \(m_2\), hang from either end of a string over a
+pulley, with \(m_2 > m_1\) (so \(m_2\) will accelerate downward and \(m_1\)
+upward). Draw a separate free-body diagram for each mass:</p>
+<p>For \(m_1\) (accelerating upward, taking up as positive for this mass):
+\(T - m_1g = m_1a\)</p>
+<p>For \(m_2\) (accelerating downward, taking down as positive for this
+mass, so the signs work out consistently with a shared positive (a)):
+\(m_2g - T = m_2a\)</p>
+<p>Adding these two equations together makes the unknown tension (T)
+cancel out:</p>
+<p><span class="math display">\[m_2g - m_1g = m_1a+m_2a \Rightarrow a =
+\frac{(m_2-m_1)g}{m_1+m_2}\]</span></p>
+<p>Once (a) is known, substitute back into either original equation to
+find (T).</p>
+<p><strong>Worked example:</strong> Two blocks (4 kg and 9 kg) are
+connected by a string over a frictionless, massless pulley, with the 9
+kg block hanging. Find the acceleration and tension.</p>
+<p><span class="math display">\[a = \frac{(9-4)(9.8)}{4+9} =
+\frac{49}{13} = 3.77\text{ m/s}^2\]</span></p>
+<p>Substituting into the 4 kg block’s equation ((T-0=4a), since it’s on
+a frictionless table, so only tension acts horizontally on it): (T =
+4(3.77) = 15.1) N.</p>
+<h3 id="extending-to-more-than-two-objects">Extending to more than two
+objects</h3>
+<p>The same principle scales up: three blocks connected in a line and
+pulled by one force all share the same acceleration, and you can either
+treat the whole line as one combined system (total mass, total applied
+force) to find the shared acceleration quickly, or analyze each block
+individually (useful when you need to find the tension <em>between</em>
+two specific blocks, which requires isolating one of them and applying
+Newton’s second law to it alone).</p>
+<h3 id="common-mistake-to-watch-for-11">Common mistake to watch for</h3>
+<p>Assigning inconsistent positive directions to the two objects in a
+hanging-mass system. Since the two masses move in <em>physically
+different directions</em> (one up, one down) but must have numerically
+equal acceleration magnitudes, you must choose “positive” separately for
+each object in a way that’s consistent with the direction it will
+actually accelerate — otherwise the two equations won’t combine
+correctly, and canceling (T) will give the wrong sign or wrong magnitude
+for (a).</p>
+<h3 id="key-formulas-and-facts-for-this-day-12">Key formulas and facts
+for this day</h3>
+<ul>
+<li>Objects connected by an inextensible string over an ideal pulley
+share the same acceleration magnitude.</li>
+<li>Atwood machine: (a = ), derived by adding the two objects’ separate
+Newton’s-second-law equations.</li>
+<li>For multi-block systems, treat the whole chain as one system for the
+shared acceleration, or isolate individual blocks to find specific
+inter-block tensions.</li>
+</ul>
+<hr />
+<div class="probsets">
+<h3 class="pset-heading">Reading</h3>
+<ol class="rawlist">
+<li><span class="qtag" style="margin-right:6px;">Reading Q1</span>In a two-block Atwood-style system connected by an inextensible string over a pulley, what must be true of their accelerations?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q2</span>In such a system, which mass typically has a larger downward net force initially?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q3</span>The tension in the connecting string of an Atwood system is generally what, compared to either hanging mass's weight alone?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q4</span>What is the first recommended step in solving a multi-object F = ma problem?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q5</span>For a mass moving in a horizontal circle on a string, what provides the centripetal force?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q6</span>In a two-block system on a frictionless table connected to a hanging mass, which equation is typically written for the table-top block?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q7</span>Why is sign convention especially important in connected-object problems?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q8</span>Centripetal force problems are solved using which general framework?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q9</span>If two connected blocks have very different masses, the resulting acceleration of the system tends to be closer to which extreme?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q10</span>What assumption is typically made about the pulley in introductory Atwood-machine problems?</li>
+</ol>
+<h3 class="pset-heading">Assignments</h3>
+<ol class="rawlist">
+<li><span class="qtag" style="margin-right:6px;">Easy Q1</span>Two blocks (2 kg and 4 kg) are connected over a frictionless pulley, with the 4 kg hanging. State which mass has the greater weight.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q2</span>For an Atwood system with masses 3 kg and 5 kg, state which direction the 5 kg mass will accelerate.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q3</span>A 1 kg block on a horizontal frictionless table is connected via pulley to a hanging 2 kg mass. State the shared acceleration variable for both blocks.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q4</span>A 0.5 kg ball moves in a horizontal circle on a string. State what provides the centripetal force.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q5</span>For two blocks connected by a string, state why their acceleration magnitudes must be equal.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q6</span>An Atwood system has masses 4 kg and 4 kg (equal). Predict the resulting acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q7</span>A 2 kg block is connected to a 6 kg hanging block. State which block accelerates downward.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q8</span>For a ball on a string in circular motion, state the direction of the tension.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q9</span>In a connected two-block system, state what physical constraint links their accelerations.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q10</span>State the first diagram-related step recommended before writing equations for a connected system.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q1</span>Two blocks (4 kg and 6 kg) are connected over a frictionless, massless pulley, with the 6 kg block hanging. Find the acceleration of the system.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q2</span>Same system: find the tension in the string.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q3</span>A 5 kg block on a frictionless table is connected via pulley to a hanging 3 kg block. Find the acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q4</span>Same system: find the tension.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q5</span>A 0.3 kg ball on a 0.7 m string moves in a horizontal circle at 3.5 m/s. Find the tension.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q6</span>Two blocks (3 kg and 7 kg) connected over a pulley: find the system's acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q7</span>A 6 kg block on a frictionless incline (15 degrees) is connected over a pulley to a hanging 4 kg block. Find the system's acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q8</span>Three blocks (1 kg, 2 kg, 3 kg) connected in a line on a frictionless surface are pulled by 24 N. Find the system's acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q9</span>A 0.4 kg ball on a string moves in a horizontal circle of radius 0.6 m at 4 m/s. Find the required tension.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q10</span>Two blocks (5 kg and 9 kg) connected over a frictionless pulley: find the tension in the string.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q1</span>Two blocks (5 kg and 10 kg) are connected over a pulley, with the table-top 5 kg block experiencing friction (mu=0.2) as the 10 kg block hangs. Find the system's acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q2</span>Same system: find the tension.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q3</span>A 3 kg block on a 20 degree frictionless incline is connected over a pulley at the top to a hanging 5 kg block. Find the acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q4</span>Same system: find the tension.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q5</span>Three blocks (2 kg, 4 kg, 6 kg) are connected in a line and pulled by 60 N across a surface with mu=0.15. Find the system's acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q6</span>Two blocks (6 kg and 9 kg) are connected over a pulley, with the 6 kg block on a 25 degree frictionless incline and the 9 kg block hanging. Find the acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q7</span>Same system: find the tension.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q8</span>A 4 kg block on a horizontal table (mu=0.25) is connected to a hanging 7 kg block via a pulley. Find the acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q9</span>Same system: find the tension.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q10</span>A modified Atwood machine has a 5 kg block on a 30 degree incline (mu=0.1) connected to a hanging 5 kg block. Find the acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">Challenge Q1 (Evaluate)</span>A student assumes that in any two-block pulley system, the heavier block always determines the acceleration by itself. Evaluate this misconception and clarify the correct approach using the combined system.</li>
+<li><span class="qtag" style="margin-right:6px;">Challenge Q2 (Create)</span>Design a three-block connected system on a frictionless surface, and calculate the resulting acceleration and inter-block tensions.</li>
+<li><span class="qtag" style="margin-right:6px;">Challenge Q3 (Evaluate/Create)</span>An engineering team is designing a counterweight elevator system. Evaluate how the choice of counterweight mass relative to the elevator car's mass affects the required motor force, then create a recommendation.</li>
+</ol>
+<h3 class="pset-heading">Homework</h3>
+<ol class="rawlist">
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q1</span>Two blocks (3 kg and 5 kg) are connected over a frictionless pulley, with the 5 kg hanging. State which mass has greater weight.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q2</span>For an Atwood system with masses 4 kg and 6 kg, state which direction the 6 kg mass accelerates.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q3</span>A 2 kg block on a horizontal frictionless table is connected via pulley to a hanging 3 kg mass. State the shared acceleration variable.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q4</span>A 0.6 kg ball moves in a horizontal circle on a string. State what provides the centripetal force.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q5</span>For two connected blocks, state why their acceleration magnitudes must be equal.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q6</span>An Atwood system has masses 5 kg and 5 kg. Predict the resulting acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q7</span>A 3 kg block is connected to a 7 kg hanging block. State which block accelerates downward.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q8</span>For a ball on a string in circular motion, state the direction of tension.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q9</span>In a connected two-block system, state the physical constraint linking accelerations.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q10</span>State the recommended first diagram step before writing equations for a connected system.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q1</span>Two blocks (5 kg and 7 kg) are connected over a frictionless, massless pulley, with the 7 kg hanging. Find the acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q2</span>Same system: find the tension.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q3</span>A 6 kg block on a frictionless table is connected via pulley to a hanging 4 kg block. Find the acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q4</span>Same system: find the tension.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q5</span>A 0.35 kg ball on a 0.65 m string moves in a horizontal circle at 3.8 m/s. Find the tension.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q6</span>Two blocks (4 kg and 8 kg) connected over a pulley: find the system's acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q7</span>A 7 kg block on a frictionless 18 degree incline is connected over a pulley to a hanging 5 kg block. Find the system's acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q8</span>Three blocks (1.5 kg, 2.5 kg, 3.5 kg) connected in a line on a frictionless surface pulled by 30 N. Find the acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q9</span>A 0.45 kg ball on a string moves in a horizontal circle of radius 0.55 m at 4.2 m/s. Find the required tension.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q10</span>Two blocks (6 kg and 10 kg) connected over a frictionless pulley: find the tension.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q1</span>Two blocks (6 kg and 11 kg) are connected over a pulley, with the table-top 6 kg block experiencing friction (mu=0.22) as the 11 kg block hangs. Find the acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q2</span>Same system: find the tension.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q3</span>A 4 kg block on a 22 degree frictionless incline is connected over a pulley at the top to a hanging 6 kg block. Find the acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q4</span>Same system: find the tension.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q5</span>Three blocks (2.5 kg, 4.5 kg, 6.5 kg) are connected in a line and pulled by 65 N across a surface with mu=0.18. Find the acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q6</span>Two blocks (7 kg and 10 kg) are connected over a pulley, with the 7 kg block on a 28 degree frictionless incline and the 10 kg block hanging. Find the acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q7</span>Same system: find the tension.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q8</span>A 5 kg block on a horizontal table (mu=0.28) is connected to a hanging 8 kg block via pulley. Find the acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q9</span>Same system: find the tension.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q10</span>A modified Atwood machine has a 6 kg block on a 32 degree incline (mu=0.12) connected to a hanging 6 kg block. Find the acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Challenge Q1 (Evaluate)</span>A student assumes that in any two-block pulley system, the heavier block always determines the acceleration by itself. Evaluate this misconception and clarify the correct approach using the combined system.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Challenge Q2 (Create)</span>Design a three-block connected system on a frictionless surface, and calculate the resulting acceleration and inter-block tensions.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Challenge Q3 (Evaluate/Create)</span>An engineering team is designing a counterweight elevator system. Evaluate how the choice of counterweight mass relative to the elevator car's mass affects the required motor force, then create a recommendation.</li>
+</ol>
+<h3 class="pset-heading">Synthesis Problems</h3>
+<p class="dayconnects">Connects: Newton's laws (Day 13), circular motion (Ch.4), vectors (Ch.3), connected-system reasoning.</p>
+
+
+<div class="problem"><span class="ptag">1</span><span class="ptag applied">Applied</span>
+<p>An Atwood-style rescue system lowers a 70 kg worker (hanging) while counterbalanced by an 85 kg weight over a frictionless pulley. Find the system's acceleration and the tension in the rope, then find how long it would take the worker to descend 15 m from rest, connecting back to kinematics.</p>
+<p class="connects">Connects: connected-system Newton's second law, kinematic equations (Ch.2)</p></div>
+
+<div class="problem"><span class="ptag">2</span><span class="ptag evaluate">Evaluate</span>
+<p>A student analyzing a two-block pulley system assumes the lighter block's acceleration and the heavier block's acceleration can be different, "since they have different masses." Evaluate this claim by explaining the physical constraint (the inextensible string) that forces their accelerations to be equal in magnitude, despite the mass difference.</p>
+<p class="connects">Connects: connected-system reasoning, evaluating a common conceptual error</p></div>
+
+<div class="problem"><span class="ptag">3</span><span class="ptag applied">Applied</span>
+<p>A 0.4 kg ball on a 0.9 m string moves in a horizontal circle, and the string is known to snap at a maximum tension of 25 N. Find the maximum speed the ball can have before the string breaks, and convert this to a maximum safe rpm for the ball's circular motion.</p>
+<p class="connects">Connects: Newton's second law, centripetal force (Ch.4), unit conversion (Ch.1)</p></div>
+
+<div class="problem"><span class="ptag">4</span><span class="ptag evaluate">Evaluate</span>
+<p>A three-block system (2 kg, 3 kg, 5 kg) connected in a line by strings is pulled by a horizontal force, all on a frictionless surface. A student claims the tension between every pair of blocks must be the same, "since they're all connected." Evaluate this claim by setting up the individual block equations and showing whether the tensions are actually equal.</p>
+<p class="connects">Connects: connected multi-object systems, Newton's second law, evaluating an intuitive-but-flawed assumption</p></div>
+
+<div class="problem"><span class="ptag">5</span><span class="ptag applied">Applied</span>
+<p>A conical pendulum (0.3 kg ball, 1.1 m string) swings at a half-angle of 22&deg; from vertical. Find the tension in the string and the ball's speed, using both the vertical equilibrium condition and the horizontal centripetal-force condition together.</p>
+<p class="connects">Connects: Newton's second law, centripetal motion (Ch.4), vector decomposition (Ch.3)</p></div>
+
+
+<div class="problem"><span class="ptag">6</span><span class="ptag applied">Applied</span>
+<p>A window-washing platform system has a 55 kg worker and equipment (75 kg total) on a platform connected via a rope-and-pulley counterweight system to an 80 kg counterweight, with the platform side experiencing 20 N of guide-rail friction opposing motion. Find the resulting acceleration of the system and the tension in the supporting rope.</p>
+<p class="connects">Connects: connected-system Newton's second law, forward-looking friction reasoning</p></div>
+
+<div class="problem"><span class="ptag">7</span><span class="ptag evaluate">Evaluate</span>
+<p>A physics student solves a two-block Atwood system and gets a negative acceleration, then discards the answer as "wrong." Evaluate what a negative result actually means in this context (depending on the sign convention chosen), using a specific example where the "lighter" mass was assumed (incorrectly) to accelerate downward in the setup.</p>
+<p class="connects">Connects: connected-system reasoning, evaluating sign conventions and their interpretation</p></div>
+
+<div class="problem"><span class="ptag">8</span><span class="ptag applied">Applied</span>
+<p>A 0.35 kg mass swings as a conical pendulum on a 1.2 m string, maintaining a circular path of radius 0.5 m. Find the angle the string makes with the vertical, the tension in the string, and the mass's speed.</p>
+<p class="connects">Connects: Newton's second law, centripetal motion (Ch.4), trigonometry/geometry from vectors (Ch.3)</p></div>
+
+<div class="problem"><span class="ptag">9</span><span class="ptag evaluate">Evaluate</span>
+<p>A crane operator lifts a load using two cables at different angles rather than one vertical cable, believing "more cables must mean it's stronger, so tension in each must be lower than if a single cable were used." Evaluate this claim by comparing the tension needed in a single vertical cable holding a 2000 kg load to the tension needed in each of two symmetric cables angled at 20&deg; from vertical holding the same load.</p>
+<p class="connects">Connects: Newton's second law (equilibrium), vector decomposition (Ch.3), evaluating an engineering intuition</p></div>
+
+<div class="problem"><span class="ptag">10</span><span class="ptag applied">Applied</span>
+<p>Three train cars (masses 8000 kg, 7000 kg, 6000 kg, in that order from the engine) are pulled by a locomotive with a total forward force of 42,000 N, experiencing a combined 6,000 N of rolling resistance distributed proportionally to each car's mass. Find the acceleration of the train and the tension in the coupling between the first and second cars.</p>
+<p class="connects">Connects: connected multi-object Newton's second law, applied rail-transport context</p></div>
+
+
+</div></div>
+<div class="day-anchor-wrap"><h2 id="class-day-15-inclined-planes">Class Day 15: Inclined Planes</h2>
+<h3 id="why-this-matters-13">Why this matters</h3>
+<p>Today combines Chapter 3’s incline decomposition directly with
+Newton’s second law, producing one of the most common problem setups in
+all of introductory mechanics: an object sliding on an incline.</p>
+<h3 id="setting-up-the-frictionless-case">Setting up the frictionless
+case</h3>
+<p>Using the incline-aligned axes from Chapter 3 Day 2, decompose
+gravity into \(W_\parallel=mg\sin\theta\) (down the slope) and \(W_\perp=mg\cos\theta\) (into the surface).
+Perpendicular to the incline, nothing accelerates (the object stays on
+the surface), so the normal force exactly balances \(W_\perp\): (N=mg).</p>
+<p>Along the incline, assuming no friction, the only force is \(W_\parallel\), so
+Newton’s second law gives:</p>
+<p><span class="math display">\[ma = mg\sin\theta \Rightarrow a =
+g\sin\theta\]</span></p>
+<h3 id="the-result-worth-sitting-with-mass-cancels">The result worth
+sitting with: mass cancels</h3>
+<p>Notice that mass completely cancels out of the final formula for
+acceleration. This mirrors free fall from Chapter 2 (where all objects
+fall at the same rate regardless of mass) — an incline is, in a sense, a
+“diluted” version of free fall, with the full acceleration (g) reduced
+by a factor of \(\sin\theta\) because only part of gravity acts along the sliding
+direction. A heavier block and a lighter block released from rest on the
+same frictionless incline will slide down side-by-side, reaching the
+bottom at exactly the same time.</p>
+<p><strong>Worked example:</strong> A 15 kg box slides down a
+frictionless 32° incline. Find its acceleration and the normal
+force.</p>
+<p><span class="math display">\[a = g\sin32° = 9.8(0.530) = 5.19\text{
+m/s}^2 \qquad N = mg\cos32° = 15(9.8)(0.848) = 124.7\text{
+N}\]</span></p>
+<p>Note the acceleration didn’t need the mass at all — only the normal
+force calculation did.</p>
+<h3 id="adding-an-applied-force-along-the-incline">Adding an applied
+force along the incline</h3>
+<p>If an additional force acts along the incline surface (say, someone
+pushing the block up the slope, or a rope pulling it), simply add that
+force into the along-incline Newton’s-second-law equation, with
+appropriate sign depending on whether it points up-slope or
+down-slope:</p>
+<p><span class="math display">\[ma = F_{applied} - mg\sin\theta \qquad
+\text{(if the applied force acts up-slope)}\]</span></p>
+<h3 id="common-mistake-to-watch-for-12">Common mistake to watch for</h3>
+<p>Forgetting that the <em>perpendicular</em> direction still needs its
+own equation (even though nothing accelerates there) — students
+sometimes skip writing (N=mg) since “nothing happens” perpendicular to
+the incline, but you’ll need that normal force value later (Day 4, when
+friction is introduced, since (f=N) depends directly on it).</p>
+<h3 id="key-formulas-and-facts-for-this-day-13">Key formulas and facts
+for this day</h3>
+<ul>
+<li>Frictionless incline: (a=g), independent of mass.</li>
+<li>Normal force on an incline (no other vertical forces): (N=mg).</li>
+<li>Any additional along-incline applied force adds directly into the
+parallel-direction Newton’s-second-law equation, with sign depending on
+its direction.</li>
+</ul>
+<hr />
+<div class="probsets">
+<h3 class="pset-heading">Reading</h3>
+<ol class="rawlist">
+<li><span class="qtag" style="margin-right:6px;">Reading Q1</span>On a frictionless incline, the acceleration of a sliding object is given by which formula?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q2</span>The normal force on an incline (no other vertical forces) is given by which formula?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q3</span>As incline angle increases toward 90 degrees, what happens to the frictionless acceleration a = g*sin(theta)?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q4</span>As incline angle increases toward 0 degrees, what happens to the frictionless acceleration?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q5</span>Why does the acceleration on a frictionless incline not depend on the object's mass?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q6</span>Which forces are typically decomposed along incline-aligned axes in these problems?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q7</span>On a frictionless incline, what provides the net force along the incline direction?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q8</span>If an object is pushed up a frictionless incline by a force along the incline surface, how is the net force found?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q9</span>The perpendicular weight component on an incline is given by which formula?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q10</span>What must be true of the normal force and the perpendicular weight component for an object that stays on the incline surface?</li>
+</ol>
+<h3 class="pset-heading">Assignments</h3>
+<ol class="rawlist">
+<li><span class="qtag" style="margin-right:6px;">Easy Q1</span>Find the acceleration of a 5 kg box sliding down a frictionless 20 degree incline (g=9.8 m/s^2).</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q2</span>Find the normal force on the same box.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q3</span>Find the acceleration of an 8 kg box sliding down a frictionless 30 degree incline.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q4</span>Find the normal force on a 12 kg box on a 20 degree incline.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q5</span>Find the acceleration of a 10 kg box sliding down a frictionless 25 degree incline.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q6</span>Find the acceleration of a 9 kg box sliding down a frictionless 35 degree incline.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q7</span>A 6 kg box is on a frictionless 15 degree incline. Find the parallel weight component driving it down.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q8</span>A 7 kg box is on a frictionless 18 degree incline. Find the perpendicular weight component.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q9</span>Find the acceleration of a 15 kg box sliding down a frictionless 40 degree incline.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q10</span>Find the normal force on a 20 kg box on a 30 degree frictionless incline.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q1</span>A 15 kg box slides down a frictionless 32 degree incline. Find its acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q2</span>Same box: find its normal force.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q3</span>A 12 kg block is pushed up a frictionless 16 degree incline by a force of 70 N along the incline. Find the resulting acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q4</span>A 20 kg crate slides down a frictionless 40 degree incline for 5 m. Find its speed at the bottom.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q5</span>A 25 kg block is pulled up a 20 degree frictionless incline by a rope at 10 degrees above the incline surface with 150 N tension. Find the resulting acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q6</span>A 30 kg cart on an 18 degree incline is held stationary by a horizontal force. Find the required horizontal force.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q7</span>A block on an incline experiences equal parallel and perpendicular weight components. Find the incline angle at which this occurs.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q8</span>A 45 kg block is claimed to need exactly 50 N of applied force up the incline for equilibrium on a frictionless 24 degree incline. Find the actual parallel weight component to check consistency.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q9</span>A 15 kg box on a 35 degree incline experiences an additional vertical applied force of 60 N. Find the parallel component of this applied force.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q10</span>Same box: find the perpendicular component of the applied force.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q1</span>A 40 kg skier is on a 34 degree frictionless slope. Find the acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q2</span>Same skier: find the speed after sliding 25 m from rest.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q3</span>A 10 N force is applied to a block on a frictionless incline such that its parallel component equals its perpendicular component. Find the required application angle.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q4</span>Find the parallel weight component for a 25 kg object on a 15 degree frictionless incline.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q5</span>Find the parallel weight component for the same object on a 30 degree incline.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q6</span>A 22 kg object on a 40 degree frictionless incline experiences an additional applied force of 80 N directed straight up. Find the parallel component of this force.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q7</span>Same object: find the perpendicular component.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q8</span>Same object: find the resulting net acceleration along the incline (negative = down-slope).</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q9</span>A frictionless conveyor inclined at 20 degrees must decelerate a 6 kg package moving up the incline using only gravity, with initial speed 3 m/s up the incline. Find the deceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q10</span>Same package: find the distance traveled before momentarily stopping.</li>
+<li><span class="qtag" style="margin-right:6px;">Challenge Q1 (Evaluate)</span>A student assumes that heavier objects always slide down inclines faster than lighter ones, based on real-world experience with different materials. Evaluate this claim, distinguishing between the idealized frictionless case and real-world friction differences.</li>
+<li><span class="qtag" style="margin-right:6px;">Challenge Q2 (Create)</span>Design a frictionless incline scenario (mass and angle) where the resulting acceleration is exactly half of g, and verify using a = g*sin(theta).</li>
+<li><span class="qtag" style="margin-right:6px;">Challenge Q3 (Evaluate/Create)</span>A wheelchair ramp designer must keep the required push force below a stated safety threshold for a 350 N wheelchair-and-rider system. Evaluate how ramp angle affects required push force, then create a recommended maximum ramp angle.</li>
+</ol>
+<h3 class="pset-heading">Homework</h3>
+<ol class="rawlist">
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q1</span>Find the acceleration of a 6 kg box sliding down a frictionless 22 degree incline.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q2</span>Find the normal force on the same box.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q3</span>Find the acceleration of a 9 kg box sliding down a frictionless 32 degree incline.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q4</span>Find the normal force on a 13 kg box on a 22 degree incline.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q5</span>Find the acceleration of an 11 kg box sliding down a frictionless 27 degree incline.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q6</span>Find the acceleration of a 10 kg box sliding down a frictionless 37 degree incline.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q7</span>A 7 kg box is on a frictionless 17 degree incline. Find the parallel weight component.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q8</span>An 8 kg box is on a frictionless 19 degree incline. Find the perpendicular weight component.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q9</span>Find the acceleration of a 16 kg box sliding down a frictionless 42 degree incline.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q10</span>Find the normal force on a 21 kg box on a 32 degree frictionless incline.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q1</span>A 17 kg box slides down a frictionless 34 degree incline. Find its acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q2</span>Same box: find its normal force.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q3</span>A 13 kg block is pushed up a frictionless 18 degree incline by a force of 75 N along the incline. Find the resulting acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q4</span>A 22 kg crate slides down a frictionless 42 degree incline for 5 m. Find its speed at the bottom.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q5</span>A 27 kg block is pulled up a 22 degree frictionless incline by a rope at 12 degrees above the incline surface with 160 N tension. Find the resulting acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q6</span>A 32 kg cart on a 20 degree incline is held stationary by a horizontal force. Find the required horizontal force.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q7</span>A block on an incline has equal parallel and perpendicular weight components. Find the incline angle.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q8</span>A 48 kg block requires exactly 55 N of applied force up the incline for equilibrium on a frictionless 26 degree incline. Find the actual parallel weight component to check consistency.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q9</span>A 16 kg box on a 37 degree incline experiences an additional vertical applied force of 65 N. Find the parallel component.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q10</span>Same box: find the perpendicular component.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q1</span>A 42 kg skier is on a 36 degree frictionless slope. Find the acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q2</span>Same skier: find the speed after sliding 28 m from rest.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q3</span>A 12 N force is applied to a block on a frictionless incline such that its parallel and perpendicular components are equal. Find the required angle.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q4</span>Find the parallel weight component for a 22 kg object on a 12 degree frictionless incline.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q5</span>Find the parallel weight component for the same object on a 24 degree incline.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q6</span>A 20 kg object on a 38 degree frictionless incline experiences an additional applied force of 70 N directed straight up. Find the parallel component.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q7</span>Same object: find the perpendicular component.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q8</span>Same object: find the resulting net acceleration (negative = down-slope).</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q9</span>A frictionless conveyor inclined at 22 degrees must decelerate a 7 kg package moving up the incline, initial speed 3.2 m/s. Find the deceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q10</span>Same package: find the stopping distance.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Challenge Q1 (Evaluate)</span>A student assumes that heavier objects always slide down inclines faster than lighter ones, based on real-world experience with different materials. Evaluate this claim, distinguishing between the idealized frictionless case and real-world friction differences.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Challenge Q2 (Create)</span>Design a frictionless incline scenario (mass and angle) where the resulting acceleration is exactly half of g, and verify using a = g*sin(theta).</li>
+<li><span class="qtag" style="margin-right:6px;">HW Challenge Q3 (Evaluate/Create)</span>A wheelchair ramp designer must keep the required push force below a stated safety threshold for a 350 N wheelchair-and-rider system. Evaluate how ramp angle affects required push force, then create a recommended maximum ramp angle.</li>
+</ol>
+<h3 class="pset-heading">Synthesis Problems</h3>
+<p class="dayconnects">Connects: vector decomposition (Ch.3, Day 9), Newton's laws (Days 13-14), kinematics (Ch.2).</p>
+
+
+<div class="problem"><span class="ptag">1</span><span class="ptag applied">Applied</span>
+<p>A 22 kg crate slides down a frictionless 28&deg; ramp starting from rest. Find its acceleration, its speed after sliding 4 m, and the time this takes (connecting to kinematic equations).</p>
+<p class="connects">Connects: incline force decomposition (Day 9), Newton's second law, kinematic equations (Ch.2)</p></div>
+
+<div class="problem"><span class="ptag">2</span><span class="ptag evaluate">Evaluate</span>
+<p>A student claims that a heavier crate always slides down a frictionless incline slower than a lighter one, "because it has more weight to overcome." Evaluate this claim by deriving the incline acceleration formula symbolically and showing explicitly that mass cancels out.</p>
+<p class="connects">Connects: incline dynamics, algebraic derivation, evaluating a common mass-related misconception</p></div>
+
+<div class="problem"><span class="ptag">3</span><span class="ptag applied">Applied</span>
+<p>A 30 kg box on a frictionless 22&deg; incline is held in place by a horizontal force. Find the required horizontal force, and separately find the normal force on the box in this equilibrium situation.</p>
+<p class="connects">Connects: incline force decomposition, Newton's second law (equilibrium), vector components (Ch.3)</p></div>
+
+<div class="problem"><span class="ptag">4</span><span class="ptag evaluate">Evaluate</span>
+<p>A rope pulls a box up a frictionless incline at an angle above the incline surface (not purely along the incline). A student ignores the perpendicular component of the tension, assuming "only the along-incline part matters for anything." Evaluate this assumption by explaining how the perpendicular component of tension affects the normal force, using a specific numeric example (25&deg; incline, 150 N tension at 12&deg; above the incline surface, box mass 18 kg).</p>
+<p class="connects">Connects: incline force decomposition, normal force modification, evaluating an incomplete free-body analysis</p></div>
+
+<div class="problem"><span class="ptag">5</span><span class="ptag applied">Applied</span>
+<p>A 45&deg; frictionless ski slope transitions into a horizontal, frictionless runout. A skier (65 kg) starts from rest at the top of a 20 m (along-slope) section. Find the skier's speed at the bottom of the slope using incline kinematics, then describe (without needing new calculation) what happens to that speed once the skier transitions onto the flat, frictionless runout.</p>
+<p class="connects">Connects: incline acceleration, kinematic equations (Ch.2), forward-looking to energy methods (Ch.7)</p></div>
+
+
+<div class="problem"><span class="ptag">6</span><span class="ptag applied">Applied</span>
+<p>A 35 kg cart on a frictionless 20&deg; incline is connected via a pulley at the top to a hanging 20 kg mass. Find the acceleration of the system and the tension in the connecting rope.</p>
+<p class="connects">Connects: incline dynamics, connected-system reasoning (Day 14), Newton's second law</p></div>
+
+<div class="problem"><span class="ptag">7</span><span class="ptag evaluate">Evaluate</span>
+<p>An engineer designs a frictionless conveyor ramp and claims that "since acceleration on a frictionless incline doesn't depend on mass, the ramp will work identically for a 1 kg package and a 100 kg package." Evaluate this claim, confirming what does and does not depend on mass in this scenario (consider both acceleration and any forces the ramp's structure must withstand).</p>
+<p class="connects">Connects: incline dynamics, mass-independence of acceleration, evaluating an engineering claim's scope</p></div>
+
+<div class="problem"><span class="ptag">8</span><span class="ptag applied">Applied</span>
+<p>A 28 kg block sits on a frictionless 32&deg; incline, held by a rope running parallel to the incline surface up to a pulley at the top, then horizontally to a wall. Find the tension in the rope segment along the incline, and the tension in the horizontal segment (hint: consider the pulley as redirecting the same tension magnitude, then check the horizontal equilibrium at the pulley if it's fixed to the wall via the second segment).</p>
+<p class="connects">Connects: incline force decomposition, tension/pulley reasoning, vector equilibrium (Ch.3)</p></div>
+
+<div class="problem"><span class="ptag">9</span><span class="ptag evaluate">Evaluate</span>
+<p>A student solving an incline problem with an additional applied force finds a negative acceleration and concludes "the object is moving backward." Evaluate this interpretation, explaining what a negative acceleration (given a chosen positive-up-the-incline direction) actually implies about the direction of the net force versus the direction of any pre-existing velocity.</p>
+<p class="connects">Connects: incline dynamics, sign convention interpretation, evaluating a common inference error</p></div>
+
+<div class="problem"><span class="ptag">10</span><span class="ptag applied">Applied</span>
+<p>A 40&deg; slide at a playground is frictionless for the first 2 m (along the slide) then transitions to a horizontal, frictionless section. A 25 kg child starts from rest at the top. Find the child's acceleration on the slide, their speed at the bottom of the sloped section, and (qualitatively, using kinematics) what should happen to their speed on the flat frictionless section afterward.</p>
+<p class="connects">Connects: incline dynamics, kinematic equations (Ch.2), forward-looking constant-velocity reasoning</p></div>
+
+
+</div></div>
+<div class="day-anchor-wrap"><h2 id="class-day-16-frictional-forces">Class Day 16: Frictional
+Forces</h2>
+<h3 id="why-this-matters-14">Why this matters</h3>
+<p>Friction is the force that resists relative sliding between two
+surfaces in contact, and it’s the piece that turns yesterday’s idealized
+frictionless inclines into realistic ones. Today introduces the friction
+model used throughout the rest of the course.</p>
+<h3 id="static-vs.-kinetic-friction">Static vs. kinetic friction</h3>
+<p><strong>Static friction</strong> acts on objects that are
+<em>not</em> sliding, and adjusts itself (up to a maximum) to prevent
+sliding from starting at all. <strong>Kinetic friction</strong> acts on
+objects that <em>are</em> already sliding, opposing the ongoing relative
+motion.</p>
+<p><span class="math display">\[f_{s,max} = \mu_sN \qquad f_k =
+\mu_kN\]</span></p>
+<p>where \(\mu_s\) and \(\mu_k\) are the coefficients of static and kinetic
+friction (dimensionless numbers depending on the two materials in
+contact), and (N) is the normal force. Generally \(\mu_s \geq \mu_k\) for the same
+pair of surfaces, which matches everyday experience: it typically takes
+more force to <em>start</em> something sliding than to <em>keep</em> it
+sliding once it’s already moving.</p>
+<h3 id="adding-kinetic-friction-to-the-incline">Adding kinetic friction
+to the incline</h3>
+<p>Returning to yesterday’s frictionless incline result and adding
+kinetic friction (opposing the down-slope sliding motion, so acting
+up-slope):</p>
+<p><span class="math display">\[ma = mg\sin\theta - \mu_kmg\cos\theta
+\Rightarrow a = g(\sin\theta - \mu_k\cos\theta)\]</span></p>
+<p><strong>Worked example:</strong> An 18 kg crate on a 26° incline
+experiences kinetic friction with \(\mu_k=0.22\). Find its acceleration.</p>
+<p><span class="math display">\[a = 9.8(\sin26° - 0.22\cos26°) =
+9.8(0.438-0.22\times0.899) = 9.8(0.438-0.198) = 2.36\text{
+m/s}^2\]</span></p>
+<h3 id="the-static-threshold-will-it-even-start-sliding">The static
+threshold: will it even start sliding?</h3>
+<p>For an object resting on an incline, it remains stationary as long as
+the maximum available static friction is enough to balance the
+down-slope pull of gravity: \(\mu_sN \geq mg\sin\theta\). Since (N=mg), this simplifies
+beautifully — mass cancels again:</p>
+<p><span class="math display">\[\mu_s \geq \tan\theta\]</span></p>
+<p>This gives a clean physical meaning to the coefficient of static
+friction: it’s directly related to the <em>steepest angle</em> a given
+pair of surfaces can support without sliding. If you know \(\mu_s\) for a
+surface, (^{-1}\(\mu_s\)) tells you the incline angle at which an object on
+that surface is right on the verge of sliding.</p>
+<p><strong>Worked example:</strong> Determine the minimum coefficient of
+static friction needed to keep a 10 kg box stationary on a 24°
+incline.</p>
+<p><span class="math display">\[\mu_{s,min} = \tan24° =
+0.445\]</span></p>
+<h3 id="common-mistake-to-watch-for-13">Common mistake to watch for</h3>
+<p>Using \(\mu_s\) and \(\mu_k\) interchangeably. They describe genuinely
+different physical situations (about-to-slide vs. already-sliding), are
+usually different numerical values for the same surfaces, and mixing
+them up (especially using \(\mu_s\) inside a kinetic-friction force
+calculation, or vice versa) is a very common source of a wrong numeric
+answer even when the setup and reasoning are otherwise correct.</p>
+<h3 id="key-formulas-and-facts-for-this-day-14">Key formulas and facts
+for this day</h3>
+<ul>
+<li>\(f_{s,max}=\mu_sN\) (prevents sliding, up to this maximum); \(f_k=\mu_kN\)
+(opposes ongoing sliding). Generally \(\mu_s\geq\mu_k\).</li>
+<li>Incline with kinetic friction: (a=g\(\sin\theta-\mu_k\cos\theta\)).</li>
+<li>Threshold for remaining static on an incline: \(\mu_s\) (mass
+cancels).</li>
+</ul>
+<hr />
+<div class="probsets">
+<h3 class="pset-heading">Reading</h3>
+<ol class="rawlist">
+<li><span class="qtag" style="margin-right:6px;">Reading Q1</span>Static friction prevents motion up to what limit?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q2</span>Kinetic friction opposes what?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q3</span>The formula for friction force is which of the following?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q4</span>Which is typically true: mu_s is generally __ mu_k for the same surfaces?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q5</span>With kinetic friction included, the acceleration on an incline is given by which formula?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q6</span>The condition for an object to remain static on an incline (at the threshold of sliding) relates mu_s to which trigonometric function of the incline angle?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q7</span>If mu_k*cos(theta) exceeds sin(theta), what does this imply about the sign of the acceleration (assuming motion has already started down the incline)?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q8</span>The maximum static friction force on a horizontal surface is given by which formula?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q9</span>Does friction force depend on the contact area between two surfaces in the standard f = mu*N model?</li>
+<li><span class="qtag" style="margin-right:6px;">Reading Q10</span>Why does kinetic friction typically feel like "less resistance" than static friction when starting to push a heavy object?</li>
+</ol>
+<h3 class="pset-heading">Assignments</h3>
+<ol class="rawlist">
+<li><span class="qtag" style="margin-right:6px;">Easy Q1</span>Find the maximum static friction for a 10 kg box with mu_s = 0.3 (g=9.8 m/s^2).</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q2</span>Find the kinetic friction force for a 6 kg box with mu_k = 0.2.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q3</span>Find the maximum static friction for an 8 kg box with mu_s = 0.4.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q4</span>Find the kinetic friction force for a 10 kg box with mu_k = 0.25.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q5</span>A 6 kg box on a 15 degree incline with mu_k = 0.1. Find the acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q6</span>Find the acceleration of a 7 kg box on an 18 degree incline with mu_k = 0.15.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q7</span>Find the maximum static friction for a 12 kg box with mu_s = 0.35.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q8</span>Find the kinetic friction force for a 9 kg box with mu_k = 0.22.</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q9</span>Determine whether a 4 kg box remains stationary on a 10 degree incline with mu_s = 0.3 (compare tan(theta) to mu_s).</li>
+<li><span class="qtag" style="margin-right:6px;">Easy Q10</span>Determine whether a 5 kg box remains stationary on a 20 degree incline with mu_s = 0.2.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q1</span>A 30 kg crate rests on a floor with mu_s = 0.35. Find the maximum static friction force.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q2</span>A 12 kg box is pushed with 30 N horizontally on a surface with mu_k = 0.2. Find the friction force.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q3</span>Same box: find the net force.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q4</span>A 25 kg box has mu_s = 0.4 and mu_k = 0.3. Find the maximum static friction force.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q5</span>Same box: find the kinetic friction force.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q6</span>An 18 kg crate on a 26 degree incline experiences kinetic friction with mu_k = 0.22. Find its acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q7</span>Determine the minimum coefficient of static friction to keep a 10 kg box stationary on a 24 degree incline.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q8</span>A 22 kg sled slides down a 28 degree snowy incline with mu_k = 0.12. Find its acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q9</span>Same sled: find the distance traveled in 3 s from rest.</li>
+<li><span class="qtag" style="margin-right:6px;">Medium Q10</span>A skier (55 kg) on a 12 degree slope with mu_k = 0.05 accelerates down the slope. Find the acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q1</span>A 30 kg box on a floor (mu_s=0.4, mu_k=0.3) is pushed with a gradually increasing force. Find the force at which the box just begins to move.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q2</span>Same box: find the net force immediately after it starts moving.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q3</span>A 35 kg skier is on a 34 degree slope with mu_k=0.08. Find the acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q4</span>Same skier: find the speed after sliding 25 m from rest.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q5</span>A 20 kg box is pulled up a 24 degree incline by a rope at 25 degrees above the incline surface with 130 N tension, while friction (mu_k=0.15) opposes motion. Find the net force along the incline.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q6</span>Same box: find the resulting acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q7</span>A 25 kg box on a table with mu_s=0.5 has a horizontal force of 100 N applied. Given mu_k=0.35, find the resulting acceleration (the box does move since 100N < max static of 122.5N is false -- verify and compute a).</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q8</span>A 35 kg crate slides down a 28 degree incline with mu_k=0.18, starting from rest. Find the acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q9</span>Same crate: find how far it travels in 4 s.</li>
+<li><span class="qtag" style="margin-right:6px;">Hard Q10</span>Find the frictionless-independent acceleration for a block on a 30 degree incline with mu_k=0.1 (same for both 10 kg and 20 kg blocks).</li>
+<li><span class="qtag" style="margin-right:6px;">Challenge Q1 (Evaluate)</span>A student claims that friction force depends on the contact area between surfaces. Evaluate this claim using the standard friction model, f = mu*N.</li>
+<li><span class="qtag" style="margin-right:6px;">Challenge Q2 (Create)</span>Design an incline scenario (mass, angle, and friction coefficient) where an object remains exactly at the threshold of sliding, and verify using the mu_s = tan(theta) condition.</li>
+<li><span class="qtag" style="margin-right:6px;">Challenge Q3 (Evaluate/Create)</span>A furniture-moving company wants a rule of thumb for whether two workers can push a heavy dresser across a floor without a dolly. Evaluate the physics factors involved, then create a simple guideline.</li>
+</ol>
+<h3 class="pset-heading">Homework</h3>
+<ol class="rawlist">
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q1</span>Find the maximum static friction for a 12 kg box with mu_s = 0.35.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q2</span>Find the kinetic friction force for a 7 kg box with mu_k = 0.22.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q3</span>Find the maximum static friction for a 9 kg box with mu_s = 0.42.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q4</span>Find the kinetic friction force for an 11 kg box with mu_k = 0.27.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q5</span>A 7 kg box on a 16 degree incline with mu_k = 0.12. Find the acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q6</span>Find the acceleration of an 8 kg box on a 20 degree incline with mu_k = 0.17.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q7</span>Find the maximum static friction for a 13 kg box with mu_s = 0.38.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q8</span>Find the kinetic friction force for a 10 kg box with mu_k = 0.24.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q9</span>Determine whether a 5 kg box remains stationary on a 12 degree incline with mu_s = 0.28.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Easy Q10</span>Determine whether a 6 kg box remains stationary on a 22 degree incline with mu_s = 0.22.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q1</span>A 32 kg crate rests on a floor with mu_s = 0.38. Find the maximum static friction force.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q2</span>A 14 kg box is pushed with 35 N horizontally on a surface with mu_k = 0.22. Find the friction force.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q3</span>Same box: find the net force.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q4</span>A 28 kg box has mu_s = 0.42 and mu_k = 0.32. Find the maximum static friction force.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q5</span>Same box: find the kinetic friction force.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q6</span>A 20 kg crate on a 28 degree incline experiences kinetic friction with mu_k = 0.24. Find its acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q7</span>Determine the minimum coefficient of static friction to keep an 11 kg box stationary on a 26 degree incline.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q8</span>A 24 kg sled slides down a 30 degree snowy incline with mu_k = 0.14. Find its acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q9</span>Same sled: find the distance traveled in 3 s.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Medium Q10</span>A skier (58 kg) on a 14 degree slope with mu_k = 0.06 accelerates down the slope. Find the acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q1</span>A 32 kg box on a floor (mu_s=0.42, mu_k=0.32) is pushed with gradually increasing force. Find the force at which it begins to move.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q2</span>Same box: find the net force immediately after it starts moving.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q3</span>A 38 kg skier is on a 36 degree slope with mu_k=0.09. Find the acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q4</span>Same skier: find the speed after sliding 28 m from rest.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q5</span>A 22 kg box is pulled up a 26 degree incline by a rope at 27 degrees above the incline surface with 140 N tension, while friction (mu_k=0.17) opposes motion. Find the net force along the incline.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q6</span>Same box: find the resulting acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q7</span>A 27 kg box on a table with mu_s=0.48 has a horizontal force of 105 N applied. Given mu_k=0.36, find the resulting acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q8</span>A 37 kg crate slides down a 30 degree incline with mu_k=0.20, starting from rest. Find the acceleration.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q9</span>Same crate: find how far it travels in 4 s.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Hard Q10</span>Find the frictionless-independent acceleration for a block on a 32 degree incline with mu_k=0.12 (same for both 12 kg and 22 kg blocks).</li>
+<li><span class="qtag" style="margin-right:6px;">HW Challenge Q1 (Evaluate)</span>A student claims that friction force depends on the contact area between surfaces. Evaluate this claim using the standard friction model, f = mu*N.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Challenge Q2 (Create)</span>Design an incline scenario (mass, angle, and friction coefficient) where an object remains exactly at the threshold of sliding, and verify using the mu_s = tan(theta) condition.</li>
+<li><span class="qtag" style="margin-right:6px;">HW Challenge Q3 (Evaluate/Create)</span>A furniture-moving company wants a rule of thumb for whether two workers can push a heavy dresser across a floor without a dolly. Evaluate the physics factors involved, then create a simple guideline.</li>
+</ol>
+<h3 class="pset-heading">Synthesis Problems</h3>
+<p class="dayconnects">Connects: inclines (Day 15), Newton's laws (Days 13-14), kinematics (Ch.2), unit conversion.</p>
+
+
+<div class="problem"><span class="ptag">1</span><span class="ptag applied">Applied</span>
+<p>A 1400 kg car traveling at 90 km/h on a wet road (\(\mu_k=0.35\)) brakes to a stop. Convert the speed to m/s, find the stopping distance, and compare it to the stopping distance on a dry road (\(\mu_k=0.7\)) at the same initial speed.</p>
+<p class="connects">Connects: friction, kinematic equations (Ch.2), unit conversion (Ch.1), comparative evaluation</p></div>
+
+<div class="problem"><span class="ptag">2</span><span class="ptag evaluate">Evaluate</span>
+<p>A student believes that since \(\mu_s \ge \mu_k\) always, "static friction is always stronger than kinetic friction in every single instant of contact, even while an object is sliding." Evaluate this claim, clarifying that only kinetic friction (not static) applies during actual sliding, and that the \(\mu_s \ge \mu_k\) comparison is about two different physical regimes (about to slip vs. already sliding), not simultaneous forces.</p>
+<p class="connects">Connects: friction concepts, evaluating a subtle conceptual conflation</p></div>
+
+<div class="problem"><span class="ptag">3</span><span class="ptag applied">Applied</span>
+<p>A 28 kg crate on a 24&deg; incline has \(\mu_s=0.5\) and \(\mu_k=0.38\). Determine whether the crate remains stationary on its own, and if it does not, find its acceleration down the incline including kinetic friction.</p>
+<p class="connects">Connects: friction threshold (\(\mu_s\) vs. \(\tan\theta\)), incline dynamics (Day 15), Newton's second law</p></div>
+
+<div class="problem"><span class="ptag">4</span><span class="ptag evaluate">Evaluate</span>
+<p>A safety engineer claims a loading ramp is "definitely safe from sliding cargo" because \(\mu_s = 0.4\) for the cargo-ramp material pair, without knowing the ramp's actual angle. Evaluate why this claim is incomplete, explaining what additional single piece of information is needed and how it would be used (referencing the \(\mu_s \ge \tan\theta\) threshold condition) to actually confirm safety.</p>
+<p class="connects">Connects: friction threshold condition, incline geometry (Day 15), evaluating an incomplete safety claim</p></div>
+
+<div class="problem"><span class="ptag">5</span><span class="ptag applied">Applied</span>
+<p>A 1600 kg car is parked on a hill. If the tires-road static friction coefficient is 0.65, find the maximum incline angle at which the car remains parked without its brakes engaged (i.e., relying on static friction alone), then convert this angle to a percent grade (grade % = 100 &times; tan(angle)), a common road-engineering measure.</p>
+<p class="connects">Connects: friction threshold condition, incline geometry, applied road-engineering unit convention</p></div>
+
+
+<div class="problem"><span class="ptag">6</span><span class="ptag applied">Applied</span>
+<p>A 1500 kg car traveling at 100 km/h on a road with \(\mu_k=0.6\) suddenly brakes. Convert the speed to m/s, find the stopping distance and time, and determine whether the car would stop in time to avoid a stationary obstacle 55 m ahead at the moment braking began.</p>
+<p class="connects">Connects: friction, kinematic equations (Ch.2), unit conversion (Ch.1), applied safety-critical decision</p></div>
+
+<div class="problem"><span class="ptag">7</span><span class="ptag evaluate">Evaluate</span>
+<p>A student assumes friction force always depends on the contact area between two surfaces, reasoning "a bigger box touching more ground must have more friction." Evaluate this claim using the standard model \(f=\mu N\), explaining why (in this idealized model) increasing contact area while keeping weight constant does not change the friction force, and discuss the (separate, more complex) real-world nuances this simple model omits.</p>
+<p class="connects">Connects: friction model (f=&mu;N), evaluating a common area-dependence misconception</p></div>
+
+<div class="problem"><span class="ptag">8</span><span class="ptag applied">Applied</span>
+<p>A 32 kg crate on a 20&deg; incline (\(\mu_s=0.42\), \(\mu_k=0.3\)) has an additional horizontal push of 80 N applied to help move it up the slope. Determine whether the crate starts moving from rest, and if so, find its resulting acceleration up the incline.</p>
+<p class="connects">Connects: friction threshold, incline force decomposition (Day 15), multi-force Newton's second law</p></div>
+
+<div class="problem"><span class="ptag">9</span><span class="ptag evaluate">Evaluate</span>
+<p>An automotive engineer proposes that switching a car's tires from a compound with \(\mu_k=0.7\) to one with \(\mu_k=0.9\) will reduce stopping distance from highway speed by exactly the same proportion (i.e., a \(9/7\) factor improvement). Evaluate this claim using the stopping-distance formula's dependence on \(\mu_k\), verifying whether the improvement factor is indeed simply the ratio of the two coefficients.</p>
+<p class="connects">Connects: friction, kinematic equations, evaluating a proportional-reasoning engineering claim</p></div>
+
+<div class="problem"><span class="ptag">10</span><span class="ptag applied">Applied</span>
+<p>A delivery cart (45 kg) is pushed up a 15&deg; ramp (\(\mu_k=0.25\)) at a constant applied force of 250 N directed along the ramp. Find the cart's acceleration, and find how far up the ramp it travels in the first 3 s starting from rest.</p>
+<p class="connects">Connects: friction, incline dynamics (Day 15), kinematic equations (Ch.2)</p></div>
+
+
+</div></div>
+</div></main>
+</div>
+</body>
+</html>
