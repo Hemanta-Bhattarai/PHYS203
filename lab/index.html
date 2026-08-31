@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PHYS203 Lab Manual - Chapter Index</title>
+
+<style>
+
+:root{
+  --ink:#f3ede0; --ink-dim:#a89f8c; --paper:#171a21; --bg:#0f1115;
+  --line:#2a2e38; --accent:#e8a13a; --easy:#6fae8f; --medium:#e8a13a;
+  --hard:#e2725b; --challenge:#9fb3e0; --tag-bg:#1d212b;
+}
+body { margin:0; background: #1d2230; color:var(--ink); font-family:Georgia,'Times New Roman',serif; }
+.shell { display:flex; min-height:100vh; }
+.sidebar {
+  width:280px; flex-shrink:0; background:#0b0d11; color:var(--ink); padding:22px 0 60px;
+  position:fixed; top:0; left:0; bottom:0; overflow-y:auto; font-family:'Courier New',monospace;
+}
+.sidebar .brand { padding:0 22px 18px; font-family:Georgia,serif; font-weight:800; font-size:1.05rem; color:var(--ink); border-bottom:1px solid var(--line); margin-bottom:14px; }
+.sidebar .brand small { display:block; font-family:'Courier New',monospace; font-weight:400; color:var(--ink-dim); font-size:0.72rem; margin-top:3px; }
+.sidebar a.chap-link { display:block; padding:8px 22px; color:var(--ink); text-decoration:none; font-size:0.88rem; border-left:3px solid transparent; }
+.sidebar a.chap-link:hover { background:#1d212b; }
+.sidebar a.chap-link.active { background:#1d212b; border-left-color:var(--accent); color:var(--accent); font-weight:600; }
+.sidebar a.home-link { display:block; padding:8px 22px; color:var(--ink-dim); text-decoration:none; font-size:0.82rem; margin-bottom:8px; }
+.main { margin-left:280px; flex:1; display:flex; justify-content:center; min-width:0; }
+.content { max-width:880px; width:100%; padding:36px 40px 100px; background:transparent; }
+.content h1 { font-family:Georgia,serif; color:var(--ink); border-bottom:3px solid var(--accent); padding-bottom:12px; }
+.content h1:first-of-type { margin-top: 0; }
+.content h2 { font-family:Georgia,serif; color:var(--accent); margin-top:44px; }
+.content h3 { color:var(--easy); }
+.day-anchor-wrap { border-top: 4px solid var(--line); padding-top: 6px; margin-top: 56px; }
+.day-anchor-wrap:first-of-type { border-top: none; margin-top: 0; padding-top: 0; }
+
+/* Problem-section styling */
+.probsets { margin-top: 28px; background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 20px 24px; }
+.probsets > h3.pset-heading {
+  font-family:'Courier New',monospace; font-size:1rem; text-transform:uppercase; letter-spacing:0.05em;
+  color:var(--ink); border-bottom:2px solid var(--accent); padding-bottom:6px; margin: 26px 0 12px;
+}
+.probsets > h3.pset-heading:first-child { margin-top: 0; }
+h3.tier { font-family:'Courier New',monospace; font-size:0.92rem; margin:18px 0 8px; display:flex; align-items:center; gap:8px; color:var(--ink); }
+.tier-dot { width:9px; height:9px; border-radius:50%; display:inline-block; }
+.tier.easy .tier-dot{background:var(--easy);} .tier.medium .tier-dot{background:var(--medium);}
+.tier.hard .tier-dot{background:var(--hard);} .tier.challenge .tier-dot{background:var(--challenge);}
+details.problem { background:#12141a; border:1px solid var(--line); border-radius:8px; margin-bottom:8px; }
+details.problem summary { cursor:pointer; padding:10px 14px; font-size:0.92rem; display:flex; gap:8px; align-items:baseline; font-family:'Courier New',monospace; color:var(--ink);}
+.qtag { font-family:'Courier New',monospace; font-size:0.68rem; font-weight:700; background:var(--tag-bg); color:var(--ink-dim); padding:2px 7px; border-radius:999px; white-space:nowrap; }
+.solution { padding:2px 16px 12px; border-top:1px dashed var(--line); font-family:Georgia,serif; font-size:0.88rem;}
+.answer { font-family:'Courier New',monospace; font-weight:700; background:#16241d; color:var(--easy); border-left:4px solid var(--easy); padding:6px 10px; border-radius:4px; margin-top:8px !important; }
+.rawlist { font-family:'Courier New',monospace; font-size:1.05rem; line-height:1.6; padding-left: 1.5em; color:var(--ink); }
+.rawlist li { margin-bottom: 10px; }
+.rawlist .qtag { font-size:0.76rem; }
+.pending-note { font-family:Georgia,serif; font-size:0.82rem; color:var(--accent); font-style:italic; background:#2a2416; border:1px solid var(--accent); border-radius:6px; padding:8px 12px; margin-bottom: 12px;}
+
+</style>
+
+</head>
+<body>
+
+<div class="shell">
+<nav class="sidebar"><div class="brand">PHYS203<small>Lab Manual</small></div>
+<a class="home-link" href="../index.html" style="border-bottom:1px solid #24354a; padding-bottom:14px; margin-bottom:6px; display:block;">&larr; Course Home</a>
+<a class="home-link" href="index.html">&larr; Back to Lab Manual Index</a>
+<a class="chap-link" href="sigfigs_error_propagation.html">Lab 1</a>
+</nav>
+
+<main class="main">
+<div class="content">
+<h1>Lab Manual</h1>
+<p style="color:var(--ink-dim);">PHYS203 General Physics I &middot; Lab Manual</p>
+
+<a href="sigfigs_error_propagation.html" style="text-decoration:none;color:inherit;">
+      <div style="border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin-bottom:14px;background:var(--paper);">
+        <h3 style="margin:0;color:var(--accent);font-family:Georgia,serif;">Lab 1: Significant figures and Error propagation</h3>
+      </div>
+    </a>
+
+
+</div>
+</main>
+</div>
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Significant Figures, Precision &amp; Error Propagation - PHYS203</title>
+<style>
+:root{ --ink:#1c2b3a; --ink-dim:#5b6b7a; --line:#d7e0e8; --accent:#1f6fb2; --bg:#f6f8fa; --good:#1a7f37; }
+* { box-sizing: border-box; }
+body{ font-family:'Segoe UI',Arial,sans-serif; color:var(--ink); background:var(--bg); margin:0; line-height:1.5; font-size:10.8pt; }
+.wrap{ max-width:850px; margin:0 auto; padding:26px 30px 60px; }
+header{ background:#0A1A2E; color:#fff; padding:18px 22px; border-radius:8px; margin-bottom:16px; }
+header h1{ font-family:Georgia,serif; font-size:18pt; margin:0; }
+header p{ font-size:9.5pt; color:#b9c4d6; margin-top:5px; }
+.meta-row{ display:flex; gap:18px; flex-wrap:wrap; font-size:9pt; color:var(--ink-dim); margin-bottom:16px; }
+h2.section{ font-size:13pt; color:var(--accent); border-bottom:2px solid var(--accent); padding-bottom:4px; margin:24px 0 10px; page-break-after: avoid; }
+h3{ font-size:11.3pt; margin:14px 0 6px; color:var(--ink); }
+.box{ border:1px solid var(--line); border-radius:8px; padding:14px 18px; margin-bottom:12px; background:#fff; page-break-inside: avoid; }
+table{ width:100%; border-collapse:collapse; margin:10px 0; font-size:10pt; }
+th, td{ border:1px solid var(--line); padding:6px 9px; text-align:left; }
+th{ background:#eef2f6; font-size:9pt; text-transform:uppercase; letter-spacing:0.02em; color:var(--ink-dim); }
+.formula{ background:#eef6ff; border-left:4px solid var(--accent); border-radius:0 6px 6px 0; padding:10px 14px; margin:10px 0; font-family:Georgia,serif; font-size:11pt; }
+.derivation{ background:#f6f8fa; border:1px dashed var(--line); border-radius:6px; padding:10px 14px; margin:10px 0; font-family:Georgia,serif; font-size:10.3pt; }
+.derivation .step{ margin:4px 0; }
+.worked{ background:#eafaf0; border-left:4px solid var(--good); border-radius:0 6px 6px 0; padding:10px 14px; margin:8px 0; font-size:9.8pt; }
+.worked .label{ font-weight:700; color:var(--good); font-family:'Segoe UI',sans-serif; font-size:8.5pt; text-transform:uppercase; letter-spacing:0.03em; display:block; margin-bottom:4px; }
+.problem{ background:#fff8e6; border-left:4px solid #e0b040; border-radius:0 6px 6px 0; padding:10px 14px; margin:8px 0; font-size:10pt; }
+.problem .label{ font-weight:700; color:#a67518; font-family:'Segoe UI',sans-serif; font-size:8.5pt; text-transform:uppercase; letter-spacing:0.03em; display:block; margin-bottom:4px; }
+.answer{ background:#eef6ff; border-left:4px solid var(--accent); border-radius:0 6px 6px 0; padding:8px 14px; margin:6px 0 8px; font-size:9.5pt; }
+.answer .label{ font-weight:700; color:var(--accent); font-family:'Segoe UI',sans-serif; font-size:8.2pt; text-transform:uppercase; letter-spacing:0.03em; display:block; margin-bottom:3px; }
+.instructor-note{ background:#fdecea; border-left:4px solid #c0392b; border-radius:0 6px 6px 0; padding:8px 14px; margin:8px 0; font-size:9pt; color:#7a2419; }
+.instructor-note .label{ font-weight:700; text-transform:uppercase; letter-spacing:0.03em; font-size:8.2pt; display:block; margin-bottom:3px; }
+.blank{ display:inline-block; border-bottom:1px solid var(--ink); min-width:70px; }
+.blankline{ display:block; min-height:26px; border-bottom:1px solid var(--line); margin:6px 0; }
+.takeaway-grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.takeaway-box{ background:#fff; border:1px solid var(--line); border-radius:8px; padding:12px 16px; }
+.takeaway-box h4{ margin:0 0 6px; color:var(--accent); font-size:10.5pt; }
+footer{ margin-top:30px; padding-top:12px; border-top:1px solid var(--line); font-size:8.5pt; color:#8a93a0; text-align:center; }
+@media print { .box, .worked, .formula, .problem, .answer, .instructor-note, .derivation { page-break-inside: avoid; } }
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Significant Figures, Precision &amp; Error Propagation</h1>
+  <p>PHYS203 General Physics I &middot; Fall 2026 &middot; Student Handout</p>
+</header>
+<div class="box" style="background:#fff8e6; border-color:#e0b040;"><strong>How to use this handout:</strong> work through each section in order. Problems are for you to solve; check your reasoning against the worked examples above each problem set. This does not require any lab equipment &mdash; every scenario gives you the data you need directly.</div>
+<h2 class="section">1. Significant Figures</h2>
+<div class="box">
+<p>Significant figures (sig figs) are the digits in a measured or calculated value that carry real, meaningful information about its precision. When you write a measurement down, the number of sig figs you use is a claim about how well you actually know that number.</p>
+<h3>Counting rules</h3>
+<ul>
+<li>All non-zero digits are significant (2.35 has 3 sig figs).</li>
+<li>Zeros between non-zero digits are significant (105 has 3 sig figs).</li>
+<li>Leading zeros are never significant &mdash; they just locate the decimal point (0.0042 has 2 sig figs).</li>
+<li>Trailing zeros after a decimal point are significant (7.30 has 3 sig figs).</li>
+<li>Trailing zeros with no decimal point are ambiguous (2500 could be 2, 3, or 4 sig figs) &mdash; scientific notation removes the ambiguity (2.500 &times; 10&sup3; is unambiguously 4 sig figs).</li>
+</ul>
+<h3>Rounding rule</h3>
+<p>When you round a calculated result, keep only as many sig figs as your <em>least</em> precise input allowed. A chain of calculations is only as precise as its weakest link.</p>
+</div>
+<div class="worked"><span class="label">Worked Example</span>
+How many sig figs does 0.03080 have?<br>
+The leading zeros (0.0) are not significant. The 3, 0, 8 are significant (nonzero and between/after nonzero digits), and the trailing 0 after the decimal point is significant. <strong>Answer: 4 sig figs.</strong></div>
+<div class="problem"><span class="label">Problem 1.1</span>State the number of significant figures in each value: (a) 4500 g &nbsp; (b) 4.500 &times; 10&sup3; g &nbsp; (c) 90.10 cm &nbsp; (d) 0.000067 s</div>
+<div class="problem"><span class="label">Problem 1.2</span>A student calculates a speed as 14.2 m/s &divide; 3 = 4.7333... m/s, where "3" is an exact count (not a measurement). Should the answer keep all those decimal places? Round the final answer to the correct number of sig figs and explain why.</div>
+<div class="problem"><span class="label">Problem 1.3</span>Add 12.66 m and 3.2 m. The rule for addition/subtraction is different from the rule for multiplication/division: the result is limited by the fewest <em>decimal places</em> among the inputs, not the fewest sig figs. Find the correctly rounded sum.</div>
+<h2 class="section">2. Precision vs. Accuracy</h2>
+<div class="box">
+<p><strong>Precision</strong> describes how close repeated measurements are <em>to each other</em> &mdash; it's about consistency and reproducibility, regardless of whether the value is correct.</p>
+<p><strong>Accuracy</strong> describes how close a measurement is <em>to the true or accepted value</em>.</p>
+<p>A set of measurements can be precise without being accurate (consistently wrong, e.g., from a miscalibrated instrument), accurate without being precise (scattered, but averaging close to correct), both, or neither. The two are independent properties.</p>
+</div>
+<div class="problem"><span class="label">Problem 2.1</span>A digital scale always reads exactly 2.0 g heavier than the true mass of an object, every single time you weigh something on it. Is this scale precise? Is it accurate? Explain.</div>
+<div class="problem"><span class="label">Problem 2.2</span>Four students each measure the length of the same table five times. Student A's five values are tightly clustered but 3 cm below the table's actual (known) length. Student B's five values are scattered widely, but their average lands almost exactly on the actual length. Which student is more precise? Which is more accurate?</div>
+<div class="problem"><span class="label">Problem 2.3</span>A third student, Student C, gets five values that are both widely scattered <em>and</em> centered noticeably away from the table's true length. Where does Student C fall on the precision/accuracy picture compared to Students A and B? Is it possible to be neither precise nor accurate?</div>
+<h2 class="section">3. Error and the Least Count of a Measuring Device</h2>
+<div class="box">
+<p>Every measuring instrument has a <strong>least count</strong>: the smallest division it can actually resolve. This is not a mistake or a flaw &mdash; it is a fundamental limit built into the device itself, and it exists even when you measure something perfectly carefully.</p>
+<div class="formula">Uncertainty of a single measurement = &plusmn; (least count of the instrument)</div>
+<p>Any measurement should be reported as (reading &plusmn; least count), never as a bare number with no stated uncertainty.</p>
+</div>
+<div class="worked"><span class="label">Worked Example &mdash; Same Physical Ruler, Different Graduations</span>
+Suppose two rulers are used to measure the same 7.4 cm object.<br>
+<strong>Ruler A</strong> is only graduated in whole centimeters (its smallest division is 1 cm). Its least count is 1 cm, so a measurement on this ruler must be reported as <strong>(7 &plusmn; 1) cm</strong>.<br>
+<strong>Ruler B</strong> is graduated in millimeters (its smallest division is 1 mm = 0.1 cm). Its least count is 0.1 cm, so the same object measured on this ruler is reported as <strong>(7.4 &plusmn; 0.1) cm</strong>.<br>
+Ruler B is 10 times more precise than Ruler A, purely because of how finely it is graduated &mdash; not because anyone measured more carefully. The least count is a property of the tool, not the person using it.</div>
+<div class="problem"><span class="label">Problem 3.1</span>A digital stopwatch displays time to the nearest 0.01 s. A wall clock with a sweeping second hand can reasonably be read to the nearest 1 s. If both are used to time the same 12-second event, how should each result be reported?</div>
+<div class="problem"><span class="label">Problem 3.2</span>A graduated cylinder has markings every 1 mL. A student reads a volume as "24 mL" with no stated uncertainty. Rewrite this measurement correctly.</div>
+<div class="problem"><span class="label">Problem 3.3</span>The same small metal rod is measured two ways: with an ordinary ruler (least count 0.1 cm) and with a vernier caliper (least count 0.01 cm). The rod's true length is 3.47 cm. How would each instrument report this measurement?</div>
+<h2 class="section">4. Error Propagation: Area of a Rectangle</h2>
+<div class="box">
+<p>Suppose you measure the length and width of a rectangle: L = L&#8320; &plusmn; &Delta;L and B = B&#8320; &plusmn; &Delta;B, where &Delta;L and &Delta;B are each instrument least counts (small compared to L&#8320; and B&#8320;). What is the uncertainty in the calculated area, A = L &times; B?</p>
+<h3>Derivation (algebra only &mdash; no calculus)</h3>
+<div class="derivation">
+<div class="step">Write each measured quantity as its central value plus its uncertainty:</div>
+<div class="step">A = (L&#8320; &plusmn; &Delta;L)(B&#8320; &plusmn; &Delta;B)</div>
+<div class="step">Multiply this out term by term:</div>
+<div class="step">A = L&#8320;B&#8320; &plusmn; L&#8320;&Delta;B &plusmn; B&#8320;&Delta;L + &Delta;L&Delta;B</div>
+<div class="step">The last term, &Delta;L&Delta;B, is a <strong>product of two small quantities</strong> &mdash; it is much smaller than the other terms (a "second-order" term) and can be dropped:</div>
+<div class="step">A &asymp; L&#8320;B&#8320; &plusmn; (L&#8320;&Delta;B + B&#8320;&Delta;L)</div>
+<div class="step">So the absolute uncertainty in area is &Delta;A = L&#8320;&Delta;B + B&#8320;&Delta;L. Dividing both sides by A&#8320;=L&#8320;B&#8320; gives the more useful <em>relative</em> form:</div>
+</div>
+<div class="formula">&Delta;A / A = &Delta;L / L + &Delta;B / B</div>
+<p>In words: <strong>when quantities are multiplied, their relative (fractional) uncertainties add.</strong></p>
+</div>
+<div class="worked"><span class="label">Worked Example</span>
+L = (12.4 &plusmn; 0.1) cm, B = (8.2 &plusmn; 0.1) cm.<br>
+A&#8320; = 12.4 &times; 8.2 = 101.68 cm&sup2;.<br>
+&Delta;A/A = (0.1/12.4) + (0.1/8.2) = 0.0081 + 0.0122 = 0.0203, about 2.0%.<br>
+&Delta;A = 101.68 &times; 0.0203 = 2.06 cm&sup2;.<br>
+Reported: <strong>A = (101.7 &plusmn; 2.1) cm&sup2;</strong>. (Check: multiplying out the extreme values (12.5)(8.3) = 103.75, matching our approximation of 101.68+2.06=103.74 to within the rounding &mdash; confirming the dropped second-order term really was negligible.)</div>
+<div class="problem"><span class="label">Problem 4.1</span>A phone screen is measured as L = (147.0 &plusmn; 0.5) mm and B = (72.0 &plusmn; 0.5) mm. Find the area and its uncertainty.</div>
+<div class="problem"><span class="label">Problem 4.2</span>A rectangular garden plot is measured with a tape whose least count is 5 cm: L = (450 &plusmn; 5) cm, B = (300 &plusmn; 5) cm. Find the area and its uncertainty, and express the relative uncertainty as a percent.</div>
+<div class="problem"><span class="label">Problem 4.3</span>A rectangular solar panel is measured as L = (165.0 &plusmn; 0.5) cm and B = (99.0 &plusmn; 0.5) cm. Find the area and its uncertainty, and its relative uncertainty as a percent.</div>
+<h2 class="section">5. Error Propagation: Volume of a Rectangular Box</h2>
+<div class="box">
+<p>The same idea extends naturally to volume, V = L &times; B &times; H, with three measured quantities instead of two.</p>
+<div class="derivation">
+<div class="step">V = (L&#8320;&plusmn;&Delta;L)(B&#8320;&plusmn;&Delta;B)(H&#8320;&plusmn;&Delta;H)</div>
+<div class="step">Multiplying this out produces one "zeroth-order" term (L&#8320;B&#8320;H&#8320;), three "first-order" terms (each with exactly one &Delta;), and several "second-order and third-order" terms (each with two or three &Delta;'s multiplied together, e.g., &Delta;L&Delta;B, or &Delta;L&Delta;B&Delta;H).</div>
+<div class="step">As before, every term with more than one &Delta; is a product of small quantities and is dropped. Only the three first-order terms survive:</div>
+<div class="step">&Delta;V = &Delta;L&middot;B&#8320;H&#8320; + L&#8320;&middot;&Delta;B&middot;H&#8320; + L&#8320;B&#8320;&middot;&Delta;H</div>
+<div class="step">Dividing through by V&#8320;=L&#8320;B&#8320;H&#8320;:</div>
+</div>
+<div class="formula">&Delta;V / V = &Delta;L / L + &Delta;B / B + &Delta;H / H</div>
+<p>The pattern continues exactly as expected: <strong>one relative-uncertainty term per multiplied quantity.</strong></p>
+</div>
+<div class="worked"><span class="label">Worked Example</span>
+L = (12.4 &plusmn; 0.1) cm, B = (8.2 &plusmn; 0.1) cm, H = (5.5 &plusmn; 0.1) cm.<br>
+V&#8320; = 12.4 &times; 8.2 &times; 5.5 = 559.2 cm&sup3;.<br>
+&Delta;V/V = (0.1/12.4)+(0.1/8.2)+(0.1/5.5) = 0.0081+0.0122+0.0182 = 0.0384, about 3.8%.<br>
+&Delta;V = 559.2 &times; 0.0384 = 21.5 cm&sup3;.<br>
+Reported: <strong>V = (559 &plusmn; 22) cm&sup3;</strong>.</div>
+<div class="problem"><span class="label">Problem 5.1</span>A shipping box is measured with a tape of least count 0.5 cm: L = (45.0 &plusmn; 0.5) cm, B = (30.0 &plusmn; 0.5) cm, H = (20.0 &plusmn; 0.5) cm. Find the volume and its uncertainty.</div>
+<div class="problem"><span class="label">Problem 5.2</span>Which single dimension in Problem 5.1 (L, B, or H) contributes the most to the overall relative uncertainty in volume? Why does the smallest dimension tend to dominate, even though every side has the same &plusmn;0.5 cm absolute uncertainty?</div>
+<div class="problem"><span class="label">Problem 5.3</span>A rectangular fish tank is measured as L = (60.0 &plusmn; 0.2) cm, B = (30.0 &plusmn; 0.2) cm, H = (35.0 &plusmn; 0.2) cm. Find the volume and its uncertainty.</div>
+<h2 class="section">6. The General Rule for Propagation of Errors</h2>
+<div class="box">
+<p>Sections 4 and 5 both followed the same pattern. We can now state it formally, without reference to any specific shape.</p>
+<h3>Rule 1 &mdash; Sums and differences: absolute uncertainties add</h3>
+<div class="derivation">
+<div class="step">If z = x + y, then z&#8320;&plusmn;&Delta;z = (x&#8320;&plusmn;&Delta;x) + (y&#8320;&plusmn;&Delta;y) = (x&#8320;+y&#8320;) &plusmn; (&Delta;x+&Delta;y).</div>
+<div class="step">There is no cross-term to drop here &mdash; the result is already exact. The same holds for subtraction, z = x &minus; y.</div>
+</div>
+<div class="formula">z = x &plusmn; y &nbsp;&nbsp;&#8658;&nbsp;&nbsp; &Delta;z = &Delta;x + &Delta;y &nbsp;<em>(absolute uncertainties always add, even for a difference)</em></div>
+
+<h3>Rule 2 &mdash; Products and quotients: relative uncertainties add</h3>
+<p>This is exactly what Sections 4 and 5 derived for A = L&times;B and V = L&times;B&times;H. The same algebra (expand, then discard every term with two or more &Delta;'s) applies to any product of measured quantities, and to quotients as well:</p>
+<div class="formula">z = xy &nbsp;or&nbsp; z = x/y &nbsp;&nbsp;&#8658;&nbsp;&nbsp; &Delta;z / z = &Delta;x / x + &Delta;y / y</div>
+<p>For a product of any number of quantities (z = xyw...), one relative-uncertainty term is added per quantity multiplied &mdash; exactly the pattern seen going from two factors (area) to three factors (volume).</p>
+
+<h3>A useful special case: powers</h3>
+<p>Since x&sup2; is just x&middot;x (the same quantity multiplied by itself), Rule 2 says its relative uncertainty term appears <em>twice</em>:</p>
+<div class="formula">z = x&sup2; &nbsp;&nbsp;&#8658;&nbsp;&nbsp; &Delta;z / z = 2(&Delta;x / x)</div>
+<p>More generally, for z = x&#8319;, the relative uncertainty in z is n times the relative uncertainty in x.</p>
+</div>
+<div class="worked"><span class="label">Worked Example &mdash; Combining Both Rules</span>
+The perimeter of the Section 4 rectangle is P = 2L + 2B (a sum, so Rule 1 applies to each piece): with L=(12.4&plusmn;0.1) cm and B=(8.2&plusmn;0.1) cm,<br>
+&Delta;P = 2&Delta;L + 2&Delta;B = 2(0.1) + 2(0.1) = 0.4 cm. P&#8320; = 2(12.4)+2(8.2) = 41.2 cm.<br>
+Reported: <strong>P = (41.2 &plusmn; 0.4) cm.</strong> Notice this uses Rule 1 (absolute uncertainties add), not Rule 2 &mdash; because perimeter is built from addition, not multiplication.</div>
+<div class="problem"><span class="label">Problem 6.1</span>A cube has a single measured side length s = (6.0 &plusmn; 0.1) cm. Using the power rule, find the relative and absolute uncertainty in its volume V = s&sup3;.</div>
+<div class="problem"><span class="label">Problem 6.2</span>Two resistors are connected so that R_total = R&#8321; + R&#8322;, with R&#8321; = (100 &plusmn; 2) &Omega; and R&#8322; = (220 &plusmn; 5) &Omega;. Which rule applies, and what is R_total with its uncertainty?</div>
+<div class="problem"><span class="label">Problem 6.3</span>A hiker walks two legs of a trip: d&#8321; = (120 &plusmn; 1) m, then d&#8322; = (85 &plusmn; 1) m, taking a total time of t = (25.0 &plusmn; 0.5) s. Find the total distance (with uncertainty), then the average speed v = d_total/t (with uncertainty). Which rule applies at each step?</div>
+<h2 class="section">7. Conclusion &amp; Key Takeaways</h2>
+<div class="takeaway-grid">
+<div class="takeaway-box"><h4>Significant Figures</h4><p>Sig figs communicate how precisely a number is actually known. A calculated result can never be more precise than its least-precise input.</p></div>
+<div class="takeaway-box"><h4>Precision vs. Accuracy</h4><p>Precision is consistency (repeatability); accuracy is correctness (closeness to the true value). A measurement can have either, both, or neither.</p></div>
+<div class="takeaway-box"><h4>Least Count</h4><p>Every instrument has a built-in resolution limit. The uncertainty of a single reading equals that instrument's least count &mdash; report every measurement as (value &plusmn; least count).</p></div>
+<div class="takeaway-box"><h4>Propagating Errors</h4><p><strong>Sums/differences:</strong> absolute uncertainties add.<br><strong>Products/quotients:</strong> relative uncertainties add. Both rules come from simple algebra: expand, then discard the small leftover terms built from two or more uncertainties multiplied together.</p></div>
+</div>
+<div class="box" style="margin-top:12px;">
+<p>Every calculated quantity in this course &mdash; areas, volumes, velocities, forces &mdash; is built from measured inputs, and every measured input carries some uncertainty. Knowing how that uncertainty moves through a calculation is what turns a bare number into a scientifically meaningful result.</p>
+</div>
+<footer>PHYS203 General Physics I &middot; Significant Figures, Precision &amp; Error Propagation &middot; Goshen College Department of Physics</footer>
+</div>
+</body>
+</html>
