@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Physics Lab: Motion Sensor Fun - PHYS203</title>
 <style>
-  :root{ --ink:#1c2b3a; --ink-dim:#5b6b7a; --line:#d7e0e8; --accent:#1f6fb2; --bg:#f6f8fa; --good:#1a7f37; }
+  :root{ --ink:#1c2b3a; --ink-dim:#5b6b7a; --line:#d7e0e8; --accent:#1f6fb2; --bg:#f6f8fa; --good:#1a7f37; --brain:#8e44ad; }
   * { box-sizing: border-box; }
   body{ font-family:'Segoe UI',Arial,sans-serif; color:var(--ink); background:var(--bg); margin:0; line-height:1.55; font-size:11pt; }
   .wrap{ max-width:850px; margin:0 auto; padding:28px 32px 60px; }
@@ -13,15 +13,28 @@
   header h1{ font-family:Georgia,serif; font-size:19pt; margin:0; }
   header p{ font-size:9.5pt; color:#b9c4d6; margin-top:5px; }
   h2.section{ font-size:14pt; color:var(--accent); border-bottom:2px solid var(--accent); padding-bottom:5px; margin:28px 0 12px; }
+  h3.subsection{ font-size:11.8pt; color:var(--ink); margin:18px 0 8px; }
   .box{ border:1px solid var(--line); border-radius:8px; padding:16px 22px; margin-bottom:14px; background:#fff; }
   ul, ol{ margin:8px 0; padding-left:22px; }
   li{ margin-bottom:7px; }
-  .filelist{ background:#eef6ff; border:1px solid #b9d3ea; border-radius:6px; padding:12px 20px; margin:12px 0; }
+  .filelist{ background:#eef6ff; border:1px solid #b9d3ea; border-radius:6px; padding:12px 20px; margin:10px 0; }
   .filelist li{ font-family:'Courier New',monospace; font-size:10.3pt; margin-bottom:5px; }
-  .note{ background:#fff8e6; border-left:4px solid #e0b040; border-radius:0 6px 6px 0; padding:10px 16px; margin:10px 0; font-size:10.2pt; }
+  .filelist li:last-child{ margin-bottom:0; }
+  .footnote{ font-size:9.5pt; color:var(--ink-dim); margin:6px 0 14px; }
   .step-num{ display:inline-block; background:var(--accent); color:#fff; font-weight:700; font-size:9pt; width:20px; height:20px; text-align:center; line-height:20px; border-radius:50%; margin-right:8px; }
-  strong.emphasis{ color:var(--accent); }
   footer{ margin-top:30px; padding-top:12px; border-top:1px solid var(--line); font-size:8.5pt; color:#8a93a0; text-align:center; }
+
+  .kinematics-box{ background:#0A1A2E; border-radius:10px; padding:18px 24px; margin-bottom:22px; }
+  .kinematics-box h2{ color:#e8a13a; font-family:Georgia,serif; font-size:13.5pt; margin:0 0 12px; border:none; padding:0; }
+  .kin-grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px 20px; }
+  .kin-eq{ background:#171f2e; border:1px solid #2a3346; border-radius:6px; padding:10px 14px; font-family:Georgia,serif; font-size:12.5pt; color:#f3ede0; text-align:center; }
+
+  .discussion{ background:#f7f1fb; border:1.5px solid var(--brain); border-radius:8px; padding:14px 18px 14px 54px; margin:12px 0; position:relative; font-size:10.6pt; }
+  .discussion::before{ content:"\1F9E0"; position:absolute; left:14px; top:13px; font-size:22px; line-height:1; }
+  .discussion .dq-label{ font-weight:700; color:var(--brain); font-family:'Segoe UI',sans-serif; font-size:8.7pt; text-transform:uppercase; letter-spacing:0.04em; display:block; margin-bottom:5px; }
+  .discussion ol, .discussion ul{ margin:6px 0 0; padding-left:18px; }
+  .discussion li{ margin-bottom:5px; }
+  .discussion p{ margin:4px 0; }
 </style>
 </head>
 <body>
@@ -31,6 +44,16 @@
   <h1>Physics Lab: Motion Sensor Fun</h1>
   <p>PHYS203 General Physics I &middot; Fall 2026</p>
 </header>
+
+<div class="kinematics-box">
+  <h2>Kinematic Equations</h2>
+  <div class="kin-grid">
+    <div class="kin-eq">v = v&#8320; + at</div>
+    <div class="kin-eq">v&sup2; = v&#8320;&sup2; + 2a(x &minus; x&#8320;)</div>
+    <div class="kin-eq">x = x&#8320; + &frac12;(v + v&#8320;)t</div>
+    <div class="kin-eq">x = x&#8320; + v&#8320;t + &frac12;at&sup2;</div>
+  </div>
+</div>
 
 <h2 class="section">Preliminaries</h2>
 <div class="box">
@@ -45,33 +68,85 @@
 
 <h2 class="section">A Little Fun</h2>
 <div class="box">
-<p>Now in Logger Pro, go to <strong>File | Open</strong>, then navigate to your Downloads folder, where you should see all the files you just downloaded. Open the file <strong>GC Position Match 1 Green</strong> (or Blue, depending on the color of your motion detector). It should set up the graphs showing a plot line that you try to copy by moving the object. Take turns matching the curve. Get some good ones you can be proud of. Show your instructor. Then work through the other files and try to match those curves.</p>
-<p>You should work on the following files. For each one, get a good result and show your instructor. Be sure both partners (or all three) succeed in getting a reasonably good result on each file.</p>
+<p>In Logger Pro, go to <strong>File | Open</strong>, then navigate to your Downloads folder, where you should see all the files you just downloaded. Each file sets up a graph showing a plot line that you try to reproduce by moving the object. For each file below, get a good result and show your instructor &mdash; be sure both partners (or all three) succeed on each one.</p>
+
+<h3 class="subsection">Position Matching</h3>
 <div class="filelist">
 <ul>
 <li>GC Position Match 1 Green or Blue</li>
 <li>GC Position Match 2 Green or Blue</li>
 <li>GC Position Match Custom *</li>
+</ul>
+</div>
+<p class="footnote">* While one partner looks away, the other records a run with interesting motions (<strong>Experiment | Store Latest Run</strong>). The partner who looked away then tries to reproduce it.</p>
+
+<div class="discussion">
+<span class="dq-label">Discussion &mdash; GC Position Match 1 and 2</span>
+<p>Before moving the car, discuss and write down &mdash; on paper &mdash; how the car needs to move (direction, speeding up or slowing down, stopping) to produce the plotted position graph. Then try it. Does your prediction work?</p>
+</div>
+
+<h3 class="subsection">Velocity Matching</h3>
+<div class="filelist">
+<ul>
 <li>GC Velocity Match 1</li>
 <li>GC Velocity Match 2</li>
 <li>GC Velocity Match Custom *</li>
 </ul>
 </div>
-<p style="font-size:9.8pt; color:var(--ink-dim);">* For the custom files, while one of you looks away, the other records a run with interesting motions. Then do <strong>Experiment | Store Latest Run</strong>, and then the other member can try to copy what you did.</p>
+<p class="footnote">* Same custom-run procedure as above, this time matching a velocity graph.</p>
+
+<div class="discussion">
+<span class="dq-label">Discussion &mdash; GC Velocity Match 1 and 2</span>
+<ol type="a">
+<li>Before moving the car, discuss and write down how it needs to move, and sketch the x-t (position-time) graph you'd expect this velocity motion to produce.</li>
+<li>Move the car and compare: did your predicted x-t graph match what Logger Pro actually shows?</li>
+</ol>
+</div>
 </div>
 
 <h2 class="section">Freefall</h2>
 <div class="box">
-<p>Open the file <strong>GC zBall Toss.cmbl</strong>.</p>
-<p>Set the sensor on the table or the floor, aiming straight up.</p>
-<p>Toss a ball straight up over the sensor. Be sure to pull your hands back immediately. Try this until you get a nice plot which should include a nice long parabolic section. <em>(Another method you may try instead is to hold the sensor up above while tossing a ball underneath it. Be sure to hold it very still.)</em></p>
-<p>Look at the data. There are only parts of it that are freefall. Find them. Does the plot make sense? Can you explain most of the details?</p>
+<p>Open the file <strong>GC zBall Toss.cmbl</strong>. Set the sensor on the table or the floor, aiming straight up.</p>
+<p>Toss a ball straight up over the sensor, pulling your hands back immediately, until you get a plot with a nice long parabolic section. <em>(Alternative: hold the sensor up above and toss a ball underneath it, keeping the sensor very still.)</em></p>
+<p>Look at the data. Only part of it is freefall &mdash; find that portion before continuing.</p>
 
 <ol>
-<li><span class="step-num">1</span>Click and drag to highlight a freefall portion of the <strong>acceleration</strong> plot. Then under <strong>Analyze | Statistics</strong>, see if you get what you expect. In particular, does the mean value have a special meaning?</li>
-<li><span class="step-num">2</span>Highlight a freefall portion of the <strong>velocity</strong> plot and use <strong>Analyze | Linear Fit</strong> to investigate. Do the parameters of this line have any special meanings? Can you explain what both parameters (m and b) represent?</li>
-<li><span class="step-num">3</span>Lastly, highlight a freefall portion of the <strong>distance</strong> plot. Use <strong>Analyze | Curve Fit</strong> and then choose a quadratic. Can you explain all the coefficients of the fit? See if you can explain the physical meaning of each coefficient (A, B, and C) and tell your instructor. <em>(For example, if B = 23, what does that mean? What physical thing is 23, and what are the units?)</em> Once you understand the coefficients, check the box called "time offset." Now the fit uses a shifted time axis that starts at the beginning of the highlighted region. The coefficients should all now have a more useful meaning, which should be clear to you.</li>
+<li><span class="step-num">1</span>Click and drag to highlight the freefall portion of the <strong>acceleration</strong> plot, then use <strong>Analyze | Statistics</strong>.</li>
 </ol>
+<div class="discussion">
+<span class="dq-label">Discussion 1</span>
+<p>a. Does the mean have any meaning, and why is it close to 9.8 m/s&sup2;?</p>
+</div>
+
+<ol start="2">
+<li><span class="step-num">2</span>Highlight the freefall portion of the <strong>velocity</strong> plot, then use <strong>Analyze | Linear Fit</strong>.</li>
+</ol>
+<div class="discussion">
+<span class="dq-label">Discussion 2</span>
+<ol type="a">
+<li>What are the units (dimensions) of parameters m and b?</li>
+<li>What physical quantities do m and b relate to? Do you agree with the values of m and b?</li>
+</ol>
+</div>
+
+<ol start="3">
+<li><span class="step-num">3</span>Highlight the freefall portion of the <strong>distance</strong> plot, then use <strong>Analyze | Curve Fit</strong> and choose a quadratic.</li>
+</ol>
+<div class="discussion">
+<span class="dq-label">Discussion 3</span>
+<ol type="a">
+<li>What are the units of parameters A, B, and C?</li>
+<li>What physical quantities do A, B, and C mean? Do you agree with the values of A, B, and C? <em>(For example, if B = 23, what physical thing is 23, and what are its units?)</em></li>
+</ol>
+</div>
+
+<ol start="4">
+<li><span class="step-num">4</span>Once you've interpreted the coefficients, check the box called <strong>"time offset"</strong> &mdash; this shifts the fit's time axis to start at the beginning of the highlighted region.</li>
+</ol>
+<div class="discussion">
+<span class="dq-label">Discussion 4</span>
+<p>After checking "time offset," do you agree with the new values of A, B, and C? What did the time offset do to the analysis, and why does the value make more sense now?</p>
+</div>
 </div>
 
 <footer>PHYS203 General Physics I &middot; Motion Sensor Fun &middot; Goshen College Department of Physics</footer>
