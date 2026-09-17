@@ -4,67 +4,114 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PHYS203 Chapter Assignments - Index</title>
+
 <style>
+
 :root{
   --ink:#f3ede0; --ink-dim:#a89f8c; --paper:#171a21; --bg:#0f1115;
-  --line:#2a2e38; --accent:#e8a13a;
+  --line:#2a2e38; --accent:#e8a13a; --easy:#6fae8f; --medium:#e8a13a;
+  --hard:#e2725b; --challenge:#9fb3e0; --tag-bg:#1d212b;
 }
-* { box-sizing: border-box; }
-body { margin:0; background:#1d2230; color:var(--ink); font-family:Georgia,'Times New Roman',serif; }
-.wrap { max-width:900px; margin:0 auto; padding:32px 36px 70px; }
-header { background:#0b0d11; border:1px solid var(--line); border-radius:10px; padding:22px 26px; margin-bottom:24px; }
-header h1 { font-family:Georgia,serif; color:var(--ink); margin:0; font-size:1.8rem; border-bottom:3px solid var(--accent); padding-bottom:10px; }
-header p { color:var(--ink-dim); font-family:'Courier New',monospace; font-size:0.85rem; margin:10px 0 0; }
+body { margin:0; background: #1d2230; color:var(--ink); font-family:Georgia,'Times New Roman',serif; }
+.shell { display:flex; min-height:100vh; }
+.sidebar {
+  width:280px; flex-shrink:0; background:#0b0d11; color:var(--ink); padding:22px 0 60px;
+  position:fixed; top:0; left:0; bottom:0; overflow-y:auto; font-family:'Courier New',monospace;
+}
+.sidebar .brand { padding:0 22px 18px; font-family:Georgia,serif; font-weight:800; font-size:1.05rem; color:var(--ink); border-bottom:1px solid var(--line); margin-bottom:14px; }
+.sidebar .brand small { display:block; font-family:'Courier New',monospace; font-weight:400; color:var(--ink-dim); font-size:0.72rem; margin-top:3px; }
+.sidebar a.chap-link { display:block; padding:8px 22px; color:var(--ink); text-decoration:none; font-size:0.88rem; border-left:3px solid transparent; }
+.sidebar a.chap-link:hover { background:#1d212b; }
+.sidebar a.chap-link.active { background:#1d212b; border-left-color:var(--accent); color:var(--accent); font-weight:600; }
+.sidebar a.home-link { display:block; padding:8px 22px; color:var(--ink-dim); text-decoration:none; font-size:0.82rem; margin-bottom:8px; }
+.main { margin-left:280px; flex:1; display:flex; justify-content:center; min-width:0; }
+.content { max-width:880px; width:100%; padding:36px 40px 100px; background:transparent; }
+.content h1 { font-family:Georgia,serif; color:var(--ink); border-bottom:3px solid var(--accent); padding-bottom:12px; }
+.content h1:first-of-type { margin-top: 0; }
+.content h2 { font-family:Georgia,serif; color:var(--accent); margin-top:44px; }
+.content h3 { color:var(--easy); }
+
 a.chapter-card { display:block; text-decoration:none; color:inherit; background:var(--paper); border:1px solid var(--line); border-radius:10px; padding:16px 22px; margin-bottom:12px; transition:border-color 0.15s; }
 a.chapter-card:hover { border-color:var(--accent); }
 a.chapter-card h3 { margin:0; color:var(--accent); font-family:Georgia,serif; font-size:1.15rem; }
 a.chapter-card p { margin:6px 0 0; color:var(--ink-dim); font-size:0.85rem; font-family:'Courier New',monospace; }
 footer { margin-top:30px; padding-top:16px; border-top:1px solid var(--line); font-family:'Courier New',monospace; font-size:0.78rem; color:var(--ink-dim); text-align:center; }
+
 </style>
+
 </head>
 <body>
-<div class="wrap">
-<header>
-  <h1>Chapter Assignments</h1>
-  <p>PHYS203 General Physics I &middot; 11 chapters &middot; 10 problems each (6 Homework-Hard + 4 Synthesis)</p>
-</header>
+
+<div class="shell">
+<nav class="sidebar"><div class="brand">PHYS203<small>Chapter Assignments</small></div>
+<a class="home-link" href="../index.html" style="border-bottom:1px solid #24354a; padding-bottom:14px; margin-bottom:6px; display:block;">&larr; Course Home</a>
+<a class="home-link" href="index.html">&larr; Back to Assignments Index</a>
+<a class="chap-link" href="chapter01_assignment.html">Chapter 1</a>
+<a class="chap-link" href="chapter02_assignment.html">Chapter 2</a>
+<a class="chap-link" href="chapter03_assignment.html">Chapter 3</a>
+<a class="chap-link" href="chapter04_assignment.html">Chapter 4</a>
+<a class="chap-link" href="chapter05_assignment.html">Chapter 5</a>
+<a class="chap-link" href="chapter06_assignment.html">Chapter 6</a>
+<a class="chap-link" href="chapter07_assignment.html">Chapter 7</a>
+<a class="chap-link" href="chapter08_assignment.html">Chapter 8</a>
+<a class="chap-link" href="chapter09_assignment.html">Chapter 9</a>
+<a class="chap-link" href="chapter10_assignment.html">Chapter 10</a>
+<a class="chap-link" href="chapter11_assignment.html">Chapter 11</a>
+</nav>
+
+<main class="main">
+<div class="content">
+<h1>Chapter Assignments</h1>
+<p style="color:var(--ink-dim);">PHYS203 General Physics I &middot; 11 chapters &middot; 10 problems each (6 Homework-Hard + 4 Synthesis)</p>
 
 <a class="chapter-card" href="chapter01_assignment.html">
   <h3>Chapter 1: Units and Dimensions</h3>
-  <p>Days 2–3 &middot; 10 problems (6 Homework-Hard + 4 Synthesis)</p>
-</a><a class="chapter-card" href="chapter02_assignment.html">
+  <p>Days 2&ndash;3 &middot; 10 problems (6 Homework-Hard + 4 Synthesis)</p>
+</a>
+<a class="chapter-card" href="chapter02_assignment.html">
   <h3>Chapter 2: One-Dimensional Kinematics</h3>
-  <p>Days 4–7 &middot; 10 problems (6 Homework-Hard + 4 Synthesis)</p>
-</a><a class="chapter-card" href="chapter03_assignment.html">
+  <p>Days 4&ndash;7 &middot; 10 problems (6 Homework-Hard + 4 Synthesis)</p>
+</a>
+<a class="chapter-card" href="chapter03_assignment.html">
   <h3>Chapter 3: Vectors</h3>
-  <p>Days 8–9 &middot; 10 problems (6 Homework-Hard + 4 Synthesis)</p>
-</a><a class="chapter-card" href="chapter04_assignment.html">
+  <p>Days 8&ndash;9 &middot; 10 problems (6 Homework-Hard + 4 Synthesis)</p>
+</a>
+<a class="chapter-card" href="chapter04_assignment.html">
   <h3>Chapter 4: Two-Dimensional Motion</h3>
-  <p>Days 10–12 &middot; 10 problems (6 Homework-Hard + 4 Synthesis)</p>
-</a><a class="chapter-card" href="chapter05_assignment.html">
+  <p>Days 10&ndash;12 &middot; 10 problems (6 Homework-Hard + 4 Synthesis)</p>
+</a>
+<a class="chapter-card" href="chapter05_assignment.html">
   <h3>Chapter 5: Newton's Laws and Applications</h3>
-  <p>Days 13–16 &middot; 10 problems (6 Homework-Hard + 4 Synthesis)</p>
-</a><a class="chapter-card" href="chapter06_assignment.html">
+  <p>Days 13&ndash;16 &middot; 10 problems (6 Homework-Hard + 4 Synthesis)</p>
+</a>
+<a class="chapter-card" href="chapter06_assignment.html">
   <h3>Chapter 6: Momentum and Collisions</h3>
-  <p>Days 17–18 &middot; 10 problems (6 Homework-Hard + 4 Synthesis)</p>
-</a><a class="chapter-card" href="chapter07_assignment.html">
+  <p>Days 17&ndash;18 &middot; 10 problems (6 Homework-Hard + 4 Synthesis)</p>
+</a>
+<a class="chapter-card" href="chapter07_assignment.html">
   <h3>Chapter 7: Work and Energy</h3>
-  <p>Days 19–21 &middot; 10 problems (6 Homework-Hard + 4 Synthesis)</p>
-</a><a class="chapter-card" href="chapter08_assignment.html">
+  <p>Days 19&ndash;21 &middot; 10 problems (6 Homework-Hard + 4 Synthesis)</p>
+</a>
+<a class="chapter-card" href="chapter08_assignment.html">
   <h3>Chapter 8: Rotational Motion</h3>
-  <p>Days 22–27 &middot; 10 problems (6 Homework-Hard + 4 Synthesis)</p>
-</a><a class="chapter-card" href="chapter09_assignment.html">
+  <p>Days 22&ndash;27 &middot; 10 problems (6 Homework-Hard + 4 Synthesis)</p>
+</a>
+<a class="chapter-card" href="chapter09_assignment.html">
   <h3>Chapter 9: Oscillations</h3>
-  <p>Days 28–29 &middot; 10 problems (6 Homework-Hard + 4 Synthesis)</p>
-</a><a class="chapter-card" href="chapter10_assignment.html">
+  <p>Days 28&ndash;29 &middot; 10 problems (6 Homework-Hard + 4 Synthesis)</p>
+</a>
+<a class="chapter-card" href="chapter10_assignment.html">
   <h3>Chapter 10: Waves</h3>
-  <p>Days 30–32 &middot; 10 problems (6 Homework-Hard + 4 Synthesis)</p>
-</a><a class="chapter-card" href="chapter11_assignment.html">
+  <p>Days 30&ndash;32 &middot; 10 problems (6 Homework-Hard + 4 Synthesis)</p>
+</a>
+<a class="chapter-card" href="chapter11_assignment.html">
   <h3>Chapter 11: Sound</h3>
-  <p>Days 33–35 &middot; 10 problems (6 Homework-Hard + 4 Synthesis)</p>
+  <p>Days 33&ndash;35 &middot; 10 problems (6 Homework-Hard + 4 Synthesis)</p>
 </a>
 
 <footer>PHYS203 General Physics I &middot; Chapter Assignments &middot; Goshen College Department of Physics</footer>
+</div>
+</main>
 </div>
 </body>
 </html>
