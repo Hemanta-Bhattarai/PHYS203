@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactive Lab: Vectors - PHYS203</title>
+<style>
+  :root{ --ink:#f3ede0; --ink-dim:#a89f8c; --paper:#171a21; --bg:#0f1115; --line:#2a2e38; --accent:#e8a13a; --accent2:#4a90d9; --good:#6fae8f; --brain:#8e44ad; --purple:#c9a3e8; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:#1d2230; color:var(--ink); font-family:'Segoe UI',Arial,sans-serif; line-height:1.5; }
+  .wrap { max-width:1040px; margin:0 auto; padding:28px 32px 70px; }
+  header { background:#0b0d11; border:1px solid var(--line); border-radius:10px; padding:20px 26px; margin-bottom:20px; }
+  header h1 { font-family:Georgia,serif; font-size:1.7rem; margin:0; border-bottom:3px solid var(--accent); padding-bottom:10px; }
+  header p { color:var(--ink-dim); font-family:'Courier New',monospace; font-size:0.85rem; margin:10px 0 0; }
+  .agenda { background:var(--paper); border:1px solid var(--line); border-radius:8px; padding:14px 20px; margin-bottom:22px; font-size:0.9rem; }
+  .agenda table { width:100%; border-collapse:collapse; }
+  .agenda td { padding:4px 8px; font-family:'Courier New',monospace; font-size:0.85rem; color:var(--ink-dim); }
+  .agenda td.time { color:var(--accent); font-weight:700; white-space:nowrap; width:110px; }
+  h2.section { font-family:Georgia,serif; font-size:1.4rem; color:var(--accent); border-bottom:2px solid var(--accent); padding-bottom:6px; margin:34px 0 14px; }
+  .timebox { display:inline-block; background:#1d212b; color:var(--accent); font-family:'Courier New',monospace; font-size:0.75rem; font-weight:700; padding:2px 10px; border-radius:999px; margin-left:10px; }
+  .box { background:var(--paper); border:1px solid var(--line); border-radius:10px; padding:18px 24px; margin-bottom:16px; }
+  .definition { background:#0f1c2e; border-left:4px solid var(--accent2); border-radius:0 8px 8px 0; padding:12px 18px; margin-bottom:14px; }
+  .definition .deflabel { font-family:'Courier New',monospace; font-size:0.75rem; font-weight:700; color:var(--accent2); text-transform:uppercase; letter-spacing:0.04em; display:block; margin-bottom:6px; }
+  .example-row { display:flex; gap:20px; flex-wrap:wrap; align-items:flex-start; margin-bottom:16px; }
+  .example-fig { flex: 0 0 260px; }
+  .example-caption { flex: 1 1 280px; min-width:240px; font-size:0.92rem; padding-top:6px; }
+  .example-caption .exlabel { font-family:'Courier New',monospace; font-size:0.75rem; font-weight:700; color:var(--good); text-transform:uppercase; letter-spacing:0.04em; display:block; margin-bottom:6px; }
+  .widget { display:flex; gap:22px; flex-wrap:wrap; align-items:flex-start; }
+  .canvas-col { flex: 1 1 420px; min-width:380px; }
+  .side-col { flex: 1 1 260px; min-width:240px; }
+  svg.canvas { background:#0b0d11; border:1px solid var(--line); border-radius:8px; width:100%; height:auto; cursor:crosshair; touch-action:none; }
+  .instructions-strip { background:#12141a; border:1px solid var(--line); border-radius:6px; padding:8px 14px; margin-bottom:10px; font-size:0.85rem; color:var(--ink-dim); }
+  .instructions-strip strong { color:var(--accent); }
+  .btnrow { display:flex; gap:8px; flex-wrap:wrap; margin:12px 0; }
+  button.opbtn { background:#1d212b; border:1px solid var(--accent2); color:var(--accent2); font-family:'Courier New',monospace; font-size:0.8rem; padding:7px 14px; border-radius:6px; cursor:pointer; transition:background 0.15s; }
+  button.opbtn:hover { background:#233047; }
+  button.opbtn:disabled { opacity:0.35; cursor:not-allowed; }
+  button.resetbtn { background:#2a1d1d; border:1px solid #c0392b; color:#e0837a; font-family:'Courier New',monospace; font-size:0.78rem; padding:6px 12px; border-radius:6px; cursor:pointer; }
+  .readout { background:#0d1f18; border-left:4px solid var(--good); border-radius:0 6px 6px 0; padding:10px 14px; margin-top:6px; font-family:'Courier New',monospace; font-size:0.85rem; min-height:24px; white-space:pre-line; }
+  .discussion { background:#241f2c; border:1.5px solid var(--brain); border-radius:8px; padding:14px 18px 14px 54px; margin:14px 0; position:relative; font-size:0.92rem; }
+  .discussion::before { content:"\1F9E0"; position:absolute; left:14px; top:13px; font-size:22px; line-height:1; }
+  .discussion .dq-label { font-weight:700; color:var(--purple); font-family:'Courier New',monospace; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.04em; display:block; margin-bottom:5px; }
+  .lawbadge { display:inline-block; background:#1d212b; border:1px solid var(--accent2); color:var(--accent2); font-family:'Courier New',monospace; font-size:0.75rem; padding:2px 10px; border-radius:999px; margin-bottom:10px; }
+  .colvec { display:inline-flex; align-items:center; vertical-align:middle; margin:0 4px; }
+  .colvec .bracket { font-size:2.1rem; font-family:Georgia,serif; color:var(--ink); line-height:1; padding:0 2px; font-weight:300; }
+  .colvec .nums { display:flex; flex-direction:column; align-items:center; padding:0 4px; font-family:'Courier New',monospace; font-size:0.95rem; }
+  .colvec .nums span { padding:1px 6px; }
+  .problem { background:#241d16; border-left:4px solid var(--accent); border-radius:0 6px 6px 0; padding:12px 18px; margin:14px 0 0; font-size:0.94rem; }
+  .problem .plabel { font-weight:700; color:var(--accent); font-family:'Courier New',monospace; font-size:0.78rem; text-transform:uppercase; display:block; margin-bottom:6px; }
+  .problem .tasklist { margin:8px 0 0 20px; }
+  .problem .tasklist li { margin-bottom:4px; }
+  .scalar-row { display:flex; align-items:center; gap:10px; margin:10px 0; }
+  .scalar-row input[type=range] { flex:1; }
+  .scalar-row .kval { color:var(--purple); font-weight:700; font-family:'Courier New',monospace; min-width:50px; }
+  footer { margin-top:34px; padding-top:16px; border-top:1px solid var(--line); font-family:'Courier New',monospace; font-size:0.78rem; color:var(--ink-dim); text-align:center; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Interactive Lab: Vectors</h1>
+  <p>PHYS203 General Physics I &middot; self-contained: each section defines its law, shows a worked example, then asks you to construct it yourself</p>
+</header>
+
+<h2 class="section">Warm-Up: Drawing a Vector <span class="timebox">8 min</span></h2>
+<div class="box">
+<p>Every widget below works the same way: <strong>click once</strong> on the grid to place a vector's <strong>tail</strong>, move your mouse to aim it, then <strong>click again</strong> to place its <strong>head</strong>. The vector snaps to the nearest grid intersection so your coordinates come out as clean integers.</p>
+<div class="discussion">
+<span class="dq-label">Discussion</span>
+<p>Before drawing anything, predict: if you place a vector's tail at (&minus;2, 1) and its head at (3, 4), what are its components (the "run" and "rise")? Then draw exactly that vector in the widget below and check your prediction.</p>
+</div>
+<div class="widget">
+  <div class="canvas-col">
+    <svg class="canvas" id="svgWarmup" viewBox="0 0 480 480"></svg>
+  </div>
+  <div class="side-col">
+    <button class="resetbtn" id="btnWarmupReset">&#8635; Reset Vector</button>
+    <div class="readout" id="warmupReadout">Click the grid to place the tail at (-2, 1), then click again to place the head at (3, 4).</div>
+  </div>
+</div>
+</div>
+
+<h2 class="section">Triangle Law <span class="timebox">15 min</span></h2>
+<div class="box">
+<div class="definition">
+<span class="deflabel">Definition</span>
+If two vectors <strong>A</strong> and <strong>B</strong> are arranged so that the <strong>tail of B touches the head of A</strong>, then their sum <strong>R</strong> = <strong>A</strong> + <strong>B</strong> is the vector drawn from the tail of A to the head of B &mdash; the third side of the triangle formed.
+</div>
+<div class="example-row">
+<div class="example-fig" id="figTriangle"></div>
+<div class="example-caption">
+<span class="exlabel">Worked example</span>
+A = (4, 2) is drawn from the origin. B = (1, 3) is drawn starting at A's head, i.e., from (4,2) to (4+1, 2+3) = (5,5). The resultant R runs from the original tail (the origin) to B's final head: R = (5, 5) = A + B.
+</div>
+</div>
+<div class="instructions-strip">Now you try: click to place the tail of <strong style="color:#e8a13a;">Vector A</strong>, then click again to place its head. Repeat for <strong style="color:#4a90d9;">Vector B</strong>, starting B's tail wherever you like &mdash; then use the button to see the Triangle Law construction.</div>
+<div class="widget">
+  <div class="canvas-col">
+    <svg class="canvas" id="svgTriangle" viewBox="0 0 480 480"></svg>
+  </div>
+  <div class="side-col">
+    <div class="btnrow">
+      <button class="opbtn" id="btnTriShow" disabled>Use Triangle Law to find A+B</button>
+    </div>
+    <button class="resetbtn" id="btnTriReset">&#8635; Reset Vectors</button>
+    <div class="readout" id="triReadout">Click the grid to draw Vector A (tail, then head).</div>
+  </div>
+</div>
+<div class="problem">
+<span class="plabel">Problem 1</span>
+Let A = <span class="colvec"><span class="bracket">[</span><span class="nums"><span>4</span><span>1</span></span><span class="bracket">]</span></span> and B = <span class="colvec"><span class="bracket">[</span><span class="nums"><span>1</span><span>3</span></span><span class="bracket">]</span></span>.
+<ul class="tasklist">
+<li>Draw A and B (starting B's tail at A's head), then use the <strong>Triangle Law</strong> to find R = A + B.</li>
+<li>Read R's components off the grid and record them &mdash; you'll verify this algebraically at the end of the lab.</li>
+</ul>
+</div>
+<div class="problem">
+<span class="plabel">Problem 1b</span>
+Let A = <span class="colvec"><span class="bracket">[</span><span class="nums"><span>3</span><span>5</span></span><span class="bracket">]</span></span> and B = <span class="colvec"><span class="bracket">[</span><span class="nums"><span>4</span><span>-2</span></span><span class="bracket">]</span></span>. Use the Triangle Law to find R = A + B.
+</div>
+<div class="problem">
+<span class="plabel">Problem 1c</span>
+Let A = <span class="colvec"><span class="bracket">[</span><span class="nums"><span>-2</span><span>3</span></span><span class="bracket">]</span></span> and B = <span class="colvec"><span class="bracket">[</span><span class="nums"><span>5</span><span>1</span></span><span class="bracket">]</span></span>. Use the Triangle Law to find R = A + B.
+</div>
+<div class="problem">
+<span class="plabel">Problem 1d</span>
+Let A = <span class="colvec"><span class="bracket">[</span><span class="nums"><span>6</span><span>2</span></span><span class="bracket">]</span></span> and B = <span class="colvec"><span class="bracket">[</span><span class="nums"><span>1</span><span>4</span></span><span class="bracket">]</span></span>. Use the Triangle Law to find R = A + B.
+</div>
+</div>
+
+<h2 class="section">Parallelogram Law <span class="timebox">15 min</span></h2>
+<div class="box">
+<div class="definition">
+<span class="deflabel">Definition</span>
+If two vectors <strong>A</strong> and <strong>B</strong> are drawn <strong>tail-to-tail from a common origin</strong>, and a parallelogram is completed using them as adjacent sides, then their sum <strong>R</strong> = <strong>A</strong> + <strong>B</strong> is the <strong>diagonal</strong> of that parallelogram, starting at the common origin.
+</div>
+<div class="example-row">
+<div class="example-fig" id="figParallelogram"></div>
+<div class="example-caption">
+<span class="exlabel">Worked example</span>
+The same A = (4, 2) and B = (1, 3) are drawn from the same origin this time (not head-to-tail). Dashed lines complete the parallelogram, and the diagonal from the origin gives R = (5, 5) &mdash; exactly the same resultant as the Triangle Law found.
+</div>
+</div>
+<div class="instructions-strip">Now you try: click to place the tail of <strong style="color:#e8a13a;">Vector A</strong>, then its head. Then draw <strong style="color:#4a90d9;">Vector B</strong> starting from the <strong>same tail point as A</strong> (a common origin) &mdash; then use the button to complete the parallelogram.</div>
+<div class="widget">
+  <div class="canvas-col">
+    <svg class="canvas" id="svgParallelogram" viewBox="0 0 480 480"></svg>
+  </div>
+  <div class="side-col">
+    <div class="btnrow">
+      <button class="opbtn" id="btnParShow" disabled>Use Parallelogram Law to find A+B</button>
+    </div>
+    <button class="resetbtn" id="btnParReset">&#8635; Reset Vectors</button>
+    <div class="readout" id="parReadout">Click the grid to draw Vector A (tail, then head).</div>
+  </div>
+</div>
+<div class="problem">
+<span class="plabel">Problem 2</span>
+Let A = <span class="colvec"><span class="bracket">[</span><span class="nums"><span>4</span><span>1</span></span><span class="bracket">]</span></span> and B = <span class="colvec"><span class="bracket">[</span><span class="nums"><span>1</span><span>3</span></span><span class="bracket">]</span></span> (the same vectors as Problem 1).
+<ul class="tasklist">
+<li>Draw A and B from a common origin, then use the <strong>Parallelogram Law</strong> to find R = A + B.</li>
+<li>Compare the components you read off the grid here to what you got in Problem 1. Do the two laws agree?</li>
+</ul>
+</div>
+<div class="problem">
+<span class="plabel">Problem 2b</span>
+Let A = <span class="colvec"><span class="bracket">[</span><span class="nums"><span>3</span><span>5</span></span><span class="bracket">]</span></span> and B = <span class="colvec"><span class="bracket">[</span><span class="nums"><span>4</span><span>-2</span></span><span class="bracket">]</span></span> (same as Problem 1b). Use the Parallelogram Law to find R = A + B, and compare to Problem 1b.
+</div>
+<div class="problem">
+<span class="plabel">Problem 2c</span>
+Let A = <span class="colvec"><span class="bracket">[</span><span class="nums"><span>-2</span><span>3</span></span><span class="bracket">]</span></span> and B = <span class="colvec"><span class="bracket">[</span><span class="nums"><span>5</span><span>1</span></span><span class="bracket">]</span></span> (same as Problem 1c). Use the Parallelogram Law to find R = A + B, and compare to Problem 1c.
+</div>
+<div class="problem">
+<span class="plabel">Problem 2d</span>
+Let A = <span class="colvec"><span class="bracket">[</span><span class="nums"><span>6</span><span>2</span></span><span class="bracket">]</span></span> and B = <span class="colvec"><span class="bracket">[</span><span class="nums"><span>1</span><span>4</span></span><span class="bracket">]</span></span> (same as Problem 1d). Use the Parallelogram Law to find R = A + B, and compare to Problem 1d.
+</div>
+</div>
+
+<h2 class="section">Vector Subtraction <span class="timebox">12 min</span></h2>
+<div class="box">
+<div class="definition">
+<span class="deflabel">Definition</span>
+<strong>A</strong> &minus; <strong>B</strong> is defined as <strong>A</strong> + (&minus;<strong>B</strong>), where &minus;<strong>B</strong> has the same magnitude as B but points in the exact <strong>opposite</strong> direction (rotated 180&deg;). Once &minus;B is drawn, the subtraction is just a Triangle Law addition of A and &minus;B.
+</div>
+<div class="example-row">
+<div class="example-fig" id="figSubtraction"></div>
+<div class="example-caption">
+<span class="exlabel">Worked example</span>
+A = (4, 3), B = (2, 4). Reversing B gives &minus;B = (&minus;2, &minus;4). Applying the Triangle Law to A and &minus;B (placing &minus;B's tail at A's head) gives D = A &minus; B = (2, &minus;1).
+</div>
+</div>
+<div class="instructions-strip">Now you try: draw <strong style="color:#e8a13a;">Vector A</strong> and <strong style="color:#4a90d9;">Vector B</strong> (tail, then head, for each), then use the button to see &minus;B and the resulting difference.</div>
+<div class="widget">
+  <div class="canvas-col">
+    <svg class="canvas" id="svgSub" viewBox="0 0 480 480"></svg>
+  </div>
+  <div class="side-col">
+    <div class="btnrow">
+      <button class="opbtn" id="btnSubShow" disabled>Find A &minus; B</button>
+    </div>
+    <button class="resetbtn" id="btnSubReset">&#8635; Reset Vectors</button>
+    <div class="readout" id="subReadout">Click the grid to draw Vector A (tail, then head).</div>
+  </div>
+</div>
+<div class="problem">
+<span class="plabel">Problem 3</span>
+Let A = <span class="colvec"><span class="bracket">[</span><span class="nums"><span>5</span><span>2</span></span><span class="bracket">]</span></span> and B = <span class="colvec"><span class="bracket">[</span><span class="nums"><span>2</span><span>4</span></span><span class="bracket">]</span></span>.
+<ul class="tasklist">
+<li>Draw A and B, then find D = A &minus; B using the widget. Record D's components.</li>
+</ul>
+</div>
+<div class="problem">
+<span class="plabel">Problem 3b</span>
+Let A = <span class="colvec"><span class="bracket">[</span><span class="nums"><span>6</span><span>1</span></span><span class="bracket">]</span></span> and B = <span class="colvec"><span class="bracket">[</span><span class="nums"><span>3</span><span>5</span></span><span class="bracket">]</span></span>. Find D = A &minus; B.
+</div>
+<div class="problem">
+<span class="plabel">Problem 3c</span>
+Let A = <span class="colvec"><span class="bracket">[</span><span class="nums"><span>-2</span><span>4</span></span><span class="bracket">]</span></span> and B = <span class="colvec"><span class="bracket">[</span><span class="nums"><span>3</span><span>3</span></span><span class="bracket">]</span></span>. Find D = A &minus; B.
+</div>
+<div class="problem">
+<span class="plabel">Problem 3d</span>
+Let A = <span class="colvec"><span class="bracket">[</span><span class="nums"><span>4</span><span>4</span></span><span class="bracket">]</span></span> and B = <span class="colvec"><span class="bracket">[</span><span class="nums"><span>4</span><span>4</span></span><span class="bracket">]</span></span>. Find D = A &minus; B. What's special about this case, and why does the result make sense?
+</div>
+</div>
+
+<h2 class="section">Polygon Law <span class="timebox">12 min</span></h2>
+<div class="box">
+<div class="definition">
+<span class="deflabel">Definition</span>
+The Triangle Law extends to any number of vectors: place each vector's tail at the previous vector's head, in sequence. The resultant <strong>R</strong> is drawn from the very first tail to the very last head, closing the polygon.
+</div>
+<div class="example-row">
+<div class="example-fig" id="figPolygon"></div>
+<div class="example-caption">
+<span class="exlabel">Worked example</span>
+A = (3, 1), B = (1, 3), C = (&minus;2, &minus;1), chained head-to-tail in sequence. The resultant R runs from the first tail (origin) to C's final head: R = (2, 3) = A + B + C.
+</div>
+</div>
+<div class="instructions-strip">Now you try: draw three vectors in sequence &mdash; <strong style="color:#e8a13a;">A</strong>, then <strong style="color:#4a90d9;">B</strong>, then <strong style="color:#6fae8f;">C</strong> (tail, then head, for each) &mdash; then use the button to close the polygon.</div>
+<div class="widget">
+  <div class="canvas-col">
+    <svg class="canvas" id="svgPoly" viewBox="0 0 480 480"></svg>
+  </div>
+  <div class="side-col">
+    <div class="btnrow">
+      <button class="opbtn" id="btnPolyShow" disabled>Use Polygon Law to find A+B+C</button>
+    </div>
+    <button class="resetbtn" id="btnPolyReset">&#8635; Reset Vectors</button>
+    <div class="readout" id="polyReadout">Click the grid to draw Vector A (tail, then head).</div>
+  </div>
+</div>
+<div class="problem">
+<span class="plabel">Problem 4</span>
+Let A = <span class="colvec"><span class="bracket">[</span><span class="nums"><span>3</span><span>0</span></span><span class="bracket">]</span></span>, B = <span class="colvec"><span class="bracket">[</span><span class="nums"><span>0</span><span>3</span></span><span class="bracket">]</span></span>, and C = <span class="colvec"><span class="bracket">[</span><span class="nums"><span>-3</span><span>-3</span></span><span class="bracket">]</span></span>.
+<ul class="tasklist">
+<li>Use the <strong>Polygon Law</strong> to find R = A + B + C. Record R's components.</li>
+<li>What do you notice? What would this mean physically if A, B, C were three forces acting on the same object?</li>
+</ul>
+</div>
+<div class="problem">
+<span class="plabel">Problem 4b</span>
+Let A = <span class="colvec"><span class="bracket">[</span><span class="nums"><span>2</span><span>1</span></span><span class="bracket">]</span></span>, B = <span class="colvec"><span class="bracket">[</span><span class="nums"><span>3</span><span>2</span></span><span class="bracket">]</span></span>, and C = <span class="colvec"><span class="bracket">[</span><span class="nums"><span>1</span><span>-4</span></span><span class="bracket">]</span></span>. Use the Polygon Law to find R = A + B + C.
+</div>
+<div class="problem">
+<span class="plabel">Problem 4c</span>
+Let A = <span class="colvec"><span class="bracket">[</span><span class="nums"><span>4</span><span>0</span></span><span class="bracket">]</span></span>, B = <span class="colvec"><span class="bracket">[</span><span class="nums"><span>0</span><span>4</span></span><span class="bracket">]</span></span>, and C = <span class="colvec"><span class="bracket">[</span><span class="nums"><span>-2</span><span>-2</span></span><span class="bracket">]</span></span>. Use the Polygon Law to find R = A + B + C.
+</div>
+<div class="problem">
+<span class="plabel">Problem 4d</span>
+Let A = <span class="colvec"><span class="bracket">[</span><span class="nums"><span>1</span><span>2</span></span><span class="bracket">]</span></span>, B = <span class="colvec"><span class="bracket">[</span><span class="nums"><span>2</span><span>-1</span></span><span class="bracket">]</span></span>, and C = <span class="colvec"><span class="bracket">[</span><span class="nums"><span>2</span><span>2</span></span><span class="bracket">]</span></span>. Use the Polygon Law to find R = A + B + C.
+</div>
+</div>
+
+<h2 class="section">Scalar Multiplication <span class="timebox">12 min</span></h2>
+<div class="box">
+<div class="definition">
+<span class="deflabel">Definition</span>
+Multiplying a vector <strong>A</strong> by a scalar k produces k<strong>A</strong>: a vector <em>|k|</em> times as long as A, pointing in the <strong>same</strong> direction if k &gt; 0, or the <strong>exact opposite</strong> direction if k &lt; 0.
+</div>
+<div class="example-row">
+<div class="example-fig" id="figScalar"></div>
+<div class="example-caption">
+<span class="exlabel">Worked example</span>
+A = (2, 3). With k = &minus;1.5, kA = (&minus;1.5&times;2, &minus;1.5&times;3) = (&minus;3, &minus;4.5): 1.5 times as long as A, pointing the opposite way since k is negative.
+</div>
+</div>
+<div class="instructions-strip">Now you try: draw one vector <strong style="color:#e8a13a;">Vector A</strong> (tail, then head), then use the slider to scale it.</div>
+<div class="widget">
+  <div class="canvas-col">
+    <svg class="canvas" id="svgScalar" viewBox="0 0 480 480"></svg>
+  </div>
+  <div class="side-col">
+    <div class="scalar-row">
+      <label style="font-family:'Courier New',monospace; font-size:0.85rem;">k =</label>
+      <input type="range" id="sclK" min="-3" max="3" step="0.25" value="1">
+      <span class="kval" id="sclK_val">1.00</span>
+    </div>
+    <button class="resetbtn" id="btnSclReset">&#8635; Reset Vector</button>
+    <div class="readout" id="sclReadout">Click the grid to draw Vector A (tail, then head).</div>
+  </div>
+</div>
+<div class="problem">
+<span class="plabel">Problem 5</span>
+Let A = <span class="colvec"><span class="bracket">[</span><span class="nums"><span>2</span><span>2</span></span><span class="bracket">]</span></span>.
+<ul class="tasklist">
+<li>Draw A, then set k = &minus;2 using the slider. Record the components of kA.</li>
+</ul>
+</div>
+<div class="problem">
+<span class="plabel">Problem 5b</span>
+Let A = <span class="colvec"><span class="bracket">[</span><span class="nums"><span>3</span><span>1</span></span><span class="bracket">]</span></span>. Set k = 3. Record the components of kA.
+</div>
+<div class="problem">
+<span class="plabel">Problem 5c</span>
+Let A = <span class="colvec"><span class="bracket">[</span><span class="nums"><span>-2</span><span>4</span></span><span class="bracket">]</span></span>. Set k = &minus;0.5. Record the components of kA.
+</div>
+<div class="problem">
+<span class="plabel">Problem 5d</span>
+Let A = <span class="colvec"><span class="bracket">[</span><span class="nums"><span>4</span><span>-2</span></span><span class="bracket">]</span></span>. Set k = 2.5. Record the components of kA.
+</div>
+</div>
+
+<h2 class="section">i-j Verification &amp; Wrap-Up <span class="timebox">16 min</span></h2>
+<div class="box">
+<p>Every vector you drew can also be written in <strong>i-j (component) form</strong> &mdash; for example, A = 3<strong>i</strong> + 2<strong>j</strong> means A has an x-component of 3 and a y-component of 2. This is the algebraic version of everything you just did geometrically: <strong>add components separately</strong> to add vectors, and <strong>multiply each component</strong> to scale a vector.</p>
+<div class="discussion">
+<span class="dq-label">Task</span>
+<p>Go back to <strong>every problem in every section above</strong> (all 20). For each one, write every given vector in i-j form, then add (or subtract, or scale) the i-components together and the j-components together by hand, showing your work. Compare this i-j result to the components you read off the grid geometrically. Do they match exactly? If not, go back and re-check your construction.</p>
+</div>
+<p>In one or two sentences: which method (Triangle, Parallelogram, Polygon, or i-j components) would you reach for first if you needed to add five vectors quickly and accurately? Why?</p>
+</div>
+
+<footer>PHYS203 General Physics I &middot; Interactive Lab: Vectors &middot; Goshen College Department of Physics</footer>
+</div>
+
+<script>
+const GRID = 30, ORIGIN = 240, RANGE = 8;
+
+function unitToSvg(ux, uy) { return { x: ORIGIN + ux * GRID, y: ORIGIN - uy * GRID }; }
+function svgToUnit(sx, sy) { return { ux: (sx - ORIGIN) / GRID, uy: -(sy - ORIGIN) / GRID }; }
+function snapUnit(sx, sy) {
+  const u = svgToUnit(sx, sy);
+  return { ux: Math.round(u.ux), uy: Math.round(u.uy) };
+}
+function getSvgPoint(svg, evt) {
+  const pt = svg.createSVGPoint();
+  pt.x = evt.clientX; pt.y = evt.clientY;
+  const ctm = svg.getScreenCTM().inverse();
+  const p = pt.matrixTransform(ctm);
+  return { x: p.x, y: p.y };
+}
+
+function drawGrid(svg) {
+  for (let i = -RANGE; i <= RANGE; i++) {
+    const p = unitToSvg(i, 0);
+    const line1 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    line1.setAttribute('x1', p.x); line1.setAttribute('y1', 10);
+    line1.setAttribute('x2', p.x); line1.setAttribute('y2', 470);
+    line1.setAttribute('stroke', i === 0 ? '#3a4256' : '#1c2028');
+    line1.setAttribute('stroke-width', i === 0 ? 1.5 : 0.75);
+    svg.appendChild(line1);
+    const q = unitToSvg(0, i);
+    const line2 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    line2.setAttribute('x1', 10); line2.setAttribute('y1', q.y);
+    line2.setAttribute('x2', 470); line2.setAttribute('y2', q.y);
+    line2.setAttribute('stroke', i === 0 ? '#3a4256' : '#1c2028');
+    line2.setAttribute('stroke-width', i === 0 ? 1.5 : 0.75);
+    svg.appendChild(line2);
+  }
+}
+
+function ensureMarker(svg, color) {
+  const markerId = 'arrow-' + color.replace('#', '');
+  if (!svg.querySelector('#' + markerId)) {
+    let defs = svg.querySelector('defs');
+    if (!defs) { defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs'); svg.insertBefore(defs, svg.firstChild); }
+    const marker = document.createElementNS('http://www.w3.org/2000/svg', 'marker');
+    marker.setAttribute('id', markerId);
+    marker.setAttribute('viewBox', '0 0 10 10');
+    marker.setAttribute('refX', '8'); marker.setAttribute('refY', '5');
+    marker.setAttribute('markerWidth', '7'); marker.setAttribute('markerHeight', '7');
+    marker.setAttribute('orient', 'auto-start-reverse');
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', 'M0,0 L10,5 L0,10 Z');
+    path.setAttribute('fill', color);
+    marker.appendChild(path);
+    defs.appendChild(marker);
+  }
+  return markerId;
+}
+
+function drawVectorArrow(svg, ux0, uy0, ux1, uy1, color, width, dashed) {
+  const p0 = unitToSvg(ux0, uy0), p1 = unitToSvg(ux1, uy1);
+  const markerId = ensureMarker(svg, color);
+  const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+  line.setAttribute('x1', p0.x); line.setAttribute('y1', p0.y);
+  line.setAttribute('x2', p1.x); line.setAttribute('y2', p1.y);
+  line.setAttribute('stroke', color);
+  line.setAttribute('stroke-width', width || 3);
+  if (dashed) line.setAttribute('stroke-dasharray', '5,4');
+  line.setAttribute('marker-end', `url(#${markerId})`);
+  svg.appendChild(line);
+}
+function drawDot(svg, ux, uy, color, r) {
+  const p = unitToSvg(ux, uy);
+  const circ = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+  circ.setAttribute('cx', p.x); circ.setAttribute('cy', p.y);
+  circ.setAttribute('r', r || 4);
+  circ.setAttribute('fill', color);
+  svg.appendChild(circ);
+}
+function drawLabel(svg, ux, uy, text, color) {
+  const p = unitToSvg(ux, uy);
+  const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+  t.setAttribute('x', p.x + 8); t.setAttribute('y', p.y - 8);
+  t.setAttribute('fill', color); t.setAttribute('font-family', 'Georgia,serif');
+  t.setAttribute('font-size', '16'); t.setAttribute('font-weight', 'bold');
+  t.textContent = text;
+  svg.appendChild(t);
+}
+function clearSvg(svg) {
+  while (svg.firstChild) svg.removeChild(svg.firstChild);
+  drawGrid(svg);
+}
+
+// ---------- Reusable click-to-draw vector collector ----------
+function makeVectorDrawer(svg, count, colors, labels, onDone, onProgress) {
+  const state = { vectors: [], step: 'tail', pendingTail: null, previewHead: null };
+
+  function render() {
+    clearSvg(svg);
+    state.vectors.forEach((v, i) => {
+      drawVectorArrow(svg, v.tail.ux, v.tail.uy, v.head.ux, v.head.uy, colors[i], 3);
+      drawDot(svg, v.tail.ux, v.tail.uy, colors[i], 5);
+      drawLabel(svg, v.head.ux, v.head.uy, labels[i], colors[i]);
+    });
+    if (state.step === 'head' && state.pendingTail) {
+      const idx = state.vectors.length;
+      drawDot(svg, state.pendingTail.ux, state.pendingTail.uy, colors[idx], 5);
+      if (state.previewHead) {
+        drawVectorArrow(svg, state.pendingTail.ux, state.pendingTail.uy, state.previewHead.ux, state.previewHead.uy, colors[idx], 2, true);
+      }
+    }
+  }
+
+  svg.addEventListener('click', (evt) => {
+    if (state.vectors.length >= count) return;
+    const p = getSvgPoint(svg, evt);
+    const snapped = snapUnit(p.x, p.y);
+    if (state.step === 'tail') {
+      state.pendingTail = snapped;
+      state.step = 'head';
+    } else {
+      const idx = state.vectors.length;
+      state.vectors.push({ tail: state.pendingTail, head: snapped, color: colors[idx], label: labels[idx] });
+      state.pendingTail = null;
+      state.previewHead = null;
+      state.step = 'tail';
+      if (onProgress) onProgress(state.vectors);
+      if (state.vectors.length >= count && onDone) onDone(state.vectors);
+    }
+    render();
+  });
+  svg.addEventListener('mousemove', (evt) => {
+    if (state.step === 'head') {
+      const p = getSvgPoint(svg, evt);
+      state.previewHead = snapUnit(p.x, p.y);
+      render();
+    }
+  });
+
+  render();
+  return {
+    reset() { state.vectors = []; state.step = 'tail'; state.pendingTail = null; state.previewHead = null; render(); },
+    getVectors() { return state.vectors; },
+    render
+  };
+}
+
+function vecComponents(v) { return { x: v.head.ux - v.tail.ux, y: v.head.uy - v.tail.uy }; }
+function magAngle(x, y) {
+  const mag = Math.hypot(x, y);
+  let ang = Math.atan2(y, x) * 180 / Math.PI;
+  if (ang < 0) ang += 360;
+  return { mag, ang };
+}
+function fmt(n) { return (Math.abs(n) < 1e-9) ? '0' : n.toFixed(2).replace(/\.00$/, ''); }
+
+// ================= Warm-Up widget =================
+(function() {
+  const svg = document.getElementById('svgWarmup');
+  const readout = document.getElementById('warmupReadout');
+  let drawer;
+
+  function onDone(vectors) {
+    const A = vecComponents(vectors[0]);
+    readout.textContent = `Vector drawn: tail (${vectors[0].tail.ux}, ${vectors[0].tail.uy}) \u2192 head (${vectors[0].head.ux}, ${vectors[0].head.uy})\nComponents: (${fmt(A.x)}, ${fmt(A.y)}) \u2014 does this match your prediction?`;
+  }
+  drawer = makeVectorDrawer(svg, 1, ['#e8a13a'], ['V'], onDone, null);
+
+  document.getElementById('btnWarmupReset').addEventListener('click', () => {
+    drawer.reset();
+    readout.textContent = 'Click the grid to place the tail at (-2, 1), then click again to place the head at (3, 4).';
+  });
+})();
+
+// ================= Triangle Law widget =================
+(function() {
+  const svg = document.getElementById('svgTriangle');
+  const readout = document.getElementById('triReadout');
+  const btnShow = document.getElementById('btnTriShow');
+  let drawer;
+
+  function onProgress(vectors) {
+    if (vectors.length === 1) readout.textContent = 'Now click to draw Vector B (tail, then head).';
+  }
+  function onDone(vectors) {
+    readout.textContent = 'Both vectors drawn. Click the button to apply the Triangle Law.';
+    btnShow.disabled = false;
+  }
+  drawer = makeVectorDrawer(svg, 2, ['#e8a13a', '#4a90d9'], ['A', 'B'], onDone, onProgress);
+
+  function showTriangle() {
+    const vectors = drawer.getVectors();
+    if (vectors.length < 2) return;
+    const A = vecComponents(vectors[0]), B = vecComponents(vectors[1]);
+    const Rx = vectors[0].tail.ux + A.x + B.x, Ry = vectors[0].tail.uy + A.y + B.y;
+    drawer.render();
+    drawVectorArrow(svg, vectors[0].tail.ux, vectors[0].tail.uy, Rx, Ry, '#6fae8f', 3.5);
+    drawLabel(svg, Rx, Ry, 'R', '#6fae8f');
+    readout.textContent = 'Triangle Law construction shown. Read the tip of R off the grid and write down its components.';
+  }
+  btnShow.addEventListener('click', showTriangle);
+  document.getElementById('btnTriReset').addEventListener('click', () => {
+    drawer.reset(); btnShow.disabled = true;
+    readout.textContent = 'Click the grid to draw Vector A (tail, then head).';
+  });
+})();
+
+// ================= Parallelogram Law widget =================
+(function() {
+  const svg = document.getElementById('svgParallelogram');
+  const readout = document.getElementById('parReadout');
+  const btnShow = document.getElementById('btnParShow');
+  let drawer;
+
+  function onProgress(vectors) {
+    if (vectors.length === 1) readout.textContent = 'Now click to draw Vector B, starting from the SAME tail point as A.';
+  }
+  function onDone(vectors) {
+    readout.textContent = 'Both vectors drawn. Click the button to apply the Parallelogram Law.';
+    btnShow.disabled = false;
+  }
+  drawer = makeVectorDrawer(svg, 2, ['#e8a13a', '#4a90d9'], ['A', 'B'], onDone, onProgress);
+
+  function showParallelogram() {
+    const vectors = drawer.getVectors();
+    if (vectors.length < 2) return;
+    const origin = vectors[0].tail;
+    const A = vecComponents(vectors[0]), B = vecComponents(vectors[1]);
+    const Rx = origin.ux + A.x + B.x, Ry = origin.uy + A.y + B.y;
+    const Ahead = { x: origin.ux + A.x, y: origin.uy + A.y };
+    const Bhead = { x: origin.ux + B.x, y: origin.uy + B.y };
+    drawer.render();
+    drawVectorArrow(svg, Ahead.x, Ahead.y, Rx, Ry, '#4a90d9', 1.5, true);
+    drawVectorArrow(svg, Bhead.x, Bhead.y, Rx, Ry, '#e8a13a', 1.5, true);
+    drawVectorArrow(svg, origin.ux, origin.uy, Rx, Ry, '#6fae8f', 3.5);
+    drawLabel(svg, Rx, Ry, 'R', '#6fae8f');
+    readout.textContent = 'Parallelogram Law construction shown (R is the diagonal). Read the tip of R off the grid and write down its components. Does it match your Triangle Law answer?';
+  }
+  btnShow.addEventListener('click', showParallelogram);
+  document.getElementById('btnParReset').addEventListener('click', () => {
+    drawer.reset(); btnShow.disabled = true;
+    readout.textContent = 'Click the grid to draw Vector A (tail, then head).';
+  });
+})();
+
+// ================= Subtraction widget =================
+(function() {
+  const svg = document.getElementById('svgSub');
+  const readout = document.getElementById('subReadout');
+  const btnShow = document.getElementById('btnSubShow');
+  let drawer;
+
+  function onProgress(vectors) {
+    if (vectors.length === 1) readout.textContent = 'Now click to draw Vector B (tail, then head).';
+  }
+  function onDone(vectors) {
+    readout.textContent = 'Both vectors drawn. Click "Find A - B".';
+    btnShow.disabled = false;
+  }
+  drawer = makeVectorDrawer(svg, 2, ['#e8a13a', '#4a90d9'], ['A', 'B'], onDone, onProgress);
+
+  function showDiff() {
+    const vectors = drawer.getVectors();
+    if (vectors.length < 2) return;
+    const origin = vectors[0].tail;
+    const A = vecComponents(vectors[0]), B = vecComponents(vectors[1]);
+    const negB = { x: -B.x, y: -B.y };
+    const Dx = origin.ux + A.x + negB.x, Dy = origin.uy + A.y + negB.y;
+    const D = magAngle(A.x + negB.x, A.y + negB.y);
+    const Ahead = { x: origin.ux + A.x, y: origin.uy + A.y };
+    drawer.render();
+    drawVectorArrow(svg, origin.ux, origin.uy, origin.ux + negB.x, origin.uy + negB.y, '#4a90d9', 2, true);
+    drawLabel(svg, origin.ux + negB.x, origin.uy + negB.y, '-B', '#4a90d9');
+    drawVectorArrow(svg, Ahead.x, Ahead.y, Dx, Dy, '#4a90d9', 2, true);
+    drawVectorArrow(svg, origin.ux, origin.uy, Dx, Dy, '#6fae8f', 3.5);
+    drawLabel(svg, Dx, Dy, 'D', '#6fae8f');
+    readout.textContent = '-B has been drawn (dashed) and the Triangle Law applied to A + (-B). Read the tip of D off the grid and write down its components.' +
+      (D.mag < 0.05 ? '\n(A and B look identical here \u2014 what should A-B equal in that case?)' : '');
+  }
+  btnShow.addEventListener('click', showDiff);
+  document.getElementById('btnSubReset').addEventListener('click', () => {
+    drawer.reset(); btnShow.disabled = true;
+    readout.textContent = 'Click the grid to draw Vector A (tail, then head).';
+  });
+})();
+
+// ================= Polygon widget =================
+(function() {
+  const svg = document.getElementById('svgPoly');
+  const readout = document.getElementById('polyReadout');
+  const btnShow = document.getElementById('btnPolyShow');
+  let drawer;
+
+  function onProgress(vectors) {
+    const names = ['A', 'B', 'C'];
+    if (vectors.length < 3) readout.textContent = `Now click to draw Vector ${names[vectors.length]} (tail, then head).`;
+  }
+  function onDone(vectors) {
+    readout.textContent = 'All three vectors drawn. Click "Use Polygon Law".';
+    btnShow.disabled = false;
+  }
+  drawer = makeVectorDrawer(svg, 3, ['#e8a13a', '#4a90d9', '#6fae8f'], ['A', 'B', 'C'], onDone, onProgress);
+
+  function showPolygon() {
+    const vectors = drawer.getVectors();
+    if (vectors.length < 3) return;
+    const origin = vectors[0].tail;
+    const A = vecComponents(vectors[0]), B = vecComponents(vectors[1]), C = vecComponents(vectors[2]);
+    const Rx = origin.ux + A.x + B.x + C.x, Ry = origin.uy + A.y + B.y + C.y;
+    const R = magAngle(A.x + B.x + C.x, A.y + B.y + C.y);
+    drawer.render();
+    drawVectorArrow(svg, origin.ux, origin.uy, Rx, Ry, '#c9a3e8', 3.5);
+    drawLabel(svg, Rx, Ry, 'R', '#c9a3e8');
+    readout.textContent = 'Polygon Law construction shown (A, B, C chained head-to-tail). Read the tip of R off the grid and write down its components.' +
+      (R.mag < 0.05 ? '\nLooks like the polygon closes on itself \u2014 what does that tell you about R?' : '');
+  }
+  btnShow.addEventListener('click', showPolygon);
+  document.getElementById('btnPolyReset').addEventListener('click', () => {
+    drawer.reset(); btnShow.disabled = true;
+    readout.textContent = 'Click the grid to draw Vector A (tail, then head).';
+  });
+})();
+
+// ================= Scalar multiplication widget =================
+(function() {
+  const svg = document.getElementById('svgScalar');
+  const readout = document.getElementById('sclReadout');
+  const kSlider = document.getElementById('sclK');
+  const kVal = document.getElementById('sclK_val');
+  let drawer;
+  let vectorReady = false;
+
+  function onDone(vectors) {
+    vectorReady = true;
+    readout.textContent = 'Vector drawn. Move the k slider to scale it.';
+    updateScalar();
+  }
+  drawer = makeVectorDrawer(svg, 1, ['#e8a13a'], ['A'], onDone, null);
+
+  function updateScalar() {
+    const k = parseFloat(kSlider.value);
+    kVal.textContent = k.toFixed(2);
+    if (!vectorReady) return;
+    const vectors = drawer.getVectors();
+    const origin = vectors[0].tail;
+    const A = vecComponents(vectors[0]);
+    const kAx = k * A.x, kAy = k * A.y;
+    drawer.render();
+    drawVectorArrow(svg, origin.ux, origin.uy, origin.ux + kAx, origin.uy + kAy, '#c9a3e8', 3.5);
+    drawLabel(svg, origin.ux + kAx, origin.uy + kAy, 'kA', '#c9a3e8');
+    readout.textContent = `k = ${k.toFixed(2)}. Read the tip of kA off the grid and write down its components.` +
+      (k < 0 ? '\nNotice the direction reversed \u2014 by how many degrees?' : '');
+  }
+  kSlider.addEventListener('input', updateScalar);
+  document.getElementById('btnSclReset').addEventListener('click', () => {
+    drawer.reset(); vectorReady = false;
+    readout.textContent = 'Click the grid to draw Vector A (tail, then head).';
+  });
+})();
+
+// ================= Static example figures =================
+(function() {
+  const GRIDX = 24, RANGEX = 6;
+  const SIZEX = GRIDX * RANGEX * 2 + 40;
+  const ORIGINX = SIZEX / 2;
+  function u2sx(ux, uy) { return { x: ORIGINX + ux * GRIDX, y: ORIGINX - uy * GRIDX }; }
+
+  function makeFigureSvg() {
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('viewBox', `0 0 ${SIZEX} ${SIZEX}`);
+    svg.setAttribute('style', 'width:100%; max-width:260px; background:#0b0d11; border:1px solid #2a2e38; border-radius:8px;');
+    for (let i = -RANGEX; i <= RANGEX; i++) {
+      const p = u2sx(i, 0), q = u2sx(0, i);
+      const l1 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      l1.setAttribute('x1', p.x); l1.setAttribute('y1', 20); l1.setAttribute('x2', p.x); l1.setAttribute('y2', SIZEX - 20);
+      l1.setAttribute('stroke', i === 0 ? '#3a4256' : '#1c2028'); l1.setAttribute('stroke-width', i === 0 ? 1.3 : 0.6);
+      svg.appendChild(l1);
+      const l2 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      l2.setAttribute('x1', 20); l2.setAttribute('y1', q.y); l2.setAttribute('x2', SIZEX - 20); l2.setAttribute('y2', q.y);
+      l2.setAttribute('stroke', i === 0 ? '#3a4256' : '#1c2028'); l2.setAttribute('stroke-width', i === 0 ? 1.3 : 0.6);
+      svg.appendChild(l2);
+    }
+    return svg;
+  }
+  function figArrow(svg, x0, y0, x1, y1, color, width, dashed) {
+    const p0 = u2sx(x0, y0), p1 = u2sx(x1, y1);
+    const markerId = ensureMarker(svg, color);
+    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    line.setAttribute('x1', p0.x); line.setAttribute('y1', p0.y);
+    line.setAttribute('x2', p1.x); line.setAttribute('y2', p1.y);
+    line.setAttribute('stroke', color); line.setAttribute('stroke-width', width || 2.6);
+    if (dashed) line.setAttribute('stroke-dasharray', '5,4');
+    line.setAttribute('marker-end', `url(#${markerId})`);
+    svg.appendChild(line);
+  }
+  function figDot(svg, x, y, color) {
+    const p = u2sx(x, y);
+    const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    c.setAttribute('cx', p.x); c.setAttribute('cy', p.y); c.setAttribute('r', 4); c.setAttribute('fill', color);
+    svg.appendChild(c);
+  }
+  function figLabel(svg, x, y, text, color, dx, dy) {
+    const p = u2sx(x, y);
+    const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    t.setAttribute('x', p.x + (dx===undefined?8:dx)); t.setAttribute('y', p.y + (dy===undefined?-8:dy));
+    t.setAttribute('fill', color); t.setAttribute('font-family', 'Georgia,serif');
+    t.setAttribute('font-size', '15'); t.setAttribute('font-weight', 'bold');
+    t.textContent = text;
+    svg.appendChild(t);
+  }
+
+  const AMBER = '#e8a13a', BLUE = '#4a90d9', GREEN = '#6fae8f', PURPLE = '#c9a3e8';
+
+  // Triangle: A=(4,2), B=(1,3), R=(5,5)
+  (function() {
+    const svg = makeFigureSvg();
+    figArrow(svg, 0,0,4,2, AMBER); figDot(svg,0,0,AMBER); figLabel(svg,4,2,'A',AMBER);
+    figArrow(svg, 4,2,5,5, BLUE); figLabel(svg,4,2,'B',BLUE,-4,22);
+    figArrow(svg, 0,0,5,5, GREEN, 3.2); figLabel(svg,5,5,'R',GREEN,6,2);
+    document.getElementById('figTriangle').appendChild(svg);
+  })();
+  // Parallelogram: same A,B,R but from common origin
+  (function() {
+    const svg = makeFigureSvg();
+    figArrow(svg, 0,0,4,2, AMBER); figDot(svg,0,0,AMBER); figLabel(svg,4,2,'A',AMBER);
+    figArrow(svg, 0,0,1,3, BLUE); figLabel(svg,1,3,'B',BLUE,-18,4);
+    figArrow(svg, 4,2,5,5, BLUE, 1.4, true);
+    figArrow(svg, 1,3,5,5, AMBER, 1.4, true);
+    figArrow(svg, 0,0,5,5, GREEN, 3.2); figLabel(svg,5,5,'R',GREEN,6,2);
+    document.getElementById('figParallelogram').appendChild(svg);
+  })();
+  // Subtraction: A=(4,3), B=(2,4), -B=(-2,-4), D=(2,-1)
+  (function() {
+    const svg = makeFigureSvg();
+    figArrow(svg, 0,0,4,3, AMBER); figDot(svg,0,0,AMBER); figLabel(svg,4,3,'A',AMBER);
+    figArrow(svg, 0,0,2,4, BLUE, 1.4, true); figLabel(svg,2,4,'B',BLUE,6,0);
+    figArrow(svg, 0,0,-2,-4, BLUE); figLabel(svg,-2,-4,'-B',BLUE,-24,6);
+    figArrow(svg, 4,3,2,-1, BLUE, 1.4, true);
+    figArrow(svg, 0,0,2,-1, GREEN, 3.2); figLabel(svg,2,-1,'D',GREEN,8,14);
+    document.getElementById('figSubtraction').appendChild(svg);
+  })();
+  // Polygon: A=(3,1), B=(1,3), C=(-2,-1), R=(2,3)
+  (function() {
+    const svg = makeFigureSvg();
+    const p1=[3,1], p2=[4,4], p3=[2,3];
+    figArrow(svg, 0,0,p1[0],p1[1], AMBER); figDot(svg,0,0,AMBER); figLabel(svg,p1[0],p1[1],'A',AMBER,4,14);
+    figArrow(svg, p1[0],p1[1],p2[0],p2[1], BLUE); figLabel(svg,p2[0],p2[1],'B',BLUE,6,-6);
+    figArrow(svg, p2[0],p2[1],p3[0],p3[1], GREEN); figLabel(svg,p3[0],p3[1],'C',GREEN,-20,4);
+    figArrow(svg, 0,0,p3[0],p3[1], PURPLE, 3.2); figLabel(svg,p3[0],p3[1],'R',PURPLE,6,20);
+    document.getElementById('figPolygon').appendChild(svg);
+  })();
+  // Scalar: A=(2,3), k=-1.5, kA=(-3,-4.5)
+  (function() {
+    const svg = makeFigureSvg();
+    figArrow(svg, 0,0,2,3, AMBER, 1.8, true); figDot(svg,0,0,AMBER); figLabel(svg,2,3,'A',AMBER);
+    figArrow(svg, 0,0,-3,-4.5, PURPLE, 3.2); figLabel(svg,-3,-4.5,'kA',PURPLE,8,14);
+    document.getElementById('figScalar').appendChild(svg);
+  })();
+})();
+</script>
+</body>
+</html>
