@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Physics Lab 3: 2-D Motion - PHYS203</title>
+<style>
+  :root{ --ink:#f3ede0; --ink-dim:#a89f8c; --paper:#171a21; --bg:#0f1115; --line:#2a2e38; --accent:#e8a13a; --good:#6fae8f; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:#1d2230; color:var(--ink); font-family:Georgia,'Times New Roman',serif; line-height:1.55; }
+  .wrap { max-width:900px; margin:0 auto; padding:32px 36px 70px; }
+  header { background:#0b0d11; border:1px solid var(--line); border-radius:10px; padding:20px 26px; margin-bottom:22px; }
+  header h1 { font-family:Georgia,serif; font-size:1.7rem; margin:0; border-bottom:3px solid var(--accent); padding-bottom:10px; }
+  header p { color:var(--ink-dim); font-family:'Courier New',monospace; font-size:0.85rem; margin:10px 0 0; }
+  h2.station { font-size:1.35rem; color:var(--accent); border-bottom:2px solid var(--accent); padding-bottom:6px; margin:34px 0 14px; }
+  h2.station .num { font-family:'Courier New',monospace; font-size:0.9rem; background:#1d212b; color:var(--ink-dim); padding:2px 10px; border-radius:999px; margin-right:10px; }
+  h3.subtitle { font-size:1.05rem; color:var(--good); margin:16px 0 8px; }
+  .box { background:var(--paper); border:1px solid var(--line); border-radius:10px; padding:18px 24px; margin-bottom:16px; }
+  ul.qlist { margin:10px 0; padding-left:22px; }
+  ul.qlist li { margin-bottom:10px; }
+  .note { background:#1d212b; border-left:4px solid var(--accent); border-radius:0 6px 6px 0; padding:10px 16px; margin:12px 0; font-size:0.92rem; color:var(--ink-dim); }
+  .keyboard { font-family:'Courier New',monospace; background:#0b0d11; border:1px solid var(--line); border-radius:4px; padding:1px 7px; font-size:0.9rem; color:var(--good); }
+  footer { margin-top:34px; padding-top:16px; border-top:1px solid var(--line); font-family:'Courier New',monospace; font-size:0.78rem; color:var(--ink-dim); text-align:center; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Physics Lab 3: 2-D Motion</h1>
+  <p>PHYS203 General Physics I &middot; Station Rotation Lab</p>
+</header>
+
+<h2 class="station"><span class="num">1</span>Shoot the Monkey</h2>
+<div class="box">
+<p>Set up the apparatus. Aim the launcher at the monkey using the laser sight. Load and shoot it. Try at different shooting speeds (you can compress the spring to three different positions). Try moving the monkey to very different positions. Now try to show using physics equations why this works as well as it does.</p>
+<ul class="qlist">
+<li>Draw a nice, reasonably large diagram of the experiment. Talk about and then choose a coordinate system and draw it on your diagram.</li>
+<li>Write equations for the x and y position of the ball vs. time.</li>
+<li>Write a second set of x and y equations for the monkey.</li>
+<li>What would be true if the ball hit the monkey?</li>
+<li>You're likely still missing (!) a key fact. The positions and angles are not all totally arbitrary. You aimed the gun at the monkey. So how does that enter the equations? There are several ways to do this.</li>
+</ul>
+</div>
+
+<h2 class="station"><span class="num">2</span>Two Ball Drop</h2>
+<div class="box">
+<p>Try this little experiment. By pulling the hammer back different amounts, vary the kick and see how this affects the result. Change the height of the apparatus and see what that does.</p>
+<ul class="qlist">
+<li>The one ball drops straight down. What sort of motion does it have?</li>
+<li>What are the x and y components of the initial velocity of each ball just after the kick?</li>
+<li>What sort of motion does the kicked ball have?</li>
+<li>While this apparatus in general is supposed to show the independence of x and y, it really is much more limited than that. Something about the kicked ball is unaffected by something else. From this experiment, specifically what about x, y, v<sub>x</sub>, v<sub>y</sub>, a<sub>x</sub>, or a<sub>y</sub> is unaffected by what?</li>
+<li>If you were trying to build an apparatus like this one, what would need to be made carefully and what would not matter? For example, the positions of the balls, the direction of the kick, the timing of the release, the size of the balls, the weights of the balls, other considerations?</li>
+<li>Try different types of balls. What does this demonstrate?</li>
+</ul>
+</div>
+
+<h2 class="station"><span class="num">3</span>Launch Cart</h2>
+<div class="box">
+<p>Check the alignment of the cart by loading it and then moving it very slowly past the trigger point. Check it several times to see how consistent it is. Adjust the alignment if necessary so the ball generally drops back into the cup. Then try the experiment first coasting at a slow speed. Then repeat at faster speeds.</p>
+<ul class="qlist">
+<li>What sort of motion does the cart have (mostly)? (For example, constant acceleration, or constant velocity, or circular.) What components does its motion have?</li>
+<li>What is the motion of the ball before it is launched?</li>
+<li>What is the velocity of the ball just after launch and what components does it have? We don't have any numbers here, but can you relate it to the motion of the cart and/or the speed it is fired out of the gun? Can you use the relative motion concept here?</li>
+<li>While this apparatus in general is supposed to show the independence of x and y, it really is much more limited than that. There is one thing about the ball's motion that is not affected by another thing about the ball's motion. From this experiment, specifically what about x, y, v<sub>x</sub>, v<sub>y</sub>, a<sub>x</sub>, or a<sub>y</sub> is unaffected by what?</li>
+<li>If the cart had a second cup some distance from the first and you could tilt the launcher enough to make it land in the other cup when at rest, would it still work when moving? What if the second cup were to one side or the other?</li>
+<li>If you were trying to build an apparatus like this one, what would need to be made carefully and what would not matter? For example, does the launcher need to fire with exactly the correct speed or always the same speed; does the cart or track need to be made in any special way? Other considerations?</li>
+</ul>
+</div>
+
+<h2 class="station"><span class="num">4</span>Video Analysis &mdash; Basketball Shot</h2>
+<div class="box">
+<p>Start Vernier Logger Pro on your computer. Load this clip by using <em>File | Open</em>, then look under <em>Sample Movies / Basketball Shot /</em> and open the plain file, <strong>not</strong> the one with vectors or analysis.</p>
+<ul class="qlist">
+<li>If necessary, click on the lower right button on the movie frame to get the menu of buttons to appear on the right side of the movie.</li>
+<li>Click on the scale button and then click and drag on the meter stick or object of known length (in this case the two meter stick on the floor with a blue block each meter) and then indicate the length to set the scale.</li>
+<li>Click on the <span class="keyboard">Add Point</span> button to begin digitizing the motion.</li>
+</ul>
+<p>Then make graphs of x, y, v<sub>x</sub>, and v<sub>y</sub> vs. time. Do this by left-clicking on the y-axis on the graph. Select "more" and then choose what you want graphed. Find the meaning in each graph. First look just at the initial flight before the bounce:</p>
+<ul class="qlist">
+<li>Describe the x vs. t graph. (Straight line, horizontal line, parabola, etc.)</li>
+<li>Explain the meaning of this fact. (If horizontal, why? If straight line with slope, what does the slope mean and what does the straightness mean?)</li>
+<li>Describe the v<sub>x</sub> vs. t graph and explain it.</li>
+<li>Describe the y vs. t graph and give meaning to it.</li>
+<li>Describe the v<sub>y</sub> vs. t graph and explain it.</li>
+</ul>
+
+<h3 class="subtitle">Now consider both parts of the graphs and see what they tell you about the bounce</h3>
+<ul class="qlist">
+<li>As a result of the bounce, what changed and what remained the same?</li>
+<li>Try to give a reason for each change that you see.</li>
+</ul>
+
+<div class="note"><strong>Final Review:</strong> Your instructor will review your work on each station, especially the Monkey Shoot. Finally, consider a very interesting change to the ball launch experiment.</div>
+</div>
+
+<footer>PHYS203 General Physics I &middot; Physics Lab 3: 2-D Motion &middot; Goshen College Department of Physics</footer>
+</div>
+</body>
+</html>
