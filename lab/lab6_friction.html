@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Physics Lab 4 · Friction &amp; Circular Motion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&display=swap" rel="stylesheet">
+<style>
+  /* ---------- colour tokens: dark is the default ---------- */
+  :root {
+    color-scheme: dark;
+    --bg: #131A2B;
+    --panel: #1B2440;
+    --panel-2: #222D4F;
+    --ink: #E8ECF6;
+    --muted: #A8B2CC;
+    --rule: #34406A;
+    --amber: #F5BE4F;   /* station 1: circular motion */
+    --teal: #4FD6C6;    /* station 2: rolling & sliding */
+    --rose: #F78FAE;    /* station 3: static & kinetic */
+    --violet: #B49CFF;  /* derivation call-out */
+    --graph: #5BE08A;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+      color-scheme: light;
+      --bg: #F3F5FB; --panel: #FFFFFF; --panel-2: #EAEEF8; --ink: #18203A;
+      --muted: #4E5875; --rule: #CBD2E6;
+      --amber: #A86A00; --teal: #00806F; --rose: #B8325C; --violet: #5B3FC4; --graph: #1A8A45;
+    }
+  }
+  :root[data-theme="light"] {
+    color-scheme: light;
+    --bg: #F3F5FB; --panel: #FFFFFF; --panel-2: #EAEEF8; --ink: #18203A;
+    --muted: #4E5875; --rule: #CBD2E6;
+    --amber: #A86A00; --teal: #00806F; --rose: #B8325C; --violet: #5B3FC4; --graph: #1A8A45;
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #131A2B; --panel: #1B2440; --panel-2: #222D4F; --ink: #E8ECF6;
+    --muted: #A8B2CC; --rule: #34406A;
+    --amber: #F5BE4F; --teal: #4FD6C6; --rose: #F78FAE; --violet: #B49CFF; --graph: #5BE08A;
+  }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  *, *::before, *::after { box-sizing: inherit; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Atkinson Hyperlegible", "Segoe UI", Helvetica, Arial, sans-serif;
+    font-size: 1.02rem;
+    line-height: 1.55;
+  }
+  main { max-width: 46rem; margin: 0 auto; padding: 2.25rem 1.25rem 3rem; }
+
+  h1, h2, h3 { font-family: "Bricolage Grotesque", "Atkinson Hyperlegible", Helvetica, sans-serif; line-height: 1.15; }
+
+  /* ---------- masthead ---------- */
+  header.mast { display: grid; grid-template-columns: auto 1fr; gap: .2rem 1.1rem; align-items: end; margin-bottom: 1.6rem; }
+  .labno {
+    grid-row: span 2;
+    font-family: "Bricolage Grotesque", sans-serif; font-weight: 800;
+    font-size: clamp(3.6rem, 12vw, 5.6rem); line-height: .82; letter-spacing: -.04em;
+    background: linear-gradient(160deg, var(--amber) 0%, var(--teal) 50%, var(--rose) 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  header.mast p { margin: 0; color: var(--muted); font-size: .95rem; }
+  header.mast h1 { margin: 0; font-size: clamp(1.6rem, 4.6vw, 2.3rem); font-weight: 700; }
+
+  .stations { display: flex; flex-wrap: wrap; gap: .45rem; margin: 0 0 2rem; padding: 0; list-style: none; }
+  .stations a {
+    display: inline-block; padding: .25rem .7rem; border-radius: 999px; text-decoration: none; font-size: .9rem;
+    border: 1.5px solid var(--c); color: var(--c);
+  }
+  .stations a:focus-visible, a:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+  /* ---------- station sections ---------- */
+  section.station {
+    border-left: 5px solid var(--c);
+    background: var(--panel);
+    border-radius: 0 10px 10px 0;
+    padding: 1.2rem 1.35rem 1.1rem;
+    margin-bottom: 1.6rem;
+  }
+  section.station h2 { margin: 0 0 .7rem; font-size: 1.35rem; color: var(--c); display: flex; gap: .6rem; align-items: baseline; }
+  section.station h2 .n { font-weight: 800; font-size: 1.7rem; }
+  section.station h3 { margin: 1.1rem 0 .35rem; font-size: 1.02rem; color: var(--ink); }
+  p { margin: .45rem 0; }
+  ul, ol { margin: .4rem 0 .5rem; padding-left: 1.25rem; }
+  li { margin: .22rem 0; }
+  li::marker { color: var(--c, var(--muted)); }
+  strong { color: var(--ink); }
+  .q { color: var(--c); font-weight: 700; }
+
+  .roles { width: 100%; border-collapse: collapse; margin: .6rem 0 .5rem; font-size: .95rem; }
+  .roles th, .roles td { text-align: left; padding: .35rem .55rem; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  .roles th { color: var(--c); font-weight: 700; white-space: nowrap; }
+  .scroll { overflow-x: auto; }
+
+  .setup {
+    display: flex; flex-wrap: wrap; gap: .35rem .5rem; margin: .5rem 0 .7rem; padding: 0; list-style: none; font-size: .88rem;
+  }
+  .setup li { background: var(--panel-2); border-radius: 6px; padding: .15rem .55rem; margin: 0; }
+
+  figure { margin: .8rem 0; background: var(--panel-2); border-radius: 8px; padding: .7rem .8rem .5rem; }
+  figure svg { display: block; width: 100%; height: auto; }
+  figcaption { color: var(--muted); font-size: .85rem; margin-top: .25rem; }
+
+  .derive {
+    margin-top: 1.1rem; border: 1.5px dashed var(--violet); border-radius: 10px; padding: .9rem 1.1rem;
+    background: color-mix(in srgb, var(--violet) 8%, transparent);
+    --c: var(--violet);
+  }
+  section.station .derive h3 { margin-top: 0; color: var(--violet); }
+  .derive ol li::marker { font-weight: 700; }
+  .sym { font-style: italic; white-space: nowrap; }
+
+  footer { color: var(--muted); font-size: .82rem; text-align: center; margin-top: 2rem; }
+
+  @media (max-width: 520px) {
+    main { padding: 1.5rem .9rem 2.5rem; }
+    section.station { padding: 1rem 1rem .9rem; }
+  }
+
+  /* ---------- print: light, compact, fits in three letter pages ---------- */
+  @media print {
+    @page { size: letter; margin: .55in .6in; }
+    :root { --bg:#fff; --panel:#fff; --panel-2:#F2F4F8; --ink:#111; --muted:#444; --rule:#bbb;
+            --amber:#9A5F00; --teal:#00705F; --rose:#A82A52; --violet:#4E33B0; --graph:#1A7A40; padding:0; }
+    body { font-size: 10.3pt; line-height: 1.38; }
+    main { max-width: none; padding: 0; }
+    header.mast { margin-bottom: .6rem; }
+    .labno { font-size: 3.4rem; }
+    .stations { display: none; }
+    section.station { padding: .45rem .8rem .35rem; margin-bottom: .7rem; border-radius: 0; }
+    section.station h2 { font-size: 1.15rem; margin-bottom: .3rem; }
+    h3 { break-after: avoid; }
+    figure, .derive, .roles { break-inside: avoid; }
+    footer { display: none; }
+    #s3 { break-before: page; }
+  }
+</style>
+</head>
+<body>
+<main>
+
+<header class="mast">
+  <div class="labno" aria-hidden="true">4</div>
+  <p>PHYS 203 · General Physics I · Physics Lab 4</p>
+  <h1>Friction &amp; Circular Motion</h1>
+</header>
+
+<nav aria-label="Stations">
+  <ul class="stations">
+    <li><a href="#s1" style="--c:var(--amber)">1 · Cart around a corner</a></li>
+    <li><a href="#s2" style="--c:var(--teal)">2 · Rolling &amp; sliding friction</a></li>
+    <li><a href="#s3" style="--c:var(--rose)">3 · Static &amp; kinetic friction</a></li>
+  </ul>
+</nav>
+
+<!-- ================= STATION 1 ================= -->
+<section class="station" id="s1" style="--c:var(--amber)">
+  <h2><span class="n">1</span> Ride the Physics Core Values Cart around a corner</h2>
+  <p>Go outside or down the hall and have fun trying to push each other around a corner while riding the Physics Core Values Cart.</p>
+
+  <ul class="setup">
+    <li><strong>Where:</strong> outside is best, at the 5-point intersection west of the Wyse entrance</li>
+    <li><strong>Group:</strong> at least two</li>
+  </ul>
+
+  <div class="scroll">
+  <table class="roles">
+    <tr><th>Servant Leader</th><td>1 person pushes the cart</td></tr>
+    <tr><th>Passionate Learner</th><td>2 people ride on the cart</td></tr>
+    <tr><th>Compassionate Peacemakers</th><td>everyone else stands outside the end of the curve to stop the cart from crashing</td></tr>
+  </table>
+  </div>
+  <p>Name the four core values surrounding “Christ-centered” (Passionate Learners, Servant Leaders, Compassionate Peacemakers, Global Citizens).</p>
+
+  <h3>Procedure</h3>
+  <ol>
+    <li>Start the cart 10 yards back on the sidewalk toward the Union and come toward Wyse at a very brisk walking pace.</li>
+    <li>Only pushing, no pulling, but you may push in any direction on any side of the cart, or against the rider’s thighs or knees.</li>
+    <li>Guide the cart around the corner so it heads toward Umble.</li>
+    <li>After a try, ask among yourselves: <span class="q">What are you trying to do, and how are you trying to push? What direction are you pushing? Did you ever change direction? Should you?</span></li>
+    <li>Rotate after each try or two, so each person gets a chance and each contributes to the solution.</li>
+    <li>Once you succeed with one giant push, try to follow the curve more closely, guiding the cart slowly all the way around. Don’t slow down! Observe the direction in which you push the cart.</li>
+  </ol>
+  <p class="q">Think about the velocity at each point and how it is changing. Lay out the vector arrows for the direction of velocity at each point. What direction is the acceleration? What direction must the net force be?</p>
+</section>
+
+<!-- ================= STATION 2 ================= -->
+<section class="station" id="s2" style="--c:var(--teal)">
+  <h2><span class="n">2</span> Rolling and sliding friction</h2>
+
+  <ul class="setup">
+    <li>2 m inclined track</li>
+    <li>Cart + added weight</li>
+    <li>Green motion sensor, ball sensitivity, at the lower end</li>
+    <li>LabPro + Logger Pro</li>
+    <li>40 samples/s, 25 s</li>
+  </ul>
+
+  <h3>Part A: free rolling</h3>
+  <p>Set the sample rate and duration with the button just left of the green one. Start data collection and give the cart a gentle shove up the track, starting it more than 15 cm (the sensor’s minimum distance) from the sensor, and get your hand out of the way quickly. Adjust the scales so you can see the details of the free-rolling part of the position and velocity graphs.</p>
+  <p>These graphs should remind you of a ball tossed up; be sure you understand them. <span class="q">What is the acceleration of the cart?</span> Find it crudely by looking at one of the graphs, then get a precise value using the features of Logger Pro.</p>
+
+  <h3>Part B: added sliding friction</h3>
+  <p>Turn the little brass knob on the cart to add some sliding friction, but not so much that the cart sticks in one place. Repeat the data collection. <span class="q">Do you see evidence of this friction in your data?</span> For this case:</p>
+  <ul>
+    <li>Draw free-body diagrams of the cart on the way <em>up</em> and on the way <em>down</em>. You may exaggerate the tilt of the track.</li>
+    <li>Choose a convenient coordinate system.</li>
+    <li>Relate the forces on your diagrams to the cart’s acceleration using Newton’s 2nd law, drawing the arrows to scale.</li>
+    <li>Check carefully: if there is no acceleration there should be no net force; if there is acceleration, the net force should point along it.</li>
+    <li>Notice how the two diagrams differ. <span class="q">Can you explain the two different slopes in the velocity plot using the two free-body diagrams?</span></li>
+  </ul>
+
+  <h3>Part C: pure rolling</h3>
+  <p>Turn the knob to retract the friction pad completely and repeat. <span class="q">Now that you know what to look for, do you see any evidence of pure rolling friction?</span> The carts are good but not perfect. A straight edge on the screen, or sighting down the line from the side, helps you check whether the velocity plot is really straight.</p>
+
+  <div class="derive">
+    <h3>Derivation: acceleration with friction, going up and coming down</h3>
+    <p>Use your free-body diagrams from Part B. Let the track make angle <span class="sym">θ</span> with the horizontal, let the cart have mass <span class="sym">m</span>, and model the friction pad with kinetic coefficient <span class="sym">μ<sub>k</sub></span>. Take +<span class="sym">x</span> to point <em>up</em> the incline.</p>
+    <ol>
+      <li>Write Newton’s 2nd law perpendicular to the track and find the normal force <span class="sym">N</span>.</li>
+      <li>Write Newton’s 2nd law along the track for the cart <strong>moving up</strong>, and solve explicitly for <span class="sym">a<sub>up</sub></span> in terms of <span class="sym">g</span>, <span class="sym">θ</span>, and <span class="sym">μ<sub>k</sub></span>.</li>
+      <li>Repeat for the cart <strong>moving down</strong>, and solve explicitly for <span class="sym">a<sub>down</sub></span>. Explain why the friction term changes sign but the gravity term does not.</li>
+      <li>Which has the larger magnitude? Does this agree with the two slopes in your velocity plot? What happens to your two expressions when <span class="sym">μ<sub>k</sub> = 0</span>?</li>
+      <li>Using your two measured slopes, combine your expressions to find numerical values for <span class="sym">μ<sub>k</sub></span> and <span class="sym">θ</span>. Check <span class="sym">θ</span> against a quick measurement of the track’s rise and length.</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ================= STATION 3 ================= -->
+<section class="station" id="s3" style="--c:var(--rose)">
+  <h2><span class="n">3</span> Static and kinetic friction</h2>
+
+  <ul class="setup">
+    <li>Dual-Range Force Sensor</li>
+    <li>LabPro + Logger Pro</li>
+    <li>Wood block + 2 kg mass</li>
+    <li>Digital scale</li>
+  </ul>
+
+  <p>Set up a single graph of sensor force (y-axis) versus time (x-axis). Start data collection and use the force sensor to pull the wood block with 2 kg on top. Pull very gradually harder and harder until it begins to move, then keep pulling slowly and steadily for a few seconds, then stop. Repeat the whole process several times. Your force vs. time graph should look roughly like this:</p>
+
+  <figure>
+    <svg viewBox="0 0 640 190" role="img" aria-label="Sketch of force versus time: two pulls, each ramping up with small wiggles to a peak, dropping to a lower flat plateau, then returning to zero.">
+      <g stroke="var(--rule)" stroke-width="1">
+        <line x1="50" y1="160" x2="630" y2="160"/>
+        <line x1="50" y1="15" x2="50" y2="160"/>
+        <line x1="46" y1="60" x2="54" y2="60"/>
+        <line x1="46" y1="110" x2="54" y2="110"/>
+      </g>
+      <g fill="var(--muted)" font-size="13" font-family="Atkinson Hyperlegible, Helvetica, sans-serif">
+        <text x="36" y="164" text-anchor="end">0</text>
+        <text x="36" y="114" text-anchor="end">2.5</text>
+        <text x="36" y="64" text-anchor="end">5</text>
+        <text x="340" y="184" text-anchor="middle">time (s)</text>
+        <text x="16" y="88" text-anchor="middle" transform="rotate(-90 16 88)">force (N)</text>
+      </g>
+      <path fill="none" stroke="var(--graph)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"
+        d="M50,160 L95,160 L105,158 L118,142 L126,128 L134,124 L142,114 L150,110 L158,100 L166,96 L174,86 L182,82 L190,74 L198,70 L206,62 L212,52
+           L218,88 L224,84 L230,76 L236,90 L250,89 L270,90 L290,90 L310,91 L318,96 L326,112 L334,140 L342,156 L350,160 L365,160
+           L378,158 L388,140 L396,128 L404,120 L412,112 L420,108 L428,98 L436,92 L444,84 L452,78 L460,72 L466,58
+           L472,88 L490,89 L510,90 L530,90 L546,90 L552,98 L558,124 L564,150 L572,160 L630,160"/>
+    </svg>
+    <figcaption>Typical force vs. time for two pulls.</figcaption>
+  </figure>
+
+  <h3>Note the following features</h3>
+  <ul>
+    <li>Static friction takes on a wide range of values, from zero up to some limit. <span class="q">Do you see why the equation for static friction has an inequality?</span></li>
+    <li>Kinetic friction is relatively constant. Some variation in the plotted value while the block slides does not necessarily mean the friction is varying. <span class="q">What else could it be? Can you think of a way of pulling that would cause a variation? How can you minimize it?</span></li>
+    <li><span class="q">Can you show that kinetic friction does not depend on speed?</span> How can you do this given the problem you just noted? Think about this carefully.</li>
+    <li>There is sometimes a visible difference between the upper limit of static friction and the constant value of kinetic friction. <span class="q">What does this mean about the two coefficients?</span></li>
+    <li><span class="q">How should this graph change if you add mass?</span> Do it and see.</li>
+    <li><span class="q">How should it change if you change the surface being tested?</span> Try it.</li>
+  </ul>
+
+  <h3>Now be quantitative</h3>
+  <p>You have several materials that you can use in different combinations. Measure the coefficient of kinetic friction for different objects on the table surface.</p>
+  <ol>
+    <li>Weigh the object without the 2 kg on the digital scale, then add the 2 kg and determine the normal force <span class="sym">N</span>.</li>
+    <li>Use your skill to pull at constant speed, and measure the kinetic friction force from the Logger Pro data.</li>
+    <li>Use the friction equation <span class="sym">f<sub>k</sub> = μ<sub>k</sub>N</span> to calculate the coefficient of kinetic friction.</li>
+    <li>Repeat to determine the coefficient for a total of four different combinations of materials.</li>
+  </ol>
+</section>
+
+<footer>Physics Lab 4 · Goshen College</footer>
+</main>
+</body>
+</html>
