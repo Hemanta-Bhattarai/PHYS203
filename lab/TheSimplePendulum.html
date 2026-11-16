@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PHYS203 Lab: The Simple Pendulum</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Spectral:wght@500;700&display=swap" rel="stylesheet">
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.js"></script>
+<style>
+  /* ---------- Tokens: dark by default, light when the viewer asks for it ---------- */
+  :root {
+    color-scheme: dark;
+    --bg: #12192b;
+    --panel: #1a2340;
+    --panel-2: #212c4f;
+    --ink: #e9ecf5;
+    --ink-soft: #a9b2cc;
+    --line: #34406a;
+    --brass: #f0b84c;     /* the bob */
+    --cyan: #5fd0e0;      /* procedure */
+    --coral: #ff8a78;     /* discussion */
+    --violet: #b79bff;    /* brainstorm */
+    --mint: #74dba8;      /* analysis */
+    --field: #0f1526;
+    --shadow: 0 1px 0 rgba(255,255,255,0.04) inset;
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+      color-scheme: light;
+      --bg: #f3f5fb; --panel: #ffffff; --panel-2: #eef1fa; --ink: #1b2236; --ink-soft: #4f5a78;
+      --line: #cfd6ea; --brass: #a86a00; --cyan: #00788a; --coral: #c2412b; --violet: #6a3fd0;
+      --mint: #13804e; --field: #f7f9ff;
+    }
+  }
+  :root[data-theme="light"] {
+    color-scheme: light;
+    --bg: #f3f5fb; --panel: #ffffff; --panel-2: #eef1fa; --ink: #1b2236; --ink-soft: #4f5a78;
+    --line: #cfd6ea; --brass: #a86a00; --cyan: #00788a; --coral: #c2412b; --violet: #6a3fd0;
+    --mint: #13804e; --field: #f7f9ff;
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #12192b; --panel: #1a2340; --panel-2: #212c4f; --ink: #e9ecf5; --ink-soft: #a9b2cc;
+    --line: #34406a; --brass: #f0b84c; --cyan: #5fd0e0; --coral: #ff8a78; --violet: #b79bff;
+    --mint: #74dba8; --field: #0f1526;
+  }
+
+  :root { box-sizing: border-box; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); scroll-behavior: smooth; }
+  *, *::before, *::after { box-sizing: inherit; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: "Atkinson Hyperlegible", "Segoe UI", system-ui, -apple-system, sans-serif;
+    font-size: 1.05rem; line-height: 1.6;
+  }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+  h1, h2, h3 { font-family: "Spectral", Georgia, "Times New Roman", serif; line-height: 1.2; margin: 0 0 .5em; }
+  h1 { font-size: clamp(2.2rem, 6vw, 3.6rem); font-weight: 700; letter-spacing: -0.01em; }
+  h2 { font-size: 1.75rem; }
+  h3 { font-size: 1.2rem; }
+  p { margin: 0 0 1em; }
+  a { color: var(--cyan); }
+  :focus-visible { outline: 3px solid var(--brass); outline-offset: 2px; }
+
+  .wrap { max-width: 920px; margin: 0 auto; padding: 0 1.25rem 4rem; }
+
+  /* ---------- Hero: the pendulum itself ---------- */
+  .hero { display: grid; grid-template-columns: 1fr 220px; gap: 1.5rem; align-items: center; padding: 2.5rem 0 1.5rem; }
+  .hero .course { color: var(--ink-soft); font-size: 1rem; margin-bottom: .4rem; }
+  .hero p.lede { color: var(--ink-soft); max-width: 60ch; }
+  .rig { width: 100%; max-width: 220px; height: auto; justify-self: center; }
+  .arm { transform-origin: 110px 20px; animation: swing 2.2s ease-in-out infinite alternate; }
+  @keyframes swing { from { transform: rotate(9deg); } to { transform: rotate(-9deg); } }
+  @media (prefers-reduced-motion: reduce) { .arm { animation: none; transform: rotate(6deg); } }
+  @media (max-width: 640px) { .hero { grid-template-columns: 1fr; } .rig { max-width: 150px; order: -1; } }
+
+  /* ---------- Section nav ---------- */
+  nav.toc { display: flex; flex-wrap: wrap; gap: .5rem; margin: 0 0 2rem; }
+  nav.toc a {
+    text-decoration: none; color: var(--ink); background: var(--panel); border: 1px solid var(--line);
+    padding: .3rem .75rem; border-radius: 999px; font-size: .92rem;
+  }
+  nav.toc a:hover { border-color: var(--brass); }
+
+  /* ---------- Sections: colored spine encodes the kind of work ---------- */
+  section { background: var(--panel); border: 1px solid var(--line); border-left: 6px solid var(--spine, var(--line));
+    border-radius: 10px; padding: 1.5rem 1.5rem 1.1rem; margin: 0 0 1.5rem; box-shadow: var(--shadow); }
+  section h2 { color: var(--spine, var(--ink)); }
+  .s-goals   { --spine: var(--brass); }
+  .s-prelab  { --spine: var(--brass); }
+  .s-proc    { --spine: var(--cyan); }
+  .s-analysis{ --spine: var(--mint); }
+  .s-disc    { --spine: var(--coral); }
+  .s-brain   { --spine: var(--violet); }
+  .kind { font-size: .9rem; color: var(--ink-soft); margin: -.3rem 0 1rem; }
+
+  ol.steps { padding-left: 1.3rem; }
+  ol.steps li { margin-bottom: .55rem; }
+  ol.steps li::marker { color: var(--spine); font-weight: 700; }
+
+  .note { background: var(--panel-2); border-radius: 8px; padding: .8rem 1rem; margin: 1rem 0; font-size: .97rem; }
+  .note strong { color: var(--brass); }
+  .answer-line { display: inline-block; min-width: 6rem; border-bottom: 1.5px dashed var(--ink-soft); margin-left: .3rem; }
+  .equip { columns: 2; column-gap: 2rem; padding-left: 1.2rem; }
+  @media (max-width: 560px) { .equip { columns: 1; } }
+
+  /* ---------- Data table ---------- */
+  .scroll { overflow-x: auto; margin: 1rem 0; }
+  table { border-collapse: collapse; width: 100%; min-width: 640px; font-size: .95rem; }
+  th, td { border: 1px solid var(--line); padding: .35rem .45rem; text-align: center; }
+  th { background: var(--panel-2); font-weight: 700; }
+  td.blank { height: 2.6rem; min-width: 4.5rem; }
+  input[type="number"] {
+    width: 100%; min-width: 4.2rem; background: var(--field); color: var(--ink); border: 1px solid var(--line);
+    border-radius: 5px; padding: .3rem .35rem; font: inherit; text-align: center;
+  }
+  input[type="number"]:focus { border-color: var(--brass); outline: none; }
+  .btnrow { display: flex; flex-wrap: wrap; gap: .6rem; margin: .5rem 0 1rem; }
+  button {
+    font: inherit; font-weight: 700; cursor: pointer; border-radius: 6px; padding: .45rem .9rem;
+    border: 1.5px solid var(--mint); background: transparent; color: var(--mint);
+  }
+  button.secondary { border-color: var(--line); color: var(--ink-soft); }
+  button:hover { background: var(--panel-2); }
+
+  .status { color: var(--ink-soft); font-size: .93rem; }
+
+  /* ---------- Question lists ---------- */
+  ol.q { counter-reset: q; list-style: none; padding: 0; }
+  ol.q > li { counter-increment: q; position: relative; padding: .75rem .5rem .75rem 2.8rem; border-top: 1px solid var(--line); }
+  ol.q > li:first-child { border-top: none; }
+  ol.q > li::before {
+    content: counter(q); position: absolute; left: 0; top: .72rem; width: 2rem; height: 2rem; border-radius: 50%;
+    display: grid; place-items: center; font-weight: 700; color: var(--bg); background: var(--spine);
+  }
+  .tag { display: inline-block; font-size: .8rem; padding: .05rem .5rem; border-radius: 999px; border: 1px solid var(--spine); color: var(--spine); margin-left: .35rem; vertical-align: middle; }
+  details { margin-top: .4rem; }
+  summary { cursor: pointer; color: var(--ink-soft); font-size: .93rem; }
+
+  footer { color: var(--ink-soft); font-size: .9rem; text-align: center; margin-top: 2rem; }
+
+  @media print {
+    :root { --bg:#fff; --panel:#fff; --panel-2:#f1f1f1; --ink:#000; --ink-soft:#333; --line:#999; --field:#fff; }
+    nav.toc, .btnrow, .arm { animation: none; }
+    nav.toc, .btnrow { display: none; }
+    section { break-inside: avoid-page; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div>
+      <div class="course">PHYS203 General Physics I, Laboratory</div>
+      <h1>The Simple Pendulum</h1>
+      <p class="lede">A mass on a string, swinging under gravity. You will predict how its period depends on length using only units, measure that dependence, extract a power law from a log‑log plot, and use it to measure the acceleration due to gravity here in Goshen.</p>
+    </div>
+    <svg class="rig" viewBox="0 0 220 260" role="img" aria-label="A pendulum swinging from a fixed support">
+      <rect x="40" y="10" width="140" height="10" rx="3" fill="var(--ink-soft)"/>
+      <line x1="110" y1="20" x2="110" y2="225" stroke="var(--line)" stroke-dasharray="4 5" stroke-width="1.5"/>
+      <path d="M 78 218 A 200 200 0 0 0 142 218" fill="none" stroke="var(--violet)" stroke-width="1.5" stroke-dasharray="3 4"/>
+      <g class="arm">
+        <line x1="110" y1="20" x2="110" y2="205" stroke="var(--ink)" stroke-width="2"/>
+        <circle cx="110" cy="215" r="17" fill="var(--brass)"/>
+        <circle cx="104" cy="209" r="5" fill="#fff" opacity="0.35"/>
+      </g>
+      <circle cx="110" cy="20" r="4" fill="var(--coral)"/>
+      <text x="118" y="125" fill="var(--cyan)" font-size="15" font-style="italic" font-family="Spectral, Georgia, serif">L</text>
+    </svg>
+  </header>
+
+  <nav class="toc" aria-label="Sections">
+    <a href="#goals">Goals &amp; equipment</a>
+    <a href="#prelab">Pre‑lab</a>
+    <a href="#procedure">Procedure</a>
+    <a href="#data">Task 1: Data</a>
+    <a href="#loggerpro">Task 2: Logger Pro</a>
+    <a href="#predict">Task 3: Prediction</a>
+    <a href="#gravity">Task 4: Finding g</a>
+    <a href="#discussion">Discussion</a>
+    <a href="#brainstorm">Brainstorm</a>
+  </nav>
+
+  <!-- ===================== GOALS ===================== -->
+  <section id="goals" class="s-goals">
+    <h2>Goals and equipment</h2>
+    <p>By the end of this lab you will be able to:</p>
+    <ol class="steps">
+      <li>Use dimensional analysis to predict how a physical quantity scales with the variables it depends on.</li>
+      <li>Reduce timing error by measuring many oscillations and averaging repeated trials.</li>
+      <li>Linearize a power law with a log‑log plot and extract the exponent and prefactor, with uncertainties, from a fit.</li>
+      <li>Compare an experimental value of \(g\) with an accepted value and reason about random and systematic error.</li>
+    </ol>
+    <h3>Equipment</h3>
+    <ul class="equip">
+      <li>Support stand with clamp</li>
+      <li>String and spherical bob</li>
+      <li>Meter stick</li>
+      <li>Protractor</li>
+      <li>Phone stopwatch</li>
+      <li>Logger Pro</li>
+    </ul>
+  </section>
+
+  <!-- ===================== PRE-LAB ===================== -->
+  <section id="prelab" class="s-prelab">
+    <h2>Pre‑lab: dimensional analysis</h2>
+    <p class="kind">Complete before you touch the pendulum.</p>
+    <p>A simple pendulum is a point mass hung from a fixed point by a massless string. At equilibrium the string hangs vertically. Displace the bob slightly and it oscillates back and forth about equilibrium.</p>
+    <p>The period might depend on the mass of the bob \(m\), the length of the string \(L\), and the acceleration due to gravity \(g\). Suppose</p>
+    \[ T = A\, m^{x}\, L^{y}\, g^{z}, \]
+    <p>where \(A\) is a dimensionless constant. Write the dimensions of each side in terms of mass [M], length [L], and time [T], and require them to match.</p>
+    <p>\(x =\)<span class="answer-line"></span> &nbsp;&nbsp; \(y =\)<span class="answer-line"></span> &nbsp;&nbsp; \(z =\)<span class="answer-line"></span></p>
+    <div class="note"><strong>Make a prediction.</strong> Based on your exponents, if you make the string four times longer, by what factor should the period change? Write it down now and check it against your data later.</div>
+  </section>
+
+  <!-- ===================== PROCEDURE ===================== -->
+  <section id="procedure" class="s-proc">
+    <h2>Procedure: measuring the period</h2>
+    <ol class="steps">
+      <li>Set the string length \(L\), measured from the pivot to the <em>center</em> of the bob.</li>
+      <li>Pull the bob aside with the string taut, keeping the angle from vertical under \(10^\circ\). Check with the protractor.</li>
+      <li>Release the bob without pushing it. Let it complete one or two swings before you start timing.</li>
+      <li>One period \(T\) is one complete back‑and‑forth swing. Time 10 complete oscillations with your phone stopwatch and record that time \(t_{10}\).</li>
+      <li>Repeat the 10‑oscillation measurement 5 times for the same length.</li>
+      <li>Each trial gives \(T = t_{10}/10\). Average the 5 values to get the period for that length.</li>
+      <li>Repeat for all 5 lengths.</li>
+    </ol>
+    <div class="note"><strong>Tip.</strong> Start and stop the timer as the bob passes through the lowest point, where it moves fastest. Count “zero” at the start, not “one.”</div>
+  </section>
+
+  <!-- ===================== TASK 1 ===================== -->
+  <section id="data" class="s-analysis">
+    <h2>Task 1: Data table</h2>
+    <p class="kind">Copy this table into your notebook and record your raw 10‑oscillation times. Divide each by 10 to get the period for that trial, then average the 5 periods and record \(\bar T\). You will analyze these numbers in Logger Pro in Task 2.</p>
+    <div class="scroll">
+      <table id="tbl" aria-label="Pendulum data">
+        <thead>
+          <tr>
+            <th rowspan="2">#</th><th rowspan="2">\(L\) (m)</th>
+            <th colspan="5">Time for 10 oscillations, \(t_{10}\) (s)</th>
+            <th rowspan="2">Average period \(\bar T\) (s)</th>
+          </tr>
+          <tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>0.4</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+          <tr><td>2</td><td>0.5</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+          <tr><td>3</td><td>0.6</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+          <tr><td>4</td><td>0.7</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+          <tr><td>5</td><td>0.8</td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===================== TASK 2 ===================== -->
+  <section id="loggerpro" class="s-analysis">
+    <h2>Task 2: Finding the power law in Logger Pro</h2>
+    <ol class="steps">
+      <li>Open Logger Pro. Double‑click the “X” column header in the data set. Set the name to <em>Length</em>, short name <em>L</em>, units <em>m</em>.</li>
+      <li>Double‑click the “Y” column header. Set the name to <em>Time period</em>, short name <em>T</em>, units <em>s</em>.</li>
+      <li>Enter your lengths and average periods from Task 1.</li>
+      <li>Look at the plot of \(T\) against \(L\). Does the period increase with length? Is the trend a straight line? It is hard to judge on linear axes.</li>
+      <li>Click the y‑axis label, choose <em>More</em>, check <em>Log Axis</em>, and click OK.</li>
+      <li>Click the x‑axis label, choose <em>More</em>, check <em>Log Axis</em>, and click OK.</li>
+      <li>Do the points now fall on a straight line? A power law \(T = A L^{B}\) becomes a straight line on a log‑log plot because \(\ln T = \ln A + B \ln L\). The slope is \(B\).</li>
+      <li>Drag to select all points. Choose <em>Analyze → Curve Fit</em>, select <em>Power</em> as the general equation, and fit. Record:
+        <br>\(B \pm \Delta B =\)<span class="answer-line"></span> &nbsp; \(A \pm \Delta A =\)<span class="answer-line"></span></li>
+    </ol>
+  </section>
+
+  <!-- ===================== TASK 3 ===================== -->
+  <section id="predict" class="s-analysis">
+    <h2>Task 3: Prediction</h2>
+    <ol class="steps">
+      <li>Choose a length that is <em>not</em> in your table. In Logger Pro, use your power fit (or <em>Analyze → Interpolate</em>) to predict its period.</li>
+      <li>Set the pendulum to that length and measure the period using the same procedure.</li>
+      <li>Do the prediction and the measurement agree within uncertainty?</li>
+    </ol>
+  </section>
+
+  <!-- ===================== TASK 4 ===================== -->
+  <section id="gravity" class="s-analysis">
+    <h2>Task 4: Measuring g</h2>
+    <p>Later in the course we will derive, for small angles,</p>
+    \[ T = 2\pi\sqrt{\frac{L}{g}}. \]
+    <ol class="steps">
+      <li>Compare this equation with your fitted form \(T = A L^{B}\). What are \(B\) and \(A\) in terms of \(g\)?</li>
+      <li>Does the theoretical \(B\) fall inside your interval \((B - \Delta B,\ B + \Delta B)\)? If not, what could explain the discrepancy?</li>
+      <li>Use your fitted \(A\) to solve for \(g\). Propagate the uncertainty with
+        \[ \Delta g = 2\,\frac{\Delta A}{A}\, g. \]
+        Report the interval \((g - \Delta g,\ g + \Delta g)\).</li>
+      <li>The accepted local value in Goshen is \(g = 9.8022\ \mathrm{m/s^2}\). Does it fall inside your interval? How well did you do?</li>
+    </ol>
+  </section>
+
+  <!-- ===================== DISCUSSION ===================== -->
+  <section id="discussion" class="s-disc">
+    <h2>Discussion questions</h2>
+    <p class="kind">Answer these in your lab report. Use your own data and numbers wherever you can.</p>
+    <ol class="q">
+      <li>Dimensional analysis gave you the exponents but not \(A\). Explain why mass cannot appear in the result. What physical reasoning, beyond units, also tells you the period should not depend on mass?<span class="tag">theory</span></li>
+      <li>Human reaction time with a stopwatch is about \(0.1\)–\(0.2\ \mathrm{s}\). Estimate the fractional error in \(T\) if you timed <em>one</em> oscillation versus <em>ten</em>. Why does timing many oscillations help, and is there a limit to how many you should time?<span class="tag">uncertainty</span></li>
+      <li>Why should the amplitude stay below \(10^\circ\)? The large‑amplitude period is approximately \(T \approx T_0\left(1 + \theta_0^2/16\right)\) with \(\theta_0\) in radians. Compute the fractional change at \(10^\circ\) and at \(30^\circ\).<span class="tag">model limits</span></li>
+      <li>What exactly is “\(L\)”? If you had measured to the top of the bob instead of its center, how would \(A\), \(B\), and your value of \(g\) change? Is this a random or a systematic error?<span class="tag">systematics</span></li>
+      <li>Explain in your own words why a power law appears as a straight line on a log‑log plot. What would an exponential relationship look like on the same axes?<span class="tag">analysis</span></li>
+      <li>Is it better to start and stop the timer at the lowest point of the swing or at a turning point? Justify your answer using the bob’s speed at each location.<span class="tag">technique</span></li>
+    </ol>
+  </section>
+
+  <!-- ===================== BRAINSTORM ===================== -->
+  <section id="brainstorm" class="s-brain">
+    <h2>Brainstorming questions</h2>
+    <p class="kind">Open questions with no single right answer. Pick one or two, discuss them with your group, and sketch an experiment you could actually run.</p>
+    <ol class="q">
+      <li>Design a clean test of whether the period depends on mass. What would you hold fixed, what would you vary, and how would you keep the effective length constant when bobs have different sizes?</li>
+      <li>Your phone has an accelerometer and a gyroscope. How could you hang the phone itself as the bob and measure \(T\) without a stopwatch? (Look up the free app <em>phyphox</em>.) What else could you learn from the full time series, such as how quickly the swing dies out?</li>
+      <li>Record a video of the pendulum and track the bob frame by frame (for example with the free program <em>Tracker</em>). How could you test the amplitude correction from discussion question 3 and find the angle where the small‑angle formula fails?</li>
+      <li>Historically, pendulums kept time. What length gives a period of exactly \(2\ \mathrm{s}\) (a “seconds pendulum,” one second per swing)? Predict it, build it, and test it.</li>
+      <li>What would happen to the period if the pendulum were in an elevator accelerating upward, or on a cart accelerating sideways? How about on the Moon or Mars?</li>
+    </ol>
+  </section>
+
+  <footer>PHYS203 General Physics I, Goshen College</footer>
+</div>
+
+
+</body>
+</html>
